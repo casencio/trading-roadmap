@@ -41,7 +41,6 @@ input[type=checkbox]:checked::after { left: 18px; }
 
 /* P&L CARD */
 .pl-card { border-radius: 8px; padding: 16px; margin: 14px 0 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: all 0.2s; }
-.pl-group { }
 .pl-label { font-size: 9px; color: var(--t2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
 .pl-val { font-size: 26px; font-weight: 700; }
 .pl-sub { font-size: 11px; color: var(--t2); margin-top: 2px; }
@@ -63,12 +62,12 @@ input[type=checkbox]:checked::after { left: 18px; }
 /* STYLE BLOCK */
 .style-block { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 10px; background: var(--bg1); }
 
-/* STATUS BANNER — semáforo real */
-.status-banner { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
-.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-right: 8px; }
-.status-text { font-size: 12px; font-weight: 700; flex: 1; }
-.status-sub { font-size: 10px; opacity: 0.7; margin-top: 1px; }
-.style-name-row { text-align: right; }
+/* STATUS BANNER — semáforo real macro */
+.status-banner { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-right: 10px; box-shadow: 0 0 8px currentColor; }
+.status-text { font-size: 13px; font-weight: 700; flex: 1; margin-bottom: 2px; }
+.status-sub { font-size: 10px; opacity: 0.8; line-height: 1.3; }
+.style-name-row { text-align: right; min-width: 90px; }
 .style-name { font-size: 11px; font-weight: 700; }
 .style-desc { font-size: 9px; color: var(--t2); }
 
@@ -76,24 +75,15 @@ input[type=checkbox]:checked::after { left: 18px; }
 .s-amber  { background: #f59e0b10; border-bottom: 1px solid #f59e0b25; }
 .s-green  { background: #22c55e10; border-bottom: 1px solid #22c55e25; }
 .s-blue   { background: #3b82f610; border-bottom: 1px solid #3b82f625; }
-.s-gray   { background: #33333318; border-bottom: 1px solid #33333333; }
 
 /* BAR */
-.bar-wrap { padding: 10px 14px 6px; }
+.bar-wrap { padding: 12px 14px 8px; }
 .bar { position: relative; height: 32px; background: var(--bg3); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
 .bar-sl-zone { position: absolute; top: 0; bottom: 0; background: rgba(239,68,68,0.12); }
 .bar-tp-zone { position: absolute; top: 0; bottom: 0; }
 .bar-line { position: absolute; top: 0; bottom: 0; width: 1px; }
 .bar-dot { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--bg); z-index: 5; }
 .bar-lbl { position: absolute; font-size: 8px; text-transform: uppercase; top: 3px; }
-
-/* TIME STATUS */
-.time-row { padding: 6px 14px 10px; font-size: 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.time-badge { padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; }
-.tb-ok   { background: #22c55e18; color: var(--green); }
-.tb-warn { background: #f59e0b18; color: var(--amber); }
-.tb-dead { background: #ef444418; color: var(--red); }
-.tb-na   { background: #33333330; color: var(--t3); }
 
 /* NUMS */
 .nums { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--border); }
@@ -102,7 +92,7 @@ input[type=checkbox]:checked::after { left: 18px; }
 .nc-val { font-size: 13px; font-weight: 700; }
 .nc-sub { font-size: 10px; color: var(--t2); margin-top: 1px; }
 .bl { border-left: 1px solid var(--border); }
-.tp3-row { padding: 7px 14px 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 11px; }
+.tp3-row { padding: 8px 14px 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 11px; }
 
 .footer { font-size: 9px; color: var(--t3); text-align: center; margin-top: 32px; line-height: 1.8; }
 @media (max-width: 400px) {
@@ -115,8 +105,8 @@ input[type=checkbox]:checked::after { left: 18px; }
 <body>
 <div class="wrap">
   <div class="brand">CHENSIO TOOLS</div>
-  <h1>Calculadora TP / SL</h1>
-  <p class="sub">Análisis de salidas · Position, Swing & Day trading</p>
+  <h1>Calculadora TP / SL Macro</h1>
+  <p class="sub">Control de Riesgo & Tiempo · Position, Swing & Day trading</p>
 
   <div class="inputs">
     <div class="inp-block">
@@ -126,7 +116,7 @@ input[type=checkbox]:checked::after { left: 18px; }
     </div>
     <div class="inp-block">
       <label>Actual</label>
-      <input type="number" id="current" value="128" step="0.01" oninput="calc()">
+      <input type="number" id="current" value="116.5" step="0.01" oninput="calc()">
       <div class="unit">precio €</div>
     </div>
     <div class="inp-block">
@@ -138,12 +128,12 @@ input[type=checkbox]:checked::after { left: 18px; }
 
   <div class="inputs-row2">
     <div class="inp-block">
-      <label>Días en posición</label>
-      <input type="number" id="days" value="0" step="1" min="0" oninput="calc()">
-      <div class="unit">0 = no usar tiempo</div>
+      <label>Días Abierto</label>
+      <input type="number" id="days" value="4" step="1" min="0" oninput="calc()">
+      <div class="unit">Tiempo en posición</div>
     </div>
     <div class="tr-toggle">
-      <div class="tr-label"><strong>Trade Republic</strong><br>Compra gratis · −1€ al vender</div>
+      <div class="tr-label"><strong>Trade Republic</strong><br>Compra gratis · −1€ venta</div>
       <div class="toggle-wrap">
         <span id="trLabel" style="font-size:10px;color:var(--green)">ON</span>
         <input type="checkbox" id="trToggle" checked onchange="calc()">
@@ -151,7 +141,6 @@ input[type=checkbox]:checked::after { left: 18px; }
     </div>
   </div>
 
-  <!-- P&L -->
   <div class="pl-card" id="plCard">
     <div class="pl-group">
       <div class="pl-label">P&L neto ahora</div>
@@ -166,78 +155,62 @@ input[type=checkbox]:checked::after { left: 18px; }
   </div>
   <div class="be-note" id="beNote"></div>
 
-  <!-- PERFIL -->
   <div class="profile-wrap">
-    <div class="profile-label">Perfil de riesgo — aplica a los 3 estilos</div>
+    <div class="profile-label">Perfil de Riesgo y Paciencia</div>
     <div class="profile-tabs">
       <button class="ptab" data-p="0" onclick="setProfile(0)">
         <div class="pt-name">Conservador</div>
-        <div class="pt-desc">SL corto · TP moderado</div>
+        <div class="pt-desc">Poca paciencia · SL corto</div>
       </button>
       <button class="ptab active" data-p="1" onclick="setProfile(1)">
         <div class="pt-name">Normal</div>
-        <div class="pt-desc">Equilibrado</div>
+        <div class="pt-desc">Margen estándar</div>
       </button>
       <button class="ptab" data-p="2" onclick="setProfile(2)">
         <div class="pt-name">Agresivo</div>
-        <div class="pt-desc">SL amplio · TP alto</div>
+        <div class="pt-desc">Da respiro · SL amplio</div>
       </button>
     </div>
   </div>
 
   <div id="stylesContainer"></div>
 
-  <div class="footer">Herramienta orientativa · No es asesoramiento financiero<br>Basada en criterios de Weinstein & Minervini · casencio / trading-roadmap · CHENSIO TOOLS</div>
+  <div class="footer">Herramienta orientativa · No es asesoramiento financiero<br>Basada en criterios de Weinstein & Minervini · CHENSIO TOOLS</div>
 </div>
 
 <script>
 var activeProfile = 1;
 
+// Integración de Límites de Días por Perfil (Conservador, Normal, Agresivo)
 var STYLES = [
   {
     name: 'Position',
-    fullName: 'Position Trading',
-    desc: 'Semanas — meses',
+    desc: 'Semanas a meses',
     color: '#3b82f6',
-    // Time stop criteria (días)
-    timeWarn: 42,   // 6 semanas sin avance suficiente
-    timeDead: 84,   // 12 semanas → capital muerto
-    timeNA: false,
-    minPctForTime: 8, // % mínimo esperado antes del time stop
     profiles: [
-      { label:'Conservador', sl:0.08, tp:[0.15, 0.22, 0.35] },
-      { label:'Normal',      sl:0.12, tp:[0.20, 0.30, 0.45] },
-      { label:'Agresivo',    sl:0.15, tp:[0.28, 0.40, 0.60] }
+      { label:'Conservador', sl:0.08, tp:[0.15, 0.22, 0.35], timeMax: 30 }, // 1 mes máx si no sube
+      { label:'Normal',      sl:0.12, tp:[0.20, 0.30, 0.45], timeMax: 60 }, // 2 meses máx
+      { label:'Agresivo',    sl:0.15, tp:[0.28, 0.40, 0.60], timeMax: 90 }  // 3 meses (límite Minervini)
     ]
   },
   {
     name: 'Swing',
-    fullName: 'Swing Trading',
-    desc: '2 — 10 días',
+    desc: 'Días a 2 semanas',
     color: '#f59e0b',
-    timeWarn: 6,
-    timeDead: 10,
-    timeNA: false,
-    minPctForTime: 3,
     profiles: [
-      { label:'Conservador', sl:0.03, tp:[0.05, 0.08, 0.12] },
-      { label:'Normal',      sl:0.05, tp:[0.08, 0.12, 0.18] },
-      { label:'Agresivo',    sl:0.07, tp:[0.12, 0.18, 0.25] }
+      { label:'Conservador', sl:0.03, tp:[0.05, 0.08, 0.12], timeMax: 3 },  // Salida rápida
+      { label:'Normal',      sl:0.05, tp:[0.08, 0.12, 0.18], timeMax: 5 },  // 1 semana hábil
+      { label:'Agresivo',    sl:0.07, tp:[0.12, 0.18, 0.25], timeMax: 10 }  // 2 semanas hábiles
     ]
   },
   {
     name: 'Day',
-    fullName: 'Day Trading',
-    desc: 'Intradía — sin overnight',
+    desc: 'Intradía (Sin overnight)',
     color: '#ef4444',
-    timeWarn: 0,
-    timeDead: 0,
-    timeNA: true,
-    minPctForTime: 0,
     profiles: [
-      { label:'Conservador', sl:0.005, tp:[0.010, 0.015, 0.025] },
-      { label:'Normal',      sl:0.010, tp:[0.015, 0.025, 0.040] },
-      { label:'Agresivo',    sl:0.015, tp:[0.025, 0.040, 0.060] }
+      { label:'Conservador', sl:0.005, tp:[0.010, 0.015, 0.025], timeMax: 0 },
+      { label:'Normal',      sl:0.010, tp:[0.015, 0.025, 0.040], timeMax: 0 },
+      { label:'Agresivo',    sl:0.015, tp:[0.025, 0.040, 0.060], timeMax: 0 }
     ]
   }
 ];
@@ -249,51 +222,50 @@ function fmt(n, d) {
 
 function comm() { return document.getElementById('trToggle').checked ? 1 : 0; }
 
-// Señal con lógica real corregida
-function getSignal(current, entry, slPrice, tp1, tp2, tp3) {
+// LÓGICA MACRO UNIFICADA: PRECIO + TIEMPO
+function getUnifiedSignal(current, entry, slPrice, tp1, tp2, tp3, days, maxDays) {
+  // 1. Prioridad Absoluta: Stop Loss
   if (current <= slPrice) {
-    return { text: '🚨 Stop alcanzado — vende', sub: 'El precio ha cruzado tu SL. Salir.', cls: 's-red', dotColor: '#ef4444' };
+    return { text: '🚨 Stop alcanzado — Vende', sub: 'El precio ha cruzado tu SL. Asume la pérdida y sal.', cls: 's-red', dotColor: '#ef4444' };
   }
-  var distToSL = (current - slPrice) / (entry - slPrice);
-  if (distToSL < 0.25) { // muy cerca del SL
-    return { text: '⚠ Muy cerca del stop', sub: 'Precio peligrosamente cerca del SL', cls: 's-red', dotColor: '#ef4444' };
-  }
-  if (current >= tp3) {
-    return { text: '🎯 TP3 — Escenario ideal', sub: 'Considera vender el resto o trail stop', cls: 's-green', dotColor: '#22c55e' };
-  }
-  if (current >= tp2) {
-    return { text: '⬆ TP2 alcanzado', sub: 'Vende parcial, sube el stop a breakeven', cls: 's-green', dotColor: '#22c55e' };
-  }
-  if (current >= tp1) {
-    return { text: '⬆ TP1 alcanzado', sub: 'Considera vender 40-50% de la posición', cls: 's-green', dotColor: '#22c55e' };
-  }
-  if (current >= entry) {
-    return { text: '● En beneficio — mantener', sub: 'Tesis activa. Revisar semanal.', cls: 's-blue', dotColor: '#3b82f6' };
-  }
-  // En pérdida pero por encima del SL
-  var pctFromEntry = ((current - entry) / entry) * 100;
-  return { text: '◎ En pérdida — vigilar', sub: fmt(pctFromEntry, 1) + '% desde entrada. SL aún no tocado.', cls: 's-amber', dotColor: '#f59e0b' };
-}
 
-// Time stop con criterios reales por estilo
-function getTimeStatus(days, style, pctMove) {
-  if (style.timeNA) {
-    return { text: 'No aplica en day trading', cls: 'tb-na' };
+  // 2. Prioridad Ganadora: Objetivos Cumplidos (El tiempo ya no importa)
+  if (current >= tp3) return { text: '🎯 TP3 Alcanzado — Ideal', sub: 'Escenario perfecto. Vende o ajusta Trail Stop ajustado.', cls: 's-green', dotColor: '#22c55e' };
+  if (current >= tp2) return { text: '⬆ TP2 Alcanzado', sub: 'Asegura ganancias. Sube el Stop a Break Even.', cls: 's-green', dotColor: '#22c55e' };
+  if (current >= tp1) return { text: '⬆ TP1 Alcanzado', sub: 'Considera vender parcial (40-50%). Momentum a favor.', cls: 's-green', dotColor: '#22c55e' };
+
+  // --- Si estamos aquí, el trade está entre el SL y el TP1 ---
+  
+  // 3. Chequeo de Tiempo (Capital atascado)
+  if (days > maxDays) {
+    return { 
+      text: '⏳ Time Stop Excedido — Capital Muerto', 
+      sub: 'Llevas ' + days + ' días (límite ' + maxDays + '). Sin impulso claro, rota tu capital.', 
+      cls: 's-red', dotColor: '#ef4444' 
+    };
   }
-  if (!days || days === 0) {
-    return { text: 'Introduce días para activar time stop', cls: 'tb-na' };
+  if (days === maxDays && maxDays > 0) {
+    return { 
+      text: '⏳ Límite de tiempo alcanzado', 
+      sub: 'Hoy es tu día ' + maxDays + '. Si no rompe con fuerza inminentemente, prepárate para salir.', 
+      cls: 's-amber', dotColor: '#f59e0b' 
+    };
   }
-  var absPct = Math.abs(pctMove);
-  if (days >= style.timeDead && absPct < style.minPctForTime) {
-    return { text: 'Posición muerta — capital inmovilizado', cls: 'tb-dead' };
+
+  // 4. Chequeos de Precio Crítico (Estando en tiempo correcto)
+  var distToSL = (current - slPrice) / (entry - slPrice);
+  if (distToSL < 0.25) {
+    return { text: '⚠ Peligro: Muy cerca del stop', sub: 'Cuidado. Entrando en el último 25% antes del SL. No promedies.', cls: 's-red', dotColor: '#ef4444' };
   }
-  if (days >= style.timeWarn && absPct < style.minPctForTime * 0.6) {
-    return { text: 'Sin avance suficiente — revisar tesis', cls: 'tb-warn' };
+
+  if (current < entry) {
+    var left = maxDays > 0 ? (' (quedan ' + (maxDays - days) + ' días)') : '';
+    return { text: '◎ En pérdida — Vigilar', sub: 'Tesis bajo presión pero el SL no ha tocado' + left + '.', cls: 's-amber', dotColor: '#f59e0b' };
   }
-  if (days > style.timeDead) {
-    return { text: days + ' días · movimiento +' + fmt(absPct, 1) + '% · OK por ahora', cls: 'tb-ok' };
-  }
-  return { text: days + ' días · dentro del plazo esperado', cls: 'tb-ok' };
+
+  // 5. Todo OK - En progreso
+  var left = maxDays > 0 ? (' (quedan ' + (maxDays - days) + ' días)') : '';
+  return { text: '● En desarrollo — Mantener', sub: 'Tesis intacta y tiempo correcto' + left + '.', cls: 's-blue', dotColor: '#3b82f6' };
 }
 
 function setProfile(idx) {
@@ -342,7 +314,6 @@ function calc() {
 
   var container = document.getElementById('stylesContainer');
   container.innerHTML = '';
-  var pctMove = ((current - entry) / entry) * 100;
 
   STYLES.forEach(function(s) {
     var prof    = s.profiles[activeProfile];
@@ -353,8 +324,8 @@ function calc() {
     var rr1     = prof.tp[0] / prof.sl;
     var rr2     = prof.tp[1] / prof.sl;
 
-    var sig     = getSignal(current, entry, slPrice, tp1, tp2, tp3);
-    var timeSt  = getTimeStatus(days, s, pctMove);
+    // AQUI SE EVALUA EL SEMAFORO MACRO
+    var sig = getUnifiedSignal(current, entry, slPrice, tp1, tp2, tp3, days, prof.timeMax);
 
     var lo = Math.min(slPrice, current) * 0.997;
     var hi = Math.max(tp3, current) * 1.003;
@@ -371,9 +342,9 @@ function calc() {
     // STATUS BANNER
     h += '<div class="status-banner ' + sig.cls + '">';
     h += '<div style="display:flex;align-items:center;flex:1">';
-    h += '<div class="status-dot" style="background:' + sig.dotColor + '"></div>';
+    h += '<div class="status-dot" style="color:' + sig.dotColor + ';background:' + sig.dotColor + '"></div>';
     h += '<div><div class="status-text" style="color:' + sig.dotColor + '">' + sig.text + '</div>';
-    h += '<div style="font-size:10px;color:' + sig.dotColor + ';opacity:0.7;margin-top:1px">' + sig.sub + '</div></div>';
+    h += '<div class="status-sub" style="color:' + sig.dotColor + '">' + sig.sub + '</div></div>';
     h += '</div>';
     h += '<div class="style-name-row"><div class="style-name" style="color:' + s.color + '">' + s.name + '</div><div class="style-desc">' + s.desc + '</div></div>';
     h += '</div>';
@@ -402,17 +373,15 @@ function calc() {
     h += '<div class="num-cell bl"><div class="nc-lbl">TP2 +' + fmt(prof.tp[1]*100,0) + '% · R:R 1:' + fmt(rr2,1) + '</div><div class="nc-val" style="color:' + s.color + '">' + fmt(tp2) + ' €</div><div class="nc-sub" style="color:' + s.color + '">+' + fmt(gain2) + ' € neto</div></div>';
     h += '</div>';
 
-    // TP3
+    // TP3 (Ideal scenario)
     h += '<div class="tp3-row"><span style="color:var(--t2)">TP3 · ideal +' + fmt(prof.tp[2]*100,0) + '% → ' + fmt(tp3) + ' €</span><span style="color:' + s.color + ';font-weight:700">+' + fmt(gain3) + ' € neto</span></div>';
-
-    // TIME STATUS
-    h += '<div class="time-row"><span style="color:var(--t3);font-size:10px">Time stop</span><span class="time-badge ' + timeSt.cls + '">' + timeSt.text + '</span></div>';
 
     h += '</div>';
     container.innerHTML += h;
   });
 }
 
+// Iniciar cálculo con los datos por defecto
 calc();
 </script>
 </body>
