@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoja de ruta — Position trading</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f5f5f3;
+    --bg-tertiary: #eeede9;
+    --text: #1a1a1a;
+    --text-secondary: #555550;
+    --text-tertiary: #999990;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --bg-secondary: #242422;
+      --bg-tertiary: #2e2e2b;
+      --text: #f0efea;
+      --text-secondary: #aaa9a0;
+      --text-tertiary: #66665e;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.15);
+    }
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header { margin-bottom: 2.5rem; }
+  .header h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+  .header p { font-size: 14px; color: var(--text-secondary); }
+
+  .progress-wrap { margin-top: 1.25rem; }
+  .progress-track { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 6px; }
+  .progress-fill { height: 3px; background: var(--text-secondary); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+  .progress-label { font-size: 12px; color: var(--text-tertiary); font-family: var(--font-mono); }
+
+  /* Phase cards */
+  .phase {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--bg);
+    transition: background 0.15s;
+  }
+  .phase-header:hover { background: var(--bg-secondary); }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-0  { background: #f1efe8; color: #444441; }
+  .badge-1  { background: #e6f1fb; color: #0c447c; }
+  .badge-2  { background: #faeeda; color: #633806; }
+  .badge-3  { background: #eaf3de; color: #27500a; }
+  .badge-ex { background: #fbeaf0; color: #4b1528; }
+
+  @media (prefers-color-scheme: dark) {
+    .badge-0  { background: #2c2c2a; color: #d3d1c7; }
+    .badge-1  { background: #042c53; color: #b5d4f4; }
+    .badge-2  { background: #412402; color: #fac775; }
+    .badge-3  { background: #173404; color: #c0dd97; }
+    .badge-ex { background: #4b1528; color: #f4c0d1; }
+  }
+
+  .phase-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .phase-meta  { font-size: 12px; color: var(--text-tertiary); }
+  .chevron { font-size: 10px; color: var(--text-tertiary); transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+
+  .phase-body { display: none; padding: 0 16px 16px; }
+  .phase-body.open { display: block; }
+
+  .phase-goal {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 10px 0 14px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 14px;
+    line-height: 1.65;
+  }
+  .phase-goal strong { color: var(--text); font-weight: 500; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+
+  /* Exercises */
+  .ex-list { list-style: none; margin-bottom: 18px; }
+  .ex-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .ex-item:last-child { border-bottom: none; }
+  .ex-item input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: var(--text);
+  }
+  .ex-item label {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    cursor: pointer;
+  }
+  .ex-item.done label {
+    color: var(--text-tertiary);
+    text-decoration: line-through;
+  }
+
+  /* Questions */
+  .q-list { list-style: none; }
+  .q-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .q-item:last-child { border-bottom: none; }
+  .q-mark { font-size: 12px; color: var(--text-tertiary); flex-shrink: 0; font-family: var(--font-mono); margin-top: 2px; }
+  .q-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* Always-on section */
+  .always-section {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 1rem;
+  }
+  .always-title { font-size: 14px; font-weight: 500; margin: 10px 0 4px; }
+  .always-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+
+  .always-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 8px;
+  }
+  .always-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .always-card .ac-q { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+  .always-card .ac-note { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; font-family: var(--font-mono); }
+
+  /* Footer */
+  .footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .reset-btn {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    background: none;
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .reset-btn:hover { color: var(--text); border-color: var(--border-strong); }
+
+  @media (max-width: 480px) {
+    body { padding: 1.25rem 1rem; }
+    .phase-meta { display: none; }
+    .always-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Hoja de ruta — Position trading</h1>
+    <p>Fases, ejercicios y preguntas de autoevaluación. Sin atajos.</p>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+      <div class="progress-label" id="plabel">0 de 17 ejercicios completados (0%)</div>
+    </div>
+  </div>
+
+  <!-- FASE 0 -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle('p0')">
+      <span class="badge badge-0">Fase 0</span>
+      <span class="phase-title">Fundamentos visuales</span>
+      <span class="phase-meta">Semanas 1–2</span>
+      <span class="chevron open" id="chev-p0">▼</span>
+    </div>
+    <div class="phase-body open" id="body-p0">
+      <p class="phase-goal"><strong>Objetivo:</strong> Antes de operar, saber leer estructura de mercado real en cualquier acción. No indicadores complejos. Solo precio, media, volumen y etapa.</p>
+      <p class="section-label">Ejercicios</p>
+      <ul class="ex-list">
+        <li class="ex-item" id="ei-1"><input type="checkbox" id="cb-1"><label for="cb-1">Abre TradingView. Busca 10 acciones conocidas (NVDA, AAPL, MSFT, TSM, AMZN, META, AMD, GOOGL, LLY, CEG). Ponlas en timeframe W. Para cada una, escribe en papel en qué Stage de Weinstein está y por qué.</label></li>
+        <li class="ex-item" id="ei-2"><input type="checkbox" id="cb-2"><label for="cb-2">Añade la media de 30 semanas a cada gráfico. Comprueba: ¿está subiendo, plana o cayendo? ¿El precio está por encima o por debajo? Anota los resultados. Haz esto antes de leer ningún análisis externo sobre esas acciones.</label></li>
+        <li class="ex-item" id="ei-3"><input type="checkbox" id="cb-3"><label for="cb-3">Identifica en esas mismas acciones los últimos 2–3 breakouts visibles en semanal. ¿El volumen en ese breakout fue significativamente mayor al de las semanas anteriores? Sí o no. Si no lo fue, ese breakout era débil.</label></li>
+        <li class="ex-item" id="ei-4"><input type="checkbox" id="cb-4"><label for="cb-4">Busca en TradingView una acción que esté claramente en Stage 3 (distribución). Identifica: ¿dónde empezaron a aparecer máximos más bajos? ¿Cuándo cruzó la media de 30 semanas hacia abajo? ¿Qué pasó con el volumen?</label></li>
+      </ul>
+      <p class="section-label">Preguntas de autoevaluación</p>
+      <ul class="q-list">
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Puedes describir los 4 Stages de Weinstein sin mirar apuntes, con sus características de precio, media y volumen?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Cuál es la diferencia entre un Stage 1 y un Stage 3? ¿Por qué es importante no confundirlos?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Por qué Weinstein usa el gráfico semanal y no el diario como referencia principal?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">Si una acción tiene buen volumen pero la media de 30W está plana, ¿es una entrada válida en Stage 2?</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle('p1')">
+      <span class="badge badge-1">Fase 1</span>
+      <span class="phase-title">Lectura top-down del mercado</span>
+      <span class="phase-meta">Semanas 3–4</span>
+      <span class="chevron" id="chev-p1">▼</span>
+    </div>
+    <div class="phase-body" id="body-p1">
+      <p class="phase-goal"><strong>Objetivo:</strong> Antes de mirar ninguna acción, leer el mercado general y los sectores. El error habitual es empezar por la acción. El proceso correcto es de mayor a menor: mercado → sector → acción.</p>
+      <p class="section-label">Ejercicios</p>
+      <ul class="ex-list">
+        <li class="ex-item" id="ei-5"><input type="checkbox" id="cb-5"><label for="cb-5">Cada domingo durante 4 semanas: abre SPY en W. Responde: ¿Stage 1, 2, 3 o 4? ¿La media de 30W sube, baja o está plana? ¿Qué dices del volumen general? Escríbelo, no lo pienses solo.</label></li>
+        <li class="ex-item" id="ei-6"><input type="checkbox" id="cb-6"><label for="cb-6">Busca en TradingView el indicador "% of stocks above 200 MA" para el NYSE o SP500. Anota el valor. Si está por debajo del 50%, el mercado se está deteriorando aunque el índice aguante. ¿Qué valor tiene hoy?</label></li>
+        <li class="ex-item" id="ei-7"><input type="checkbox" id="cb-7"><label for="cb-7">Mira los 11 ETFs sectoriales del S&P (XLK, XLE, XLF, XLV, XLI, XLY, XLP, XLRE, XLB, XLU, XLC) en semanal. Ordénalos de mayor a menor fortaleza relativa frente al SPY. ¿En qué sectores están tus posiciones actuales?</label></li>
+        <li class="ex-item" id="ei-8"><input type="checkbox" id="cb-8"><label for="cb-8">Compara el sector más fuerte con el más débil de tu lista. ¿Tiene sentido que tengas posiciones en el sector débil? Si la respuesta es no, apunta la razón por la que sigues en ellas.</label></li>
+      </ul>
+      <p class="section-label">Preguntas de autoevaluación</p>
+      <ul class="q-list">
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Cuál es el sector más fuerte del mercado ahora mismo? ¿Lo sabes sin buscar?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">Si el SPY cae un 10% en Stage 2 pero tu acción aguanta bien, ¿qué te dice eso sobre la fortaleza relativa de esa posición?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Cuántas semanas llevas haciendo esta revisión top-down antes de mirar acciones individuales? ¿Se ha convertido en hábito?</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle('p2')">
+      <span class="badge badge-2">Fase 2</span>
+      <span class="phase-title">Gestión de posiciones</span>
+      <span class="phase-meta">Semanas 5–8</span>
+      <span class="chevron" id="chev-p2">▼</span>
+    </div>
+    <div class="phase-body" id="body-p2">
+      <p class="phase-goal"><strong>Objetivo:</strong> Aprender a gestionar lo que ya tienes antes de abrir nuevas posiciones. La mayoría de los errores en position trading no son de entrada — son de gestión posterior.</p>
+      <p class="section-label">Ejercicios</p>
+      <ul class="ex-list">
+        <li class="ex-item" id="ei-9"><input type="checkbox" id="cb-9"><label for="cb-9">"Pull the weeds first": escribe todas tus posiciones abiertas ordenadas de peor a mejor rendimiento. Para las dos peores: ¿sigue vigente la tesis original? ¿Han pasado más de 10 semanas sin movimiento significativo? Si la tesis cayó o el tiempo se agotó, esa posición se va.</label></li>
+        <li class="ex-item" id="ei-10"><input type="checkbox" id="cb-10"><label for="cb-10">Para cada posición abierta, escribe en una línea: (1) tesis de entrada, (2) nivel de stop, (3) semanas que lleva abierta, (4) fecha en que esperabas que se hubiera movido. Si no puedes responder alguna de estas, esa posición no estaba bien planteada desde el principio.</label></li>
+        <li class="ex-item" id="ei-11"><input type="checkbox" id="cb-11"><label for="cb-11">Practica scaling out en papel antes de hacerlo en real: elige una posición ganadora. Decide si saldrías del 100%, del 50% o del 33% si alcanza tu objetivo. ¿Qué harías con el resto? ¿Subirías el stop? Escríbelo antes de que pase.</label></li>
+        <li class="ex-item" id="ei-12"><input type="checkbox" id="cb-12"><label for="cb-12">Revisa tus stops actuales. ¿Alguno lo has movido hacia abajo desde la entrada? Si es así, anota la razón. "Creía que iba a rebotar" no es una razón técnica válida. Identifica si fue una decisión emocional o estructural.</label></li>
+        <li class="ex-item" id="ei-13"><input type="checkbox" id="cb-13"><label for="cb-13">Identifica en tu portfolio si tienes correlación de sector: ¿dos o más posiciones en el mismo sector? Si caen a la vez, tienes concentración, no diversificación. ¿Cuánto de tu capital total cae si ese sector cae un 20%?</label></li>
+      </ul>
+      <p class="section-label">Preguntas de autoevaluación</p>
+      <ul class="q-list">
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Puedes explicar la tesis de cada posición abierta en una sola frase sin mirar notas?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Has añadido capital a alguna posición que estaba en pérdidas? ¿Por qué? ¿Fue averaging down o pyramiding?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Hay alguna posición abierta más de 12 semanas sin haber hecho un movimiento significativo? ¿Qué estás esperando?</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">Si mañana cierran el mercado 3 semanas, ¿estarías tranquilo con las posiciones que tienes ahora mismo?</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle('p3')">
+      <span class="badge badge-3">Fase 3</span>
+      <span class="phase-title">Rutina operativa sistemática</span>
+      <span class="phase-meta">Ongoing</span>
+      <span class="chevron" id="chev-p3">▼</span>
+    </div>
+    <div class="phase-body" id="body-p3">
+      <p class="phase-goal"><strong>Objetivo:</strong> Convertir todo lo anterior en un sistema repetible que no dependa de la motivación del día. Una rutina que puedas ejecutar aunque tengas prisa, aunque el mercado esté nervioso.</p>
+      <p class="section-label">Ejercicios</p>
+      <ul class="ex-list">
+        <li class="ex-item" id="ei-14"><input type="checkbox" id="cb-14"><label for="cb-14">Diseña tu checklist semanal en papel o en Sheets: qué miras, en qué orden exacto, cuánto tiempo máximo dedicas. El orden debe ser siempre: mercado general → sectores → posiciones abiertas → watchlist nueva. Nada fuera de ese orden.</label></li>
+        <li class="ex-item" id="ei-15"><input type="checkbox" id="cb-15"><label for="cb-15">Crea una plantilla mínima de diario de trading. Campos obligatorios: ticker, fecha de entrada, precio de entrada, stop inicial, tesis en una frase, semanas estimadas de resolución, resultado y post-mortem. Si una operación no cabe en esa plantilla, no estaba bien planteada.</label></li>
+        <li class="ex-item" id="ei-16"><input type="checkbox" id="cb-16"><label for="cb-16">Ejercicio pre-earnings: para la próxima publicación de resultados de cualquiera de tus posiciones, documenta antes del evento: ¿mantengo, reduzco o salgo? ¿Por qué? ¿Qué espera el mercado (consenso)? ¿Depende mi tesis de que los resultados sean buenos? Escríbelo antes, no después.</label></li>
+        <li class="ex-item" id="ei-17"><input type="checkbox" id="cb-17"><label for="cb-17">Revisión trimestral real: al final de cada Q, responde por escrito: ¿qué funcionó y por qué? ¿Qué no funcionó — fue error de análisis o mercado adverso con tesis correcta? ¿El capital está bien distribuido o alguna posición tiene más peso del planificado?</label></li>
+      </ul>
+      <p class="section-label">Preguntas de autoevaluación</p>
+      <ul class="q-list">
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Tu revisión semanal dura más de 45 minutos? Si es así, estás haciendo algo que no corresponde a esa frecuencia.</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">¿Tienes alguna posición sin entrada en el diario? Eso significa que no tienes criterio de salida real documentado.</span></li>
+        <li class="q-item"><span class="q-mark">?</span><span class="q-text">En la revisión del último trimestre, ¿tus errores fueron los mismos que en el trimestre anterior? Si sí, el diario no está funcionando como herramienta de aprendizaje.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SIEMPRE ACTIVAS -->
+  <div class="always-section">
+    <span class="badge badge-ex">Siempre activas</span>
+    <p class="always-title">Preguntas que debes poder responder en cualquier momento</p>
+    <p class="always-sub">Sin notas. Sin buscar. Si no puedes responderlas, tienes trabajo pendiente.</p>
+    <div class="always-grid">
+      <div class="always-card">
+        <p class="ac-q">¿En qué Stage está el mercado general ahora mismo?</p>
+        <p class="ac-note">SPY · semanal</p>
+      </div>
+      <div class="always-card">
+        <p class="ac-q">¿En qué sector está entrando el dinero institucional?</p>
+        <p class="ac-note">sector rotation</p>
+      </div>
+      <div class="always-card">
+        <p class="ac-q">¿Cuál es la tesis de cada posición abierta?</p>
+        <p class="ac-note">una frase por posición</p>
+      </div>
+      <div class="always-card">
+        <p class="ac-q">¿Dónde está el stop de cada posición y por qué ahí?</p>
+        <p class="ac-note">nivel técnico, no emocional</p>
+      </div>
+      <div class="always-card">
+        <p class="ac-q">¿Cuántas semanas lleva abierta cada posición?</p>
+        <p class="ac-note">stop temporal activo</p>
+      </div>
+      <div class="always-card">
+        <p class="ac-q">¿Hay alguna posición sin stop o sin tesis documentada?</p>
+        <p class="ac-note">señal de alarma inmediata</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>casencio / trading-roadmap</span>
+    <button class="reset-btn" onclick="resetAll()">Resetear progreso</button>
+  </div>
+
+</div>
+
+<script>
+  var TOTAL = 17;
+  var KEY = 'trading-roadmap-v1';
+
+  function save() {
+    var state = {};
+    for (var i = 1; i <= TOTAL; i++) {
+      var cb = document.getElementById('cb-' + i);
+      if (cb) state['cb-' + i] = cb.checked;
+    }
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      var state = JSON.parse(raw);
+      for (var i = 1; i <= TOTAL; i++) {
+        var cb = document.getElementById('cb-' + i);
+        if (cb && state['cb-' + i]) {
+          cb.checked = true;
+          var item = document.getElementById('ei-' + i);
+          if (item) item.classList.add('done');
+        }
+      }
+    } catch(e) {}
+  }
+
+  function updateProgress() {
+    var done = 0;
+    for (var i = 1; i <= TOTAL; i++) {
+      var cb = document.getElementById('cb-' + i);
+      if (cb && cb.checked) done++;
+    }
+    var pct = Math.round((done / TOTAL) * 100);
+    document.getElementById('pbar').style.width = pct + '%';
+    document.getElementById('plabel').textContent = done + ' de ' + TOTAL + ' ejercicios completados (' + pct + '%)';
+  }
+
+  function toggle(id) {
+    var body = document.getElementById('body-' + id);
+    var chev = document.getElementById('chev-' + id);
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chev.classList.toggle('open', !isOpen);
+  }
+
+  function resetAll() {
+    if (!confirm('¿Resetear todo el progreso?')) return;
+    localStorage.removeItem(KEY);
+    for (var i = 1; i <= TOTAL; i++) {
+      var cb = document.getElementById('cb-' + i);
+      if (cb) cb.checked = false;
+      var item = document.getElementById('ei-' + i);
+      if (item) item.classList.remove('done');
+    }
+    updateProgress();
+  }
+
+  // Attach change listeners
+  for (var i = 1; i <= TOTAL; i++) {
+    (function(idx) {
+      var cb = document.getElementById('cb-' + idx);
+      if (!cb) return;
+      cb.addEventListener('change', function() {
+        var item = document.getElementById('ei-' + idx);
+        if (item) item.classList.toggle('done', cb.checked);
+        updateProgress();
+        save();
+      });
+    })(i);
+  }
+
+  load();
+  updateProgress();
+</script>
+</body>
+</html>
