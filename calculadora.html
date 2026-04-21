@@ -3,361 +3,416 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora TP/SL — Simplificada</title>
+<title>Calculadora TP/SL — CHENSIO</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --bg: #0a0a0a;
-  --bg1: #111111;
-  --bg2: #1a1a1a;
-  --bg3: #222222;
-  --border: #2a2a2a;
-  --border2: #333333;
-  --text: #e0e0e0;
-  --text2: #999999;
-  --text3: #555555;
-  --green: #22c55e;
-  --red: #ef4444;
-  --amber: #f59e0b;
-  --blue: #3b82f6;
-  --font: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --bg: #0a0a0a; --bg1: #111; --bg2: #1a1a1a; --bg3: #222;
+  --border: #2a2a2a; --border2: #333;
+  --text: #e0e0e0; --t2: #888; --t3: #444;
+  --green: #22c55e; --red: #ef4444; --amber: #f59e0b; --blue: #3b82f6;
+  --font: 'JetBrains Mono', 'Fira Code', monospace;
 }
+body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; padding: 28px 16px 60px; }
+.wrap { max-width: 520px; margin: 0 auto; }
+.brand { font-size: 9px; color: var(--t3); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; }
+h1 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.sub { font-size: 11px; color: var(--t3); margin-bottom: 24px; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font);
-  min-height: 100vh;
-  padding: 24px 16px 48px;
-}
+/* INPUTS */
+.inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.inputs-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.inp-block { background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 12px; }
+.inp-block label { font-size: 9px; color: var(--t2); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 8px; }
+.inp-block input[type=number] { width: 100%; background: none; border: none; border-bottom: 1px solid var(--border2); color: #fff; font-family: var(--font); font-size: 18px; font-weight: 700; padding: 4px 0; outline: none; transition: border-color 0.15s; }
+.inp-block input[type=number]:focus { border-color: var(--blue); }
+.inp-block .unit { font-size: 10px; color: var(--t3); margin-top: 5px; }
+input::-webkit-inner-spin-button { opacity: 0.3; }
 
-.wrap { max-width: 560px; margin: 0 auto; }
+/* TR Toggle */
+.tr-toggle { display: flex; align-items: center; justify-content: space-between; background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; padding: 12px 14px; }
+.tr-label { font-size: 11px; color: var(--t2); line-height: 1.5; }
+.tr-label strong { color: var(--text); font-weight: 500; }
+.toggle-wrap { display: flex; align-items: center; gap: 8px; }
+input[type=checkbox] { width: 36px; height: 20px; appearance: none; background: var(--bg3); border: 1px solid var(--border2); border-radius: 20px; cursor: pointer; position: relative; transition: background 0.2s; flex-shrink: 0; }
+input[type=checkbox]:checked { background: var(--green); border-color: var(--green); }
+input[type=checkbox]::after { content: ''; position: absolute; width: 14px; height: 14px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: left 0.2s; }
+input[type=checkbox]:checked::after { left: 18px; }
 
-/* Header */
-.site-label { font-size: 9px; color: var(--text3); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; }
-h1 { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.02em; margin-bottom: 4px; }
-.subtitle { font-size: 11px; color: var(--text3); margin-bottom: 28px; }
+/* P&L CARD */
+.pl-card { border-radius: 8px; padding: 16px; margin: 14px 0 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: all 0.2s; }
+.pl-group { }
+.pl-label { font-size: 9px; color: var(--t2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.pl-val { font-size: 26px; font-weight: 700; }
+.pl-sub { font-size: 11px; color: var(--t2); margin-top: 2px; }
+.pl-right { text-align: right; }
+.pl-acc { font-size: 20px; font-weight: 700; color: var(--t2); }
+.be-note { font-size: 10px; color: var(--t3); margin-bottom: 14px; line-height: 1.6; }
 
-/* Sections */
-.section { margin-bottom: 20px; }
-.section-label {
-  font-size: 9px; color: var(--text3); letter-spacing: 0.15em;
-  text-transform: uppercase; margin-bottom: 10px;
-  padding-bottom: 6px; border-bottom: 1px solid var(--border);
-}
+/* PROFILE SELECTOR */
+.profile-wrap { margin-bottom: 14px; }
+.profile-label { font-size: 9px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+.profile-tabs { display: flex; border: 1px solid var(--border2); border-radius: 6px; overflow: hidden; }
+.ptab { flex: 1; padding: 8px 4px; text-align: center; background: var(--bg2); color: var(--t2); font-family: var(--font); font-size: 10px; border: none; border-right: 1px solid var(--border2); cursor: pointer; transition: all 0.15s; }
+.ptab:last-child { border-right: none; }
+.ptab:hover { color: var(--text); background: var(--bg3); }
+.ptab.active { color: #fff; background: var(--bg3); font-weight: 700; }
+.ptab .pt-name { font-size: 11px; margin-bottom: 2px; }
+.ptab .pt-desc { font-size: 9px; opacity: 0.6; }
 
-/* Inputs */
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.field label {
-  display: block; font-size: 9px; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px;
-}
-input[type=number], input[type=text] {
-  width: 100%; background: var(--bg2); border: 1px solid var(--border2);
-  color: var(--text); padding: 9px 10px; border-radius: 4px;
-  font-family: var(--font); font-size: 14px; outline: none;
-  transition: border-color 0.15s;
-}
-input[type=number]:focus, input[type=text]:focus { border-color: var(--blue); }
+/* STYLE BLOCK */
+.style-block { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 10px; background: var(--bg1); }
 
-/* Profile tabs */
-.profiles { display: flex; gap: 6px; margin-bottom: 20px; }
-.profile-btn {
-  flex: 1; padding: 8px 4px; border-radius: 4px; border: 1px solid var(--border2);
-  background: var(--bg2); color: var(--text2); font-family: var(--font);
-  font-size: 11px; cursor: pointer; transition: all 0.15s; text-align: center;
-}
-.profile-btn:hover { border-color: #444; color: var(--text); }
-.profile-btn.active { border-color: var(--blue); color: var(--blue); background: #1a2a3a; }
-.profile-btn .p-name { font-size: 11px; font-weight: 700; }
-.profile-btn .p-risk { font-size: 9px; opacity: 0.7; margin-top: 2px; }
+/* STATUS BANNER — semáforo real */
+.status-banner { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-right: 8px; }
+.status-text { font-size: 12px; font-weight: 700; flex: 1; }
+.status-sub { font-size: 10px; opacity: 0.7; margin-top: 1px; }
+.style-name-row { text-align: right; }
+.style-name { font-size: 11px; font-weight: 700; }
+.style-desc { font-size: 9px; color: var(--t2); }
 
-/* Main metrics */
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.metric { background: var(--bg1); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
-.metric .m-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-.metric .m-val { font-size: 15px; font-weight: 700; }
-.metric .m-sub { font-size: 10px; margin-top: 2px; opacity: 0.6; }
-.c-green { color: var(--green); }
-.c-red { color: var(--red); }
-.c-amber { color: var(--amber); }
-.c-muted { color: var(--text2); }
+.s-red    { background: #ef444414; border-bottom: 1px solid #ef444430; }
+.s-amber  { background: #f59e0b10; border-bottom: 1px solid #f59e0b25; }
+.s-green  { background: #22c55e10; border-bottom: 1px solid #22c55e25; }
+.s-blue   { background: #3b82f610; border-bottom: 1px solid #3b82f625; }
+.s-gray   { background: #33333318; border-bottom: 1px solid #33333333; }
 
-/* Zone bar */
-.zone-wrap { margin-bottom: 28px; }
-.zone-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
-.zone-name { font-size: 12px; font-weight: 700; }
-.zone-bar {
-  position: relative; height: 44px; background: var(--bg2);
-  border-radius: 5px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 6px;
-}
-.zone-sl-zone { position: absolute; top: 0; bottom: 0; background: rgba(239,68,68,0.1); }
-.zone-tp-zone { position: absolute; top: 0; bottom: 0; }
-.zone-line { position: absolute; top: 0; bottom: 0; width: 1px; }
-.zone-dot {
-  position: absolute; top: 50%; transform: translate(-50%, -50%);
-  width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--bg); z-index: 5;
-}
-.zone-tag { position: absolute; top: 4px; font-size: 8px; letter-spacing: 0.05em; text-transform: uppercase; pointer-events: none; }
-.zone-numbers { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px 12px; font-size: 11px; }
-.zone-row { display: flex; justify-content: space-between; padding: 2px 0; }
-.zone-row span:first-child { color: var(--text3); }
+/* BAR */
+.bar-wrap { padding: 10px 14px 6px; }
+.bar { position: relative; height: 32px; background: var(--bg3); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+.bar-sl-zone { position: absolute; top: 0; bottom: 0; background: rgba(239,68,68,0.12); }
+.bar-tp-zone { position: absolute; top: 0; bottom: 0; }
+.bar-line { position: absolute; top: 0; bottom: 0; width: 1px; }
+.bar-dot { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--bg); z-index: 5; }
+.bar-lbl { position: absolute; font-size: 8px; text-transform: uppercase; top: 3px; }
 
-/* TP Scaling */
-.tp-block { background: var(--bg1); border: 1px solid var(--border); border-radius: 6px; padding: 14px; margin-bottom: 8px; }
-.tp-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.tp-block-title { font-size: 11px; font-weight: 700; }
-.tp-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; border-bottom: 1px solid var(--border); }
-.tp-row:last-child { border-bottom: none; }
+/* TIME STATUS */
+.time-row { padding: 6px 14px 10px; font-size: 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.time-badge { padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; }
+.tb-ok   { background: #22c55e18; color: var(--green); }
+.tb-warn { background: #f59e0b18; color: var(--amber); }
+.tb-dead { background: #ef444418; color: var(--red); }
+.tb-na   { background: #33333330; color: var(--t3); }
 
-/* Breakeven bar */
-.be-bar-wrap { margin: 12px 0; }
-.be-bar-track { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-.be-bar-fill { height: 4px; border-radius: 2px; background: var(--amber); transition: width 0.3s; }
+/* NUMS */
+.nums { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--border); }
+.num-cell { padding: 8px 14px; }
+.nc-lbl { font-size: 9px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; line-height: 1.3; }
+.nc-val { font-size: 13px; font-weight: 700; }
+.nc-sub { font-size: 10px; color: var(--t2); margin-top: 1px; }
+.bl { border-left: 1px solid var(--border); }
+.tp3-row { padding: 7px 14px 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 11px; }
 
-/* Info boxes */
-.info-box { padding: 10px 12px; border-radius: 4px; font-size: 11px; line-height: 1.7; margin-top: 8px; }
-.info-box.blue { background: #3b82f612; border: 1px solid #3b82f630; color: #60a5fa; }
-.info-box.green { background: #22c55e12; border: 1px solid #22c55e30; color: var(--green); }
-.info-box.amber { background: #f59e0b12; border: 1px solid #f59e0b30; color: var(--amber); }
-.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-
-@media (max-width: 420px) {
-  .grid3 { grid-template-columns: 1fr; }
-  .metrics-grid { grid-template-columns: 1fr 1fr; }
-  .zone-numbers { grid-template-columns: 1fr 1fr; }
+.footer { font-size: 9px; color: var(--t3); text-align: center; margin-top: 32px; line-height: 1.8; }
+@media (max-width: 400px) {
+  .inputs { grid-template-columns: 1fr 1fr; }
+  .inputs-row2 { grid-template-columns: 1fr; }
+  .nums { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="brand">CHENSIO TOOLS</div>
+  <h1>Calculadora TP / SL</h1>
+  <p class="sub">Análisis de salidas · Position, Swing & Day trading</p>
 
-  <div class="site-label">CHENSIO TOOLS</div>
-  <h1>Calculadora Macro Automática</h1>
-  <p class="subtitle">Análisis rápido de posiciones · Ingresa 3 datos y la herramienta hace el resto</p>
+  <div class="inputs">
+    <div class="inp-block">
+      <label>Entrada</label>
+      <input type="number" id="entry" value="116" step="0.01" oninput="calc()">
+      <div class="unit">precio €</div>
+    </div>
+    <div class="inp-block">
+      <label>Actual</label>
+      <input type="number" id="current" value="128" step="0.01" oninput="calc()">
+      <div class="unit">precio €</div>
+    </div>
+    <div class="inp-block">
+      <label>Invertido</label>
+      <input type="number" id="invested" value="71.72" step="0.01" oninput="calc()">
+      <div class="unit">euros €</div>
+    </div>
+  </div>
 
-  <div class="section">
-    <div class="section-label">1. Elige tu estilo de operación</div>
-    <div class="profiles">
-      <button class="profile-btn active" data-style="position" onclick="setStyle(this)">
-        <div class="p-name">Position</div>
-        <div class="p-risk">Semanas/Meses</div>
+  <div class="inputs-row2">
+    <div class="inp-block">
+      <label>Días en posición</label>
+      <input type="number" id="days" value="0" step="1" min="0" oninput="calc()">
+      <div class="unit">0 = no usar tiempo</div>
+    </div>
+    <div class="tr-toggle">
+      <div class="tr-label"><strong>Trade Republic</strong><br>Compra gratis · −1€ al vender</div>
+      <div class="toggle-wrap">
+        <span id="trLabel" style="font-size:10px;color:var(--green)">ON</span>
+        <input type="checkbox" id="trToggle" checked onchange="calc()">
+      </div>
+    </div>
+  </div>
+
+  <!-- P&L -->
+  <div class="pl-card" id="plCard">
+    <div class="pl-group">
+      <div class="pl-label">P&L neto ahora</div>
+      <div class="pl-val" id="plVal">—</div>
+      <div class="pl-sub" id="plSub">—</div>
+    </div>
+    <div class="pl-right">
+      <div class="pl-label">Acciones</div>
+      <div class="pl-acc" id="sharesVal">—</div>
+      <div style="font-size:9px;color:var(--t3);margin-top:3px" id="commNote"></div>
+    </div>
+  </div>
+  <div class="be-note" id="beNote"></div>
+
+  <!-- PERFIL -->
+  <div class="profile-wrap">
+    <div class="profile-label">Perfil de riesgo — aplica a los 3 estilos</div>
+    <div class="profile-tabs">
+      <button class="ptab" data-p="0" onclick="setProfile(0)">
+        <div class="pt-name">Conservador</div>
+        <div class="pt-desc">SL corto · TP moderado</div>
       </button>
-      <button class="profile-btn" data-style="swing" onclick="setStyle(this)">
-        <div class="p-name">Swing</div>
-        <div class="p-risk">Días</div>
+      <button class="ptab active" data-p="1" onclick="setProfile(1)">
+        <div class="pt-name">Normal</div>
+        <div class="pt-desc">Equilibrado</div>
       </button>
-      <button class="profile-btn" data-style="day" onclick="setStyle(this)">
-        <div class="p-name">Day Trade</div>
-        <div class="p-risk">Intradía</div>
+      <button class="ptab" data-p="2" onclick="setProfile(2)">
+        <div class="pt-name">Agresivo</div>
+        <div class="pt-desc">SL amplio · TP alto</div>
       </button>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-label">2. Datos de entrada (Como en tu Excel)</div>
-    <div class="grid3">
-      <div class="field">
-        <label>Precio entrada (€)</label>
-        <input type="number" id="entry" value="5.62" step="0.01" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Precio actual (€)</label>
-        <input type="number" id="current" value="7.55" step="0.01" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Capital invertido (€)</label>
-        <input type="number" id="possize" value="16.00" step="0.01" oninput="calc()">
-      </div>
-    </div>
-  </div>
+  <div id="stylesContainer"></div>
 
-  <div class="section">
-    <div class="section-label">Resumen Actual</div>
-    <div class="metrics-grid">
-      <div class="metric">
-        <div class="m-label">Invertido</div>
-        <div class="m-val c-muted" id="mInvested">—</div>
-        <div class="m-sub" id="mShares">— acc.</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">P&L Bruto</div>
-        <div class="m-val" id="mPL">—</div>
-        <div class="m-sub" id="mPLpct">—</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">P&L Neto (TR)</div>
-        <div class="m-val" id="mPLnet">—</div>
-        <div class="m-sub" id="mPLnetpct">—</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">Riesgo (SL Auto)</div>
-        <div class="m-val c-red" id="mRisk">—</div>
-        <div class="m-sub" id="mRiskPct">—</div>
-      </div>
-    </div>
-
-    <div class="be-bar-wrap">
-      <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--text3); margin-bottom:3px;">
-        <span>SL</span><span>Entrada</span><span>Actual</span><span>TP3</span>
-      </div>
-      <div class="be-bar-track"><div class="be-bar-fill" id="beBar" style="width:0%"></div></div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="section">
-    <div class="section-label">Zonas calculadas automáticamente</div>
-    <div id="zonesContainer"></div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="section">
-    <div class="section-label">Plan de Salidas Parciales (Scaling Out)</div>
-    <div id="tpBlocks"></div>
-    <div class="info-box blue" style="margin-top:12px;">
-      📐 Las metas de Take Profit (TP1, TP2, TP3) se calculan solas según el estilo que elegiste arriba. Vender en partes te asegura beneficios si el mercado se gira.
-    </div>
-  </div>
-
+  <div class="footer">Herramienta orientativa · No es asesoramiento financiero<br>Basada en criterios de Weinstein & Minervini · casencio / trading-roadmap · CHENSIO TOOLS</div>
 </div>
 
 <script>
-var COMM = 1; // Comisión por defecto Trade Republic (1€)
-var currentStyle = 'position';
+var activeProfile = 1;
 
-// Configuraciones automáticas de TP/SL según el estilo
-var AUTO_LEVELS = {
-  position: { sl: -0.12, tp1: 0.15, tp2: 0.25, tp3: 0.40, color: '#3b82f6', name: 'Position (Macro)' },
-  swing:    { sl: -0.06, tp1: 0.08, tp2: 0.15, tp3: 0.22, color: '#f59e0b', name: 'Swing (Medio)' },
-  day:      { sl: -0.02, tp1: 0.03, tp2: 0.05, tp3: 0.08, color: '#ef4444', name: 'Day (Rápido)' }
-};
+var STYLES = [
+  {
+    name: 'Position',
+    fullName: 'Position Trading',
+    desc: 'Semanas — meses',
+    color: '#3b82f6',
+    // Time stop criteria (días)
+    timeWarn: 42,   // 6 semanas sin avance suficiente
+    timeDead: 84,   // 12 semanas → capital muerto
+    timeNA: false,
+    minPctForTime: 8, // % mínimo esperado antes del time stop
+    profiles: [
+      { label:'Conservador', sl:0.08, tp:[0.15, 0.22, 0.35] },
+      { label:'Normal',      sl:0.12, tp:[0.20, 0.30, 0.45] },
+      { label:'Agresivo',    sl:0.15, tp:[0.28, 0.40, 0.60] }
+    ]
+  },
+  {
+    name: 'Swing',
+    fullName: 'Swing Trading',
+    desc: '2 — 10 días',
+    color: '#f59e0b',
+    timeWarn: 6,
+    timeDead: 10,
+    timeNA: false,
+    minPctForTime: 3,
+    profiles: [
+      { label:'Conservador', sl:0.03, tp:[0.05, 0.08, 0.12] },
+      { label:'Normal',      sl:0.05, tp:[0.08, 0.12, 0.18] },
+      { label:'Agresivo',    sl:0.07, tp:[0.12, 0.18, 0.25] }
+    ]
+  },
+  {
+    name: 'Day',
+    fullName: 'Day Trading',
+    desc: 'Intradía — sin overnight',
+    color: '#ef4444',
+    timeWarn: 0,
+    timeDead: 0,
+    timeNA: true,
+    minPctForTime: 0,
+    profiles: [
+      { label:'Conservador', sl:0.005, tp:[0.010, 0.015, 0.025] },
+      { label:'Normal',      sl:0.010, tp:[0.015, 0.025, 0.040] },
+      { label:'Agresivo',    sl:0.015, tp:[0.025, 0.040, 0.060] }
+    ]
+  }
+];
 
-function fmt(n, dec) {
-  if (dec === undefined) dec = 2;
-  return n.toLocaleString('es-ES', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+function fmt(n, d) {
+  d = d === undefined ? 2 : d;
+  return n.toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });
 }
 
-function setStyle(btn) {
-  document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentStyle = btn.dataset.style;
+function comm() { return document.getElementById('trToggle').checked ? 1 : 0; }
+
+// Señal con lógica real corregida
+function getSignal(current, entry, slPrice, tp1, tp2, tp3) {
+  if (current <= slPrice) {
+    return { text: '🚨 Stop alcanzado — vende', sub: 'El precio ha cruzado tu SL. Salir.', cls: 's-red', dotColor: '#ef4444' };
+  }
+  var distToSL = (current - slPrice) / (entry - slPrice);
+  if (distToSL < 0.25) { // muy cerca del SL
+    return { text: '⚠ Muy cerca del stop', sub: 'Precio peligrosamente cerca del SL', cls: 's-red', dotColor: '#ef4444' };
+  }
+  if (current >= tp3) {
+    return { text: '🎯 TP3 — Escenario ideal', sub: 'Considera vender el resto o trail stop', cls: 's-green', dotColor: '#22c55e' };
+  }
+  if (current >= tp2) {
+    return { text: '⬆ TP2 alcanzado', sub: 'Vende parcial, sube el stop a breakeven', cls: 's-green', dotColor: '#22c55e' };
+  }
+  if (current >= tp1) {
+    return { text: '⬆ TP1 alcanzado', sub: 'Considera vender 40-50% de la posición', cls: 's-green', dotColor: '#22c55e' };
+  }
+  if (current >= entry) {
+    return { text: '● En beneficio — mantener', sub: 'Tesis activa. Revisar semanal.', cls: 's-blue', dotColor: '#3b82f6' };
+  }
+  // En pérdida pero por encima del SL
+  var pctFromEntry = ((current - entry) / entry) * 100;
+  return { text: '◎ En pérdida — vigilar', sub: fmt(pctFromEntry, 1) + '% desde entrada. SL aún no tocado.', cls: 's-amber', dotColor: '#f59e0b' };
+}
+
+// Time stop con criterios reales por estilo
+function getTimeStatus(days, style, pctMove) {
+  if (style.timeNA) {
+    return { text: 'No aplica en day trading', cls: 'tb-na' };
+  }
+  if (!days || days === 0) {
+    return { text: 'Introduce días para activar time stop', cls: 'tb-na' };
+  }
+  var absPct = Math.abs(pctMove);
+  if (days >= style.timeDead && absPct < style.minPctForTime) {
+    return { text: 'Posición muerta — capital inmovilizado', cls: 'tb-dead' };
+  }
+  if (days >= style.timeWarn && absPct < style.minPctForTime * 0.6) {
+    return { text: 'Sin avance suficiente — revisar tesis', cls: 'tb-warn' };
+  }
+  if (days > style.timeDead) {
+    return { text: days + ' días · movimiento +' + fmt(absPct, 1) + '% · OK por ahora', cls: 'tb-ok' };
+  }
+  return { text: days + ' días · dentro del plazo esperado', cls: 'tb-ok' };
+}
+
+function setProfile(idx) {
+  activeProfile = idx;
+  document.querySelectorAll('.ptab').forEach(function(b) {
+    b.classList.toggle('active', parseInt(b.dataset.p) === idx);
+  });
   calc();
 }
 
-function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
-
 function calc() {
-  var entry = v('entry');
-  var current = v('current');
-  var posSize = v('possize');
+  var entry    = parseFloat(document.getElementById('entry').value) || 0;
+  var current  = parseFloat(document.getElementById('current').value) || 0;
+  var invested = parseFloat(document.getElementById('invested').value) || 0;
+  var days     = parseInt(document.getElementById('days').value) || 0;
+  var c        = comm();
+  var trOn     = document.getElementById('trToggle').checked;
 
-  if (entry <= 0 || posSize <= 0) return;
+  document.getElementById('trLabel').textContent = trOn ? 'ON' : 'OFF';
+  document.getElementById('trLabel').style.color = trOn ? '#22c55e' : '#888';
 
-  var shares = posSize / entry;
-  
-  // Cálculo automático de SL y TPs
-  var config = AUTO_LEVELS[currentStyle];
-  var stop = entry * (1 + config.sl);
-  var tp1 = entry * (1 + config.tp1);
-  var tp2 = entry * (1 + config.tp2);
-  var tp3 = entry * (1 + config.tp3);
+  if (!entry || !current || !invested) return;
 
-  // P&L
-  var plGross = (current - entry) * shares;
-  var plNet = plGross - COMM; // Descontando 1€ de venta
-  var plGrossPct = ((current - entry) / entry) * 100;
-  var plNetPct = (plNet / posSize) * 100;
+  var shares    = invested / entry;
+  var plGross   = (current - entry) * shares;
+  var plNet     = plGross - c;
+  var plPct     = (plGross / invested) * 100;
+  var breakeven = c > 0 ? entry + c / shares : entry;
+  var bePct     = ((breakeven - entry) / entry) * 100;
+  var isPos     = plNet >= 0;
 
-  // Risk
-  var riskPerShare = entry - stop;
-  var riskEur = riskPerShare * shares;
+  var plEl = document.getElementById('plVal');
+  plEl.textContent = (isPos ? '+' : '') + fmt(plNet) + ' €';
+  plEl.style.color = isPos ? '#22c55e' : '#ef4444';
+  document.getElementById('plSub').textContent = (plPct >= 0 ? '+' : '') + fmt(plPct, 1) + '% bruto' + (c > 0 ? ' · −1€ comisión' : '');
+  document.getElementById('sharesVal').textContent = fmt(shares, 3);
+  document.getElementById('plCard').style.background = isPos ? '#22c55e08' : '#ef444408';
+  document.getElementById('plCard').style.borderColor = isPos ? '#22c55e30' : '#ef444430';
+  document.getElementById('commNote').textContent = c > 0 ? '−1€ comisión incluida' : '';
 
-  // Actualizar métricas UI
-  document.getElementById('mInvested').textContent = fmt(posSize) + ' €';
-  document.getElementById('mShares').textContent = fmt(shares, 3) + ' acc.';
+  if (c > 0) {
+    document.getElementById('beNote').textContent = 'Breakeven real: ' + fmt(breakeven) + ' € (+' + fmt(bePct, 2) + '% sobre entrada) para cubrir la comisión de venta.';
+  } else {
+    document.getElementById('beNote').textContent = 'Breakeven: ' + fmt(entry) + ' €';
+  }
 
-  var plEl = document.getElementById('mPL');
-  plEl.textContent = (plGross >= 0 ? '+' : '') + fmt(plGross) + ' €';
-  plEl.className = 'm-val ' + (plGross >= 0 ? 'c-green' : 'c-red');
-  document.getElementById('mPLpct').textContent = (plGrossPct >= 0 ? '+' : '') + fmt(plGrossPct) + '%';
-
-  var plNetEl = document.getElementById('mPLnet');
-  plNetEl.textContent = (plNet >= 0 ? '+' : '') + fmt(plNet) + ' €';
-  plNetEl.className = 'm-val ' + (plNet >= 0 ? 'c-green' : 'c-red');
-  document.getElementById('mPLnetpct').textContent = (plNetPct >= 0 ? '+' : '') + fmt(plNetPct) + '%';
-
-  document.getElementById('mRisk').textContent = '−' + fmt(riskEur) + ' €';
-  document.getElementById('mRiskPct').textContent = 'Stop a ' + fmt(config.sl * 100, 0) + '%';
-
-  // Barra de progreso visual
-  var lo = stop, hi = tp3;
-  var range = hi - lo;
-  var currentPosBar = Math.max(0, Math.min(100, ((current - lo) / range) * 100));
-  document.getElementById('beBar').style.width = currentPosBar + '%';
-
-  renderZone(entry, current, stop, tp1, tp2, tp3, config);
-  renderTPs(entry, tp1, tp2, tp3, shares);
-}
-
-function renderZone(entry, current, stop, tp1, tp2, tp3, config) {
-  var lo = stop * 0.99;
-  var hi = Math.max(tp3, current) * 1.01;
-  var range = hi - lo;
-  function pos(p) { return Math.max(0, Math.min(100, ((p - lo) / range) * 100)); }
-
-  var isGreen = current >= entry;
-  var dotColor = isGreen ? '#22c55e' : '#ef4444';
-
-  var html = '<div class="zone-wrap">';
-  html += '<div class="zone-header"><span class="zone-name" style="color:' + config.color + '">' + config.name + '</span></div>';
-  html += '<div class="zone-bar">';
-  html += '<div class="zone-sl-zone" style="left:0; width:' + pos(entry) + '%"></div>';
-  html += '<div class="zone-tp-zone" style="left:' + pos(tp1) + '%; width:' + (pos(tp3) - pos(tp1)) + '%; background:' + config.color + '18"></div>';
-  html += '<div class="zone-line" style="left:' + pos(stop) + '%; background:#ef4444; opacity:0.8"></div>';
-  html += '<div class="zone-line" style="left:' + pos(entry) + '%; background:#666; border-left:1px dashed #666"></div>';
-  html += '<div class="zone-line" style="left:' + pos(tp1) + '%; background:' + config.color + '; opacity:0.5"></div>';
-  html += '<div class="zone-line" style="left:' + pos(tp2) + '%; background:' + config.color + '; opacity:0.7"></div>';
-  html += '<div class="zone-line" style="left:' + pos(tp3) + '%; background:' + config.color + '; opacity:1"></div>';
-  html += '<div class="zone-dot" style="left:' + pos(current) + '%; background:' + dotColor + '"></div>';
-  html += '</div>';
-
-  html += '<div class="zone-numbers">';
-  html += '<div class="zone-row"><span>SL Auto</span><span style="color:#ef4444">' + fmt(stop) + ' €</span></div>';
-  html += '<div class="zone-row"><span>TP1</span><span style="color:' + config.color + '">' + fmt(tp1) + ' €</span></div>';
-  html += '<div class="zone-row"><span>Actual</span><span style="color:' + dotColor + '">' + fmt(current) + ' €</span></div>';
-  html += '</div></div>';
-
-  document.getElementById('zonesContainer').innerHTML = html;
-}
-
-function renderTPs(entry, tp1, tp2, tp3, shares) {
-  var container = document.getElementById('tpBlocks');
+  var container = document.getElementById('stylesContainer');
   container.innerHTML = '';
-  var tps = [
-    { price: tp1, label: 'TP1 (Vender 50%)', pct: 50 },
-    { price: tp2, label: 'TP2 (Vender 30%)', pct: 30 },
-    { price: tp3, label: 'TP3 (Vender 20%)', pct: 20 }
-  ];
-  
-  tps.forEach(function(tp) {
-    var sharesAtTP = shares * (tp.pct / 100);
-    var gainGross = (tp.price - entry) * sharesAtTP;
-    var gainNet = gainGross - COMM;
+  var pctMove = ((current - entry) / entry) * 100;
 
-    var html = '<div class="tp-block">';
-    html += '<div class="tp-block-header"><span class="tp-block-title" style="color:#3b82f6">' + tp.label + ' — ' + fmt(tp.price) + ' €</span></div>';
-    html += '<div class="tp-row"><span>Variación desde entrada</span><span style="color:#22c55e">+' + fmt(((tp.price - entry)/entry)*100, 1) + '%</span></div>';
-    html += '<div class="tp-row"><span>Ganancia neta al vender (ya descontado 1€)</span><span style="color:' + (gainNet>0?'#22c55e':'#f59e0b') + '">' + fmt(gainNet) + ' €</span></div>';
-    html += '</div>';
-    container.innerHTML += html;
+  STYLES.forEach(function(s) {
+    var prof    = s.profiles[activeProfile];
+    var slPrice = entry * (1 - prof.sl);
+    var tp1     = entry * (1 + prof.tp[0]);
+    var tp2     = entry * (1 + prof.tp[1]);
+    var tp3     = entry * (1 + prof.tp[2]);
+    var rr1     = prof.tp[0] / prof.sl;
+    var rr2     = prof.tp[1] / prof.sl;
+
+    var sig     = getSignal(current, entry, slPrice, tp1, tp2, tp3);
+    var timeSt  = getTimeStatus(days, s, pctMove);
+
+    var lo = Math.min(slPrice, current) * 0.997;
+    var hi = Math.max(tp3, current) * 1.003;
+    var range = hi - lo;
+    function pos(p) { return Math.max(0, Math.min(100, ((p - lo) / range) * 100)); }
+
+    var gain1 = (tp1 - entry) * shares - c;
+    var gain2 = (tp2 - entry) * shares - c;
+    var gain3 = (tp3 - entry) * shares - c;
+    var loss  = (slPrice - entry) * shares - c;
+
+    var h = '<div class="style-block">';
+
+    // STATUS BANNER
+    h += '<div class="status-banner ' + sig.cls + '">';
+    h += '<div style="display:flex;align-items:center;flex:1">';
+    h += '<div class="status-dot" style="background:' + sig.dotColor + '"></div>';
+    h += '<div><div class="status-text" style="color:' + sig.dotColor + '">' + sig.text + '</div>';
+    h += '<div style="font-size:10px;color:' + sig.dotColor + ';opacity:0.7;margin-top:1px">' + sig.sub + '</div></div>';
+    h += '</div>';
+    h += '<div class="style-name-row"><div class="style-name" style="color:' + s.color + '">' + s.name + '</div><div class="style-desc">' + s.desc + '</div></div>';
+    h += '</div>';
+
+    // BAR
+    h += '<div class="bar-wrap"><div class="bar">';
+    h += '<div class="bar-sl-zone" style="left:0;width:' + pos(entry) + '%"></div>';
+    h += '<div class="bar-tp-zone" style="left:' + pos(tp1) + '%;width:' + (pos(tp3) - pos(tp1)) + '%;background:' + s.color + '15"></div>';
+    h += '<div class="bar-line" style="left:' + pos(slPrice) + '%;background:#ef4444;opacity:0.8"></div>';
+    h += '<div class="bar-line" style="left:' + pos(entry) + '%;background:#555;border-left:1px dashed #555"></div>';
+    if (c > 0 && breakeven > entry && breakeven < tp1) {
+      h += '<div class="bar-line" style="left:' + pos(breakeven) + '%;background:#f59e0b;opacity:0.5;border-left:1px dashed #f59e0b"></div>';
+    }
+    h += '<div class="bar-line" style="left:' + pos(tp1) + '%;background:' + s.color + ';opacity:0.4"></div>';
+    h += '<div class="bar-line" style="left:' + pos(tp2) + '%;background:' + s.color + ';opacity:0.7"></div>';
+    h += '<div class="bar-line" style="left:' + pos(tp3) + '%;background:' + s.color + ';opacity:1"></div>';
+    h += '<div class="bar-lbl" style="left:3px;color:#ef444466">SL</div>';
+    h += '<div class="bar-lbl" style="right:3px;color:' + s.color + '88">TP3</div>';
+    h += '<div class="bar-dot" style="left:' + pos(current) + '%;background:' + sig.dotColor + '"></div>';
+    h += '</div></div>';
+
+    // NUMS
+    h += '<div class="nums">';
+    h += '<div class="num-cell"><div class="nc-lbl">Stop Loss −' + fmt(prof.sl*100,0) + '%</div><div class="nc-val" style="color:#ef4444">' + fmt(slPrice) + ' €</div><div class="nc-sub" style="color:#ef4444">' + fmt(loss) + ' € neto</div></div>';
+    h += '<div class="num-cell bl"><div class="nc-lbl">TP1 +' + fmt(prof.tp[0]*100,0) + '% · R:R 1:' + fmt(rr1,1) + '</div><div class="nc-val" style="color:' + s.color + '">' + fmt(tp1) + ' €</div><div class="nc-sub" style="color:' + s.color + '">+' + fmt(gain1) + ' € neto</div></div>';
+    h += '<div class="num-cell bl"><div class="nc-lbl">TP2 +' + fmt(prof.tp[1]*100,0) + '% · R:R 1:' + fmt(rr2,1) + '</div><div class="nc-val" style="color:' + s.color + '">' + fmt(tp2) + ' €</div><div class="nc-sub" style="color:' + s.color + '">+' + fmt(gain2) + ' € neto</div></div>';
+    h += '</div>';
+
+    // TP3
+    h += '<div class="tp3-row"><span style="color:var(--t2)">TP3 · ideal +' + fmt(prof.tp[2]*100,0) + '% → ' + fmt(tp3) + ' €</span><span style="color:' + s.color + ';font-weight:700">+' + fmt(gain3) + ' € neto</span></div>';
+
+    // TIME STATUS
+    h += '<div class="time-row"><span style="color:var(--t3);font-size:10px">Time stop</span><span class="time-badge ' + timeSt.cls + '">' + timeSt.text + '</span></div>';
+
+    h += '</div>';
+    container.innerHTML += h;
   });
 }
 
-// Inicializar con los datos por defecto
 calc();
 </script>
 </body>
