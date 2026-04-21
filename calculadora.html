@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora TP/SL — CHENSIO</title>
+<title>Calculadora TP/SL — Simplificada</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -48,7 +48,6 @@ h1 { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.02em; ma
 }
 
 /* Inputs */
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 .field label {
   display: block; font-size: 9px; color: var(--text3);
@@ -61,7 +60,6 @@ input[type=number], input[type=text] {
   transition: border-color 0.15s;
 }
 input[type=number]:focus, input[type=text]:focus { border-color: var(--blue); }
-input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
 
 /* Profile tabs */
 .profiles { display: flex; gap: 6px; margin-bottom: 20px; }
@@ -75,36 +73,21 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
 .profile-btn .p-name { font-size: 11px; font-weight: 700; }
 .profile-btn .p-risk { font-size: 9px; opacity: 0.7; margin-top: 2px; }
 
-/* Risk alert */
-.risk-alert {
-  padding: 10px 12px; border-radius: 4px; font-size: 11px; margin-bottom: 16px;
-  display: none;
-}
-.risk-alert.show { display: block; }
-.risk-alert.ok  { background: #22c55e12; border: 1px solid #22c55e30; color: var(--green); }
-.risk-alert.warn { background: #f59e0b12; border: 1px solid #f59e0b30; color: var(--amber); }
-.risk-alert.bad  { background: #ef444412; border: 1px solid #ef444430; color: var(--red); }
-
 /* Main metrics */
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.metric {
-  background: var(--bg1); border: 1px solid var(--border); border-radius: 6px;
-  padding: 10px 12px;
-}
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.metric { background: var(--bg1); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
 .metric .m-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
 .metric .m-val { font-size: 15px; font-weight: 700; }
 .metric .m-sub { font-size: 10px; margin-top: 2px; opacity: 0.6; }
 .c-green { color: var(--green); }
 .c-red { color: var(--red); }
 .c-amber { color: var(--amber); }
-.c-blue { color: var(--blue); }
 .c-muted { color: var(--text2); }
 
 /* Zone bar */
 .zone-wrap { margin-bottom: 28px; }
 .zone-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
 .zone-name { font-size: 12px; font-weight: 700; }
-.zone-desc { font-size: 10px; color: var(--text3); }
 .zone-bar {
   position: relative; height: 44px; background: var(--bg2);
   border-radius: 5px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 6px;
@@ -114,33 +97,19 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
 .zone-line { position: absolute; top: 0; bottom: 0; width: 1px; }
 .zone-dot {
   position: absolute; top: 50%; transform: translate(-50%, -50%);
-  width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--bg);
-  z-index: 5;
+  width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--bg); z-index: 5;
 }
-.zone-tag {
-  position: absolute; top: 4px; font-size: 8px; letter-spacing: 0.05em;
-  text-transform: uppercase; pointer-events: none;
-}
+.zone-tag { position: absolute; top: 4px; font-size: 8px; letter-spacing: 0.05em; text-transform: uppercase; pointer-events: none; }
 .zone-numbers { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px 12px; font-size: 11px; }
 .zone-row { display: flex; justify-content: space-between; padding: 2px 0; }
 .zone-row span:first-child { color: var(--text3); }
 
 /* TP Scaling */
-.tp-block {
-  background: var(--bg1); border: 1px solid var(--border);
-  border-radius: 6px; padding: 14px; margin-bottom: 8px;
-}
+.tp-block { background: var(--bg1); border: 1px solid var(--border); border-radius: 6px; padding: 14px; margin-bottom: 8px; }
 .tp-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .tp-block-title { font-size: 11px; font-weight: 700; }
-.tp-block-rr { font-size: 11px; }
 .tp-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; border-bottom: 1px solid var(--border); }
 .tp-row:last-child { border-bottom: none; }
-.tp-row span:first-child { color: var(--text2); }
-
-/* Commission table */
-.comm-table { width: 100%; font-size: 11px; border-collapse: collapse; }
-.comm-table td { padding: 4px 8px; border-bottom: 1px solid var(--border); }
-.comm-table td:last-child { text-align: right; font-weight: 700; }
 
 /* Breakeven bar */
 .be-bar-wrap { margin: 12px 0; }
@@ -148,24 +117,14 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
 .be-bar-fill { height: 4px; border-radius: 2px; background: var(--amber); transition: width 0.3s; }
 
 /* Info boxes */
-.info-box {
-  padding: 10px 12px; border-radius: 4px; font-size: 11px; line-height: 1.7; margin-top: 8px;
-}
+.info-box { padding: 10px 12px; border-radius: 4px; font-size: 11px; line-height: 1.7; margin-top: 8px; }
 .info-box.blue { background: #3b82f612; border: 1px solid #3b82f630; color: #60a5fa; }
 .info-box.green { background: #22c55e12; border: 1px solid #22c55e30; color: var(--green); }
 .info-box.amber { background: #f59e0b12; border: 1px solid #f59e0b30; color: var(--amber); }
-
 .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 
-.footer-note { font-size: 9px; color: var(--text3); text-align: center; margin-top: 28px; line-height: 1.8; }
-
-/* Ticker input */
-.ticker-row { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 16px; }
-.ticker-row .field { flex: 1; }
-
-/* Responsive */
 @media (max-width: 420px) {
-  .grid3 { grid-template-columns: 1fr 1fr; }
+  .grid3 { grid-template-columns: 1fr; }
   .metrics-grid { grid-template-columns: 1fr 1fr; }
   .zone-numbers { grid-template-columns: 1fr 1fr; }
 }
@@ -175,87 +134,47 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
 <div class="wrap">
 
   <div class="site-label">CHENSIO TOOLS</div>
-  <h1>Calculadora TP / SL</h1>
-  <p class="subtitle">Análisis de salidas · Trade Republic · Compra gratis vía plan de inversión</p>
+  <h1>Calculadora Macro Automática</h1>
+  <p class="subtitle">Análisis rápido de posiciones · Ingresa 3 datos y la herramienta hace el resto</p>
 
-  <!-- PERFIL DE RIESGO -->
   <div class="section">
-    <div class="section-label">Perfil de riesgo</div>
+    <div class="section-label">1. Elige tu estilo de operación</div>
     <div class="profiles">
-      <button class="profile-btn" data-risk="0.5" onclick="setProfile(this)">
-        <div class="p-name">Defensivo</div>
-        <div class="p-risk">0.5% / op.</div>
+      <button class="profile-btn active" data-style="position" onclick="setStyle(this)">
+        <div class="p-name">Position</div>
+        <div class="p-risk">Semanas/Meses</div>
       </button>
-      <button class="profile-btn active" data-risk="1" onclick="setProfile(this)">
-        <div class="p-name">Conservador</div>
-        <div class="p-risk">1% / op.</div>
+      <button class="profile-btn" data-style="swing" onclick="setStyle(this)">
+        <div class="p-name">Swing</div>
+        <div class="p-risk">Días</div>
       </button>
-      <button class="profile-btn" data-risk="1.5" onclick="setProfile(this)">
-        <div class="p-name">Normal</div>
-        <div class="p-risk">1.5% / op.</div>
-      </button>
-      <button class="profile-btn" data-risk="2" onclick="setProfile(this)">
-        <div class="p-name">Agresivo</div>
-        <div class="p-risk">2% / op.</div>
+      <button class="profile-btn" data-style="day" onclick="setStyle(this)">
+        <div class="p-name">Day Trade</div>
+        <div class="p-risk">Intradía</div>
       </button>
     </div>
   </div>
 
-  <!-- INPUTS -->
   <div class="section">
-    <div class="section-label">Tu operación</div>
-    <div class="ticker-row">
-      <div class="field">
-        <label>Ticker</label>
-        <input type="text" id="ticker" value="NVDA" onchange="calc()" style="text-transform:uppercase;">
-      </div>
-      <div class="field">
-        <label>Capital total (€)</label>
-        <input type="number" id="capital" value="5000" step="100" oninput="calc()">
-      </div>
-    </div>
-    <div class="grid2" style="margin-bottom:10px;">
+    <div class="section-label">2. Datos de entrada (Como en tu Excel)</div>
+    <div class="grid3">
       <div class="field">
         <label>Precio entrada (€)</label>
-        <input type="number" id="entry" value="116" step="0.01" oninput="calc()">
+        <input type="number" id="entry" value="5.62" step="0.01" oninput="calc()">
       </div>
       <div class="field">
         <label>Precio actual (€)</label>
-        <input type="number" id="current" value="128" step="0.01" oninput="calc()">
-      </div>
-    </div>
-    <div class="grid2" style="margin-bottom:10px;">
-      <div class="field">
-        <label>Stop técnico (€) ↓</label>
-        <input type="number" id="stop" value="103" step="0.01" oninput="calc()">
+        <input type="number" id="current" value="7.55" step="0.01" oninput="calc()">
       </div>
       <div class="field">
-        <label>Posición real (€)</label>
-        <input type="number" id="possize" value="71.72" step="0.01" oninput="calc()">
-      </div>
-    </div>
-    <div class="grid3">
-      <div class="field">
-        <label>TP1 precio (€)</label>
-        <input type="number" id="tp1" value="135" step="0.01" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>TP2 precio (€)</label>
-        <input type="number" id="tp2" value="148" step="0.01" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>TP3 precio (€)</label>
-        <input type="number" id="tp3" value="165" step="0.01" oninput="calc()">
+        <label>Capital invertido (€)</label>
+        <input type="number" id="possize" value="16.00" step="0.01" oninput="calc()">
       </div>
     </div>
   </div>
 
-  <!-- ALERTA RIESGO -->
-  <div class="risk-alert" id="riskAlert"></div>
-
-  <!-- MÉTRICAS PRINCIPALES -->
   <div class="section">
-    <div class="section-label">Posición actual — <span id="tickerLabel">NVDA</span></div>
+    <div class="section-label">Resumen Actual</div>
     <div class="metrics-grid">
       <div class="metric">
         <div class="m-label">Invertido</div>
@@ -263,35 +182,25 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
         <div class="m-sub" id="mShares">— acc.</div>
       </div>
       <div class="metric">
-        <div class="m-label">P&L bruto</div>
+        <div class="m-label">P&L Bruto</div>
         <div class="m-val" id="mPL">—</div>
         <div class="m-sub" id="mPLpct">—</div>
       </div>
       <div class="metric">
-        <div class="m-label">P&L neto</div>
+        <div class="m-label">P&L Neto (TR)</div>
         <div class="m-val" id="mPLnet">—</div>
         <div class="m-sub" id="mPLnetpct">—</div>
       </div>
       <div class="metric">
-        <div class="m-label">Riesgo € (SL)</div>
+        <div class="m-label">Riesgo (SL Auto)</div>
         <div class="m-val c-red" id="mRisk">—</div>
-        <div class="m-sub" id="mRiskCap">—% capital</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">Tamaño máx.</div>
-        <div class="m-val c-blue" id="mMaxPos">—</div>
-        <div class="m-sub" id="mMaxShares">según perfil</div>
-      </div>
-      <div class="metric">
-        <div class="m-label">Breakeven real</div>
-        <div class="m-val c-amber" id="mBE">—</div>
-        <div class="m-sub" id="mBEdist">+—% vs entrada</div>
+        <div class="m-sub" id="mRiskPct">—</div>
       </div>
     </div>
 
     <div class="be-bar-wrap">
       <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--text3); margin-bottom:3px;">
-        <span>SL</span><span>Entrada</span><span>BE</span><span>Actual</span><span>TP3</span>
+        <span>SL</span><span>Entrada</span><span>Actual</span><span>TP3</span>
       </div>
       <div class="be-bar-track"><div class="be-bar-fill" id="beBar" style="width:0%"></div></div>
     </div>
@@ -299,95 +208,43 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
 
   <hr class="divider">
 
-  <!-- ZONAS POR ESTILO -->
   <div class="section">
-    <div class="section-label">Zonas de salida por estilo de trading</div>
+    <div class="section-label">Zonas calculadas automáticamente</div>
     <div id="zonesContainer"></div>
   </div>
 
   <hr class="divider">
 
-  <!-- SCALING OUT -->
   <div class="section">
-    <div class="section-label">Scaling out — salidas parciales</div>
+    <div class="section-label">Plan de Salidas Parciales (Scaling Out)</div>
     <div id="tpBlocks"></div>
     <div class="info-box blue" style="margin-top:12px;">
-      📐 Scaling out: vende una parte en cada TP. Aseguras beneficio real y dejas correr el resto con stop ajustado. Nunca salgas del 100% de golpe si la tesis sigue activa.
+      📐 Las metas de Take Profit (TP1, TP2, TP3) se calculan solas según el estilo que elegiste arriba. Vender en partes te asegura beneficios si el mercado se gira.
     </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- IMPACTO COMISIÓN -->
-  <div class="section">
-    <div class="section-label">Impacto comisión de venta (1€) según tamaño</div>
-    <table class="comm-table" id="commTable"></table>
-    <div class="info-box green" style="margin-top:10px;">
-      ✅ Compra gratis vía Plan de inversión TR. Solo 1€ al vender. Con posiciones de 65€+ la comisión es &lt;1.5% — margen mejor que la mayoría de brokers.
-    </div>
-    <div class="info-box amber" style="margin-top:8px;">
-      ⚠ Con posiciones &lt;50€ la comisión supera el 2%. Considera acumular antes de vender parcialmente.
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- REGLAS -->
-  <div class="section">
-    <div class="section-label">Reglas orientativas</div>
-    <div id="rulesContainer"></div>
-  </div>
-
-  <div class="footer-note">
-    Herramienta orientativa · No es asesoramiento financiero<br>
-    casencio / trading-roadmap · CHENSIO TOOLS
   </div>
 
 </div>
 
 <script>
-var COMM = 1;
-var riskPct = 1;
+var COMM = 1; // Comisión por defecto Trade Republic (1€)
+var currentStyle = 'position';
 
-var STYLES = [
-  {
-    key: 'position',
-    name: 'Position Trading',
-    desc: 'Semanas — meses',
-    color: '#3b82f6',
-    rrMin: 2,
-    note: 'Revisión semanal. Stop técnico en soporte semanal. SL típico 10-15% según estructura.',
-    scaling: [50, 30, 20]
-  },
-  {
-    key: 'swing',
-    name: 'Swing Trading',
-    desc: '2–10 días',
-    color: '#f59e0b',
-    rrMin: 2,
-    note: 'Revisión diaria. Stop bajo mínimo de la vela de entrada. SL típico 4-7%.',
-    scaling: [40, 40, 20]
-  },
-  {
-    key: 'day',
-    name: 'Day Trading',
-    desc: 'Intradía',
-    color: '#ef4444',
-    rrMin: 2,
-    note: 'Sin posiciones overnight. Stop muy ajustado. No recomendado con capital pequeño.',
-    scaling: [50, 50, 0]
-  }
-];
+// Configuraciones automáticas de TP/SL según el estilo
+var AUTO_LEVELS = {
+  position: { sl: -0.12, tp1: 0.15, tp2: 0.25, tp3: 0.40, color: '#3b82f6', name: 'Position (Macro)' },
+  swing:    { sl: -0.06, tp1: 0.08, tp2: 0.15, tp3: 0.22, color: '#f59e0b', name: 'Swing (Medio)' },
+  day:      { sl: -0.02, tp1: 0.03, tp2: 0.05, tp3: 0.08, color: '#ef4444', name: 'Day (Rápido)' }
+};
 
 function fmt(n, dec) {
   if (dec === undefined) dec = 2;
   return n.toLocaleString('es-ES', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 }
 
-function setProfile(btn) {
+function setStyle(btn) {
   document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  riskPct = parseFloat(btn.dataset.risk);
+  currentStyle = btn.dataset.style;
   calc();
 }
 
@@ -396,37 +253,30 @@ function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function calc() {
   var entry = v('entry');
   var current = v('current');
-  var stop = v('stop');
   var posSize = v('possize');
-  var capital = v('capital');
-  var tp1 = v('tp1');
-  var tp2 = v('tp2');
-  var tp3 = v('tp3');
-  var ticker = document.getElementById('ticker').value.toUpperCase() || '—';
 
-  document.getElementById('tickerLabel').textContent = ticker;
-
-  if (entry <= 0 || stop <= 0) return;
+  if (entry <= 0 || posSize <= 0) return;
 
   var shares = posSize / entry;
-  var breakeven = entry + COMM / shares;
-  var bePct = ((breakeven - entry) / entry) * 100;
+  
+  // Cálculo automático de SL y TPs
+  var config = AUTO_LEVELS[currentStyle];
+  var stop = entry * (1 + config.sl);
+  var tp1 = entry * (1 + config.tp1);
+  var tp2 = entry * (1 + config.tp2);
+  var tp3 = entry * (1 + config.tp3);
 
   // P&L
   var plGross = (current - entry) * shares;
-  var plNet = plGross - COMM;
+  var plNet = plGross - COMM; // Descontando 1€ de venta
   var plGrossPct = ((current - entry) / entry) * 100;
   var plNetPct = (plNet / posSize) * 100;
 
   // Risk
   var riskPerShare = entry - stop;
   var riskEur = riskPerShare * shares;
-  var riskCapPct = (riskEur / capital) * 100;
-  var maxRiskEur = capital * (riskPct / 100);
-  var maxShares = maxRiskEur / riskPerShare;
-  var maxPos = maxShares * entry;
 
-  // Metrics
+  // Actualizar métricas UI
   document.getElementById('mInvested').textContent = fmt(posSize) + ' €';
   document.getElementById('mShares').textContent = fmt(shares, 3) + ' acc.';
 
@@ -441,182 +291,73 @@ function calc() {
   document.getElementById('mPLnetpct').textContent = (plNetPct >= 0 ? '+' : '') + fmt(plNetPct) + '%';
 
   document.getElementById('mRisk').textContent = '−' + fmt(riskEur) + ' €';
-  document.getElementById('mRiskCap').textContent = fmt(riskCapPct) + '% del capital';
-  document.getElementById('mMaxPos').textContent = fmt(maxPos) + ' €';
-  document.getElementById('mMaxShares').textContent = fmt(maxShares, 2) + ' acc. máx.';
-  document.getElementById('mBE').textContent = fmt(breakeven) + ' €';
-  document.getElementById('mBEdist').textContent = '+' + fmt(bePct) + '% vs entrada';
+  document.getElementById('mRiskPct').textContent = 'Stop a ' + fmt(config.sl * 100, 0) + '%';
 
-  // Risk alert
-  var alertEl = document.getElementById('riskAlert');
-  var maxAllowed = capital * (riskPct / 100);
-  if (riskEur <= maxAllowed * 0.8) {
-    alertEl.className = 'risk-alert show ok';
-    alertEl.textContent = '✅ Riesgo bajo control — ' + fmt(riskEur) + '€ (' + fmt(riskCapPct) + '% del capital). Dentro de tu perfil ' + riskPct + '%.';
-  } else if (riskEur <= maxAllowed) {
-    alertEl.className = 'risk-alert show warn';
-    alertEl.textContent = '⚠ Riesgo en el límite — ' + fmt(riskEur) + '€ (' + fmt(riskCapPct) + '% del capital). Justo en tu máximo de ' + riskPct + '%.';
-  } else {
-    alertEl.className = 'risk-alert show bad';
-    alertEl.textContent = '🚨 Posición sobredimensionada — arriesgas ' + fmt(riskEur) + '€ (' + fmt(riskCapPct) + '% del capital). Tu perfil permite máximo ' + fmt(maxAllowed) + '€. Reduce posición a ' + fmt(maxPos) + '€.';
-  }
-
-  // Progress bar (stop → tp3)
-  var lo = stop, hi = tp3 || entry * 1.5;
+  // Barra de progreso visual
+  var lo = stop, hi = tp3;
   var range = hi - lo;
   var currentPosBar = Math.max(0, Math.min(100, ((current - lo) / range) * 100));
   document.getElementById('beBar').style.width = currentPosBar + '%';
 
-  // Zones
-  renderZones(entry, current, stop, breakeven, tp1, tp2, tp3, shares);
-
-  // TP blocks
-  renderTPs(entry, stop, tp1, tp2, tp3, shares, posSize);
-
-  // Commission table
-  renderComm();
+  renderZone(entry, current, stop, tp1, tp2, tp3, config);
+  renderTPs(entry, tp1, tp2, tp3, shares);
 }
 
-function renderZones(entry, current, stop, be, tp1, tp2, tp3, shares) {
-  var container = document.getElementById('zonesContainer');
-  container.innerHTML = '';
+function renderZone(entry, current, stop, tp1, tp2, tp3, config) {
+  var lo = stop * 0.99;
+  var hi = Math.max(tp3, current) * 1.01;
+  var range = hi - lo;
+  function pos(p) { return Math.max(0, Math.min(100, ((p - lo) / range) * 100)); }
 
-  STYLES.forEach(function(s) {
-    var slRisk = (entry - stop);
-    var slPct = (slRisk / entry) * 100;
-    var rr1 = tp1 > entry ? ((tp1 - entry) / slRisk) : 0;
-    var rr2 = tp2 > entry ? ((tp2 - entry) / slRisk) : 0;
-    var rr3 = tp3 > entry ? ((tp3 - entry) / slRisk) : 0;
+  var isGreen = current >= entry;
+  var dotColor = isGreen ? '#22c55e' : '#ef4444';
 
-    var lo = Math.min(stop, current) * 0.995;
-    var hi = Math.max(tp3, current, entry * 1.5) * 1.005;
-    var range = hi - lo;
-    function pos(p) { return Math.max(0, Math.min(100, ((p - lo) / range) * 100)); }
+  var html = '<div class="zone-wrap">';
+  html += '<div class="zone-header"><span class="zone-name" style="color:' + config.color + '">' + config.name + '</span></div>';
+  html += '<div class="zone-bar">';
+  html += '<div class="zone-sl-zone" style="left:0; width:' + pos(entry) + '%"></div>';
+  html += '<div class="zone-tp-zone" style="left:' + pos(tp1) + '%; width:' + (pos(tp3) - pos(tp1)) + '%; background:' + config.color + '18"></div>';
+  html += '<div class="zone-line" style="left:' + pos(stop) + '%; background:#ef4444; opacity:0.8"></div>';
+  html += '<div class="zone-line" style="left:' + pos(entry) + '%; background:#666; border-left:1px dashed #666"></div>';
+  html += '<div class="zone-line" style="left:' + pos(tp1) + '%; background:' + config.color + '; opacity:0.5"></div>';
+  html += '<div class="zone-line" style="left:' + pos(tp2) + '%; background:' + config.color + '; opacity:0.7"></div>';
+  html += '<div class="zone-line" style="left:' + pos(tp3) + '%; background:' + config.color + '; opacity:1"></div>';
+  html += '<div class="zone-dot" style="left:' + pos(current) + '%; background:' + dotColor + '"></div>';
+  html += '</div>';
 
-    var stopPos = pos(stop);
-    var entryPos = pos(entry);
-    var bePos = pos(be);
-    var currPos = pos(current);
-    var tp1Pos = pos(tp1);
-    var tp2Pos = pos(tp2);
-    var tp3Pos = pos(tp3);
+  html += '<div class="zone-numbers">';
+  html += '<div class="zone-row"><span>SL Auto</span><span style="color:#ef4444">' + fmt(stop) + ' €</span></div>';
+  html += '<div class="zone-row"><span>TP1</span><span style="color:' + config.color + '">' + fmt(tp1) + ' €</span></div>';
+  html += '<div class="zone-row"><span>Actual</span><span style="color:' + dotColor + '">' + fmt(current) + ' €</span></div>';
+  html += '</div></div>';
 
-    var isGreen = current >= entry;
-    var dotColor = isGreen ? '#22c55e' : '#ef4444';
-
-    var rrLabel = rr1 > 0 ? ('R:R TP1 → 1:' + fmt(rr1, 1)) : '';
-    var rrOk = rr1 >= s.rrMin;
-
-    var zoneHtml = '<div class="zone-wrap">';
-    zoneHtml += '<div class="zone-header">';
-    zoneHtml += '<span class="zone-name" style="color:' + s.color + '">' + s.name + '</span>';
-    zoneHtml += '<span class="zone-desc">' + s.desc + '</span>';
-    if (rrLabel) {
-      zoneHtml += '<span style="margin-left:auto; font-size:10px; color:' + (rrOk ? '#22c55e' : '#ef4444') + '">' + rrLabel + (rrOk ? ' ✓' : ' ✗ bajo') + '</span>';
-    }
-    zoneHtml += '</div>';
-
-    zoneHtml += '<div class="zone-bar">';
-    // SL zone
-    zoneHtml += '<div class="zone-sl-zone" style="left:0; width:' + entryPos + '%"></div>';
-    // TP zone
-    if (tp1 > 0 && tp3 > 0) {
-      zoneHtml += '<div class="zone-tp-zone" style="left:' + tp1Pos + '%; width:' + (tp3Pos - tp1Pos) + '%; background:' + s.color + '18"></div>';
-    }
-    // Lines
-    zoneHtml += '<div class="zone-line" style="left:' + stopPos + '%; background:#ef4444; opacity:0.8"></div>';
-    zoneHtml += '<div class="zone-line" style="left:' + entryPos + '%; background:#666; border-left:1px dashed #666"></div>';
-    zoneHtml += '<div class="zone-line" style="left:' + bePos + '%; background:#f59e0b; opacity:0.7; border-left:1px dashed #f59e0b"></div>';
-    if (tp1 > 0) zoneHtml += '<div class="zone-line" style="left:' + tp1Pos + '%; background:' + s.color + '; opacity:0.5"></div>';
-    if (tp2 > 0) zoneHtml += '<div class="zone-line" style="left:' + tp2Pos + '%; background:' + s.color + '; opacity:0.7"></div>';
-    if (tp3 > 0) zoneHtml += '<div class="zone-line" style="left:' + tp3Pos + '%; background:' + s.color + '; opacity:1"></div>';
-    // Labels
-    zoneHtml += '<div class="zone-tag" style="left:4px; color:#ef444488">SL</div>';
-    if (tp3 > 0) zoneHtml += '<div class="zone-tag" style="right:4px; color:' + s.color + 'aa">TP3</div>';
-    // Current dot
-    zoneHtml += '<div class="zone-dot" style="left:' + currPos + '%; background:' + dotColor + '"></div>';
-    zoneHtml += '</div>';
-
-    // Numbers row
-    zoneHtml += '<div class="zone-numbers">';
-    zoneHtml += '<div class="zone-row"><span>SL</span><span style="color:#ef4444">' + fmt(stop) + ' € (−' + fmt(slPct, 1) + '%)</span></div>';
-    if (tp1 > 0) zoneHtml += '<div class="zone-row"><span>TP1</span><span style="color:' + s.color + '">' + fmt(tp1) + ' € (+' + fmt(((tp1-entry)/entry)*100, 1) + '%)</span></div>';
-    if (tp2 > 0) zoneHtml += '<div class="zone-row"><span>TP2</span><span style="color:' + s.color + '">' + fmt(tp2) + ' € (+' + fmt(((tp2-entry)/entry)*100, 1) + '%)</span></div>';
-    zoneHtml += '<div class="zone-row"><span>Actual</span><span style="color:' + dotColor + '">' + fmt(current) + ' € (' + (current >= entry ? '+' : '') + fmt(((current-entry)/entry)*100, 1) + '%)</span></div>';
-    if (tp3 > 0) zoneHtml += '<div class="zone-row"><span>TP3</span><span style="color:' + s.color + '">' + fmt(tp3) + ' € (+' + fmt(((tp3-entry)/entry)*100, 1) + '%)</span></div>';
-    if (rr2 > 0) zoneHtml += '<div class="zone-row"><span>R:R TP2</span><span>1:' + fmt(rr2, 1) + '</span></div>';
-    zoneHtml += '</div>';
-
-    zoneHtml += '<div style="font-size:10px; color:var(--text3); margin-top:5px; padding:5px 0; border-top:1px solid var(--border)">' + s.note + '</div>';
-    zoneHtml += '</div>';
-
-    container.innerHTML += zoneHtml;
-  });
+  document.getElementById('zonesContainer').innerHTML = html;
 }
 
-function renderTPs(entry, stop, tp1, tp2, tp3, shares, posSize) {
+function renderTPs(entry, tp1, tp2, tp3, shares) {
   var container = document.getElementById('tpBlocks');
   container.innerHTML = '';
-  var slRisk = entry - stop;
   var tps = [
-    { price: tp1, label: 'TP1', pct50: 50, pct: 50 },
-    { price: tp2, label: 'TP2', pct50: 30, pct: 30 },
-    { price: tp3, label: 'TP3', pct50: 20, pct: 20 }
+    { price: tp1, label: 'TP1 (Vender 50%)', pct: 50 },
+    { price: tp2, label: 'TP2 (Vender 30%)', pct: 30 },
+    { price: tp3, label: 'TP3 (Vender 20%)', pct: 20 }
   ];
-  var cumulativePct = 0;
-  tps.forEach(function(tp, i) {
-    if (!tp.price || tp.price <= entry) return;
-    cumulativePct += tp.pct;
+  
+  tps.forEach(function(tp) {
     var sharesAtTP = shares * (tp.pct / 100);
-    var gainPerShare = tp.price - entry;
-    var gainGross = gainPerShare * sharesAtTP;
+    var gainGross = (tp.price - entry) * sharesAtTP;
     var gainNet = gainGross - COMM;
-    var rr = slRisk > 0 ? (gainPerShare / slRisk) : 0;
-    var gainPct = (gainPerShare / entry) * 100;
 
     var html = '<div class="tp-block">';
-    html += '<div class="tp-block-header">';
-    html += '<span class="tp-block-title" style="color:#3b82f6">' + tp.label + ' — ' + fmt(tp.price) + ' €</span>';
-    html += '<span class="tp-block-rr" style="color:' + (rr >= 2 ? '#22c55e' : '#f59e0b') + '">R:R 1:' + fmt(rr, 1) + '</span>';
-    html += '</div>';
-    html += '<div class="tp-row"><span>Variación</span><span style="color:#22c55e">+' + fmt(gainPct, 1) + '% (+' + fmt(gainPerShare) + '€/acc.)</span></div>';
-    html += '<div class="tp-row"><span>Vender</span><span>' + tp.pct + '% → ' + fmt(sharesAtTP, 3) + ' acc.</span></div>';
-    html += '<div class="tp-row"><span>Ganancia bruta</span><span style="color:#22c55e">+' + fmt(gainGross) + ' €</span></div>';
-    html += '<div class="tp-row"><span>Ganancia neta (−' + COMM + '€)</span><span style="color:#22c55e">+' + fmt(gainNet) + ' €</span></div>';
-    html += '<div class="tp-row"><span>Queda en posición</span><span style="color:var(--text2)">' + fmt(100 - cumulativePct) + '% — ' + fmt(shares * ((100 - cumulativePct) / 100), 3) + ' acc.</span></div>';
+    html += '<div class="tp-block-header"><span class="tp-block-title" style="color:#3b82f6">' + tp.label + ' — ' + fmt(tp.price) + ' €</span></div>';
+    html += '<div class="tp-row"><span>Variación desde entrada</span><span style="color:#22c55e">+' + fmt(((tp.price - entry)/entry)*100, 1) + '%</span></div>';
+    html += '<div class="tp-row"><span>Ganancia neta al vender (ya descontado 1€)</span><span style="color:' + (gainNet>0?'#22c55e':'#f59e0b') + '">' + fmt(gainNet) + ' €</span></div>';
     html += '</div>';
     container.innerHTML += html;
   });
-
-  if (!container.innerHTML) {
-    container.innerHTML = '<div style="font-size:12px; color:var(--text3); padding:8px 0">Introduce precios de TP1, TP2 y TP3 por encima del precio de entrada para ver el análisis de scaling out.</div>';
-  }
 }
 
-function renderComm() {
-  var sizes = [25, 40, 50, 65, 100, 150, 200, 300, 500];
-  var html = '';
-  sizes.forEach(function(s) {
-    var impact = (COMM / s) * 100;
-    var color = impact > 2 ? '#ef4444' : impact > 1 ? '#f59e0b' : '#22c55e';
-    html += '<tr>';
-    html += '<td style="color:var(--text2)">' + s + ' €</td>';
-    html += '<td style="color:' + color + '; text-align:right">' + fmt(impact, 2) + '%</td>';
-    html += '<td style="color:var(--text3); text-align:right; font-size:10px">' + (impact > 2 ? 'alto' : impact > 1 ? 'aceptable' : 'óptimo') + '</td>';
-    html += '</tr>';
-  });
-  document.getElementById('commTable').innerHTML = html;
-}
-
-// Rules block
-document.getElementById('rulesContainer').innerHTML = STYLES.map(function(s) {
-  return '<div class="info-box blue" style="margin-bottom:8px;">' +
-    '<span style="color:' + s.color + '">■</span> <strong>' + s.name + '</strong> — ' + s.note + '<br>' +
-    'R:R mínimo recomendado: 1:' + s.rrMin + '. Scaling out: ' + s.scaling.filter(function(x){return x>0}).join('% / ') + '% en TP1/TP2/TP3.' +
-    '</div>';
-}).join('');
-
-// Init
+// Inicializar con los datos por defecto
 calc();
 </script>
 </body>
