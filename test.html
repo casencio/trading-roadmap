@@ -128,7 +128,8 @@
 </div>
 
 <script>
-    const URL_APP = "https://script.google.com/macros/s/AKfycbwgN77zlYDL7FuyDJfhgC1VGTGWkPFxk4qsoXQFqK2R96g4_NHCu_UQNvGLxev57-_G5Q/exec";
+    // --- AQUÍ ESTÁ TU NUEVA URL ---
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzQWAa8b7D3NU9nSN9puh5_6K0W2dEFCZXJIwJ74HWW7EeMvy07mh5HagfcCIlpXFUojw/exec";
     
     const STRATEGY = {
         Liquidez:  { color: '#8e8e93', desc: 'Reserva Emergencia', target: 0 },
@@ -159,6 +160,7 @@
         } catch(e) {
             document.getElementById("status-text").innerText = "ERROR DE CONEXIÓN";
             document.getElementById("status-text").style.color = "var(--red)";
+            console.error("Detalle del error:", e);
         }
     }
 
