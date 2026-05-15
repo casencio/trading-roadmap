@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estrategia de Cartera | CHENSIO</title>
+<title>Motor Quant de Cartera | CHENSIO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <style>
-/* TIPOGRAFÍA Y VARIABLES */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg-base: #09090b; --bg-card: #18181b; --bg-hover: #27272a;
   --border: #3f3f46; --border-light: #52525b;
   --text-main: #f4f4f5; --text-muted: #a1a1aa; --text-dim: #71717a;
-  --green: #22c55e; --green-bg: rgba(34, 197, 94, 0.15);
+  --green: #10b981; --green-bg: rgba(16, 185, 129, 0.15);
   --red: #ef4444; --red-bg: rgba(239, 68, 68, 0.15);
   --amber: #f59e0b; --amber-bg: rgba(245, 158, 11, 0.15);
   --blue: #3b82f6; --blue-bg: rgba(59, 130, 246, 0.15);
@@ -21,437 +21,655 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-body {
-  background: var(--bg-base); color: var(--text-main);
-  font-family: var(--font-sans); min-height: 100vh;
-  padding: 32px 16px 80px; line-height: 1.5;
-}
+body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-sans); min-height: 100vh; padding: 32px 16px 80px; }
+.wrap { max-width: 900px; margin: 0 auto; }
 
-.wrap { max-width: 680px; margin: 0 auto; }
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 12px; }
+.brand-tag { font-size: 10px; font-weight: 700; font-family: var(--font-mono); color: var(--blue); background: var(--blue-bg); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+.header-btns { display: flex; gap: 8px; }
+.btn-action { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); transition: all 0.2s; }
+.btn-action:hover { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
+.btn-action.danger:hover { background: var(--red-bg); color: var(--red); border-color: var(--red); }
 
-/* ENCABEZADOS Y TITULOS */
-.brand-tag {
-  display: inline-block; font-size: 10px; font-weight: 700; font-family: var(--font-mono);
-  color: var(--blue); background: var(--blue-bg); padding: 4px 8px; border-radius: 4px;
-  letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px;
-}
-h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
-.sub { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+.sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
 
-/* TARJETAS GLOBALES */
-.card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 20px; margin-bottom: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-
-/* SECCIÓN CAPITAL */
-.capital-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.capital-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
 .capital-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .capital-input-wrapper { position: relative; display: flex; align-items: center; }
 .capital-input-wrapper::before { content: '€'; position: absolute; left: 12px; font-family: var(--font-mono); font-size: 20px; color: var(--text-muted); }
-.capital-input {
-  background: var(--bg-base); border: 1px solid var(--border); color: #fff;
-  font-family: var(--font-mono); font-size: 24px; font-weight: 700;
-  padding: 8px 12px 8px 32px; border-radius: 8px; width: 180px; text-align: right;
-  outline: none; transition: all 0.2s;
-}
+.capital-input { background: var(--bg-base); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 24px; font-weight: 700; padding: 8px 12px 8px 32px; border-radius: 8px; width: 180px; text-align: right; outline: none; }
 .capital-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-bg); }
 
 .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
 .stat-box { display: flex; flex-direction: column; }
-.stat-val { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;}
-.stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+.stat-val { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: #fff; }
+.stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
 
-/* TIERS (BLOQUES DE INVERSIÓN) */
-.tier-card {
-  background: var(--bg-base); border: 1px solid var(--border);
-  border-radius: 12px; margin-bottom: 16px; overflow: hidden;
-}
-.tier-header {
-  background: var(--bg-card); padding: 16px 20px; border-bottom: 1px solid var(--border);
-  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
-}
-.th-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.tier-card { background: var(--bg-base); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+.tier-header { background: var(--bg-card); padding: 16px 20px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+.th-title { font-size: 15px; font-weight: 600; }
 .th-desc { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
-.th-right { display: flex; flex-direction: column; align-items: flex-end; }
-
+.th-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .tier-pct-control { display: flex; align-items: baseline; gap: 4px; background: var(--bg-base); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); }
 .tier-pct-input { background: transparent; border: none; color: #fff; font-family: var(--font-mono); font-size: 18px; font-weight: 700; width: 44px; text-align: right; outline: none; }
-.th-eur { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 6px; }
-.th-status { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; padding: 4px 8px; border-radius: 4px; }
+.th-eur { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+.th-status { font-size: 9px; font-weight: 700; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; }
 
-/* ACTIVOS (FILAS) */
-.asset-container { display: flex; flex-direction: column; }
-.asset-row {
-  display: grid; grid-template-columns: 1fr 0.8fr 1.2fr 1fr 32px; gap: 12px;
-  padding: 16px 20px; align-items: end; background: var(--bg-base);
-}
-.asset-wrapper { border-bottom: 1px solid var(--border); }
-.asset-wrapper:last-child { border-bottom: none; }
-
-.col-lbl { font-size: 9px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-.a-input, .a-select {
-  background: var(--bg-card); border: 1px solid var(--border); color: #fff;
-  font-family: var(--font-sans); font-size: 12px; padding: 8px 10px;
-  border-radius: 6px; width: 100%; outline: none; transition: border 0.2s;
-}
+.asset-row { display: grid; grid-template-columns: 1fr 0.8fr 1.4fr 1fr 32px; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); align-items: end; }
+.asset-row:last-child { border-bottom: none; }
+.col-lbl { font-size: 9px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; }
+.a-input, .a-select { background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-sans); font-size: 12px; padding: 8px 10px; border-radius: 6px; width: 100%; outline: none; }
 .a-input.mono { font-family: var(--font-mono); font-weight: 600; }
 .a-select { appearance: none; color: var(--text-muted); cursor: pointer; }
 .a-input:focus, .a-select:focus { border-color: var(--blue); }
 
-.a-eur-box { display: flex; flex-direction: column; align-items: flex-end; padding-bottom: 4px; }
+.a-eur-box { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .a-eur { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #fff; }
-.a-warn { font-size: 9px; color: var(--red); margin-top: 4px; display: flex; align-items: center; gap: 4px; font-weight: 600; }
+.frict-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+.f-red { background: var(--red-bg); color: var(--red); }
+.f-amber { background: var(--amber-bg); color: var(--amber); }
+.f-green { background: var(--green-bg); color: var(--green); }
 
-.btn-del {
-  background: var(--red-bg); border: none; color: var(--red); border-radius: 6px;
-  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 16px; transition: background 0.2s; margin-bottom: 1px;
-}
+.btn-del { background: var(--red-bg); border: none; color: var(--red); border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: 0.2s; }
 .btn-del:hover { background: var(--red); color: #fff; }
-
-.btn-add {
-  width: 100%; background: var(--bg-card); border: none; border-top: 1px dashed var(--border);
-  color: var(--text-muted); font-size: 12px; font-weight: 500; padding: 14px;
-  cursor: pointer; transition: all 0.2s;
-}
+.btn-add { width: 100%; background: var(--bg-card); border: none; border-top: 1px dashed var(--border); color: var(--text-muted); font-size: 12px; font-weight: 500; padding: 14px; cursor: pointer; transition: 0.2s; }
 .btn-add:hover { background: var(--bg-hover); color: #fff; }
 
-/* RECAP Y DIAGNÓSTICO ESTILOS */
+.quant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+.q-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.q-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.q-list { list-style: none; }
+.q-item { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px dashed var(--border-light); }
+.q-item:last-child { border-bottom: none; }
+.q-lbl { color: var(--text-main); }
+.q-val { font-family: var(--font-mono); font-weight: 600; text-align: right; }
+
+.chart-container { position: relative; height: 300px; margin-bottom: 20px; }
+
 .recap-section { margin-top: 32px; }
-.section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-.section-title::before { content: ''; display: block; width: 4px; height: 16px; background: var(--blue); border-radius: 2px; }
+.recap-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--blue); }
+.recap-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.recap-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px; }
+.recap-content { font-size: 13px; color: var(--text-main); line-height: 1.6; }
+.macro-list { list-style: none; padding: 0; }
+.macro-item { font-size: 12px; color: var(--text-muted); padding: 8px 0; border-bottom: 1px dashed var(--border-light); display: flex; gap: 8px; align-items: flex-start; }
+.macro-item:last-child { border-bottom: none; }
+.macro-bullet { color: var(--amber); font-weight: 700; min-width: 20px; }
 
-.recap-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-.rc-dynamic { border-width: 2px; }
-.r-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-.r-desc { font-size: 13px; color: var(--text-main); margin-bottom: 16px; line-height: 1.6; }
-
-/* BENCHMARK GRID */
-.bench-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.b-box { background: var(--bg-base); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
-.b-tier { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
-.b-pct { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: #fff; margin: 4px 0; }
-.b-desc { font-size: 10px; color: var(--text-dim); line-height: 1.4; }
-
-/* LISTA DE NOTAS */
-.r-notes { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 16px; }
-.r-note-item { font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; line-height: 1.5; }
-.r-note-item:last-child { margin-bottom: 0; }
-.r-bullet { color: var(--blue); font-weight: bold; }
-
-/* GRÁFICOS */
-.bar-chart { display: flex; height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
-.bar-segment { transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-.legend { display: flex; flex-wrap: wrap; gap: 12px; }
-.leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
-.leg-dot { width: 10px; height: 10px; border-radius: 3px; }
-
-@media (max-width: 600px) {
-  .asset-row { grid-template-columns: 1fr 1fr; padding: 16px; gap: 12px 8px; }
+@media (max-width: 800px) {
+  .asset-row { grid-template-columns: 1fr 1fr; }
   .asset-row > *:nth-child(1) { grid-column: 1 / -1; }
-  .asset-row > *:nth-child(5) { grid-column: 2 / 3; width: 100%; }
-  .bench-grid { grid-template-columns: 1fr; }
-  .btn-del { width: 100%; margin-top: 8px; }
+  .asset-row > *:nth-child(5) { grid-column: 2; width: 100%; }
+  .quant-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="brand-tag">Framework Quant</div>
-  <h1>Diseñador de Cartera</h1>
-  <p class="sub">Gestiona tu asignación matemática con auditoría de fricción en tiempo real.</p>
+  <div class="header-row">
+    <div class="brand-tag">Framework Quant v3</div>
+    <div class="header-btns">
+      <button class="btn-action" onclick="exportData()">⬇ Exportar</button>
+      <button class="btn-action" onclick="importPrompt()">⬆ Importar</button>
+      <button class="btn-action danger" onclick="resetData()">↻ Reset</button>
+    </div>
+  </div>
+
+  <h1>Motor de Cartera & Riesgo Macro</h1>
+  <p class="sub">Auditoría cuantitativa real-time con tipología de cartera y análisis macroeconómico</p>
 
   <div class="card">
     <div class="capital-header">
-      <div class="capital-label">Capital Base de Inversión</div>
-      <div class="capital-input-wrapper">
-        <input type="number" id="capitalInput" class="capital-input" value="1000" step="100" min="100">
+      <div><div class="capital-label">Capital Base (€)</div>
+        <div class="capital-input-wrapper">
+          <input type="number" id="capitalInput" class="capital-input" value="1000" step="100" min="100" max="999999">
+        </div>
       </div>
     </div>
     <div class="stats-row">
-      <div class="stat-box">
-        <span class="stat-lbl">Límite Teórico</span>
-        <span class="stat-val" id="st-optN">—</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">En Cartera</span>
-        <span class="stat-val" id="st-currN">—</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Volatilidad (Beta)</span>
-        <span class="stat-val" id="st-beta">—</span>
-      </div>
+      <div class="stat-box"><span class="stat-lbl">Holdings Óptimo</span><span class="stat-val" id="st-optN">—</span></div>
+      <div class="stat-box"><span class="stat-lbl">En Cartera</span><span class="stat-val" id="st-currN">—</span></div>
+      <div class="stat-box"><span class="stat-lbl">Beta Ponderada</span><span class="stat-val" id="st-beta">—</span></div>
     </div>
   </div>
 
   <div id="tiersContainer"></div>
 
-  <div class="recap-section">
-    <h2 class="section-title">Análisis y Diagnóstico</h2>
-    
-    <div class="card" style="margin-bottom: 16px;">
-      <div class="capital-label" style="margin-bottom:12px;">Diversificación Sectorial</div>
-      <div class="bar-chart" id="sectorBar"></div>
-      <div class="legend" id="sectorLegend"></div>
+  <div class="quant-grid">
+    <div class="q-panel">
+      <div class="q-title">1. Distribución de Activos</div>
+      <div class="chart-container"><canvas id="portfolioChart"></canvas></div>
     </div>
 
-    <div class="recap-card rc-dynamic" id="recapCard">
-      <div class="r-title" id="rc-title">Evaluando perfil...</div>
-      <div class="r-desc" id="rc-desc">—</div>
-      <div class="r-notes">
-        <div class="r-note-item"><span class="r-bullet">→</span> <span id="rc-note1">—</span></div>
-        <div class="r-note-item"><span class="r-bullet">→</span> <span id="rc-note2">—</span></div>
-      </div>
+    <div class="q-panel">
+      <div class="q-title">2. Riesgo Esperado</div>
+      <ul class="q-list">
+        <li class="q-item"><span class="q-lbl">Correlación Media</span><span class="q-val" id="q-corr">—</span></li>
+        <li class="q-item"><span class="q-lbl">Volatilidad (σ)</span><span class="q-val" id="q-vol">—</span></li>
+        <li class="q-item"><span class="q-lbl">Max Drawdown (95%)</span><span class="q-val" style="color:var(--red)" id="q-dd">—</span></li>
+        <li class="q-item"><span class="q-lbl">Recovery (meses)</span><span class="q-val" id="q-rec">—</span></li>
+      </ul>
     </div>
 
-    <div class="recap-card">
-      <div class="r-title" style="color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Benchmark Óptimo (Framework Growth)</div>
-      <p class="r-desc" style="color: var(--text-dim); margin-bottom: 20px;">Esta es la arquitectura estadística de referencia para maximizar rendimiento controlando el riesgo de ruina.</p>
-      
-      <div class="bench-grid">
-        <div class="b-box" style="border-top: 3px solid var(--blue);">
-          <div class="b-tier">Tier 1: Seguridad</div>
-          <div class="b-pct">25%</div>
-          <div class="b-desc">Ancla contra caídas. Salud, Consumo Defensivo o Big Tech con FCF masivo.</div>
-        </div>
-        <div class="b-box" style="border-top: 3px solid var(--green);">
-          <div class="b-tier">Tier 2: Growth</div>
-          <div class="b-pct">60%</div>
-          <div class="b-desc">Motor principal. Líderes de sector, semiconductores y momentum puro.</div>
-        </div>
-        <div class="b-box" style="border-top: 3px solid var(--amber);">
-          <div class="b-tier">Tier 3: Satélites</div>
-          <div class="b-pct">15%</div>
-          <div class="b-desc">Opcionalidad asimétrica. Apuestas de alta volatilidad (Beta > 2).</div>
-        </div>
-      </div>
-
-      <div class="r-notes">
-        <div class="r-note-item"><span class="r-bullet">■</span> <strong>Fricción (Umbral de los 100€):</strong> Posiciones inferiores a 100€ sufren una pérdida estadísticamente inaceptable por las comisiones del bróker y el spread bid/ask. Concéntrate en menos activos si tu capital es bajo.</div>
-        <div class="r-note-item"><span class="r-bullet">■</span> <strong>Regla del Rebalanceo DCA:</strong> Nunca vendas activos de calidad para rebalancear porcentajes. Dirige tu ahorro mensual a los Tiers que se hayan quedado por debajo de su peso objetivo. Vender corta el interés compuesto.</div>
-        <div class="r-note-item"><span class="r-bullet">■</span> <strong>Riesgo de Correlación:</strong> Vigila tu barra de "Diversificación Sectorial". Si un solo sector supera el 35-40% del total, tu cartera pasa de ser Growth a ser una apuesta binaria sobre ese sector específico.</div>
-      </div>
+    <div class="q-panel">
+      <div class="q-title">3. Retorno Esperado vs S&P500</div>
+      <ul class="q-list">
+        <li class="q-item"><span class="q-lbl">S&P 500 (CAGR)</span><span class="q-val">8-10%</span></li>
+        <li class="q-item"><span class="q-lbl">Tu Cartera (CAGR)</span><span class="q-val" id="q-cagr" style="color:var(--green)">—</span></li>
+        <li class="q-item"><span class="q-lbl">Prob(Beat S&P500)</span><span class="q-val" id="q-prob">—</span></li>
+        <li class="q-item"><span class="q-lbl" style="font-size:10px;">Penalización DD</span><span class="q-val" id="q-penal" style="font-size:10px;">—</span></li>
+      </ul>
     </div>
 
+    <div class="q-panel">
+      <div class="q-title">4. Concentración Sectorial</div>
+      <ul class="q-list" id="q-sectors"></ul>
+    </div>
   </div>
 
+  <!-- RECAP Y ANÁLISIS -->
+  <div class="recap-section">
+    <div class="recap-title">📊 Análisis de Tu Cartera</div>
+
+    <div class="recap-box">
+      <div class="recap-label">Tipología de Cartera</div>
+      <div class="recap-content" id="recap-tipology">—</div>
+    </div>
+
+    <div class="recap-box">
+      <div class="recap-label">Balance Óptimo para GROWTH (Hoja de Ruta)</div>
+      <div class="recap-content" id="recap-optimal">
+        <strong>AGGRESSIVE GROWTH (Tu Objetivo):</strong><br>
+        • Tier 1 (Security): 20-30% (defensivo puro)<br>
+        • Tier 2 (Growth): 55-70% (motor de retorno)<br>
+        • Tier 3 (Satélites): 10-15% (asimetría)<br>
+        <br>
+        <strong>CURRENT STATE:</strong><br>
+        • Tier 1: <span id="recap-t1">—</span><br>
+        • Tier 2: <span id="recap-t2">—</span><br>
+        • Tier 3: <span id="recap-t3">—</span>
+      </div>
+    </div>
+
+    <div class="recap-box">
+      <div class="recap-label">⚙️ Mejoras Micro + Macro para Tu Perfil</div>
+      <ul class="macro-list">
+        <li class="macro-item">
+          <span class="macro-bullet">📈</span>
+          <span><strong>Geopolitical Hedging:</strong> Con geopolitical risks elevados (Medio Oriente, China-US, tariffs), considera overweight en Energy (oil hedge) y Defense tech. Actualmente tu cartera es 100% equities sin hedges.</span>
+        </li>
+        <li class="macro-item">
+          <span class="macro-bullet">🔋</span>
+          <span><strong>Power Crunch 2026:</strong> Global electricity demand crece al ritmo más rápido en décadas por AI data centers. Infrastructure plays (grid, transmission) + Utilities con demanda de power son estructurales. Tu Tier 1 debería tener 5-8% en Utilities/Energy.</span>
+        </li>
+        <li class="macro-item">
+          <span class="macro-bullet">🇪🇺</span>
+          <span><strong>International Diversification:</strong> Valuaciones US mega-cap son estiradas. Europa está entrando en ciclo de gasto (defensa, infraestructura). Considera 10-15% en European equities (quality) para descorrelación.</span>
+        </li>
+        <li class="macro-item">
+          <span class="macro-bullet">💾</span>
+          <span><strong>AI Capex Cycle - Next Phase:</strong> 2025 fue AI hardware (GPUs). 2026-2027 será AI software, data centers, energy, semiconductores de memoria. Tu overweight en Semis es correcto. ADD: Infrastructure plays.</span>
+        </li>
+        <li class="macro-item">
+          <span class="macro-bullet">📊</span>
+          <span><strong>Macro Indicators to Monitor:</strong> Fed rates, oil >$100, USD strength (tariff impact), China growth, debt levels, VIX >20. Estos gatillan rotaciones sector que impactan tu cartera.</span>
+        </li>
+        <li class="macro-item">
+          <span class="macro-bullet">🛡️</span>
+          <span><strong>Recession Insurance (Baja Prioridad):</strong> 2026 recession probability ~15%. Pero si ocurre, tu cartera cae -40% max. Consider 2-3% en gold o long bonds como tail hedge en Tier 1.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="recap-box">
+      <div class="recap-label">⚠️ Notas de Fricción y Rebalanceo</div>
+      <div class="recap-content" id="recap-notes">—</div>
+    </div>
+  </div>
 </div>
 
+<!-- MODAL -->
+<div id="modal" class="modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:999;">
+  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px;" id="modal-title">—</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;white-space:pre-wrap;word-break:break-all;font-family:var(--font-mono);" id="modal-text">—</div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="copyToClipboard()" style="flex:1;padding:8px 16px;border-radius:6px;border:1px solid var(--border);background:var(--bg-base);color:#fff;cursor:pointer;font-size:12px;font-weight:600;">📋 Copiar</button>
+      <button onclick="closeModal()" style="flex:1;padding:8px 16px;border-radius:6px;border:1px solid var(--border);background:var(--bg-base);color:#fff;cursor:pointer;font-size:12px;font-weight:600;">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" style="display:none;" accept=".json" onchange="handleFileInput(event)">
+
 <script>
-const MIN_POS_SIZE = 100; // Umbral de fricción estadística
+const MIN_POS_SIZE = 100;
+const STORAGE_KEY = 'chensio_quant_portfolio_v3';
 
-const STANDARD_TAGS = [
-  "Semiconductores", "Big Tech (Calidad)", "Infraestructura IA", 
-  "Salud / Defensivo", "Consumo Básico", "Energía Tradicional", 
-  "Lujo / Margen", "Aeroespacial", "Seguros / Financiero", 
-  "Utilities / Eléctricas", "Efectivo", "Oro / Cripto"
-];
-
-const RISK_PROFILES = {
-  0.5: "Escudo (Defensivo)",
-  1.0: "Mercado (SP500)",
-  1.5: "Motor (Growth/Tech)",
-  2.2: "Especulativo (Alto Riesgo)"
+const SECTOR_MACROS = {
+  "Semiconductores": "TechHigh", "Infraestructura IA": "TechHigh", "Aeroespacial": "TechHigh",
+  "Big Tech (Calidad)": "TechCore", "Salud / Defensivo": "Defensive", "Consumo Básico": "Defensive",
+  "Utilities / Eléctricas": "Defensive", "Energía Tradicional": "Commodity", "Oro / Cripto": "Commodity",
+  "Lujo / Margen": "Cyclical", "Seguros / Financiero": "Cyclical", "Efectivo": "Cash", "Otros": "Otros"
 };
 
-let state = {
+const STANDARD_TAGS = Object.keys(SECTOR_MACROS);
+
+const RISK_PROFILES = {
+  0.0: "Efectivo (0.0)", 0.6: "Escudo (0.6)", 1.0: "Mercado (1.0)", 1.5: "Motor Growth (1.5)", 2.2: "Especulativo (2.2)"
+};
+
+const CORR_MATRIX = {
+  "TechHigh":  { "TechHigh": 1.0, "TechCore": 0.80, "Defensive": 0.35, "Commodity": 0.45, "Cyclical": 0.60, "Cash": 0.0, "Otros": 0.5 },
+  "TechCore":  { "TechCore": 1.0, "Defensive": 0.40, "Commodity": 0.40, "Cyclical": 0.65, "Cash": 0.0, "Otros": 0.5 },
+  "Defensive": { "Defensive": 1.0, "Commodity": 0.50, "Cyclical": 0.45, "Cash": 0.0, "Otros": 0.5 },
+  "Commodity": { "Commodity": 1.0, "Cyclical": 0.55, "Cash": 0.0, "Otros": 0.5 },
+  "Cyclical":  { "Cyclical": 1.0, "Cash": 0.0, "Otros": 0.5 },
+  "Cash":      { "Cash": 0.0, "Otros": 0.0 },
+  "Otros":     { "Otros": 1.0 }
+};
+
+const VOLATILITY_BY_GROUP = {
+  "TechHigh": 0.32, "TechCore": 0.24, "Defensive": 0.14, "Commodity": 0.20,
+  "Cyclical": 0.22, "Cash": 0.00, "Otros": 0.18
+};
+
+const SECTOR_ALPHA = {
+  "Semiconductores": 0.04, "Infraestructura IA": 0.03, "Aeroespacial": 0.02,
+  "Big Tech (Calidad)": 0.015, "Salud / Defensivo": 0.005, "Consumo Básico": 0.002,
+  "Utilities / Eléctricas": 0.003, "Energía Tradicional": 0.02, "Oro / Cripto": 0.01,
+  "Lujo / Margen": 0.01, "Seguros / Financiero": 0.01, "Efectivo": 0.00, "Otros": 0.005
+};
+
+const DEFAULT_STATE = {
   capital: 1000,
+  timestamp: new Date().toISOString(),
   tiers: [
-    {
-      id: 1, name: "Tier 1: Bloque Seguridad", desc: "El ancla de la cartera. Foso defensivo.",
-      pctTarget: 25, color: "var(--blue)",
-      assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)", risk: 1.0 }]
-    },
-    {
-      id: 2, name: "Tier 2: Bloque Growth", desc: "El motor de Alpha. Líderes de mercado.",
-      pctTarget: 60, color: "var(--green)",
-      assets: [{ ticker: "NVDA", pctInternal: 100, tag: "Semis", risk: 1.5 }]
-    },
-    {
-      id: 3, name: "Tier 3: Satélites", desc: "Asimetría. Apuestas pequeñas de alto riesgo.",
-      pctTarget: 15, color: "var(--amber)",
-      assets: []
-    }
+    { id: 1, name: "Tier 1: Seguridad", desc: "Ancla defensiva", pctTarget: 25, color: "var(--blue)", assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)", risk: 1.0 }] },
+    { id: 2, name: "Tier 2: Growth", desc: "Motor Alpha", pctTarget: 60, color: "var(--green)", assets: [{ ticker: "NVDA", pctInternal: 100, tag: "Semiconductores", risk: 1.5 }] },
+    { id: 3, name: "Tier 3: Satélites", desc: "Apuestas asimétricas", pctTarget: 15, color: "var(--amber)", assets: [] }
   ]
 };
 
-const fmt = (num) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(num);
-const getColor = (str) => { let h = 0; for(let i=0;i<str.length;i++) h = str.charCodeAt(i) + ((h<<5)-h); return `hsl(${h % 360}, 65%, 50%)`; };
+let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+let chartInstance = null;
 
-// --- LÓGICA DE DIAGNÓSTICO DE TIERS (Sólo informacional, no bloqueante) ---
-function evaluateTierState(tIdx, pct) {
-  if (tIdx === 0) {
-    if (pct >= 20 && pct <= 35) return { text: "✓ RANGO ÓPTIMO", bg: "var(--green-bg)", col: "var(--green)" };
-    if (pct > 35) return { text: "ESTADO: CONSERVADOR", bg: "var(--blue-bg)", col: "var(--blue)" };
-    return { text: "⚠ PELIGRO: POCO ESCUDO", bg: "var(--amber-bg)", col: "var(--amber)" };
+function getCorrelation(g1, g2) {
+  if (CORR_MATRIX[g1] && CORR_MATRIX[g1][g2] !== undefined) return CORR_MATRIX[g1][g2];
+  if (CORR_MATRIX[g2] && CORR_MATRIX[g2][g1] !== undefined) return CORR_MATRIX[g2][g1];
+  return 0.5;
+}
+
+const fmt = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+const getColor = (str) => { let h=0; for(let i=0;i<str.length;i++) h = str.charCodeAt(i) + ((h<<5)-h); return `hsl(${h % 360}, 65%, 50%)`; };
+
+// SEMÁFORO POR CAPITAL
+function getTierStatus(capital, tierPct) {
+  const tierEur = capital * (tierPct / 100);
+  const minViable = 100;
+  const optimalMin = 150;
+  const optimalMax = 500;
+  
+  if (tierEur < 10) return { icon: "🚨", text: "NO VIABLE", color: "var(--red)" };
+  if (tierEur < minViable) return { icon: "⚠️", text: "FRICCIÓN ALTA", color: "var(--amber)" };
+  if (tierEur >= optimalMin && tierEur <= optimalMax) return { icon: "✓", text: "ÓPTIMO", color: "var(--green)" };
+  if (tierEur > optimalMax) return { icon: "✓", text: "EXCESO (oversized)", color: "var(--green)" };
+  return { icon: "✓", text: "OK", color: "var(--green)" };
+}
+
+function getFrictionStatus(eur) {
+  if (eur === 0) return { t: "", c: "" };
+  if (eur < 50) return { t: "🚨 NO VIABLE", c: "f-red" };
+  if (eur < 100) return { t: "⚠ FRICCIÓN ALTA", c: "f-amber" };
+  return { t: "✓ ÓPTIMO", c: "f-green" };
+}
+
+function calculateQuantMetrics(globalAssets, sectorWeights, weightBeta) {
+  let sumVariance = 0;
+  globalAssets.forEach(a => {
+    let sigma = VOLATILITY_BY_GROUP[a.group] || 0.18;
+    sumVariance += Math.pow(a.weight * sigma, 2);
+  });
+  
+  let sumCovariance = 0;
+  for (let i = 0; i < globalAssets.length; i++) {
+    for (let j = i + 1; j < globalAssets.length; j++) {
+      let a1 = globalAssets[i], a2 = globalAssets[j];
+      let vol1 = VOLATILITY_BY_GROUP[a1.group] || 0.18;
+      let vol2 = VOLATILITY_BY_GROUP[a2.group] || 0.18;
+      let rho = getCorrelation(a1.group, a2.group);
+      sumCovariance += 2 * a1.weight * a2.weight * vol1 * vol2 * rho;
+    }
   }
-  if (tIdx === 1) {
-    if (pct >= 50 && pct <= 70) return { text: "✓ RANGO ÓPTIMO", bg: "var(--green-bg)", col: "var(--green)" };
-    if (pct > 70) return { text: "⚠ SOBRE-EXPUESTO", bg: "var(--amber-bg)", col: "var(--amber)" };
-    return { text: "ESTADO: BAJO GROWTH", bg: "var(--amber-bg)", col: "var(--amber)" };
+  
+  let portVol = Math.sqrt(Math.max(0, sumVariance + sumCovariance));
+  
+  let correlationSum = 0, correlationCount = 0;
+  for (let i = 0; i < globalAssets.length; i++) {
+    for (let j = i + 1; j < globalAssets.length; j++) {
+      correlationSum += getCorrelation(globalAssets[i].group, globalAssets[j].group);
+      correlationCount += 1;
+    }
   }
-  if (tIdx === 2) {
-    if (pct === 0) return { text: "SEGURO (SIN SATÉLITES)", bg: "var(--blue-bg)", col: "var(--blue)" };
-    if (pct <= 15) return { text: "✓ RIESGO CONTROLADO", bg: "var(--green-bg)", col: "var(--green)" };
-    return { text: "🚨 RIESGO DE RUINA (>15%)", bg: "var(--red-bg)", col: "var(--red)" };
+  let avgCorr = correlationCount > 0 ? (correlationSum / correlationCount) : 1.0;
+  if (globalAssets.length <= 1) avgCorr = 1.0;
+  
+  let crisisFactor = 1.22;
+  let corrFactor = 1 + (avgCorr - 0.5) * 0.2;
+  let maxDD = -1.96 * portVol * crisisFactor * corrFactor;
+  let recoveryMonths = Math.abs(maxDD) * 50;
+  
+  let sectorAlphaSum = 0;
+  Object.keys(sectorWeights).forEach(sector => {
+    let w = sectorWeights[sector];
+    let sectorAlpha = SECTOR_ALPHA[sector] || 0.005;
+    sectorAlphaSum += w * sectorAlpha;
+  });
+  let betaAlpha = Math.max(0, (weightBeta - 1) * 0.03);
+  let expectedCAGR = 0.09 + sectorAlphaSum + betaAlpha;
+  expectedCAGR = Math.min(expectedCAGR, 0.22);
+  
+  let probBeat = 0.50;
+  if ((sectorWeights["Semiconductores"] || 0) > 0.15) {
+    probBeat += Math.min(0.15, ((sectorWeights["Semiconductores"] || 0) - 0.15) * 2);
+  }
+  if (avgCorr < 0.55) probBeat += 0.10;
+  else if (avgCorr < 0.70) probBeat += 0.05;
+  
+  let techConc = (sectorWeights["Semiconductores"] || 0) + (sectorWeights["Big Tech (Calidad)"] || 0) + (sectorWeights["Infraestructura IA"] || 0);
+  if (techConc > 0.70) probBeat -= 0.15;
+  if (weightBeta > 2.0) probBeat -= 0.10;
+  
+  probBeat = Math.max(0.20, Math.min(0.85, probBeat));
+  
+  return { portVol, avgCorr, maxDD, recoveryMonths, expectedCAGR, probBeat };
+}
+
+function getPortfolioTypology(t1, t2, t3) {
+  const equityPct = t1 + t2 + t3; // assuming 100% equities
+  const growthRatio = t2 / equityPct;
+  
+  if (equityPct < 50) return "CONSERVATIVE";
+  if (equityPct < 65) return "MODERATE";
+  if (equityPct < 80 || growthRatio < 0.60) return "MODERATE-AGGRESSIVE";
+  if (equityPct >= 80 && growthRatio >= 0.60) return "AGGRESSIVE GROWTH";
+  return "BALANCED";
+}
+
+function saveState() {
+  try {
+    state.timestamp = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) {
+    console.error("Error guardando:", e);
   }
 }
 
-// --- LÓGICA DE DIAGNÓSTICO MACRO (RECAP) ---
-function updateRecapDisplay() {
-  const t1 = state.tiers[0].pctTarget;
-  const t2 = state.tiers[1].pctTarget;
-  const t3 = state.tiers[2].pctTarget;
-
-  const card = document.getElementById('recapCard');
-  const title = document.getElementById('rc-title');
-  const desc = document.getElementById('rc-desc');
-  const n1 = document.getElementById('rc-note1');
-  const n2 = document.getElementById('rc-note2');
-
-  if (t3 > 20) {
-    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--red)";
-    title.innerHTML = "🚨 Perfil Altamente Especulativo"; title.style.color = "var(--red)";
-    desc.innerText = "Has asignado demasiado capital a la zona de satélites. Estadísticamente, la volatilidad de estos activos destrozará el interés compuesto de tu cartera si el mercado se gira.";
-    n1.innerText = `Tienes un ${t3}% en apuestas. El máximo matemático recomendado para no quebrar tu cuenta es el 15%.`;
-    n2.innerText = `Solución: Traspasa al menos un ${t3 - 15}% hacia tu bloque de Seguridad (Tier 1).`;
-  } else if (t1 >= 45) {
-    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--blue)";
-    title.innerHTML = "🛡️ Perfil Defensivo / Conservador"; title.style.color = "var(--blue)";
-    desc.innerText = "Tu cartera está muy anclada. Es excelente para preservar capital en recesiones, pero su Beta será demasiado baja para batir al S&P500 en mercados alcistas.";
-    n1.innerText = `El Growth (Tier 2) solo representa el ${t2}%. Necesitas motores para que la cuenta crezca.`;
-    n2.innerText = `Si tienes bajo capital, ser excesivamente defensivo ralentiza drásticamente tu fase de acumulación matemática.`;
-  } else if (t2 >= 50 && t1 >= 20 && t3 <= 15) {
-    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--green)";
-    title.innerHTML = "🎯 Perfil Growth-Security (Óptimo)"; title.style.color = "var(--green)";
-    desc.innerText = "Esta es la estructura matemática ideal. Tienes suficiente motor (Growth) para superar al mercado, anclado por una base sólida que amortiguará los drawdowns tecnológicos.";
-    n1.innerText = "Mantén el Tier 2 poblado exclusivamente por líderes de sector con fuerza relativa alta.";
-    n2.innerText = "Vigila únicamente que el Tier 1 (Seguridad) esté realmente descorrelacionado del Tier 2.";
-  } else {
-    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--amber)";
-    title.innerHTML = "⚖️ Perfil Desbalanceado"; title.style.color = "var(--amber)";
-    desc.innerText = "Estás en una zona híbrida o de transición. No es matemáticamente deficiente, pero se aleja del óptimo para capturar la máxima rentabilidad ajustada al riesgo.";
-    n1.innerText = "Para buscar 'Growth', el Tier 2 debería ser tu posición dominante y superar el 50%.";
-    n2.innerText = "Asegúrate de que esta configuración responde a una decisión táctica temporal y no a un error de asignación.";
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) state = JSON.parse(saved);
+  } catch(e) {
+    console.error("Error cargando:", e);
   }
 }
 
-// --- BALANCERS ---
+function exportData() {
+  const json = JSON.stringify(state, null, 2);
+  document.getElementById('modal').style.display = 'flex';
+  document.getElementById('modal-title').textContent = '📤 Exportar Cartera';
+  document.getElementById('modal-text').textContent = json;
+}
+
+function importPrompt() {
+  document.getElementById('fileInput').click();
+}
+
+function handleFileInput(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (imported.tiers && imported.capital) {
+        state = imported;
+        saveState();
+        render();
+        alert('✓ Cartera importada correctamente');
+      } else {
+        alert('✗ Formato inválido');
+      }
+    } catch(err) {
+      alert('✗ Error al importar: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function copyToClipboard() {
+  const text = document.getElementById('modal-text').textContent;
+  navigator.clipboard.writeText(text).then(() => alert('✓ Copiado'));
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+function resetData() {
+  if (confirm('¿Restaurar cartera por defecto?')) {
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    saveState();
+    render();
+  }
+}
+
 function autoBalanceInternals(tIdx, changedAIdx, newVal) {
-  let t = state.tiers[tIdx]; let diff = newVal - t.assets[changedAIdx].pctInternal;
-  if(t.assets.length === 1) { t.assets[0].pctInternal = 100; return; }
+  let t = state.tiers[tIdx];
+  let diff = newVal - t.assets[changedAIdx].pctInternal;
+  if (t.assets.length === 1) { t.assets[0].pctInternal = 100; return; }
+  
   t.assets[changedAIdx].pctInternal = newVal;
   let dec = diff / (t.assets.length - 1);
-  let sum=0; t.assets.forEach((a,i)=>{ if(i!==changedAIdx) a.pctInternal = Math.max(0, a.pctInternal - dec); sum+=a.pctInternal; });
-  if(Math.abs(sum-100)>0.1 && sum>0) t.assets.forEach(a=>a.pctInternal=(a.pctInternal/sum)*100);
+  let sum = 0;
+  
+  t.assets.forEach((a, i) => {
+    if (i !== changedAIdx) a.pctInternal = Math.max(0, a.pctInternal - dec);
+    sum += a.pctInternal;
+  });
+  
+  if (Math.abs(sum - 100) > 0.1 && sum > 0) {
+    t.assets.forEach(a => a.pctInternal = (a.pctInternal / sum) * 100);
+  }
 }
+
 function equalizeInternals(tIdx) {
-  let t = state.tiers[tIdx]; if(!t.assets.length) return;
-  t.assets.forEach(a=>a.pctInternal = 100/t.assets.length);
+  let t = state.tiers[tIdx];
+  if (!t.assets.length) return;
+  t.assets.forEach(a => a.pctInternal = 100 / t.assets.length);
 }
+
 function autoBalanceTiers(cIdx, newVal) {
-  let diff = newVal - state.tiers[cIdx].pctTarget; state.tiers[cIdx].pctTarget = newVal;
-  let dec = diff/2; state.tiers.forEach((t,i)=>{ if(i!==cIdx) t.pctTarget = Math.max(0, t.pctTarget - dec); });
-  let sum = state.tiers.reduce((a,t)=>a+t.pctTarget,0);
-  if(Math.abs(sum-100)>0.1 && sum>0) state.tiers.forEach(t=>t.pctTarget=(t.pctTarget/sum)*100);
+  let diff = newVal - state.tiers[cIdx].pctTarget;
+  state.tiers[cIdx].pctTarget = newVal;
+  
+  let dec = diff / 2;
+  state.tiers.forEach((t, i) => {
+    if (i !== cIdx) t.pctTarget = Math.max(0, t.pctTarget - dec);
+  });
+  
+  let sum = state.tiers.reduce((a, t) => a + t.pctTarget, 0);
+  if (Math.abs(sum - 100) > 0.1 && sum > 0) {
+    state.tiers.forEach(t => t.pctTarget = (t.pctTarget / sum) * 100);
+  }
 }
 
-// --- RENDER ---
 function render() {
-  const cap = parseFloat(document.getElementById('capitalInput').value) || 0; state.capital = cap;
-  const optNTotal = Math.max(1, Math.round(1.8 * Math.log(cap>0?cap:1) - 5));
-  let currN = 0, weightBeta = 0, sectors = {};
-
-  const cont = document.getElementById('tiersContainer'); cont.innerHTML = '';
-
+  const cap = Math.max(0, parseFloat(document.getElementById('capitalInput').value) || 0);
+  state.capital = cap;
+  
+  const optNTotal = cap >= 100 ? Math.max(1, Math.round(1.8 * Math.log(cap) - 5)) : 0;
+  let currN = 0, weightBeta = 0;
+  let globalAssets = [], sectorWeights = {};
+  
+  const cont = document.getElementById('tiersContainer');
+  const html_parts = [];
+  
   state.tiers.forEach((tier, tIdx) => {
     currN += tier.assets.length;
     const tierEur = cap * (tier.pctTarget / 100);
-    const status = evaluateTierState(tIdx, tier.pctTarget);
-
-    let html = `
-      <div class="tier-card">
-        <div class="tier-header">
-          <div>
-            <div class="th-title" style="color:${tier.color}">${tier.name}</div>
-            <div class="th-desc">${tier.desc}</div>
-          </div>
-          <div class="th-right">
-            <div class="tier-pct-control">
-              <input type="number" class="tier-pct-input" value="${tier.pctTarget.toFixed(0)}" onchange="updateTier(${tIdx}, this.value)"> <span style="color:var(--text-muted)">%</span>
-            </div>
-            <div class="th-status" style="background:${status.bg}; color:${status.col};">${status.text}</div>
-            <div class="th-eur">${fmt(tierEur)}</div>
-          </div>
-        </div>
-        <div class="asset-container">
-    `;
-
+    const tierStatus = getTierStatus(cap, tier.pctTarget);
+    
+    let tier_html = `<div class="tier-card"><div class="tier-header"><div>
+      <div class="th-title" style="color:${tier.color}">${tier.name}</div>
+      <div class="th-desc">${tier.desc}</div></div><div class="th-right">
+      <div class="tier-pct-control"><input type="number" class="tier-pct-input" value="${tier.pctTarget.toFixed(0)}" onchange="updateTier(${tIdx}, this.value)" min="0" max="100"> <span>%</span></div>
+      <div class="th-status" style="background:${tierStatus.color === 'var(--red)' ? 'rgba(239,68,68,0.15)' : tierStatus.color === 'var(--amber)' ? 'rgba(245,158,11,0.15)' : 'rgba(16,185,129,0.15)'};color:${tierStatus.color};">${tierStatus.icon} ${tierStatus.text}</div>
+      <div class="th-eur">${fmt(tierEur)}</div></div></div><div>`;
+    
     tier.assets.forEach((a, aIdx) => {
       const aEur = tierEur * (a.pctInternal / 100);
       const absPct = (tier.pctTarget / 100) * (a.pctInternal / 100);
+      
       weightBeta += (a.risk * absPct);
-      sectors[a.tag] = (sectors[a.tag] || 0) + (absPct * 100);
-
-      const tagOpts = STANDARD_TAGS.map(t=>`<option value="${t}" ${a.tag===t?'selected':''}>${t}</option>`).join('');
-      const riskOpts = Object.entries(RISK_PROFILES).map(([v,l])=>`<option value="${v}" ${a.risk==v?'selected':''}>${l}</option>`).join('');
-
-      // Auditoría de Fricción Individual
-      const isFriction = aEur > 0 && aEur < MIN_POS_SIZE;
-      const eurColor = isFriction ? 'var(--red)' : '#fff';
-      const frictionWarn = isFriction ? `<div class="a-warn">⚠ Fricción alta (<100€)</div>` : '';
-
-      html += `
-        <div class="asset-wrapper">
-          <div class="asset-row">
-            <div><div class="col-lbl">Ticker</div><input type="text" class="a-input mono" value="${a.ticker}" onchange="updateA(${tIdx},${aIdx},'ticker',this.value)"></div>
-            <div><div class="col-lbl">Peso %</div><input type="number" class="a-input mono" value="${a.pctInternal.toFixed(1)}" onchange="changeA(${tIdx},${aIdx},this.value)"></div>
-            <div><div class="col-lbl">Sector</div><select class="a-select" onchange="updateA(${tIdx},${aIdx},'tag',this.value)">${tagOpts}</select></div>
-            <div><div class="col-lbl">Perfil Riesgo</div><select class="a-select" onchange="updateA(${tIdx},${aIdx},'risk',this.value)">${riskOpts}</select></div>
-            <button class="btn-del" onclick="remA(${tIdx},${aIdx})">×</button>
-            <div style="grid-column: 1/-1;">
-              <div class="a-eur-box">
-                <div class="a-eur" style="color: ${eurColor}">${fmt(aEur)}</div>
-                ${frictionWarn}
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
+      globalAssets.push({ weight: absPct, risk: a.risk, tag: a.tag, group: SECTOR_MACROS[a.tag] || "Otros" });
+      sectorWeights[a.tag] = (sectorWeights[a.tag] || 0) + absPct;
+      
+      const tagOpts = STANDARD_TAGS.map(t => `<option value="${t}" ${a.tag===t?'selected':''}>${t}</option>`).join('');
+      const riskOpts = Object.entries(RISK_PROFILES).map(([v,l]) => `<option value="${v}" ${a.risk==v?'selected':''}>${l}</option>`).join('');
+      const fStat = getFrictionStatus(aEur);
+      
+      tier_html += `<div class="asset-row">
+        <div><div class="col-lbl">Ticker</div><input type="text" class="a-input mono" value="${a.ticker}" onchange="updateA(${tIdx},${aIdx},'ticker',this.value)" maxlength="6"></div>
+        <div><div class="col-lbl">%</div><input type="number" class="a-input mono" value="${a.pctInternal.toFixed(1)}" onchange="changeA(${tIdx},${aIdx},this.value)" min="0" max="100"></div>
+        <div><div class="col-lbl">Sector</div><select class="a-select" onchange="updateA(${tIdx},${aIdx},'tag',this.value)">${tagOpts}</select></div>
+        <div><div class="col-lbl">Beta</div><select class="a-select" onchange="updateA(${tIdx},${aIdx},'risk',this.value)">${riskOpts}</select></div>
+        <button class="btn-del" onclick="remA(${tIdx},${aIdx})">×</button>
+        <div style="grid-column: 1/-1;"><div class="a-eur-box"><div class="a-eur">${fmt(aEur)}</div>
+        ${fStat.t ? `<div class="frict-badge ${fStat.c}">${fStat.t}</div>` : ''}</div></div></div>`;
     });
-
-    // Botón SIEMPRE ACTIVO, sin bloqueos
-    html += `</div><button class="btn-add" onclick="addA(${tIdx})">+ Añadir Activo</button></div>`;
-    cont.innerHTML += html;
+    
+    tier_html += `</div><button class="btn-add" onclick="addA(${tIdx})">+ Activo</button></div>`;
+    html_parts.push(tier_html);
   });
-
-  // Top Stats
-  document.getElementById('st-optN').textContent = cap >= 100 ? optNTotal : 0;
-  document.getElementById('st-currN').innerHTML = `${currN} ${currN > optNTotal ? '<span style="color:var(--amber); font-size:12px;">(Alto)</span>' : ''}`;
+  
+  cont.innerHTML = html_parts.join('');
+  
+  document.getElementById('st-optN').textContent = optNTotal || "—";
+  document.getElementById('st-currN').textContent = currN + (currN > optNTotal ? ' ⚠' : '');
   document.getElementById('st-beta').textContent = weightBeta.toFixed(2);
-
-  // Bar Chart
-  const bar = document.getElementById('sectorBar'); const leg = document.getElementById('sectorLegend');
-  bar.innerHTML = ''; leg.innerHTML = '';
-  Object.keys(sectors).sort((a,b)=>sectors[b]-sectors[a]).forEach(tag => {
-    if(sectors[tag]<0.1) return;
-    const col = getColor(tag);
-    bar.innerHTML += `<div class="bar-segment" style="width:${sectors[tag]}%; background:${col};"></div>`;
-    leg.innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${col};"></div><span>${tag} <strong>${sectors[tag].toFixed(1)}%</strong></span></div>`;
+  
+  // Sectors
+  const qSectors = document.getElementById('q-sectors');
+  qSectors.innerHTML = '';
+  
+  Object.keys(sectorWeights)
+    .sort((a,b) => sectorWeights[b] - sectorWeights[a])
+    .forEach(tag => {
+      let p = sectorWeights[tag] * 100;
+      if (p < 0.1) return;
+      
+      let statusIcon = p > 25 ? `<span style="color:var(--red);font-weight:700;">⚠ EXCESO</span>` :
+                       (p > 15 ? `<span style="color:var(--amber);">△ ALTO</span>` :
+                                `<span style="color:var(--green);">✓ OK</span>`);
+      
+      qSectors.innerHTML += `<li class="q-item"><span class="q-lbl">${tag}</span><span class="q-val">${p.toFixed(1)}% ${statusIcon}</span></li>`;
+    });
+  
+  // QUANT
+  const quant = calculateQuantMetrics(globalAssets, sectorWeights, weightBeta);
+  
+  document.getElementById('q-corr').textContent = quant.avgCorr.toFixed(2);
+  document.getElementById('q-vol').textContent = (quant.portVol * 100).toFixed(1) + '%';
+  document.getElementById('q-dd').textContent = (quant.maxDD * 100).toFixed(1) + '%';
+  document.getElementById('q-rec').textContent = Math.round(quant.recoveryMonths) + ' mo';
+  
+  document.getElementById('q-cagr').textContent = (quant.expectedCAGR * 100).toFixed(1) + '%';
+  document.getElementById('q-prob').textContent = (quant.probBeat * 100).toFixed(0) + '%';
+  
+  let sp500DD = -0.25;
+  let ddPenal = Math.abs(quant.maxDD) - Math.abs(sp500DD);
+  document.getElementById('q-penal').textContent = ddPenal > 0 ? `+${(ddPenal*100).toFixed(1)}%` : 'OK';
+  
+  // RECAP
+  const typology = getPortfolioTypology(state.tiers[0].pctTarget, state.tiers[1].pctTarget, state.tiers[2].pctTarget);
+  document.getElementById('recap-tipology').innerHTML = `<strong>${typology}</strong><br>Correlación: ${quant.avgCorr.toFixed(2)} | Volatility: ${(quant.portVol*100).toFixed(1)}% | Max DD: ${(quant.maxDD*100).toFixed(1)}%<br><br>
+  ${typology === 'AGGRESSIVE GROWTH' ? '✓ TU CARTERA ES ÓPTIMA PARA GROWTH' : `⚠️ Considera realinear hacia AGGRESSIVE GROWTH`}`;
+  
+  document.getElementById('recap-t1').textContent = `${state.tiers[0].pctTarget.toFixed(0)}% (${fmt(cap * state.tiers[0].pctTarget / 100)})`;
+  document.getElementById('recap-t2').textContent = `${state.tiers[1].pctTarget.toFixed(0)}% (${fmt(cap * state.tiers[1].pctTarget / 100)})`;
+  document.getElementById('recap-t3').textContent = `${state.tiers[2].pctTarget.toFixed(0)}% (${fmt(cap * state.tiers[2].pctTarget / 100)})`;
+  
+  let notesHtml = `<strong>Fricción Total:</strong> `;
+  let frictionCount = 0;
+  state.tiers.forEach(t => {
+    t.assets.forEach(a => {
+      const aEur = (cap * (t.pctTarget / 100)) * (a.pctInternal / 100);
+      if (aEur < 100) frictionCount++;
+    });
   });
-
-  updateRecapDisplay();
+  
+  if (frictionCount === 0) {
+    notesHtml += `✓ Ningún activo con fricción. Rebalanceo óptimo.`;
+  } else {
+    notesHtml += `⚠️ ${frictionCount} posición(es) <€100. Considera consolidar o aumentar capital.<br><br>
+    <strong>DCA Recomendado:</strong> €${Math.ceil(cap / 12)}/mes en Tier ${state.tiers[1].pctTarget < 60 ? '2 (Growth)' : '1 (Security)'} para balancear.`;
+  }
+  
+  document.getElementById('recap-notes').innerHTML = notesHtml;
+  
+  // CHART
+  updateChart(sectorWeights, state.tiers);
+  
+  saveState();
 }
 
-// --- HANDLERS ---
-function updateTier(t, v) { v=parseFloat(v); if(isNaN(v)||v<0)v=0; autoBalanceTiers(t,v); render(); }
-function changeA(t, a, v) { v=parseFloat(v); if(isNaN(v)||v<0)v=0; if(v>100)v=100; autoBalanceInternals(t,a,v); render(); }
+function updateChart(sectorWeights, tiers) {
+  const ctx = document.getElementById('portfolioChart');
+  if (!ctx) return;
+  
+  const labels = Object.keys(sectorWeights).filter(k => sectorWeights[k] > 0.01);
+  const data = labels.map(k => (sectorWeights[k] * 100).toFixed(1));
+  const colors = labels.map(k => getColor(k));
+  
+  if (chartInstance) chartInstance.destroy();
+  
+  chartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels.map(l => l + ` ${((sectorWeights[l] * 100)).toFixed(1)}%`),
+      datasets: [{
+        data: data,
+        backgroundColor: colors,
+        borderColor: 'var(--bg-base)',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: 'var(--text-muted)', font: { size: 10 }, padding: 12 }
+        }
+      }
+    }
+  });
+}
+
+function updateTier(t, v) { v=Math.max(0, parseFloat(v)||0); autoBalanceTiers(t,v); render(); }
+function changeA(t, a, v) { v=Math.max(0, Math.min(100, parseFloat(v)||0)); autoBalanceInternals(t,a,v); render(); }
 function updateA(t, a, f, v) { if(f==='risk') v=parseFloat(v); state.tiers[t].assets[a][f]=v; render(); }
 function addA(t) { state.tiers[t].assets.push({ ticker:"-", pctInternal:0, tag:"Otros", risk:1.5 }); equalizeInternals(t); render(); }
 function remA(t, a) { state.tiers[t].assets.splice(a,1); equalizeInternals(t); render(); }
 
+loadState();
 document.getElementById('capitalInput').addEventListener('input', render);
 render();
 </script>
