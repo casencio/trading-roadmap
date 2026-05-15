@@ -3,131 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Finanzas - Chensio</title>
+    <title>Dashboard Financiero - Chensio</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #1a73e8; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background 0.3s; }
-        button:hover { background: #1557b0; }
-        table { width: 100%; border-collapse: collapse; margin-top: 25px; background: white; }
-        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        th { background-color: #f8f9fa; color: #5f6368; }
-        #status { text-align: center; margin: 10px 0; font-size: 14px; color: #666; }
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #f8fafc; padding: 20px; color: #1e293b; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2563eb; margin-bottom: 1.5rem; }
+        .status-bar { text-align: center; padding: 8px; margin-bottom: 20px; border-radius: 8px; font-size: 0.875rem; background: #f1f5f9; }
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 4px; font-size: 0.875rem; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+        input:focus { outline: 2px solid #3b82f6; border-color: transparent; }
+        button { width: 100%; padding: 14px; background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 700; transition: transform 0.1s, background 0.2s; }
+        button:active { transform: scale(0.98); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        th { text-align: left; font-size: 0.75rem; text-transform: uppercase; color: #64748b; padding-bottom: 12px; }
+        td { padding: 12px 0; border-top: 1px solid #f1f5f9; font-size: 1rem; }
+        .price { font-family: monospace; font-weight: 600; text-align: right; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Mi Cartera en Tiempo Real</h2>
+    <h2>Control de Inversiones</h2>
     
-    <div id="status">Conectando con Google Sheets...</div>
+    <div id="status" class="status-bar">Cargando datos...</div>
 
-    <!-- Formulario para escribir datos -->
-    <div class="form-group">
-        <label>Acción / Activo</label>
-        <input type="text" id="accion" placeholder="Ej: AAPL o Ethereum">
+    <div class="input-group">
+        <label>Activo</label>
+        <input type="text" id="accion" placeholder="Ej: BTC, AAPL, Oro...">
     </div>
-    <div class="form-group">
+    <div class="input-group">
         <label>Cantidad</label>
         <input type="number" id="cantidad" step="any" placeholder="0.00">
     </div>
-    <div class="form-group">
-        <label>Precio Unitario</label>
+    <div class="input-group">
+        <label>Precio</label>
         <input type="number" id="precio" step="any" placeholder="0.00">
     </div>
-    <button onclick="guardarDato()">Guardar Inversión</button>
+    
+    <button id="btnGuardar" onclick="guardarDato()">Guardar y Sincronizar</button>
 
-    <!-- Tabla para leer datos -->
     <table>
         <thead>
             <tr>
                 <th>Activo</th>
                 <th>Cant.</th>
-                <th>Precio</th>
+                <th style="text-align: right;">Precio</th>
             </tr>
         </thead>
-        <tbody id="cuerpoTabla">
-            <!-- Los datos aparecerán aquí -->
-        </tbody>
+        <tbody id="cuerpoTabla"></tbody>
     </table>
 </div>
 
 <script>
     const URL_APP = "https://script.google.com/macros/s/AKfycbyLhad_WEwbi8tzebCIv-D9mDjXyRhbNnHXlegswJzXPISP6dfJCwwODBHheNno-K42iw/exec";
 
-    // Función para LEER datos
+    // LEER DATOS
     async function cargarDatos() {
+        const status = document.getElementById("status");
         try {
-            const respuesta = await fetch(URL_APP);
-            const datos = await respuesta.json();
+            const res = await fetch(URL_APP);
+            const datos = await res.json();
             const cuerpo = document.getElementById("cuerpoTabla");
             cuerpo.innerHTML = "";
 
-            datos.forEach(fila => {
+            datos.forEach(f => {
                 cuerpo.innerHTML += `
                     <tr>
-                        <td>${fila.Accion}</td>
-                        <td>${fila.Cantidad}</td>
-                        <td>$${Number(fila.Precio).toLocaleString()}</td>
+                        <td style="font-weight:600">${f.Accion}</td>
+                        <td>${f.Cantidad}</td>
+                        <td class="price">${Number(f.Precio).toLocaleString('es-ES', {style: 'currency', currency: 'USD'})}</td>
                     </tr>`;
             });
-            document.getElementById("status").innerText = "Datos actualizados";
-        } catch (error) {
-            document.getElementById("status").innerText = "Error al leer datos";
-            console.error(error);
+            status.innerText = "Sincronizado con Google Sheets";
+            status.style.color = "#16a34a";
+        } catch (e) {
+            status.innerText = "Error de conexión";
+            status.style.color = "#dc2626";
         }
     }
 
-    // Función para ESCRIBIR datos
+    // ESCRIBIR DATOS
     async function guardarDato() {
-        const btn = document.querySelector("button");
+        const btn = document.getElementById("btnGuardar");
         const status = document.getElementById("status");
         
-        const nuevaEntrada = {
+        const payload = {
             accion: document.getElementById("accion").value,
             cantidad: document.getElementById("cantidad").value,
             precio: document.getElementById("precio").value
         };
 
-        if(!nuevaEntrada.accion || !nuevaEntrada.cantidad || !nuevaEntrada.precio) {
-            alert("Por favor, rellena todos los campos");
-            return;
-        }
+        if(!payload.accion || !payload.cantidad || !payload.precio) return alert("Rellena todos los campos");
 
-        status.innerText = "Guardando en la nube...";
         btn.disabled = true;
+        status.innerText = "Enviando a la nube...";
 
         try {
-            // Usamos mode: 'no-cors' porque Google Apps Script redirige la petición
             await fetch(URL_APP, {
                 method: "POST",
-                mode: "no-cors",
-                cache: "no-cache",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(nuevaEntrada)
+                mode: "no-cors", // Crucial para Google Apps Script
+                body: JSON.stringify(payload)
             });
 
-            // Limpiamos y recargamos
-            document.getElementById("accion").value = "";
-            document.getElementById("cantidad").value = "";
-            document.getElementById("precio").value = "";
+            // Limpieza y refresco
+            document.querySelectorAll("input").forEach(i => i.value = "");
+            status.innerText = "¡Guardado! Actualizando...";
             
-            setTimeout(() => {
-                cargarDatos();
-                btn.disabled = false;
-            }, 2000); // Esperamos 2 seg para dar tiempo a Google a procesar
-
-        } catch (error) {
-            status.innerText = "Error al guardar";
+            // Esperamos un poco para que Google procese la fila antes de volver a leer
+            setTimeout(cargarDatos, 1500);
+        } catch (e) {
+            alert("Error al guardar");
+        } finally {
             btn.disabled = false;
         }
     }
 
-    // Cargar datos al abrir la página
+    // Al arrancar
     cargarDatos();
 </script>
 
