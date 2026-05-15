@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posición Global de Activos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg: #000000; --card: #0a0a0a; --border: #1a1a1a;
+            --main: #ffffff; --muted: #636366;
+            --blue: #007aff; --green: #34c759; --orange: #ff9f0a; 
+            --red: #ff3b30; --purple: #af52de; --gray: #2c2c2e;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--main); font-family: var(--font-sans); padding: 20px; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; padding-top: 10px; }
+        .header h1 { font-size: 18px; font-weight: 500; letter-spacing: -0.02em; }
+        #status-text { color: var(--muted); font-size: 10px; font-family: var(--font-mono); text-transform: uppercase; margin-top: 6px; letter-spacing: 0.05em; }
+        
+        .nav { display: flex; gap: 8px; }
+        .nav-a { color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border); font-size: 11px; font-weight: 500; transition: 0.2s; }
+        .nav-a:hover { color: var(--main); border-color: var(--muted); }
+
+        /* KPI Grid */
+        .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+        .kpi { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 4px; }
+        .kpi-t { color: var(--muted); font-size: 9px; text-transform: uppercase; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.08em; }
+        .kpi-v { font-size: 24px; font-family: var(--font-mono); font-weight: 500; letter-spacing: -0.04em; }
+        
+        /* Layout Grids */
+        .viz-top { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .viz-full { width: 100%; margin-bottom: 12px; }
+        
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 24px; position: relative; }
+        .card h3 { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: 24px; letter-spacing: 0.1em; }
+        
+        /* Chart Scroll Logic */
+        .scroll-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 10px; cursor: grab; }
+        .scroll-wrapper::-webkit-scrollbar { height: 2px; }
+        .scroll-wrapper::-webkit-scrollbar-thumb { background: var(--border); }
+        .chart-large { min-width: 800px; height: 300px; position: relative; }
+
+        .canvas-container { position: relative; height: 260px; width: 100%; }
+
+        /* Table Architecture */
+        .table-w { background: var(--card); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { padding: 12px 16px; color: var(--muted); font-size: 9px; text-transform: uppercase; border-bottom: 1px solid var(--border); text-align: left; letter-spacing: 0.08em; font-weight: 600; }
+        td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+        .num { font-family: var(--font-mono); text-align: right; }
+        .tag { display: inline-block; padding: 3px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
+
+        /* Mobile Adaptability */
+        @media (max-width: 768px) {
+            body { padding: 16px; }
+            .header { flex-direction: column; gap: 20px; }
+            .kpis { grid-template-columns: 1fr; }
+            .viz-top { grid-template-columns: 1fr; }
+            .col-hide-mobile { display: none; }
+            .kpi-v { font-size: 22px; }
+            .chart-large { min-width: 600px; }
+            th, td { padding: 12px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="title-block">
+            <h1>Posición Global de Activos</h1>
+            <p id="status-text">Sincronizando registros...</p>
+        </div>
+        <div class="nav">
+            <a href="cartera.html" class="nav-a">Cartera</a>
+            <a href="calculadora-3.html" class="nav-a">Trading</a>
+            <a href="hoja-de-ruta.html" class="nav-a">Roadmap</a>
+        </div>
+    </div>
+
+    <div class="kpis">
+        <div class="kpi">
+            <div class="kpi-t">Patrimonio Neto</div>
+            <div class="kpi-v" id="k-tot">--</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-t">Capital Invertido</div>
+            <div class="kpi-v" id="k-inv">--</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-t">Liquidez Inmediata</div>
+            <div class="kpi-v" id="k-liq">--</div>
+        </div>
+    </div>
+
+    <div class="viz-top">
+        <div class="card">
+            <h3>Distribución de Activos</h3>
+            <div class="canvas-container"><canvas id="c-donut"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Rendimiento Mensual Mercado</h3>
+            <div class="canvas-container"><canvas id="c-bar"></canvas></div>
+        </div>
+    </div>
+
+    <div class="viz-full">
+        <div class="card">
+            <h3>Evolución Histórica (Total)</h3>
+            <div class="scroll-wrapper" id="chartScroll">
+                <div class="chart-large">
+                    <canvas id="c-line"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-w">
+        <table>
+            <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th class="col-hide-mobile">Clase de Activo</th>
+                    <th class="num">Capital</th>
+                    <th class="num">Peso %</th>
+                    <th class="num col-hide-mobile">Objetivo</th>
+                    <th class="num">Rend.</th>
+                </tr>
+            </thead>
+            <tbody id="t-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzQWAa8b7D3NU9nSN9puh5_6K0W2dEFCZXJIwJ74HWW7EeMvy07mh5HagfcCIlpXFUojw/exec";
+    
+    const CONFIG = {
+        Liquidez:  { color: '#424245', label: 'Fondo de Liquidez', target: 0 },
+        Indexados: { color: '#0071e3', label: 'Gestión Pasiva', target: 60 },
+        Acciones:  { color: '#af52de', label: 'Renta Variable', target: 20 },
+        Oro:       { color: '#ff9f0a', label: 'Metales Preciosos', target: 10 },
+        Crypto:    { color: '#34c759', label: 'Criptoactivos', target: 5 },
+        Trading:   { color: '#ff3b30', label: 'Estrategia de Corto', target: 5 }
+    };
+
+    const fmtMoney = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+    const fmtPct = (n) => n.toFixed(1) + '%';
+    const fmtDate = (iso) => {
+        const d = new Date(iso);
+        return isNaN(d.getTime()) ? iso : `${d.getFullYear()} - ${(d.getMonth() + 1).toString().padStart(2, '0')}`;
+    };
+
+    let rawData = [];
+    let charts = { donut: null, bar: null, line: null };
+
+    async function init() {
+        const status = document.getElementById("status-text");
+        const cached = localStorage.getItem('finanzas_cache_v2');
+        
+        if (cached) {
+            rawData = JSON.parse(cached);
+            render(rawData);
+            status.innerText = "Sincronizando en segundo plano...";
+        }
+
+        try {
+            const res = await fetch(URL_APP);
+            const data = await res.json();
+            if(data && data.length > 0) {
+                localStorage.setItem('finanzas_cache_v2', JSON.stringify(data));
+                render(data);
+                status.innerText = `Cierre actual: ${fmtDate(data[data.length-1].Mes)}`;
+            }
+        } catch(e) {
+            status.innerText = cached ? "Modo Offline (Datos locales)" : "Fallo de conexión";
+        }
+    }
+
+    function render(data) {
+        const curr = data[data.length - 1];
+        const assets = ['Indexados', 'Acciones', 'Oro', 'Crypto', 'Trading'];
+        
+        let invT = 0;
+        assets.forEach(a => invT += parseFloat(curr[a + '_Cap']) || 0);
+        const liq = parseFloat(curr.Liquidez) || 0;
+        const total = liq + invT;
+
+        document.getElementById('k-tot').innerText = fmtMoney(total);
+        document.getElementById('k-inv').innerText = fmtMoney(invT);
+        document.getElementById('k-liq').innerText = fmtMoney(liq);
+
+        const tbody = document.getElementById('t-body');
+        tbody.innerHTML = `<tr>
+            <td><span class="tag" style="background:#2c2c2e;color:#86868b">Liquidez</span></td>
+            <td class="col-hide-mobile" style="color:var(--muted)">${CONFIG.Liquidez.label}</td>
+            <td class="num">${fmtMoney(liq)}</td><td class="num">--</td><td class="num col-hide-mobile">--</td><td class="num" style="color:var(--muted)">0.0%</td>
+        </tr>`;
+
+        assets.forEach(a => {
+            const cap = parseFloat(curr[a+'_Cap']) || 0;
+            const rend = parseFloat(curr[a+'_Rend']) || 0;
+            tbody.innerHTML += `<tr>
+                <td><span class="tag" style="background:${CONFIG[a].color}22;color:${CONFIG[a].color}">${a}</span></td>
+                <td class="col-hide-mobile" style="color:var(--muted)">${CONFIG[a].label}</td>
+                <td class="num" style="color:${CONFIG[a].color}">${fmtMoney(cap)}</td>
+                <td class="num">${fmtPct((cap/invT)*100)}</td>
+                <td class="num col-hide-mobile" style="color:var(--muted)">${fmtPct(CONFIG[a].target)}</td>
+                <td class="num" style="color:${rend>=0? 'var(--green)':'var(--red)'}">${rend>0?'+':''}${fmtPct(rend)}</td>
+            </tr>`;
+        });
+
+        draw(data, curr, assets);
+    }
+
+    function draw(all, curr, assets) {
+        Chart.register(ChartDataLabels);
+        const fontBase = { family: "'JetBrains Mono'", size: 10, weight: 500 };
+
+        // 1. DONUT - Etiquetas con fondo para legibilidad
+        if(charts.donut) charts.donut.destroy();
+        charts.donut = new Chart(document.getElementById('c-donut'), {
+            type: 'doughnut',
+            data: {
+                labels: assets,
+                datasets: [{
+                    data: assets.map(a => parseFloat(curr[a+'_Cap']) || 0),
+                    backgroundColor: assets.map(a => CONFIG[a].color),
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '78%',
+                events: [], // Desactivar interacciones
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        color: '#fff',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        borderRadius: 3,
+                        padding: 4,
+                        font: { size: 9, weight: '600' },
+                        formatter: (v, ctx) => assets[ctx.dataIndex]
+                    }
+                }
+            }
+        });
+
+        // 2. RENDIMIENTO - Barras con dato directo
+        if(charts.bar) charts.bar.destroy();
+        const rends = assets.map(a => parseFloat(curr[a+'_Rend']) || 0);
+        charts.bar = new Chart(document.getElementById('c-bar'), {
+            type: 'bar',
+            data: {
+                labels: assets,
+                datasets: [{
+                    data: rends,
+                    backgroundColor: rends.map(r => r >= 0 ? '#34c759' : '#ff3b30'),
+                    borderRadius: 2,
+                    barThickness: 14
+                }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                events: [],
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        anchor: 'end', align: 'right', offset: 8,
+                        color: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? '#34c759' : '#ff3b30',
+                        formatter: (v) => v + '%',
+                        font: fontBase
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { display: false }, suggestedMax: Math.max(...rends) + 5 },
+                    y: { grid: { display: false }, ticks: { color: '#636366', font: fontBase } }
+                }
+            }
+        });
+
+        // 3. CRECIMIENTO - Línea con etiquetas por punto
+        if(charts.line) charts.line.destroy();
+        const lineLabels = all.map(d => fmtDate(d.Mes));
+        const lineValues = all.map(d => {
+            let t = parseFloat(d.Liquidez) || 0;
+            assets.forEach(a => t += parseFloat(d[a+'_Cap']) || 0);
+            return t;
+        });
+
+        charts.line = new Chart(document.getElementById('c-line'), {
+            type: 'line',
+            data: {
+                labels: lineLabels,
+                datasets: [{
+                    data: lineValues,
+                    borderColor: '#ffffff', borderWidth: 1.5, fill: true,
+                    backgroundColor: 'rgba(255,255,255,0.03)', tension: 0.4, 
+                    pointRadius: 3, pointBackgroundColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                events: [],
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        align: 'top', offset: 10,
+                        color: '#86868b',
+                        backgroundColor: 'rgba(10,10,10,0.8)',
+                        borderRadius: 2,
+                        padding: 3,
+                        formatter: (v) => (v/1000).toFixed(1) + 'k',
+                        font: { family: 'JetBrains Mono', size: 9 }
+                    }
+                },
+                scales: {
+                    y: { position: 'right', grid: { color: '#1a1a1a' }, ticks: { color: '#636366', font: fontBase, callback: v => v/1000 + 'k' } },
+                    x: { grid: { display: false }, ticks: { color: '#636366', font: fontBase } }
+                }
+            }
+        });
+
+        // Posicionar scroll al final (momento actual)
+        const scrollArea = document.getElementById('chartScroll');
+        setTimeout(() => { scrollArea.scrollLeft = scrollArea.scrollWidth; }, 100);
+    }
+
+    init();
+</script>
+</body>
+</html>
