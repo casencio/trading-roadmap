@@ -21,7 +21,7 @@
 }
 
 body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-sans); min-height: 100vh; padding: 32px 16px 80px; line-height: 1.5; }
-.wrap { max-width: 760px; margin: 0 auto; }
+.wrap { max-width: 780px; margin: 0 auto; }
 
 /* HEADER & CONTROLS */
 .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -30,20 +30,7 @@ body { background: var(--bg-base); color: var(--text-main); font-family: var(--f
 .btn-reset:hover { background: var(--red-bg); color: var(--red); border-color: var(--red); }
 h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
 .sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;}
-
 .save-badge { font-size: 10px; color: var(--green); background: var(--green-bg); padding: 2px 6px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-
-.stress-toggle { display: flex; align-items: center; gap: 8px; background: var(--red-bg); border: 1px solid rgba(239,68,68,0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-.stress-toggle:hover { border-color: var(--red); }
-.stress-checkbox { appearance: none; width: 16px; height: 16px; border: 2px solid var(--red); border-radius: 4px; outline: none; cursor: pointer; position: relative; background: rgba(0,0,0,0.2);}
-.stress-checkbox:checked { background: var(--red); }
-.stress-checkbox:checked::after { content: '✓'; position: absolute; top: -2px; left: 2px; color: #fff; font-size: 12px; font-weight: bold; }
-.stress-lbl { font-size: 11px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.05em; }
-
-/* ALERTAS GLOBALES */
-.global-warn { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-.warn-red { background: var(--red-bg); border: 1px solid var(--red); color: var(--red); }
-.warn-amber { background: var(--amber-bg); border: 1px solid var(--amber); color: var(--amber); }
 
 /* GLOBALES */
 .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
@@ -56,9 +43,16 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 
 .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
 .stat-box { display: flex; flex-direction: column; }
-.stat-val { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #fff; }
+.stat-val { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;}
 .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
 .stat-sub { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+
+/* INDICADORES (SEMAFOROS) */
+.badge-status { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.05em; }
+.b-green { background: var(--green-bg); color: var(--green); }
+.b-amber { background: var(--amber-bg); color: var(--amber); }
+.b-red { background: var(--red-bg); color: var(--red); }
+.b-blue { background: var(--blue-bg); color: var(--blue); }
 
 /* SCORE GAUGE */
 .score-box { background: var(--bg-base); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
@@ -74,10 +68,8 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 .tier-pct-input { background: transparent; border: none; color: #fff; font-family: var(--font-mono); font-size: 18px; font-weight: 700; width: 44px; text-align: right; outline: none; }
 .th-eur { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 6px; }
 
-.asset-row { display: grid; grid-template-columns: 1fr 0.8fr 1.4fr 0.8fr 32px; gap: 16px; padding: 16px 20px 8px; align-items: end; background: var(--bg-base); }
+.asset-row { display: grid; grid-template-columns: 1fr 1fr 1.6fr 0.8fr 32px; gap: 16px; padding: 16px 20px 8px; align-items: end; background: var(--bg-base); }
 .asset-metrics { grid-column: 1 / -1; display: flex; justify-content: space-between; padding: 0 20px 16px; border-bottom: 1px solid var(--border); background: var(--bg-base); font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); }
-.asset-metrics .am-warn { color: var(--amber); font-weight: bold; background: var(--amber-bg); padding: 2px 6px; border-radius: 4px;}
-.asset-metrics .am-err { color: var(--red); font-weight: bold; background: var(--red-bg); padding: 2px 6px; border-radius: 4px;}
 
 .col-lbl { font-size: 9px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; }
 .a-input, .a-select { background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-sans); font-size: 13px; padding: 10px 12px; border-radius: 6px; width: 100%; outline: none; }
@@ -101,17 +93,15 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 .q-lbl { color: var(--text-muted); font-weight: 500; }
 .q-val { font-family: var(--font-mono); font-weight: 700; text-align: right; color: var(--text-main); }
 
-.warn-txt { color: var(--amber); font-weight: 700; }
-.ok-txt { color: var(--green); font-weight: 700; }
-.err-txt { color: var(--red); font-weight: 700; }
-
 .bar-chart { display: flex; height: 10px; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
 .bar-segment { transition: width 0.4s ease; }
+
+.global-warn { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 
 @media (max-width: 700px) {
   .asset-row { grid-template-columns: 1fr 1fr; gap: 12px 8px; padding-bottom: 8px; }
   .asset-row > *:nth-child(1) { grid-column: 1 / -1; }
-  .asset-row > *:nth-child(5) { grid-column: 2 / 3; width: 100%; }
+  .asset-row > *:nth-child(4) { grid-column: 2 / 3; width: 100%; }
   .quant-grid { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: 1fr 1fr; }
 }
@@ -120,13 +110,13 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 <body>
 <div class="wrap">
   <div class="brand-row">
-    <div class="brand-tag">Constructor de Cartera</div>
+    <div class="brand-tag">Constructor de Cartera Cuantitativa</div>
     <button class="btn-reset" onclick="resetData()">↻ Reset Datos</button>
   </div>
   <h1>Riesgo y Diversificación</h1>
   <div class="sub">
-    <span>Optimiza la calidad y estructura de tus posiciones.</span>
-    <span class="save-badge">● Auto-Guardado</span>
+    <span>Optimiza la estructura de tus posiciones con auto-balanceo.</span>
+    <span class="save-badge">● Auto-Guardado Local</span>
   </div>
 
   <div class="card">
@@ -135,54 +125,49 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
       <div class="capital-input-wrapper">
         <input type="number" id="capitalInput" class="capital-input" value="1000" step="100" min="100" oninput="updateCapital(this.value)">
       </div>
-      <label class="stress-toggle">
-        <input type="checkbox" id="stressToggle" class="stress-checkbox" onchange="render()">
-        <span class="stress-lbl">Simular Crisis Macro</span>
-      </label>
     </div>
     <div class="stats-row">
       <div class="score-box">
-        <div class="stat-lbl">Calidad Cartera</div>
+        <div class="stat-lbl">Calidad Global</div>
         <div class="score-val" id="st-score">—</div>
         <div class="score-txt" id="st-score-txt">—</div>
       </div>
       <div class="stat-box">
-        <span class="stat-lbl">N Efectivo (HHI)</span>
+        <span class="stat-lbl">Nº Efectivo (HHI)</span>
         <span class="stat-val" id="st-effN">—</span>
-        <span class="stat-sub">Mide la concentración real. Ideal > 8.</span>
+        <span class="stat-sub">Mide la concentración real.</span>
       </div>
       <div class="stat-box">
-        <span class="stat-lbl">Diversificación Real (ρ)</span>
+        <span class="stat-lbl">Diversificación (ρ)</span>
         <span class="stat-val" id="st-corr">—</span>
-        <span class="stat-sub">La media de descorrelación. Ideal < 0.6.</span>
+        <span class="stat-sub">Nivel de descorrelación.</span>
       </div>
       <div class="stat-box">
         <span class="stat-lbl">Cash Drag Estimado</span>
-        <span class="stat-val err-txt" id="st-cashDrag">—</span>
+        <span class="stat-val" id="st-cashDrag" style="color:var(--red)">—</span>
         <span class="stat-sub">Costo de oportunidad por liquidez.</span>
       </div>
     </div>
   </div>
 
   <div id="globalWarning"></div>
-
   <div id="tiersContainer"></div>
 
   <div class="quant-grid">
     <div class="q-panel">
       <div class="q-title">1. Exposición a Factores</div>
-      <div class="q-desc">El mercado no premia el nombre del ticker, premia el sector/factor. Evita que un solo bloque domine tu cartera.</div>
+      <div class="q-desc">El mercado premia el sector subyacente. Evita que un solo bloque macro domine el riesgo de tu cartera.</div>
       <div class="bar-chart" id="factorBar"></div>
       <ul class="q-list" id="q-factors"></ul>
     </div>
 
     <div class="q-panel">
-      <div class="q-title">2. Estimación de Riesgo <span id="q-regime" style="color:var(--red); font-size: 10px;"></span></div>
-      <div class="q-desc">La volatilidad determina la profundidad de las caídas. Controla tu Max Drawdown para evitar ventas emocionales.</div>
+      <div class="q-title">2. Estimación de Riesgo</div>
+      <div class="q-desc">La volatilidad determina la profundidad de las caídas. Controla tu Drawdown para evitar el pánico.</div>
       <ul class="q-list">
-        <li class="q-item"><span class="q-lbl">Riesgo Estimado (Volatilidad)</span><span class="q-val" id="q-vol">—</span></li>
-        <li class="q-item"><span class="q-lbl">Caída Máxima Histórica</span><span class="q-val err-txt" id="q-dd">—</span></li>
-        <li class="q-item"><span class="q-lbl">Perfil Cartera</span><span class="q-val" id="q-profile" style="color:var(--blue)">—</span></li>
+        <li class="q-item"><span class="q-lbl">Riesgo (Volatilidad)</span><span class="q-val" id="q-vol">—</span></li>
+        <li class="q-item"><span class="q-lbl">Caída Máxima Histórica</span><span class="q-val" id="q-dd" style="color:var(--red)">—</span></li>
+        <li class="q-item"><span class="q-lbl">Perfil Estimado</span><span class="q-val" id="q-profile" style="color:var(--blue)">—</span></li>
       </ul>
     </div>
   </div>
@@ -192,31 +177,20 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 // --- MOTOR LÓGICO ---
 
 const TAG_MAP = {
-  "Semiconductores": "AI/Tech",
-  "Infraestructura IA": "AI/Tech",
-  "Big Tech (Calidad)": "AI/Tech",
-  "Utilities / Eléctricas": "Rates",
-  "Seguros / Financiero": "Rates",
-  "Lujo / Margen": "Cyclical",
-  "Aeroespacial": "Cyclical",
-  "Energía Tradicional": "Commodity",
-  "Oro / Cripto": "Commodity",
-  "Salud / Defensivo": "Defensive",
-  "Consumo Básico": "Defensive",
+  "Semiconductores": "AI/Tech", "Infraestructura IA": "AI/Tech", "Big Tech (Calidad)": "AI/Tech",
+  "Utilities / Eléctricas": "Rates", "Seguros / Financiero": "Rates",
+  "Lujo / Margen": "Cyclical", "Aeroespacial": "Cyclical",
+  "Energía Tradicional": "Commodity", "Oro / Cripto": "Commodity",
+  "Salud / Defensivo": "Defensive", "Consumo Básico": "Defensive",
   "Efectivo": "Cash"
 };
 
 const STANDARD_TAGS = Object.keys(TAG_MAP);
-
 const MAX_WEIGHT_LIMITS = { 1: 25, 2: 20, 3: 10 }; 
 
 const VOL_REGIMES = {
-  "AI/Tech": { norm: 0.24, stress: 0.38 },
-  "Rates": { norm: 0.16, stress: 0.25 },
-  "Cyclical": { norm: 0.22, stress: 0.32 },
-  "Commodity": { norm: 0.20, stress: 0.28 },
-  "Defensive": { norm: 0.14, stress: 0.20 },
-  "Cash": { norm: 0.00, stress: 0.00 }
+  "AI/Tech": 0.24, "Rates": 0.16, "Cyclical": 0.22, 
+  "Commodity": 0.20, "Defensive": 0.14, "Cash": 0.00
 };
 
 const CORR_BASE = {
@@ -233,11 +207,11 @@ const DEFAULT_STATE = {
   tiers: [
     { id: 1, name: "Tier 1: Core de Seguridad", pctTarget: 25, color: "var(--blue)", assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)" }] },
     { id: 2, name: "Tier 2: Growth Engines", pctTarget: 60, color: "var(--green)", assets: [
-        { ticker: "NVDA", pctInternal: 40, tag: "Semiconductores" },
-        { ticker: "VST", pctInternal: 30, tag: "Infraestructura IA" },
-        { ticker: "MSFT", pctInternal: 30, tag: "Big Tech (Calidad)" }
+        { ticker: "NVDA", pctInternal: 33.3, tag: "Semiconductores" },
+        { ticker: "VST", pctInternal: 33.3, tag: "Infraestructura IA" },
+        { ticker: "MSFT", pctInternal: 33.4, tag: "Big Tech (Calidad)" }
     ]},
-    { id: 3, name: "Tier 3: Satélites (Exploración)", pctTarget: 15, color: "var(--amber)", assets: [
+    { id: 3, name: "Tier 3: Satélites", pctTarget: 15, color: "var(--amber)", assets: [
         { ticker: "RKLB", pctInternal: 100, tag: "Aeroespacial" }
     ]}
   ]
@@ -245,8 +219,9 @@ const DEFAULT_STATE = {
 
 let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
 
+// --- ALMACENAMIENTO ---
 function loadState() {
-  const saved = localStorage.getItem('chensio_quant_v5');
+  const saved = localStorage.getItem('chensio_quant_v6');
   if (saved) {
     try { 
       let parsed = JSON.parse(saved);
@@ -256,7 +231,7 @@ function loadState() {
   }
 }
 function saveState() {
-  localStorage.setItem('chensio_quant_v5', JSON.stringify(state));
+  localStorage.setItem('chensio_quant_v6', JSON.stringify(state));
 }
 function updateCapital(val) {
   state.capital = parseFloat(val) || 0;
@@ -274,37 +249,73 @@ const fmt = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency:
 const fmtP = (n) => (n * 100).toFixed(1) + '%';
 const getColor = (str) => { let h=0; for(let i=0;i<str.length;i++) h = str.charCodeAt(i) + ((h<<5)-h); return `hsl(${h % 360}, 65%, 50%)`; };
 
-function getCorr(f1, f2, isStress) {
+function getCorr(f1, f2) {
   if (f1 === "Cash" || f2 === "Cash") return 0;
   if (f1 === f2) return 1.0;
-  let base = (CORR_BASE[f1] && CORR_BASE[f1][f2] !== undefined) ? CORR_BASE[f1][f2] : 
-             ((CORR_BASE[f2] && CORR_BASE[f2][f1] !== undefined) ? CORR_BASE[f2][f1] : 0.5);
-  return isStress ? Math.min(0.95, base + 0.35) : base;
+  return (CORR_BASE[f1] && CORR_BASE[f1][f2] !== undefined) ? CORR_BASE[f1][f2] : 
+         ((CORR_BASE[f2] && CORR_BASE[f2][f1] !== undefined) ? CORR_BASE[f2][f1] : 0.5);
 }
 
-// Actualizaciones sin Auto-Balanceo forzado
+// --- LOGICA DE AUTO-BALANCEO RECUPERADA ---
 function updateTierPct(tIdx, val) {
   state.tiers[tIdx].pctTarget = parseFloat(val) || 0;
+  // Auto-balance rest of tiers
+  let diff = state.tiers[tIdx].pctTarget - state.tiers[tIdx].pctTarget; // Keep logic simple, allow user to make mistakes and show warning
   render();
 }
-function changeAssetPct(tIdx, aIdx, val) {
-  let v = parseFloat(val) || 0;
-  if(v < 0) v = 0; if(v > 100) v = 100;
-  state.tiers[tIdx].assets[aIdx].pctInternal = v;
+
+function autoBalanceInternals(tIdx, changedAIdx, newVal) {
+  let t = state.tiers[tIdx];
+  if(t.assets.length === 1) { t.assets[0].pctInternal = 100; return; }
+  
+  let oldVal = t.assets[changedAIdx].pctInternal;
+  t.assets[changedAIdx].pctInternal = newVal;
+  
+  let diff = newVal - oldVal;
+  let dec = diff / (t.assets.length - 1);
+  let sum = 0;
+  
+  t.assets.forEach((a, i) => {
+    if(i !== changedAIdx) a.pctInternal = Math.max(0, a.pctInternal - dec);
+    sum += a.pctInternal;
+  });
+  
+  // Normalizar si hay desfase por decimales
+  if(Math.abs(sum - 100) > 0.1 && sum > 0) {
+    t.assets.forEach(a => a.pctInternal = (a.pctInternal / sum) * 100);
+  }
   render();
 }
+
+function equalizeInternals(tIdx) {
+  let t = state.tiers[tIdx];
+  if(!t.assets.length) return;
+  let eq = 100 / t.assets.length;
+  t.assets.forEach(a => a.pctInternal = eq);
+  render();
+}
+
 function updateAssetTag(tIdx, aIdx, newTag) { state.tiers[tIdx].assets[aIdx].tag = newTag; render(); }
 function updateAssetTicker(tIdx, aIdx, val) { state.tiers[tIdx].assets[aIdx].ticker = val; render(); }
 function addA(tIdx) {
   state.tiers[tIdx].assets.push({ ticker: "-", pctInternal: 0, tag: "Big Tech (Calidad)" });
-  render();
+  equalizeInternals(tIdx);
 }
-function remA(tIdx, aIdx) { state.tiers[tIdx].assets.splice(aIdx, 1); render(); }
+function remA(tIdx, aIdx) { 
+  state.tiers[tIdx].assets.splice(aIdx, 1); 
+  equalizeInternals(tIdx); 
+}
+
+// --- SEMÁFOROS ---
+function getTierBadge(tIdx, pct) {
+  if (tIdx === 0) return pct >= 20 && pct <= 35 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (pct < 20 ? `<span class="badge-status b-red">RIESGO</span>` : `<span class="badge-status b-blue">CONSERVADOR</span>`);
+  if (tIdx === 1) return pct >= 50 && pct <= 70 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (pct > 70 ? `<span class="badge-status b-amber">SOBREXPUESTO</span>` : `<span class="badge-status b-amber">BAJO GROWTH</span>`);
+  if (tIdx === 2) return pct <= 15 ? `<span class="badge-status b-green">OK</span>` : `<span class="badge-status b-red">PELIGRO</span>`;
+}
 
 // --- RENDER ---
 function render() {
   const cap = state.capital;
-  const isStress = document.getElementById('stressToggle').checked;
   
   let hhiSum = 0;
   let globalAssets = []; 
@@ -314,22 +325,20 @@ function render() {
   const globalWarnBox = document.getElementById('globalWarning');
   globalWarnBox.innerHTML = '';
 
+  // VALIDACIÓN DE SUMA 100% TIERS
   let sumTiers = state.tiers.reduce((a,b)=>a+b.pctTarget, 0);
   if (Math.abs(sumTiers - 100) > 0.1) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-red">⚠ Los Tiers suman ${sumTiers}%. Ajusta los porcentajes para que sumen exactamente 100%.</div>`;
+    globalWarnBox.innerHTML += `<div class="global-warn warn-red">⚠ Los bloques suman ${sumTiers}%. Ajusta los porcentajes para que la cartera sume exactamente 100%.</div>`;
   }
 
   state.tiers.forEach((tier, tIdx) => {
     const tierEur = cap * (tier.pctTarget / 100);
-    
-    let sumInternal = tier.assets.reduce((a,b)=>a+b.pctInternal, 0);
-    let internalWarn = (tier.assets.length > 0 && Math.abs(sumInternal - 100) > 0.1) 
-      ? `<span class="err-txt" style="font-size:11px; margin-left:12px;">⚠ Internos suman ${sumInternal}% (Falta corregir)</span>` : '';
+    const tierBadge = getTierBadge(tIdx, tier.pctTarget);
 
     let html = `
       <div class="tier-card">
         <div class="tier-header">
-          <div><div class="th-title" style="color:${tier.color}">${tier.name} ${internalWarn}</div></div>
+          <div><div class="th-title" style="color:${tier.color}">${tier.name} ${tierBadge}</div></div>
           <div class="th-right">
             <div class="tier-pct-control"><input type="number" class="tier-pct-input" min="0" max="100" value="${tier.pctTarget.toFixed(0)}" onchange="updateTierPct(${tIdx}, this.value)"> <span style="color:var(--text-muted)">%</span></div>
             <div class="th-eur">${fmt(tierEur)}</div>
@@ -345,46 +354,45 @@ function render() {
 
       hhiSum += Math.pow(w, 2);
       if(factorWeights[factor] !== undefined) factorWeights[factor] += w;
-      
       globalAssets.push({ weight: w, factor: factor });
 
       let warns = [];
       const maxLim = MAX_WEIGHT_LIMITS[tier.id];
-      if ((w*100) > maxLim) warns.push(`<span class="am-warn">Alto Peso (Ideal máx ${maxLim}%)</span>`);
-      if (aEur > 0 && aEur < 50) warns.push(`<span class="am-err">Fricción Crítica (<50€)</span>`);
+      if ((w*100) > maxLim) warns.push(`<span class="badge-status b-amber">EXCESO: ${fmtP(w)} (Máx ${maxLim}%)</span>`);
+      if (aEur > 0 && aEur < 50) warns.push(`<span class="badge-status b-red">FRICCIÓN (<50€)</span>`);
+      if (warns.length === 0) warns.push(`<span class="badge-status b-green">✓ OK</span>`);
 
       const tagOpts = STANDARD_TAGS.map(t=>`<option value="${t}" ${a.tag===t?'selected':''}>${t}</option>`).join('');
 
       html += `
         <div class="asset-row">
           <div><div class="col-lbl">Ticker</div><input type="text" class="a-input mono" value="${a.ticker}" onchange="updateAssetTicker(${tIdx},${aIdx},this.value)"></div>
-          <div><div class="col-lbl">Peso Interno %</div><input type="number" class="a-input mono" min="0" max="100" value="${a.pctInternal.toFixed(1)}" onchange="changeAssetPct(${tIdx},${aIdx},this.value)"></div>
-          <div><div class="col-lbl">Sector (Determina Riesgo)</div><select class="a-select" onchange="updateAssetTag(${tIdx},${aIdx},this.value)">${tagOpts}</select></div>
+          <div><div class="col-lbl">Peso Interno %</div><input type="number" class="a-input mono" min="0" max="100" value="${a.pctInternal.toFixed(1)}" onchange="autoBalanceInternals(${tIdx},${aIdx},this.value)"></div>
+          <div><div class="col-lbl">Sector (Asigna Riesgo)</div><select class="a-select" onchange="updateAssetTag(${tIdx},${aIdx},this.value)">${tagOpts}</select></div>
           <div><div class="col-lbl">Peso Final</div><div class="a-final-weight">${fmtP(w)}</div></div>
           <button class="btn-del" onclick="remA(${tIdx},${aIdx})">×</button>
         </div>
         <div class="asset-metrics">
-          <div>Asignación: <span style="color:#fff">${fmt(aEur)}</span></div>
-          <div>${warns.join(' ')}</div>
+          <div>Asignación Real: <span style="color:#fff">${fmt(aEur)}</span></div>
+          <div style="display:flex; gap:6px;">${warns.join('')}</div>
         </div>
       `;
     });
 
-    html += `</div><button class="btn-add" onclick="addA(${tIdx})">+ Añadir Posición</button></div>`;
+    html += `</div><button class="btn-add" onclick="addA(${tIdx})">+ Añadir Posición (Se auto-balanceará el Tier)</button></div>`;
     cont.innerHTML += html;
   });
 
-  // --- MOTOR QUANT: VOLATILIDAD Y DRAWDOWN ---
+  // --- MOTOR QUANT: VOLATILIDAD ---
   let portVariance = 0;
   let weightedCorrSum = 0; let denomCorr = 0;
 
   for(let i=0; i<globalAssets.length; i++) {
     for(let j=0; j<globalAssets.length; j++) {
       let a1 = globalAssets[i]; let a2 = globalAssets[j];
-      let rho = getCorr(a1.factor, a2.factor, isStress);
-      
-      let vol1 = VOL_REGIMES[a1.factor] ? VOL_REGIMES[a1.factor][isStress ? 'stress' : 'norm'] : 0.18; 
-      let vol2 = VOL_REGIMES[a2.factor] ? VOL_REGIMES[a2.factor][isStress ? 'stress' : 'norm'] : 0.18;
+      let rho = getCorr(a1.factor, a2.factor);
+      let vol1 = VOL_REGIMES[a1.factor] || 0.18; 
+      let vol2 = VOL_REGIMES[a2.factor] || 0.18;
       
       portVariance += (a1.weight * a2.weight * vol1 * vol2 * rho);
       if(i !== j) { weightedCorrSum += (a1.weight * a2.weight * rho); denomCorr += (a1.weight * a2.weight); }
@@ -395,58 +403,49 @@ function render() {
   let avgCorr = denomCorr > 0 ? (weightedCorrSum / denomCorr) : 1.0;
   if(globalAssets.length <= 1) avgCorr = 1.0;
 
-  let maxDD = portVol * (isStress ? 3.5 : 2.5);
+  let maxDD = portVol * 2.5; // Estimación estándar retail
+  let cagrProfile = portVol < 0.12 ? "Conservador" : (portVol > 0.20 ? "Agresivo" : "Balanceado");
 
-  let cagrProfile = "Balanceado";
-  if (portVol < 0.12) cagrProfile = "Conservador";
-  else if (portVol > 0.20) cagrProfile = "Agresivo";
-
-  // --- SCORE & WARNINGS GLOBALES ---
+  // --- SCORES Y SEMÁFOROS GLOBALES ---
   let effN = hhiSum > 0 ? (1 / hhiSum) : 0;
   let totalPositions = globalAssets.filter(a => a.weight > 0).length;
   
-  // Score System (Max 10)
   let score = 0;
   if (effN >= 8) score += 3; else if (effN >= 5) score += 2; else score += 1;
   if (avgCorr <= 0.5) score += 3; else if (avgCorr <= 0.7) score += 2; else score += 1;
-  
   let maxFactorPct = Math.max(...Object.values(factorWeights));
   if (maxFactorPct <= 0.4) score += 2; else if (maxFactorPct <= 0.5) score += 1;
-  
-  if (totalPositions >= 5 && totalPositions <= 15) score += 2;
-  else if (totalPositions > 15) score += 0;
-  else score += 1;
+  if (totalPositions >= 5 && totalPositions <= 15) score += 2; else if (totalPositions <= 4) score += 1;
 
   let scoreColor = score >= 8 ? "var(--green)" : (score >= 5 ? "var(--amber)" : "var(--red)");
-  let scoreTxt = score >= 8 ? "Sólida" : (score >= 5 ? "Aceptable" : "Peligrosa");
+  let scoreTxt = score >= 8 ? "SÓLIDA" : (score >= 5 ? "ACEPTABLE" : "PELIGROSA");
 
   document.getElementById('st-score').textContent = `${score}/10`;
   document.getElementById('st-score').style.color = scoreColor;
   document.getElementById('st-score-txt').textContent = scoreTxt;
   document.getElementById('st-score-txt').style.color = scoreColor;
 
-  if(totalPositions > 15) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Tienes ${totalPositions} posiciones. Posible "diworsification". Estás replicando un índice de forma ineficiente.</div>`;
-  }
-  if (factorWeights["AI/Tech"] > 0.5) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Alta dependencia del ciclo tecnológico (>50%). Ajusta el bloque defensivo si buscas reducir volatilidad.</div>`;
-  }
-  if (avgCorr > 0.7) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Alta correlación. En caso de caída, la diversificación perderá eficacia.</div>`;
-  }
+  // Semáforo HHI
+  let effnBadge = effN >= 8 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (effN >= 5 ? `<span class="badge-status b-amber">REGULAR</span>` : `<span class="badge-status b-red">ALERTA</span>`);
+  document.getElementById('st-effN').innerHTML = `${effN.toFixed(1)} ${effnBadge}`;
 
-  document.getElementById('st-effN').textContent = effN.toFixed(1);
-  if(effN < 5 && effN > 0) document.getElementById('st-effN').innerHTML += ` <span style="color:var(--amber); font-size:12px;">(Bajo)</span>`;
-
-  document.getElementById('st-corr').textContent = avgCorr.toFixed(2);
-  let corrCol = avgCorr > 0.7 ? "var(--red)" : "var(--text-main)";
-  document.getElementById('st-corr').style.color = corrCol;
+  // Semáforo Correlación
+  let corrBadge = avgCorr <= 0.6 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (avgCorr <= 0.7 ? `<span class="badge-status b-amber">REGULAR</span>` : `<span class="badge-status b-red">ALTA</span>`);
+  document.getElementById('st-corr').innerHTML = `${avgCorr.toFixed(2)} ${corrBadge}`;
   
-  let cashDrag = factorWeights["Cash"] * 0.02; // Ajustado a 2%
+  // Cash Drag (Tipo Monetario 2%)
+  let cashDrag = factorWeights["Cash"] * 0.02; 
   document.getElementById('st-cashDrag').textContent = "-" + fmtP(cashDrag);
 
-  // --- PANELS UPDATES ---
-  document.getElementById('q-regime').textContent = isStress ? "[ MODO CRISIS ]" : "";
+  // Alertas Globales
+  if(totalPositions > 15) {
+    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Tienes ${totalPositions} posiciones. A partir de 15 acciones empiezas a replicar el índice perdiendo tu ventaja (Diworsification).</div>`;
+  }
+  if (factorWeights["AI/Tech"] > 0.5) {
+    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Alta exposición a Tecnología (>50%). Gran rentabilidad potencial, pero sufrirás más volatilidad si el ciclo rota.</div>`;
+  }
+
+  // Actualizar Paneles
   document.getElementById('q-vol').textContent = fmtP(portVol);
   document.getElementById('q-dd').textContent = "-" + fmtP(maxDD);
   document.getElementById('q-profile').textContent = cagrProfile;
@@ -458,8 +457,10 @@ function render() {
   Object.keys(factorWeights).sort((a,b)=>factorWeights[b]-factorWeights[a]).forEach(f => {
     let p = factorWeights[f]; if(p < 0.001) return;
     let col = getColor(f);
+    let fBadge = p > 0.4 ? `<span class="badge-status b-amber">ALTO</span>` : `<span class="badge-status b-green">OK</span>`;
+    
     bar.innerHTML += `<div class="bar-segment" style="width:${p*100}%; background:${col};"></div>`;
-    qFactors.innerHTML += `<li class="q-item"><span class="q-lbl"><div style="width:8px;height:8px;border-radius:2px;background:${col}; margin-right:8px;"></div>${f}</span><span class="q-val">${fmtP(p)}</span></li>`;
+    qFactors.innerHTML += `<li class="q-item"><span class="q-lbl"><div style="width:8px;height:8px;border-radius:2px;background:${col}; margin-right:8px;"></div>${f}</span><span class="q-val" style="display:flex; align-items:center; gap:8px;">${fmtP(p)} ${fBadge}</span></li>`;
   });
 
   saveState();
