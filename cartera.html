@@ -24,12 +24,8 @@
 body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-sans); min-height: 100vh; padding: 32px 16px 80px; }
 .wrap { max-width: 900px; margin: 0 auto; }
 
-.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 12px; }
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .brand-tag { font-size: 10px; font-weight: 700; font-family: var(--font-mono); color: var(--blue); background: var(--blue-bg); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
-.header-btns { display: flex; gap: 8px; }
-.btn-action { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); transition: all 0.2s; }
-.btn-action:hover { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
-.btn-action.danger:hover { background: var(--red-bg); color: var(--red); border-color: var(--red); }
 
 h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
 .sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
@@ -39,7 +35,7 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 .capital-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .capital-input-wrapper { position: relative; display: flex; align-items: center; }
 .capital-input-wrapper::before { content: '€'; position: absolute; left: 12px; font-family: var(--font-mono); font-size: 20px; color: var(--text-muted); }
-.capital-input { background: var(--bg-base); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 24px; font-weight: 700; padding: 8px 12px 8px 32px; border-radius: 8px; width: 180px; text-align: right; outline: none; }
+.capital-input { background: var(--bg-base); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 24px; font-weight: 700; padding: 8px 12px 8px 32px; border-radius: 8px; width: 180px; text-align: right; outline: none; transition: border-color 0.2s; }
 .capital-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-bg); }
 
 .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
@@ -61,7 +57,7 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 .asset-row:last-child { border-bottom: none; }
 .col-lbl { font-size: 9px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; }
 .a-input, .a-select { background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-sans); font-size: 12px; padding: 8px 10px; border-radius: 6px; width: 100%; outline: none; }
-.a-input.mono { font-family: var(--font-mono); font-weight: 600; }
+.a-input.mono { font-family: var(--font-mono); font-weight: 600; text-transform: uppercase; }
 .a-select { appearance: none; color: var(--text-muted); cursor: pointer; }
 .a-input:focus, .a-select:focus { border-color: var(--blue); }
 
@@ -78,15 +74,23 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 .btn-add:hover { background: var(--bg-hover); color: #fff; }
 
 .quant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
-.q-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.q-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; }
 .q-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-.q-list { list-style: none; }
+.q-list { list-style: none; flex-grow: 1; }
 .q-item { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px dashed var(--border-light); }
 .q-item:last-child { border-bottom: none; }
 .q-lbl { color: var(--text-main); }
 .q-val { font-family: var(--font-mono); font-weight: 600; text-align: right; }
 
-.chart-container { position: relative; height: 300px; margin-bottom: 20px; }
+.chart-container { position: relative; height: 200px; width: 100%; margin: auto; display: flex; align-items: center; justify-content: center; }
+
+/* Stacked Bar CSS */
+.stacked-bar-container { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.stacked-bar { display: flex; width: 100%; height: 28px; border-radius: 6px; overflow: hidden; background: var(--bg-base); border: 1px solid var(--border); }
+.bar-segment { height: 100%; transition: width 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-family: var(--font-mono); color: #000; overflow: hidden; white-space: nowrap; }
+.bar-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+.legend-color { width: 10px; height: 10px; border-radius: 2px; }
 
 .recap-section { margin-top: 32px; }
 .recap-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--blue); }
@@ -111,11 +115,6 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 <div class="wrap">
   <div class="header-row">
     <div class="brand-tag">Framework Quant v3</div>
-    <div class="header-btns">
-      <button class="btn-action" onclick="exportData()">⬇ Exportar</button>
-      <button class="btn-action" onclick="importPrompt()">⬆ Importar</button>
-      <button class="btn-action danger" onclick="resetData()">↻ Reset</button>
-    </div>
   </div>
 
   <h1>Motor de Cartera & Riesgo Macro</h1>
@@ -125,7 +124,7 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
     <div class="capital-header">
       <div><div class="capital-label">Capital Base (€)</div>
         <div class="capital-input-wrapper">
-          <input type="number" id="capitalInput" class="capital-input" value="1000" step="100" min="100" max="999999">
+          <input type="number" id="capitalInput" class="capital-input" step="100" min="100" max="999999">
         </div>
       </div>
     </div>
@@ -140,12 +139,20 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
 
   <div class="quant-grid">
     <div class="q-panel">
-      <div class="q-title">1. Distribución de Activos</div>
-      <div class="chart-container"><canvas id="portfolioChart"></canvas></div>
+      <div class="q-title">1. Distribución Sectorial</div>
+      <div class="stacked-bar-container">
+        <div class="stacked-bar" id="sectorBar"></div>
+        <div class="bar-legend" id="sectorLegend"></div>
+      </div>
     </div>
 
     <div class="q-panel">
-      <div class="q-title">2. Riesgo Esperado</div>
+      <div class="q-title">2. Distribución de Tiers</div>
+      <div class="chart-container"><canvas id="tierChart"></canvas></div>
+    </div>
+
+    <div class="q-panel">
+      <div class="q-title">3. Riesgo Esperado</div>
       <ul class="q-list">
         <li class="q-item"><span class="q-lbl">Correlación Media</span><span class="q-val" id="q-corr">—</span></li>
         <li class="q-item"><span class="q-lbl">Volatilidad (σ)</span><span class="q-val" id="q-vol">—</span></li>
@@ -155,7 +162,7 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
     </div>
 
     <div class="q-panel">
-      <div class="q-title">3. Retorno Esperado vs S&P500</div>
+      <div class="q-title">4. Retorno Esperado vs S&P500</div>
       <ul class="q-list">
         <li class="q-item"><span class="q-lbl">S&P 500 (CAGR)</span><span class="q-val">8-10%</span></li>
         <li class="q-item"><span class="q-lbl">Tu Cartera (CAGR)</span><span class="q-val" id="q-cagr" style="color:var(--green)">—</span></li>
@@ -163,16 +170,10 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
         <li class="q-item"><span class="q-lbl" style="font-size:10px;">Penalización DD</span><span class="q-val" id="q-penal" style="font-size:10px;">—</span></li>
       </ul>
     </div>
-
-    <div class="q-panel">
-      <div class="q-title">4. Concentración Sectorial</div>
-      <ul class="q-list" id="q-sectors"></ul>
-    </div>
   </div>
 
-  <!-- RECAP Y ANÁLISIS -->
   <div class="recap-section">
-    <div class="recap-title">📊 Análisis de Tu Cartera</div>
+    <div class="recap-title">📊 Análisis Estructural</div>
 
     <div class="recap-box">
       <div class="recap-label">Tipología de Cartera</div>
@@ -182,7 +183,7 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
     <div class="recap-box">
       <div class="recap-label">Balance Óptimo para GROWTH (Hoja de Ruta)</div>
       <div class="recap-content" id="recap-optimal">
-        <strong>AGGRESSIVE GROWTH (Tu Objetivo):</strong><br>
+        <strong>AGGRESSIVE GROWTH (Target Objetivo):</strong><br>
         • Tier 1 (Security): 20-30% (defensivo puro)<br>
         • Tier 2 (Growth): 55-70% (motor de retorno)<br>
         • Tier 3 (Satélites): 10-15% (asimetría)<br>
@@ -195,55 +196,33 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 
     </div>
 
     <div class="recap-box">
-      <div class="recap-label">⚙️ Mejoras Micro + Macro para Tu Perfil</div>
+      <div class="recap-label">⚙️ Tesis Micro + Macro</div>
       <ul class="macro-list">
         <li class="macro-item">
           <span class="macro-bullet">📈</span>
-          <span><strong>Geopolitical Hedging:</strong> Con geopolitical risks elevados (Medio Oriente, China-US, tariffs), considera overweight en Energy (oil hedge) y Defense tech. Actualmente tu cartera es 100% equities sin hedges.</span>
+          <span><strong>Geopolitical Hedging:</strong> Escenario de riesgo elevado. Es imperativo consolidar exposición en Energía o Defensa tecnológica como cobertura contra la volatilidad sistémica.</span>
         </li>
         <li class="macro-item">
           <span class="macro-bullet">🔋</span>
-          <span><strong>Power Crunch 2026:</strong> Global electricity demand crece al ritmo más rápido en décadas por AI data centers. Infrastructure plays (grid, transmission) + Utilities con demanda de power son estructurales. Tu Tier 1 debería tener 5-8% en Utilities/Energy.</span>
+          <span><strong>Power Crunch 2026:</strong> Demanda eléctrica global acelerada por centros de datos IA. Infraestructura de red y Utilities son jugadas estructurales indispensables para Tier 1 (5-8%).</span>
         </li>
         <li class="macro-item">
           <span class="macro-bullet">🇪🇺</span>
-          <span><strong>International Diversification:</strong> Valuaciones US mega-cap son estiradas. Europa está entrando en ciclo de gasto (defensa, infraestructura). Considera 10-15% en European equities (quality) para descorrelación.</span>
+          <span><strong>Descorrelación Geográfica:</strong> Múltiplos estadounidenses estirados. Incorporar quality europea (10-15%) reduce el beta de la cartera sin sacrificar rendimiento a largo plazo.</span>
         </li>
         <li class="macro-item">
           <span class="macro-bullet">💾</span>
-          <span><strong>AI Capex Cycle - Next Phase:</strong> 2025 fue AI hardware (GPUs). 2026-2027 será AI software, data centers, energy, semiconductores de memoria. Tu overweight en Semis es correcto. ADD: Infrastructure plays.</span>
-        </li>
-        <li class="macro-item">
-          <span class="macro-bullet">📊</span>
-          <span><strong>Macro Indicators to Monitor:</strong> Fed rates, oil >$100, USD strength (tariff impact), China growth, debt levels, VIX >20. Estos gatillan rotaciones sector que impactan tu cartera.</span>
-        </li>
-        <li class="macro-item">
-          <span class="macro-bullet">🛡️</span>
-          <span><strong>Recession Insurance (Baja Prioridad):</strong> 2026 recession probability ~15%. Pero si ocurre, tu cartera cae -40% max. Consider 2-3% en gold o long bonds como tail hedge en Tier 1.</span>
+          <span><strong>AI Capex Cycle:</strong> Transición de hardware a infraestructura y semiconductores de memoria. Mantener sobreponderación estratégica, pero evitar concentración superior al 40%.</span>
         </li>
       </ul>
     </div>
 
     <div class="recap-box">
-      <div class="recap-label">⚠️ Notas de Fricción y Rebalanceo</div>
+      <div class="recap-label">⚠️ Notas de Fricción Operativa</div>
       <div class="recap-content" id="recap-notes">—</div>
     </div>
   </div>
 </div>
-
-<!-- MODAL -->
-<div id="modal" class="modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:999;">
-  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
-    <div style="font-size:18px;font-weight:700;margin-bottom:16px;" id="modal-title">—</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;white-space:pre-wrap;word-break:break-all;font-family:var(--font-mono);" id="modal-text">—</div>
-    <div style="display:flex;gap:8px;">
-      <button onclick="copyToClipboard()" style="flex:1;padding:8px 16px;border-radius:6px;border:1px solid var(--border);background:var(--bg-base);color:#fff;cursor:pointer;font-size:12px;font-weight:600;">📋 Copiar</button>
-      <button onclick="closeModal()" style="flex:1;padding:8px 16px;border-radius:6px;border:1px solid var(--border);background:var(--bg-base);color:#fff;cursor:pointer;font-size:12px;font-weight:600;">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-<input type="file" id="fileInput" style="display:none;" accept=".json" onchange="handleFileInput(event)">
 
 <script>
 const MIN_POS_SIZE = 100;
@@ -288,14 +267,14 @@ const DEFAULT_STATE = {
   capital: 1000,
   timestamp: new Date().toISOString(),
   tiers: [
-    { id: 1, name: "Tier 1: Seguridad", desc: "Ancla defensiva", pctTarget: 25, color: "var(--blue)", assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)", risk: 1.0 }] },
-    { id: 2, name: "Tier 2: Growth", desc: "Motor Alpha", pctTarget: 60, color: "var(--green)", assets: [{ ticker: "NVDA", pctInternal: 100, tag: "Semiconductores", risk: 1.5 }] },
-    { id: 3, name: "Tier 3: Satélites", desc: "Apuestas asimétricas", pctTarget: 15, color: "var(--amber)", assets: [] }
+    { id: 1, name: "Tier 1: Seguridad", desc: "Ancla defensiva", pctTarget: 25, color: "#3b82f6", assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)", risk: 1.0 }] },
+    { id: 2, name: "Tier 2: Growth", desc: "Motor Alpha", pctTarget: 60, color: "#10b981", assets: [{ ticker: "NVDA", pctInternal: 100, tag: "Semiconductores", risk: 1.5 }] },
+    { id: 3, name: "Tier 3: Satélites", desc: "Apuestas asimétricas", pctTarget: 15, color: "#f59e0b", assets: [] }
   ]
 };
 
 let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-let chartInstance = null;
+let tierChartInstance = null;
 
 function getCorrelation(g1, g2) {
   if (CORR_MATRIX[g1] && CORR_MATRIX[g1][g2] !== undefined) return CORR_MATRIX[g1][g2];
@@ -304,26 +283,31 @@ function getCorrelation(g1, g2) {
 }
 
 const fmt = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-const getColor = (str) => { let h=0; for(let i=0;i<str.length;i++) h = str.charCodeAt(i) + ((h<<5)-h); return `hsl(${h % 360}, 65%, 50%)`; };
 
-// SEMÁFORO POR CAPITAL
+// Generador de colores consistentes para sectores
+function getColor(str) { 
+  let hash = 0; 
+  for(let i=0; i<str.length; i++) hash = str.charCodeAt(i) + ((hash<<5)-hash); 
+  const h = Math.abs(hash) % 360;
+  return `hsl(${h}, 70%, 55%)`; 
+}
+
 function getTierStatus(capital, tierPct) {
   const tierEur = capital * (tierPct / 100);
   const minViable = 100;
   const optimalMin = 150;
-  const optimalMax = 500;
+  const optimalMax = capital * 0.7; // Límite dinámico basado en capital
   
   if (tierEur < 10) return { icon: "🚨", text: "NO VIABLE", color: "var(--red)" };
   if (tierEur < minViable) return { icon: "⚠️", text: "FRICCIÓN ALTA", color: "var(--amber)" };
-  if (tierEur >= optimalMin && tierEur <= optimalMax) return { icon: "✓", text: "ÓPTIMO", color: "var(--green)" };
-  if (tierEur > optimalMax) return { icon: "✓", text: "EXCESO (oversized)", color: "var(--green)" };
-  return { icon: "✓", text: "OK", color: "var(--green)" };
+  if (tierEur > optimalMax) return { icon: "✓", text: "EXCESO", color: "var(--amber)" };
+  return { icon: "✓", text: "ÓPTIMO", color: "var(--green)" };
 }
 
 function getFrictionStatus(eur) {
   if (eur === 0) return { t: "", c: "" };
   if (eur < 50) return { t: "🚨 NO VIABLE", c: "f-red" };
-  if (eur < 100) return { t: "⚠ FRICCIÓN ALTA", c: "f-amber" };
+  if (eur < 100) return { t: "⚠ FRICCIÓN", c: "f-amber" };
   return { t: "✓ ÓPTIMO", c: "f-green" };
 }
 
@@ -389,7 +373,7 @@ function calculateQuantMetrics(globalAssets, sectorWeights, weightBeta) {
 }
 
 function getPortfolioTypology(t1, t2, t3) {
-  const equityPct = t1 + t2 + t3; // assuming 100% equities
+  const equityPct = t1 + t2 + t3;
   const growthRatio = t2 / equityPct;
   
   if (equityPct < 50) return "CONSERVATIVE";
@@ -404,68 +388,21 @@ function saveState() {
     state.timestamp = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch(e) {
-    console.error("Error guardando:", e);
+    console.error("Error guardando datos persistentes:", e);
   }
 }
 
 function loadState() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) state = JSON.parse(saved);
-  } catch(e) {
-    console.error("Error cargando:", e);
-  }
-}
-
-function exportData() {
-  const json = JSON.stringify(state, null, 2);
-  document.getElementById('modal').style.display = 'flex';
-  document.getElementById('modal-title').textContent = '📤 Exportar Cartera';
-  document.getElementById('modal-text').textContent = json;
-}
-
-function importPrompt() {
-  document.getElementById('fileInput').click();
-}
-
-function handleFileInput(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (imported.tiers && imported.capital) {
-        state = imported;
-        saveState();
-        render();
-        alert('✓ Cartera importada correctamente');
-      } else {
-        alert('✗ Formato inválido');
-      }
-    } catch(err) {
-      alert('✗ Error al importar: ' + err.message);
+    if (saved) {
+      state = JSON.parse(saved);
+      document.getElementById('capitalInput').value = state.capital;
+    } else {
+      document.getElementById('capitalInput').value = state.capital;
     }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-function copyToClipboard() {
-  const text = document.getElementById('modal-text').textContent;
-  navigator.clipboard.writeText(text).then(() => alert('✓ Copiado'));
-}
-
-function closeModal() {
-  document.getElementById('modal').style.display = 'none';
-}
-
-function resetData() {
-  if (confirm('¿Restaurar cartera por defecto?')) {
-    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-    saveState();
-    render();
+  } catch(e) {
+    console.error("Error cargando datos persistentes:", e);
   }
 }
 
@@ -507,6 +444,81 @@ function autoBalanceTiers(cIdx, newVal) {
   if (Math.abs(sum - 100) > 0.1 && sum > 0) {
     state.tiers.forEach(t => t.pctTarget = (t.pctTarget / sum) * 100);
   }
+}
+
+function renderSectorBar(sectorWeights) {
+  const bar = document.getElementById('sectorBar');
+  const legend = document.getElementById('sectorLegend');
+  bar.innerHTML = ''; 
+  legend.innerHTML = '';
+  
+  const sortedSectors = Object.entries(sectorWeights)
+    .filter(([_, w]) => w > 0.005)
+    .sort((a,b) => b[1] - a[1]);
+    
+  sortedSectors.forEach(([sector, weight]) => {
+    const pct = (weight * 100).toFixed(1);
+    const color = getColor(sector);
+    
+    // Segmento de barra
+    const segment = document.createElement('div');
+    segment.className = 'bar-segment';
+    segment.style.width = `${pct}%`;
+    segment.style.backgroundColor = color;
+    segment.title = `${sector}: ${pct}%`;
+    if(weight > 0.1) segment.innerText = `${pct}%`; // Solo mostrar texto si hay espacio
+    bar.appendChild(segment);
+    
+    // Elemento de leyenda
+    legend.innerHTML += `<div class="legend-item"><span class="legend-color" style="background:${color}"></span><span>${sector} <strong>${pct}%</strong></span></div>`;
+  });
+}
+
+function updateTierChart(tiers) {
+  const ctx = document.getElementById('tierChart');
+  if (!ctx) return;
+  
+  const labels = tiers.map(t => t.name);
+  const data = tiers.map(t => t.pctTarget);
+  const colors = tiers.map(t => t.color);
+  
+  if (tierChartInstance) tierChartInstance.destroy();
+  
+  tierChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels.map((l, i) => `${l} (${data[i].toFixed(1)}%)`),
+      datasets: [{
+        data: data,
+        backgroundColor: colors,
+        borderColor: '#18181b', // Coincide con --bg-card
+        borderWidth: 3,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: { 
+            color: '#a1a1aa', // var(--text-muted)
+            font: { family: "'Inter', sans-serif", size: 11 },
+            padding: 16
+          }
+        },
+        tooltip: {
+          backgroundColor: '#09090b',
+          titleColor: '#f4f4f5',
+          bodyColor: '#f4f4f5',
+          borderColor: '#3f3f46',
+          borderWidth: 1
+        }
+      }
+    }
+  });
 }
 
 function render() {
@@ -564,23 +576,6 @@ function render() {
   document.getElementById('st-currN').textContent = currN + (currN > optNTotal ? ' ⚠' : '');
   document.getElementById('st-beta').textContent = weightBeta.toFixed(2);
   
-  // Sectors
-  const qSectors = document.getElementById('q-sectors');
-  qSectors.innerHTML = '';
-  
-  Object.keys(sectorWeights)
-    .sort((a,b) => sectorWeights[b] - sectorWeights[a])
-    .forEach(tag => {
-      let p = sectorWeights[tag] * 100;
-      if (p < 0.1) return;
-      
-      let statusIcon = p > 25 ? `<span style="color:var(--red);font-weight:700;">⚠ EXCESO</span>` :
-                       (p > 15 ? `<span style="color:var(--amber);">△ ALTO</span>` :
-                                `<span style="color:var(--green);">✓ OK</span>`);
-      
-      qSectors.innerHTML += `<li class="q-item"><span class="q-lbl">${tag}</span><span class="q-val">${p.toFixed(1)}% ${statusIcon}</span></li>`;
-    });
-  
   // QUANT
   const quant = calculateQuantMetrics(globalAssets, sectorWeights, weightBeta);
   
@@ -598,14 +593,14 @@ function render() {
   
   // RECAP
   const typology = getPortfolioTypology(state.tiers[0].pctTarget, state.tiers[1].pctTarget, state.tiers[2].pctTarget);
-  document.getElementById('recap-tipology').innerHTML = `<strong>${typology}</strong><br>Correlación: ${quant.avgCorr.toFixed(2)} | Volatility: ${(quant.portVol*100).toFixed(1)}% | Max DD: ${(quant.maxDD*100).toFixed(1)}%<br><br>
-  ${typology === 'AGGRESSIVE GROWTH' ? '✓ TU CARTERA ES ÓPTIMA PARA GROWTH' : `⚠️ Considera realinear hacia AGGRESSIVE GROWTH`}`;
+  document.getElementById('recap-tipology').innerHTML = `<strong>${typology}</strong><br>Correlación Vectorial: ${quant.avgCorr.toFixed(2)} | Volatilidad: ${(quant.portVol*100).toFixed(1)}% | Max DD: ${(quant.maxDD*100).toFixed(1)}%<br><br>
+  ${typology === 'AGGRESSIVE GROWTH' ? '✓ EXPOSICIÓN ÓPTIMA A GROWTH VERIFICADA' : `⚠️ Riesgo de sub-exposición tecnológica. Requiere realineación hacia AGGRESSIVE GROWTH.`}`;
   
   document.getElementById('recap-t1').textContent = `${state.tiers[0].pctTarget.toFixed(0)}% (${fmt(cap * state.tiers[0].pctTarget / 100)})`;
   document.getElementById('recap-t2').textContent = `${state.tiers[1].pctTarget.toFixed(0)}% (${fmt(cap * state.tiers[1].pctTarget / 100)})`;
   document.getElementById('recap-t3').textContent = `${state.tiers[2].pctTarget.toFixed(0)}% (${fmt(cap * state.tiers[2].pctTarget / 100)})`;
   
-  let notesHtml = `<strong>Fricción Total:</strong> `;
+  let notesHtml = `<strong>Métricas de Fricción:</strong> `;
   let frictionCount = 0;
   state.tiers.forEach(t => {
     t.assets.forEach(a => {
@@ -615,52 +610,19 @@ function render() {
   });
   
   if (frictionCount === 0) {
-    notesHtml += `✓ Ningún activo con fricción. Rebalanceo óptimo.`;
+    notesHtml += `✓ Cero fricción operativa. Rebalanceo estadísticamente eficiente.`;
   } else {
-    notesHtml += `⚠️ ${frictionCount} posición(es) <€100. Considera consolidar o aumentar capital.<br><br>
-    <strong>DCA Recomendado:</strong> €${Math.ceil(cap / 12)}/mes en Tier ${state.tiers[1].pctTarget < 60 ? '2 (Growth)' : '1 (Security)'} para balancear.`;
+    notesHtml += `⚠️ ${frictionCount} posición(es) <€100 detectadas. Eficiencia de capital comprometida.<br><br>
+    <strong>Inyección de Capital (DCA):</strong> Rotación de capital recomendada hacia Tier ${state.tiers[1].pctTarget < 60 ? '2 (Growth)' : '1 (Security)'} para neutralizar la dilución de impacto por comisiones.`;
   }
   
   document.getElementById('recap-notes').innerHTML = notesHtml;
   
-  // CHART
-  updateChart(sectorWeights, state.tiers);
+  // CHARTS
+  renderSectorBar(sectorWeights);
+  updateTierChart(state.tiers);
   
   saveState();
-}
-
-function updateChart(sectorWeights, tiers) {
-  const ctx = document.getElementById('portfolioChart');
-  if (!ctx) return;
-  
-  const labels = Object.keys(sectorWeights).filter(k => sectorWeights[k] > 0.01);
-  const data = labels.map(k => (sectorWeights[k] * 100).toFixed(1));
-  const colors = labels.map(k => getColor(k));
-  
-  if (chartInstance) chartInstance.destroy();
-  
-  chartInstance = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: labels.map(l => l + ` ${((sectorWeights[l] * 100)).toFixed(1)}%`),
-      datasets: [{
-        data: data,
-        backgroundColor: colors,
-        borderColor: 'var(--bg-base)',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: 'var(--text-muted)', font: { size: 10 }, padding: 12 }
-        }
-      }
-    }
-  });
 }
 
 function updateTier(t, v) { v=Math.max(0, parseFloat(v)||0); autoBalanceTiers(t,v); render(); }
@@ -669,6 +631,7 @@ function updateA(t, a, f, v) { if(f==='risk') v=parseFloat(v); state.tiers[t].as
 function addA(t) { state.tiers[t].assets.push({ ticker:"-", pctInternal:0, tag:"Otros", risk:1.5 }); equalizeInternals(t); render(); }
 function remA(t, a) { state.tiers[t].assets.splice(a,1); equalizeInternals(t); render(); }
 
+// Inicialización de ciclo de vida
 loadState();
 document.getElementById('capitalInput').addEventListener('input', render);
 render();
