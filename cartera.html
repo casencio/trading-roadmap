@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Constructor de Cartera | CHENSIO</title>
+<title>Estrategia de Cartera | CHENSIO</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+/* TIPOGRAFÍA Y VARIABLES */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg-base: #09090b; --bg-card: #18181b; --bg-hover: #27272a;
   --border: #3f3f46; --border-light: #52525b;
   --text-main: #f4f4f5; --text-muted: #a1a1aa; --text-dim: #71717a;
-  --green: #10b981; --green-bg: rgba(16, 185, 129, 0.15);
+  --green: #22c55e; --green-bg: rgba(34, 197, 94, 0.15);
   --red: #ef4444; --red-bg: rgba(239, 68, 68, 0.15);
   --amber: #f59e0b; --amber-bg: rgba(245, 158, 11, 0.15);
   --blue: #3b82f6; --blue-bg: rgba(59, 130, 246, 0.15);
@@ -20,455 +21,438 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-sans); min-height: 100vh; padding: 32px 16px 80px; line-height: 1.5; }
-.wrap { max-width: 780px; margin: 0 auto; }
+body {
+  background: var(--bg-base); color: var(--text-main);
+  font-family: var(--font-sans); min-height: 100vh;
+  padding: 32px 16px 80px; line-height: 1.5;
+}
 
-/* HEADER & CONTROLS */
-.brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.brand-tag { font-size: 10px; font-weight: 700; font-family: var(--font-mono); color: var(--text-main); background: var(--border); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-.btn-reset { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); transition: 0.2s; }
-.btn-reset:hover { background: var(--red-bg); color: var(--red); border-color: var(--red); }
-h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
-.sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;}
-.save-badge { font-size: 10px; color: var(--green); background: var(--green-bg); padding: 2px 6px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.wrap { max-width: 680px; margin: 0 auto; }
 
-/* GLOBALES */
-.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-.capital-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;}
+/* ENCABEZADOS Y TITULOS */
+.brand-tag {
+  display: inline-block; font-size: 10px; font-weight: 700; font-family: var(--font-mono);
+  color: var(--blue); background: var(--blue-bg); padding: 4px 8px; border-radius: 4px;
+  letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px;
+}
+h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+.sub { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+
+/* TARJETAS GLOBALES */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+/* SECCIÓN CAPITAL */
+.capital-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .capital-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .capital-input-wrapper { position: relative; display: flex; align-items: center; }
 .capital-input-wrapper::before { content: '€'; position: absolute; left: 12px; font-family: var(--font-mono); font-size: 20px; color: var(--text-muted); }
-.capital-input { background: var(--bg-base); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 24px; font-weight: 700; padding: 8px 12px 8px 32px; border-radius: 8px; width: 180px; text-align: right; outline: none; transition: border 0.2s; }
-.capital-input:focus { border-color: var(--blue); }
+.capital-input {
+  background: var(--bg-base); border: 1px solid var(--border); color: #fff;
+  font-family: var(--font-mono); font-size: 24px; font-weight: 700;
+  padding: 8px 12px 8px 32px; border-radius: 8px; width: 180px; text-align: right;
+  outline: none; transition: all 0.2s;
+}
+.capital-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-bg); }
 
-.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
 .stat-box { display: flex; flex-direction: column; }
-.stat-val { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;}
-.stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
-.stat-sub { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+.stat-val { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;}
+.stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
 
-/* INDICADORES (SEMAFOROS) */
-.badge-status { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.05em; }
-.b-green { background: var(--green-bg); color: var(--green); }
-.b-amber { background: var(--amber-bg); color: var(--amber); }
-.b-red { background: var(--red-bg); color: var(--red); }
-.b-blue { background: var(--blue-bg); color: var(--blue); }
-
-/* SCORE GAUGE */
-.score-box { background: var(--bg-base); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
-.score-val { font-size: 24px; font-weight: 700; font-family: var(--font-mono); }
-.score-txt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-
-/* TIERS Y ACTIVOS */
-.tier-card { background: var(--bg-base); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
-.tier-header { background: var(--bg-card); padding: 16px 20px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+/* TIERS (BLOQUES DE INVERSIÓN) */
+.tier-card {
+  background: var(--bg-base); border: 1px solid var(--border);
+  border-radius: 12px; margin-bottom: 16px; overflow: hidden;
+}
+.tier-header {
+  background: var(--bg-card); padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+}
 .th-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.th-desc { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
 .th-right { display: flex; flex-direction: column; align-items: flex-end; }
+
 .tier-pct-control { display: flex; align-items: baseline; gap: 4px; background: var(--bg-base); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); }
 .tier-pct-input { background: transparent; border: none; color: #fff; font-family: var(--font-mono); font-size: 18px; font-weight: 700; width: 44px; text-align: right; outline: none; }
 .th-eur { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.th-status { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; padding: 4px 8px; border-radius: 4px; }
 
-.asset-row { display: grid; grid-template-columns: 1fr 1fr 1.6fr 0.8fr 32px; gap: 16px; padding: 16px 20px 8px; align-items: end; background: var(--bg-base); }
-.asset-metrics { grid-column: 1 / -1; display: flex; justify-content: space-between; padding: 0 20px 16px; border-bottom: 1px solid var(--border); background: var(--bg-base); font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); }
+/* ACTIVOS (FILAS) */
+.asset-container { display: flex; flex-direction: column; }
+.asset-row {
+  display: grid; grid-template-columns: 1fr 0.8fr 1.2fr 1fr 32px; gap: 12px;
+  padding: 16px 20px; align-items: end; background: var(--bg-base);
+}
+.asset-wrapper { border-bottom: 1px solid var(--border); }
+.asset-wrapper:last-child { border-bottom: none; }
 
-.col-lbl { font-size: 9px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; }
-.a-input, .a-select { background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-sans); font-size: 13px; padding: 10px 12px; border-radius: 6px; width: 100%; outline: none; }
+.col-lbl { font-size: 9px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.a-input, .a-select {
+  background: var(--bg-card); border: 1px solid var(--border); color: #fff;
+  font-family: var(--font-sans); font-size: 12px; padding: 8px 10px;
+  border-radius: 6px; width: 100%; outline: none; transition: border 0.2s;
+}
 .a-input.mono { font-family: var(--font-mono); font-weight: 600; }
-.a-select { appearance: none; color: var(--text-main); cursor: pointer; }
-.a-final-weight { background: var(--bg-card); border: 1px solid transparent; font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--blue); padding: 10px 0; text-align: right;}
+.a-select { appearance: none; color: var(--text-muted); cursor: pointer; }
+.a-input:focus, .a-select:focus { border-color: var(--blue); }
 
-.btn-del { background: var(--red-bg); border: none; color: var(--red); border-radius: 6px; width: 32px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; margin-bottom: 1px; transition: 0.2s; }
+.a-eur-box { display: flex; flex-direction: column; align-items: flex-end; padding-bottom: 4px; }
+.a-eur { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #fff; }
+.a-warn { font-size: 9px; color: var(--red); margin-top: 4px; display: flex; align-items: center; gap: 4px; font-weight: 600; }
+
+.btn-del {
+  background: var(--red-bg); border: none; color: var(--red); border-radius: 6px;
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; transition: background 0.2s; margin-bottom: 1px;
+}
 .btn-del:hover { background: var(--red); color: #fff; }
-.btn-add { width: 100%; background: var(--bg-card); border: none; border-top: 1px dashed var(--border); color: var(--text-muted); font-size: 12px; font-weight: 500; padding: 14px; cursor: pointer; transition: 0.2s; }
+
+.btn-add {
+  width: 100%; background: var(--bg-card); border: none; border-top: 1px dashed var(--border);
+  color: var(--text-muted); font-size: 12px; font-weight: 500; padding: 14px;
+  cursor: pointer; transition: all 0.2s;
+}
 .btn-add:hover { background: var(--bg-hover); color: #fff; }
 
-/* QUANT DASHBOARD */
-.quant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
-.q-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-.q-title { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-.q-desc { font-size: 10px; color: var(--text-dim); margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; line-height: 1.4; }
-.q-list { list-style: none; }
-.q-item { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px dashed var(--border-light); align-items: center; }
-.q-item:last-child { border-bottom: none; }
-.q-lbl { color: var(--text-muted); font-weight: 500; }
-.q-val { font-family: var(--font-mono); font-weight: 700; text-align: right; color: var(--text-main); }
+/* RECAP Y DIAGNÓSTICO ESTILOS */
+.recap-section { margin-top: 32px; }
+.section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; display: block; width: 4px; height: 16px; background: var(--blue); border-radius: 2px; }
 
-.bar-chart { display: flex; height: 10px; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
-.bar-segment { transition: width 0.4s ease; }
+.recap-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.rc-dynamic { border-width: 2px; }
+.r-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.r-desc { font-size: 13px; color: var(--text-main); margin-bottom: 16px; line-height: 1.6; }
 
-.global-warn { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+/* BENCHMARK GRID */
+.bench-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.b-box { background: var(--bg-base); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.b-tier { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+.b-pct { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: #fff; margin: 4px 0; }
+.b-desc { font-size: 10px; color: var(--text-dim); line-height: 1.4; }
 
-@media (max-width: 700px) {
-  .asset-row { grid-template-columns: 1fr 1fr; gap: 12px 8px; padding-bottom: 8px; }
+/* LISTA DE NOTAS */
+.r-notes { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 16px; }
+.r-note-item { font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; line-height: 1.5; }
+.r-note-item:last-child { margin-bottom: 0; }
+.r-bullet { color: var(--blue); font-weight: bold; }
+
+/* GRÁFICOS */
+.bar-chart { display: flex; height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.bar-segment { transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; }
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+.leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+@media (max-width: 600px) {
+  .asset-row { grid-template-columns: 1fr 1fr; padding: 16px; gap: 12px 8px; }
   .asset-row > *:nth-child(1) { grid-column: 1 / -1; }
-  .asset-row > *:nth-child(4) { grid-column: 2 / 3; width: 100%; }
-  .quant-grid { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: 1fr 1fr; }
+  .asset-row > *:nth-child(5) { grid-column: 2 / 3; width: 100%; }
+  .bench-grid { grid-template-columns: 1fr; }
+  .btn-del { width: 100%; margin-top: 8px; }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="brand-row">
-    <div class="brand-tag">Constructor de Cartera Cuantitativa</div>
-    <button class="btn-reset" onclick="resetData()">↻ Reset Datos</button>
-  </div>
-  <h1>Riesgo y Diversificación</h1>
-  <div class="sub">
-    <span>Optimiza la estructura de tus posiciones con auto-balanceo.</span>
-    <span class="save-badge">● Auto-Guardado Local</span>
-  </div>
+  <div class="brand-tag">Framework Quant</div>
+  <h1>Diseñador de Cartera</h1>
+  <p class="sub">Gestiona tu asignación matemática con auditoría de fricción en tiempo real.</p>
 
   <div class="card">
     <div class="capital-header">
-      <div class="capital-label">Capital Total Invertido</div>
+      <div class="capital-label">Capital Base de Inversión</div>
       <div class="capital-input-wrapper">
-        <input type="number" id="capitalInput" class="capital-input" value="1000" step="100" min="100" oninput="updateCapital(this.value)">
+        <input type="number" id="capitalInput" class="capital-input" value="1000" step="100" min="100">
       </div>
     </div>
     <div class="stats-row">
-      <div class="score-box">
-        <div class="stat-lbl">Calidad Global</div>
-        <div class="score-val" id="st-score">—</div>
-        <div class="score-txt" id="st-score-txt">—</div>
+      <div class="stat-box">
+        <span class="stat-lbl">Límite Teórico</span>
+        <span class="stat-val" id="st-optN">—</span>
       </div>
       <div class="stat-box">
-        <span class="stat-lbl">Nº Efectivo (HHI)</span>
-        <span class="stat-val" id="st-effN">—</span>
-        <span class="stat-sub">Mide la concentración real.</span>
+        <span class="stat-lbl">En Cartera</span>
+        <span class="stat-val" id="st-currN">—</span>
       </div>
       <div class="stat-box">
-        <span class="stat-lbl">Diversificación (ρ)</span>
-        <span class="stat-val" id="st-corr">—</span>
-        <span class="stat-sub">Nivel de descorrelación.</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Cash Drag Estimado</span>
-        <span class="stat-val" id="st-cashDrag" style="color:var(--red)">—</span>
-        <span class="stat-sub">Costo de oportunidad por liquidez.</span>
+        <span class="stat-lbl">Volatilidad (Beta)</span>
+        <span class="stat-val" id="st-beta">—</span>
       </div>
     </div>
   </div>
 
-  <div id="globalWarning"></div>
   <div id="tiersContainer"></div>
 
-  <div class="quant-grid">
-    <div class="q-panel">
-      <div class="q-title">1. Exposición a Factores</div>
-      <div class="q-desc">El mercado premia el sector subyacente. Evita que un solo bloque macro domine el riesgo de tu cartera.</div>
-      <div class="bar-chart" id="factorBar"></div>
-      <ul class="q-list" id="q-factors"></ul>
+  <div class="recap-section">
+    <h2 class="section-title">Análisis y Diagnóstico</h2>
+    
+    <div class="card" style="margin-bottom: 16px;">
+      <div class="capital-label" style="margin-bottom:12px;">Diversificación Sectorial</div>
+      <div class="bar-chart" id="sectorBar"></div>
+      <div class="legend" id="sectorLegend"></div>
     </div>
 
-    <div class="q-panel">
-      <div class="q-title">2. Estimación de Riesgo</div>
-      <div class="q-desc">La volatilidad determina la profundidad de las caídas. Controla tu Drawdown para evitar el pánico.</div>
-      <ul class="q-list">
-        <li class="q-item"><span class="q-lbl">Riesgo (Volatilidad)</span><span class="q-val" id="q-vol">—</span></li>
-        <li class="q-item"><span class="q-lbl">Caída Máxima Histórica</span><span class="q-val" id="q-dd" style="color:var(--red)">—</span></li>
-        <li class="q-item"><span class="q-lbl">Perfil Estimado</span><span class="q-val" id="q-profile" style="color:var(--blue)">—</span></li>
-      </ul>
+    <div class="recap-card rc-dynamic" id="recapCard">
+      <div class="r-title" id="rc-title">Evaluando perfil...</div>
+      <div class="r-desc" id="rc-desc">—</div>
+      <div class="r-notes">
+        <div class="r-note-item"><span class="r-bullet">→</span> <span id="rc-note1">—</span></div>
+        <div class="r-note-item"><span class="r-bullet">→</span> <span id="rc-note2">—</span></div>
+      </div>
     </div>
+
+    <div class="recap-card">
+      <div class="r-title" style="color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Benchmark Óptimo (Framework Growth)</div>
+      <p class="r-desc" style="color: var(--text-dim); margin-bottom: 20px;">Esta es la arquitectura estadística de referencia para maximizar rendimiento controlando el riesgo de ruina.</p>
+      
+      <div class="bench-grid">
+        <div class="b-box" style="border-top: 3px solid var(--blue);">
+          <div class="b-tier">Tier 1: Seguridad</div>
+          <div class="b-pct">25%</div>
+          <div class="b-desc">Ancla contra caídas. Salud, Consumo Defensivo o Big Tech con FCF masivo.</div>
+        </div>
+        <div class="b-box" style="border-top: 3px solid var(--green);">
+          <div class="b-tier">Tier 2: Growth</div>
+          <div class="b-pct">60%</div>
+          <div class="b-desc">Motor principal. Líderes de sector, semiconductores y momentum puro.</div>
+        </div>
+        <div class="b-box" style="border-top: 3px solid var(--amber);">
+          <div class="b-tier">Tier 3: Satélites</div>
+          <div class="b-pct">15%</div>
+          <div class="b-desc">Opcionalidad asimétrica. Apuestas de alta volatilidad (Beta > 2).</div>
+        </div>
+      </div>
+
+      <div class="r-notes">
+        <div class="r-note-item"><span class="r-bullet">■</span> <strong>Fricción (Umbral de los 100€):</strong> Posiciones inferiores a 100€ sufren una pérdida estadísticamente inaceptable por las comisiones del bróker y el spread bid/ask. Concéntrate en menos activos si tu capital es bajo.</div>
+        <div class="r-note-item"><span class="r-bullet">■</span> <strong>Regla del Rebalanceo DCA:</strong> Nunca vendas activos de calidad para rebalancear porcentajes. Dirige tu ahorro mensual a los Tiers que se hayan quedado por debajo de su peso objetivo. Vender corta el interés compuesto.</div>
+        <div class="r-note-item"><span class="r-bullet">■</span> <strong>Riesgo de Correlación:</strong> Vigila tu barra de "Diversificación Sectorial". Si un solo sector supera el 35-40% del total, tu cartera pasa de ser Growth a ser una apuesta binaria sobre ese sector específico.</div>
+      </div>
+    </div>
+
   </div>
+
 </div>
 
 <script>
-// --- MOTOR LÓGICO ---
+const MIN_POS_SIZE = 100; // Umbral de fricción estadística
 
-const TAG_MAP = {
-  "Semiconductores": "AI/Tech", "Infraestructura IA": "AI/Tech", "Big Tech (Calidad)": "AI/Tech",
-  "Utilities / Eléctricas": "Rates", "Seguros / Financiero": "Rates",
-  "Lujo / Margen": "Cyclical", "Aeroespacial": "Cyclical",
-  "Energía Tradicional": "Commodity", "Oro / Cripto": "Commodity",
-  "Salud / Defensivo": "Defensive", "Consumo Básico": "Defensive",
-  "Efectivo": "Cash"
+const STANDARD_TAGS = [
+  "Semiconductores", "Big Tech (Calidad)", "Infraestructura IA", 
+  "Salud / Defensivo", "Consumo Básico", "Energía Tradicional", 
+  "Lujo / Margen", "Aeroespacial", "Seguros / Financiero", 
+  "Utilities / Eléctricas", "Efectivo", "Oro / Cripto"
+];
+
+const RISK_PROFILES = {
+  0.5: "Escudo (Defensivo)",
+  1.0: "Mercado (SP500)",
+  1.5: "Motor (Growth/Tech)",
+  2.2: "Especulativo (Alto Riesgo)"
 };
 
-const STANDARD_TAGS = Object.keys(TAG_MAP);
-const MAX_WEIGHT_LIMITS = { 1: 25, 2: 20, 3: 10 }; 
-
-const VOL_REGIMES = {
-  "AI/Tech": 0.24, "Rates": 0.16, "Cyclical": 0.22, 
-  "Commodity": 0.20, "Defensive": 0.14, "Cash": 0.00
-};
-
-const CORR_BASE = {
-  "AI/Tech":   { "AI/Tech": 1.0, "Rates": 0.35, "Cyclical": 0.65, "Commodity": 0.40, "Defensive": 0.30, "Cash": 0.0 },
-  "Rates":     { "Rates": 1.0, "Cyclical": 0.50, "Commodity": 0.45, "Defensive": 0.60, "Cash": 0.0 },
-  "Cyclical":  { "Cyclical": 1.0, "Commodity": 0.55, "Defensive": 0.40, "Cash": 0.0 },
-  "Commodity": { "Commodity": 1.0, "Defensive": 0.35, "Cash": 0.0 },
-  "Defensive": { "Defensive": 1.0, "Cash": 0.0 },
-  "Cash":      { "Cash": 0.0 }
-};
-
-const DEFAULT_STATE = {
+let state = {
   capital: 1000,
   tiers: [
-    { id: 1, name: "Tier 1: Core de Seguridad", pctTarget: 25, color: "var(--blue)", assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)" }] },
-    { id: 2, name: "Tier 2: Growth Engines", pctTarget: 60, color: "var(--green)", assets: [
-        { ticker: "NVDA", pctInternal: 33.3, tag: "Semiconductores" },
-        { ticker: "VST", pctInternal: 33.3, tag: "Infraestructura IA" },
-        { ticker: "MSFT", pctInternal: 33.4, tag: "Big Tech (Calidad)" }
-    ]},
-    { id: 3, name: "Tier 3: Satélites", pctTarget: 15, color: "var(--amber)", assets: [
-        { ticker: "RKLB", pctInternal: 100, tag: "Aeroespacial" }
-    ]}
+    {
+      id: 1, name: "Tier 1: Bloque Seguridad", desc: "El ancla de la cartera. Foso defensivo.",
+      pctTarget: 25, color: "var(--blue)",
+      assets: [{ ticker: "GOOGL", pctInternal: 100, tag: "Big Tech (Calidad)", risk: 1.0 }]
+    },
+    {
+      id: 2, name: "Tier 2: Bloque Growth", desc: "El motor de Alpha. Líderes de mercado.",
+      pctTarget: 60, color: "var(--green)",
+      assets: [{ ticker: "NVDA", pctInternal: 100, tag: "Semis", risk: 1.5 }]
+    },
+    {
+      id: 3, name: "Tier 3: Satélites", desc: "Asimetría. Apuestas pequeñas de alto riesgo.",
+      pctTarget: 15, color: "var(--amber)",
+      assets: []
+    }
   ]
 };
 
-let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+const fmt = (num) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(num);
+const getColor = (str) => { let h = 0; for(let i=0;i<str.length;i++) h = str.charCodeAt(i) + ((h<<5)-h); return `hsl(${h % 360}, 65%, 50%)`; };
 
-// --- ALMACENAMIENTO ---
-function loadState() {
-  const saved = localStorage.getItem('chensio_quant_v6');
-  if (saved) {
-    try { 
-      let parsed = JSON.parse(saved);
-      if (parsed.tiers) state = parsed;
-      document.getElementById('capitalInput').value = state.capital;
-    } catch(e) {}
+// --- LÓGICA DE DIAGNÓSTICO DE TIERS (Sólo informacional, no bloqueante) ---
+function evaluateTierState(tIdx, pct) {
+  if (tIdx === 0) {
+    if (pct >= 20 && pct <= 35) return { text: "✓ RANGO ÓPTIMO", bg: "var(--green-bg)", col: "var(--green)" };
+    if (pct > 35) return { text: "ESTADO: CONSERVADOR", bg: "var(--blue-bg)", col: "var(--blue)" };
+    return { text: "⚠ PELIGRO: POCO ESCUDO", bg: "var(--amber-bg)", col: "var(--amber)" };
   }
-}
-function saveState() {
-  localStorage.setItem('chensio_quant_v6', JSON.stringify(state));
-}
-function updateCapital(val) {
-  state.capital = parseFloat(val) || 0;
-  saveState(); render();
-}
-function resetData() {
-  if(confirm("¿Borrar y restaurar cartera por defecto?")) {
-    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-    document.getElementById('capitalInput').value = state.capital;
-    saveState(); render();
+  if (tIdx === 1) {
+    if (pct >= 50 && pct <= 70) return { text: "✓ RANGO ÓPTIMO", bg: "var(--green-bg)", col: "var(--green)" };
+    if (pct > 70) return { text: "⚠ SOBRE-EXPUESTO", bg: "var(--amber-bg)", col: "var(--amber)" };
+    return { text: "ESTADO: BAJO GROWTH", bg: "var(--amber-bg)", col: "var(--amber)" };
+  }
+  if (tIdx === 2) {
+    if (pct === 0) return { text: "SEGURO (SIN SATÉLITES)", bg: "var(--blue-bg)", col: "var(--blue)" };
+    if (pct <= 15) return { text: "✓ RIESGO CONTROLADO", bg: "var(--green-bg)", col: "var(--green)" };
+    return { text: "🚨 RIESGO DE RUINA (>15%)", bg: "var(--red-bg)", col: "var(--red)" };
   }
 }
 
-const fmt = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-const fmtP = (n) => (n * 100).toFixed(1) + '%';
-const getColor = (str) => { let h=0; for(let i=0;i<str.length;i++) h = str.charCodeAt(i) + ((h<<5)-h); return `hsl(${h % 360}, 65%, 50%)`; };
+// --- LÓGICA DE DIAGNÓSTICO MACRO (RECAP) ---
+function updateRecapDisplay() {
+  const t1 = state.tiers[0].pctTarget;
+  const t2 = state.tiers[1].pctTarget;
+  const t3 = state.tiers[2].pctTarget;
 
-function getCorr(f1, f2) {
-  if (f1 === "Cash" || f2 === "Cash") return 0;
-  if (f1 === f2) return 1.0;
-  return (CORR_BASE[f1] && CORR_BASE[f1][f2] !== undefined) ? CORR_BASE[f1][f2] : 
-         ((CORR_BASE[f2] && CORR_BASE[f2][f1] !== undefined) ? CORR_BASE[f2][f1] : 0.5);
+  const card = document.getElementById('recapCard');
+  const title = document.getElementById('rc-title');
+  const desc = document.getElementById('rc-desc');
+  const n1 = document.getElementById('rc-note1');
+  const n2 = document.getElementById('rc-note2');
+
+  if (t3 > 20) {
+    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--red)";
+    title.innerHTML = "🚨 Perfil Altamente Especulativo"; title.style.color = "var(--red)";
+    desc.innerText = "Has asignado demasiado capital a la zona de satélites. Estadísticamente, la volatilidad de estos activos destrozará el interés compuesto de tu cartera si el mercado se gira.";
+    n1.innerText = `Tienes un ${t3}% en apuestas. El máximo matemático recomendado para no quebrar tu cuenta es el 15%.`;
+    n2.innerText = `Solución: Traspasa al menos un ${t3 - 15}% hacia tu bloque de Seguridad (Tier 1).`;
+  } else if (t1 >= 45) {
+    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--blue)";
+    title.innerHTML = "🛡️ Perfil Defensivo / Conservador"; title.style.color = "var(--blue)";
+    desc.innerText = "Tu cartera está muy anclada. Es excelente para preservar capital en recesiones, pero su Beta será demasiado baja para batir al S&P500 en mercados alcistas.";
+    n1.innerText = `El Growth (Tier 2) solo representa el ${t2}%. Necesitas motores para que la cuenta crezca.`;
+    n2.innerText = `Si tienes bajo capital, ser excesivamente defensivo ralentiza drásticamente tu fase de acumulación matemática.`;
+  } else if (t2 >= 50 && t1 >= 20 && t3 <= 15) {
+    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--green)";
+    title.innerHTML = "🎯 Perfil Growth-Security (Óptimo)"; title.style.color = "var(--green)";
+    desc.innerText = "Esta es la estructura matemática ideal. Tienes suficiente motor (Growth) para superar al mercado, anclado por una base sólida que amortiguará los drawdowns tecnológicos.";
+    n1.innerText = "Mantén el Tier 2 poblado exclusivamente por líderes de sector con fuerza relativa alta.";
+    n2.innerText = "Vigila únicamente que el Tier 1 (Seguridad) esté realmente descorrelacionado del Tier 2.";
+  } else {
+    card.style.background = "var(--bg-card)"; card.style.borderColor = "var(--amber)";
+    title.innerHTML = "⚖️ Perfil Desbalanceado"; title.style.color = "var(--amber)";
+    desc.innerText = "Estás en una zona híbrida o de transición. No es matemáticamente deficiente, pero se aleja del óptimo para capturar la máxima rentabilidad ajustada al riesgo.";
+    n1.innerText = "Para buscar 'Growth', el Tier 2 debería ser tu posición dominante y superar el 50%.";
+    n2.innerText = "Asegúrate de que esta configuración responde a una decisión táctica temporal y no a un error de asignación.";
+  }
 }
 
-// --- LOGICA DE AUTO-BALANCEO RECUPERADA ---
-function updateTierPct(tIdx, val) {
-  state.tiers[tIdx].pctTarget = parseFloat(val) || 0;
-  // Auto-balance rest of tiers
-  let diff = state.tiers[tIdx].pctTarget - state.tiers[tIdx].pctTarget; // Keep logic simple, allow user to make mistakes and show warning
-  render();
-}
-
+// --- BALANCERS ---
 function autoBalanceInternals(tIdx, changedAIdx, newVal) {
-  let t = state.tiers[tIdx];
+  let t = state.tiers[tIdx]; let diff = newVal - t.assets[changedAIdx].pctInternal;
   if(t.assets.length === 1) { t.assets[0].pctInternal = 100; return; }
-  
-  let oldVal = t.assets[changedAIdx].pctInternal;
   t.assets[changedAIdx].pctInternal = newVal;
-  
-  let diff = newVal - oldVal;
   let dec = diff / (t.assets.length - 1);
-  let sum = 0;
-  
-  t.assets.forEach((a, i) => {
-    if(i !== changedAIdx) a.pctInternal = Math.max(0, a.pctInternal - dec);
-    sum += a.pctInternal;
-  });
-  
-  // Normalizar si hay desfase por decimales
-  if(Math.abs(sum - 100) > 0.1 && sum > 0) {
-    t.assets.forEach(a => a.pctInternal = (a.pctInternal / sum) * 100);
-  }
-  render();
+  let sum=0; t.assets.forEach((a,i)=>{ if(i!==changedAIdx) a.pctInternal = Math.max(0, a.pctInternal - dec); sum+=a.pctInternal; });
+  if(Math.abs(sum-100)>0.1 && sum>0) t.assets.forEach(a=>a.pctInternal=(a.pctInternal/sum)*100);
 }
-
 function equalizeInternals(tIdx) {
-  let t = state.tiers[tIdx];
-  if(!t.assets.length) return;
-  let eq = 100 / t.assets.length;
-  t.assets.forEach(a => a.pctInternal = eq);
-  render();
+  let t = state.tiers[tIdx]; if(!t.assets.length) return;
+  t.assets.forEach(a=>a.pctInternal = 100/t.assets.length);
 }
-
-function updateAssetTag(tIdx, aIdx, newTag) { state.tiers[tIdx].assets[aIdx].tag = newTag; render(); }
-function updateAssetTicker(tIdx, aIdx, val) { state.tiers[tIdx].assets[aIdx].ticker = val; render(); }
-function addA(tIdx) {
-  state.tiers[tIdx].assets.push({ ticker: "-", pctInternal: 0, tag: "Big Tech (Calidad)" });
-  equalizeInternals(tIdx);
-}
-function remA(tIdx, aIdx) { 
-  state.tiers[tIdx].assets.splice(aIdx, 1); 
-  equalizeInternals(tIdx); 
-}
-
-// --- SEMÁFOROS ---
-function getTierBadge(tIdx, pct) {
-  if (tIdx === 0) return pct >= 20 && pct <= 35 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (pct < 20 ? `<span class="badge-status b-red">RIESGO</span>` : `<span class="badge-status b-blue">CONSERVADOR</span>`);
-  if (tIdx === 1) return pct >= 50 && pct <= 70 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (pct > 70 ? `<span class="badge-status b-amber">SOBREXPUESTO</span>` : `<span class="badge-status b-amber">BAJO GROWTH</span>`);
-  if (tIdx === 2) return pct <= 15 ? `<span class="badge-status b-green">OK</span>` : `<span class="badge-status b-red">PELIGRO</span>`;
+function autoBalanceTiers(cIdx, newVal) {
+  let diff = newVal - state.tiers[cIdx].pctTarget; state.tiers[cIdx].pctTarget = newVal;
+  let dec = diff/2; state.tiers.forEach((t,i)=>{ if(i!==cIdx) t.pctTarget = Math.max(0, t.pctTarget - dec); });
+  let sum = state.tiers.reduce((a,t)=>a+t.pctTarget,0);
+  if(Math.abs(sum-100)>0.1 && sum>0) state.tiers.forEach(t=>t.pctTarget=(t.pctTarget/sum)*100);
 }
 
 // --- RENDER ---
 function render() {
-  const cap = state.capital;
-  
-  let hhiSum = 0;
-  let globalAssets = []; 
-  let factorWeights = { "AI/Tech":0, "Rates":0, "Cyclical":0, "Commodity":0, "Defensive":0, "Cash":0 };
+  const cap = parseFloat(document.getElementById('capitalInput').value) || 0; state.capital = cap;
+  const optNTotal = Math.max(1, Math.round(1.8 * Math.log(cap>0?cap:1) - 5));
+  let currN = 0, weightBeta = 0, sectors = {};
 
   const cont = document.getElementById('tiersContainer'); cont.innerHTML = '';
-  const globalWarnBox = document.getElementById('globalWarning');
-  globalWarnBox.innerHTML = '';
-
-  // VALIDACIÓN DE SUMA 100% TIERS
-  let sumTiers = state.tiers.reduce((a,b)=>a+b.pctTarget, 0);
-  if (Math.abs(sumTiers - 100) > 0.1) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-red">⚠ Los bloques suman ${sumTiers}%. Ajusta los porcentajes para que la cartera sume exactamente 100%.</div>`;
-  }
 
   state.tiers.forEach((tier, tIdx) => {
+    currN += tier.assets.length;
     const tierEur = cap * (tier.pctTarget / 100);
-    const tierBadge = getTierBadge(tIdx, tier.pctTarget);
+    const status = evaluateTierState(tIdx, tier.pctTarget);
 
     let html = `
       <div class="tier-card">
         <div class="tier-header">
-          <div><div class="th-title" style="color:${tier.color}">${tier.name} ${tierBadge}</div></div>
+          <div>
+            <div class="th-title" style="color:${tier.color}">${tier.name}</div>
+            <div class="th-desc">${tier.desc}</div>
+          </div>
           <div class="th-right">
-            <div class="tier-pct-control"><input type="number" class="tier-pct-input" min="0" max="100" value="${tier.pctTarget.toFixed(0)}" onchange="updateTierPct(${tIdx}, this.value)"> <span style="color:var(--text-muted)">%</span></div>
+            <div class="tier-pct-control">
+              <input type="number" class="tier-pct-input" value="${tier.pctTarget.toFixed(0)}" onchange="updateTier(${tIdx}, this.value)"> <span style="color:var(--text-muted)">%</span>
+            </div>
+            <div class="th-status" style="background:${status.bg}; color:${status.col};">${status.text}</div>
             <div class="th-eur">${fmt(tierEur)}</div>
           </div>
         </div>
-        <div>
+        <div class="asset-container">
     `;
 
     tier.assets.forEach((a, aIdx) => {
-      const w = (tier.pctTarget / 100) * (a.pctInternal / 100); 
-      const aEur = cap * w;
-      const factor = TAG_MAP[a.tag] || "Otros";
-
-      hhiSum += Math.pow(w, 2);
-      if(factorWeights[factor] !== undefined) factorWeights[factor] += w;
-      globalAssets.push({ weight: w, factor: factor });
-
-      let warns = [];
-      const maxLim = MAX_WEIGHT_LIMITS[tier.id];
-      if ((w*100) > maxLim) warns.push(`<span class="badge-status b-amber">EXCESO: ${fmtP(w)} (Máx ${maxLim}%)</span>`);
-      if (aEur > 0 && aEur < 50) warns.push(`<span class="badge-status b-red">FRICCIÓN (<50€)</span>`);
-      if (warns.length === 0) warns.push(`<span class="badge-status b-green">✓ OK</span>`);
+      const aEur = tierEur * (a.pctInternal / 100);
+      const absPct = (tier.pctTarget / 100) * (a.pctInternal / 100);
+      weightBeta += (a.risk * absPct);
+      sectors[a.tag] = (sectors[a.tag] || 0) + (absPct * 100);
 
       const tagOpts = STANDARD_TAGS.map(t=>`<option value="${t}" ${a.tag===t?'selected':''}>${t}</option>`).join('');
+      const riskOpts = Object.entries(RISK_PROFILES).map(([v,l])=>`<option value="${v}" ${a.risk==v?'selected':''}>${l}</option>`).join('');
+
+      // Auditoría de Fricción Individual
+      const isFriction = aEur > 0 && aEur < MIN_POS_SIZE;
+      const eurColor = isFriction ? 'var(--red)' : '#fff';
+      const frictionWarn = isFriction ? `<div class="a-warn">⚠ Fricción alta (<100€)</div>` : '';
 
       html += `
-        <div class="asset-row">
-          <div><div class="col-lbl">Ticker</div><input type="text" class="a-input mono" value="${a.ticker}" onchange="updateAssetTicker(${tIdx},${aIdx},this.value)"></div>
-          <div><div class="col-lbl">Peso Interno %</div><input type="number" class="a-input mono" min="0" max="100" value="${a.pctInternal.toFixed(1)}" onchange="autoBalanceInternals(${tIdx},${aIdx},this.value)"></div>
-          <div><div class="col-lbl">Sector (Asigna Riesgo)</div><select class="a-select" onchange="updateAssetTag(${tIdx},${aIdx},this.value)">${tagOpts}</select></div>
-          <div><div class="col-lbl">Peso Final</div><div class="a-final-weight">${fmtP(w)}</div></div>
-          <button class="btn-del" onclick="remA(${tIdx},${aIdx})">×</button>
-        </div>
-        <div class="asset-metrics">
-          <div>Asignación Real: <span style="color:#fff">${fmt(aEur)}</span></div>
-          <div style="display:flex; gap:6px;">${warns.join('')}</div>
+        <div class="asset-wrapper">
+          <div class="asset-row">
+            <div><div class="col-lbl">Ticker</div><input type="text" class="a-input mono" value="${a.ticker}" onchange="updateA(${tIdx},${aIdx},'ticker',this.value)"></div>
+            <div><div class="col-lbl">Peso %</div><input type="number" class="a-input mono" value="${a.pctInternal.toFixed(1)}" onchange="changeA(${tIdx},${aIdx},this.value)"></div>
+            <div><div class="col-lbl">Sector</div><select class="a-select" onchange="updateA(${tIdx},${aIdx},'tag',this.value)">${tagOpts}</select></div>
+            <div><div class="col-lbl">Perfil Riesgo</div><select class="a-select" onchange="updateA(${tIdx},${aIdx},'risk',this.value)">${riskOpts}</select></div>
+            <button class="btn-del" onclick="remA(${tIdx},${aIdx})">×</button>
+            <div style="grid-column: 1/-1;">
+              <div class="a-eur-box">
+                <div class="a-eur" style="color: ${eurColor}">${fmt(aEur)}</div>
+                ${frictionWarn}
+              </div>
+            </div>
+          </div>
         </div>
       `;
     });
 
-    html += `</div><button class="btn-add" onclick="addA(${tIdx})">+ Añadir Posición (Se auto-balanceará el Tier)</button></div>`;
+    // Botón SIEMPRE ACTIVO, sin bloqueos
+    html += `</div><button class="btn-add" onclick="addA(${tIdx})">+ Añadir Activo</button></div>`;
     cont.innerHTML += html;
   });
 
-  // --- MOTOR QUANT: VOLATILIDAD ---
-  let portVariance = 0;
-  let weightedCorrSum = 0; let denomCorr = 0;
+  // Top Stats
+  document.getElementById('st-optN').textContent = cap >= 100 ? optNTotal : 0;
+  document.getElementById('st-currN').innerHTML = `${currN} ${currN > optNTotal ? '<span style="color:var(--amber); font-size:12px;">(Alto)</span>' : ''}`;
+  document.getElementById('st-beta').textContent = weightBeta.toFixed(2);
 
-  for(let i=0; i<globalAssets.length; i++) {
-    for(let j=0; j<globalAssets.length; j++) {
-      let a1 = globalAssets[i]; let a2 = globalAssets[j];
-      let rho = getCorr(a1.factor, a2.factor);
-      let vol1 = VOL_REGIMES[a1.factor] || 0.18; 
-      let vol2 = VOL_REGIMES[a2.factor] || 0.18;
-      
-      portVariance += (a1.weight * a2.weight * vol1 * vol2 * rho);
-      if(i !== j) { weightedCorrSum += (a1.weight * a2.weight * rho); denomCorr += (a1.weight * a2.weight); }
-    }
-  }
-
-  let portVol = Math.sqrt(Math.max(0, portVariance));
-  let avgCorr = denomCorr > 0 ? (weightedCorrSum / denomCorr) : 1.0;
-  if(globalAssets.length <= 1) avgCorr = 1.0;
-
-  let maxDD = portVol * 2.5; // Estimación estándar retail
-  let cagrProfile = portVol < 0.12 ? "Conservador" : (portVol > 0.20 ? "Agresivo" : "Balanceado");
-
-  // --- SCORES Y SEMÁFOROS GLOBALES ---
-  let effN = hhiSum > 0 ? (1 / hhiSum) : 0;
-  let totalPositions = globalAssets.filter(a => a.weight > 0).length;
-  
-  let score = 0;
-  if (effN >= 8) score += 3; else if (effN >= 5) score += 2; else score += 1;
-  if (avgCorr <= 0.5) score += 3; else if (avgCorr <= 0.7) score += 2; else score += 1;
-  let maxFactorPct = Math.max(...Object.values(factorWeights));
-  if (maxFactorPct <= 0.4) score += 2; else if (maxFactorPct <= 0.5) score += 1;
-  if (totalPositions >= 5 && totalPositions <= 15) score += 2; else if (totalPositions <= 4) score += 1;
-
-  let scoreColor = score >= 8 ? "var(--green)" : (score >= 5 ? "var(--amber)" : "var(--red)");
-  let scoreTxt = score >= 8 ? "SÓLIDA" : (score >= 5 ? "ACEPTABLE" : "PELIGROSA");
-
-  document.getElementById('st-score').textContent = `${score}/10`;
-  document.getElementById('st-score').style.color = scoreColor;
-  document.getElementById('st-score-txt').textContent = scoreTxt;
-  document.getElementById('st-score-txt').style.color = scoreColor;
-
-  // Semáforo HHI
-  let effnBadge = effN >= 8 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (effN >= 5 ? `<span class="badge-status b-amber">REGULAR</span>` : `<span class="badge-status b-red">ALERTA</span>`);
-  document.getElementById('st-effN').innerHTML = `${effN.toFixed(1)} ${effnBadge}`;
-
-  // Semáforo Correlación
-  let corrBadge = avgCorr <= 0.6 ? `<span class="badge-status b-green">ÓPTIMO</span>` : (avgCorr <= 0.7 ? `<span class="badge-status b-amber">REGULAR</span>` : `<span class="badge-status b-red">ALTA</span>`);
-  document.getElementById('st-corr').innerHTML = `${avgCorr.toFixed(2)} ${corrBadge}`;
-  
-  // Cash Drag (Tipo Monetario 2%)
-  let cashDrag = factorWeights["Cash"] * 0.02; 
-  document.getElementById('st-cashDrag').textContent = "-" + fmtP(cashDrag);
-
-  // Alertas Globales
-  if(totalPositions > 15) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Tienes ${totalPositions} posiciones. A partir de 15 acciones empiezas a replicar el índice perdiendo tu ventaja (Diworsification).</div>`;
-  }
-  if (factorWeights["AI/Tech"] > 0.5) {
-    globalWarnBox.innerHTML += `<div class="global-warn warn-amber">⚠ Alta exposición a Tecnología (>50%). Gran rentabilidad potencial, pero sufrirás más volatilidad si el ciclo rota.</div>`;
-  }
-
-  // Actualizar Paneles
-  document.getElementById('q-vol').textContent = fmtP(portVol);
-  document.getElementById('q-dd').textContent = "-" + fmtP(maxDD);
-  document.getElementById('q-profile').textContent = cagrProfile;
-
-  const bar = document.getElementById('factorBar');
-  const qFactors = document.getElementById('q-factors');
-  bar.innerHTML = ''; qFactors.innerHTML = '';
-  
-  Object.keys(factorWeights).sort((a,b)=>factorWeights[b]-factorWeights[a]).forEach(f => {
-    let p = factorWeights[f]; if(p < 0.001) return;
-    let col = getColor(f);
-    let fBadge = p > 0.4 ? `<span class="badge-status b-amber">ALTO</span>` : `<span class="badge-status b-green">OK</span>`;
-    
-    bar.innerHTML += `<div class="bar-segment" style="width:${p*100}%; background:${col};"></div>`;
-    qFactors.innerHTML += `<li class="q-item"><span class="q-lbl"><div style="width:8px;height:8px;border-radius:2px;background:${col}; margin-right:8px;"></div>${f}</span><span class="q-val" style="display:flex; align-items:center; gap:8px;">${fmtP(p)} ${fBadge}</span></li>`;
+  // Bar Chart
+  const bar = document.getElementById('sectorBar'); const leg = document.getElementById('sectorLegend');
+  bar.innerHTML = ''; leg.innerHTML = '';
+  Object.keys(sectors).sort((a,b)=>sectors[b]-sectors[a]).forEach(tag => {
+    if(sectors[tag]<0.1) return;
+    const col = getColor(tag);
+    bar.innerHTML += `<div class="bar-segment" style="width:${sectors[tag]}%; background:${col};"></div>`;
+    leg.innerHTML += `<div class="leg-item"><div class="leg-dot" style="background:${col};"></div><span>${tag} <strong>${sectors[tag].toFixed(1)}%</strong></span></div>`;
   });
 
-  saveState();
+  updateRecapDisplay();
 }
 
-// INIT
-loadState();
-document.getElementById('capitalInput').addEventListener('input', (e) => updateCapital(e.target.value));
+// --- HANDLERS ---
+function updateTier(t, v) { v=parseFloat(v); if(isNaN(v)||v<0)v=0; autoBalanceTiers(t,v); render(); }
+function changeA(t, a, v) { v=parseFloat(v); if(isNaN(v)||v<0)v=0; if(v>100)v=100; autoBalanceInternals(t,a,v); render(); }
+function updateA(t, a, f, v) { if(f==='risk') v=parseFloat(v); state.tiers[t].assets[a][f]=v; render(); }
+function addA(t) { state.tiers[t].assets.push({ ticker:"-", pctInternal:0, tag:"Otros", risk:1.5 }); equalizeInternals(t); render(); }
+function remA(t, a) { state.tiers[t].assets.splice(a,1); equalizeInternals(t); render(); }
+
+document.getElementById('capitalInput').addEventListener('input', render);
 render();
 </script>
 </body>
