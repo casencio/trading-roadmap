@@ -273,7 +273,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
 
 <script>
 /* ══ SHEETS URL ══ */
-const SHEETS_URL = ''; // ← pega aquí tu Apps Script URL
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyv6RCs-xSW_DijQzDKgdpI6CiqPua6osiB9r4oXqlVgGcbrTxMMDdaDOfa_VreiFIPoA/exec'; // ← pega aquí tu Apps Script URL
 
 /* ══ ACCIONES ══ */
 const STOCKS = [
@@ -482,10 +482,18 @@ async function syncToSheets(action,data){
   if(!SHEETS_URL) return;
   setSyncStatus('spin','Sincronizando…');
   try{
-    await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,timestamp:new Date().toISOString(),...data})});
+    const params = new URLSearchParams({
+      action,
+      timestamp: new Date().toISOString(),
+      ...data
+    });
+    const url = SHEETS_URL + '?' + params.toString();
+    await fetch(url, {method:'GET', mode:'no-cors'});
     setSyncStatus('ok','Sincronizado ✓');
-  }catch(e){setSyncStatus('err','Error de conexión');}
-  setTimeout(()=>setSyncStatus('ok','Google Sheets conectado'),3000);
+  }catch(e){
+    setSyncStatus('err','Error de conexión');
+  }
+  setTimeout(()=>setSyncStatus('ok','Google Sheets conectado ✓'),3000);
 }
 function setSyncStatus(state,msg){
   document.getElementById('syncDot').className='sync-dot'+(state?' '+state:'');
