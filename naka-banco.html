@@ -273,7 +273,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
 
 <script>
 /* ══ SHEETS URL ══ */
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxl62zzZYcbCA7X1X1TTP2Gp8WPZlte1mpB0VdMB8cuKt5bW8zSrwFwkPNIoWy50KtZbg/exec'; // ← pega aquí tu Apps Script URL
+const SHEETS_URL = ''; // ← pega aquí tu Apps Script URL
 
 /* ══ ACCIONES ══ */
 const STOCKS = [
@@ -507,7 +507,7 @@ function renderAll(){renderGirls();renderWallet();renderProj();renderBadges();re
 
 buildStockGrid();
 selPath('safe');
-setSyncStatus('','Sin conectar a Google Sheets');
+setSyncStatus(SHEETS_URL ? 'ok' : '', SHEETS_URL ? 'Google Sheets conectado ✓' : 'Sin conectar a Google Sheets');
 renderAll();
 </script>
 </body>
