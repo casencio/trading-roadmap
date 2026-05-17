@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="🏠">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>🏠 Olivia & Gala</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Pacifico&display=swap');
+
+/* PIN: var PIN = '2111' en JS */
+
+:root {
+  --o:      #FF5C93;
+  --o-soft: #FFE4EF;
+  --o-dark: #C2366A;
+  --g:      #9B6FE8;
+  --g-soft: #EDE4FF;
+  --g-dark: #5E2FAD;
+  --pend:   #FFB800;
+  --pend-soft: #FFF3CC;
+  --ok:     #22C97A;
+  --ok-soft:#D4F7E8;
+  --bg:     #F7F4FF;
+  --white:  #FFFFFF;
+  --ink:    #1A0F3C;
+  --muted:  #9087B0;
+  --r:      20px;
+  --r-lg:   28px;
+  --sh:     0 4px 20px rgba(80,40,160,.10);
+  --sh-lg:  0 10px 40px rgba(80,40,160,.18);
+}
+
+/* ── BASE ── */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100%;overflow-x:hidden;}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 0% 0%,   rgba(255,92,147,.10) 0%,transparent 55%),
+    radial-gradient(ellipse at 100% 100%,rgba(155,111,232,.13) 0%,transparent 55%);
+}
+
+/* ── WRAP — respira más en iPad ── */
+.wrap{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:0 22px 50px;}
+
+/* ═══════════════════════════
+   HOME HEADER
+═══════════════════════════ */
+.home-header{
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  -webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;
+  padding:30px 0 24px;gap:12px;
+}
+.home-icon{font-size:2.6rem;line-height:1;-ms-flex-negative:0;flex-shrink:0;}
+.home-date{
+  font-size:.82rem;font-weight:800;color:var(--muted);
+  background:var(--white);border-radius:30px;padding:8px 16px;
+  box-shadow:var(--sh);letter-spacing:.02em;text-align:center;
+}
+.papa-btn{
+  background:var(--white);border:none;border-radius:50px;
+  padding:10px 18px;font-family:'Nunito',sans-serif;
+  font-size:.82rem;font-weight:900;color:var(--muted);
+  cursor:pointer;box-shadow:var(--sh);
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  gap:6px;min-height:44px;-ms-flex-negative:0;flex-shrink:0;
+}
+.papa-btn:active{opacity:.7;}
+
+/* ═══════════════════════════
+   PROFILE CARDS — gap fijo en px
+═══════════════════════════ */
+.cards-row{
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  gap:16px;          /* gap explícito, no colapsa en iOS 9 */
+}
+.profile-card{
+  -webkit-box-flex:1;-ms-flex:1;flex:1;
+  border-radius:var(--r-lg);padding:26px 18px 22px;
+  box-shadow:var(--sh-lg);cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .18s;-webkit-transform:translateZ(0);
+  text-align:center;
+  /* altura mínima para que quepa bien el contenido */
+  min-height:240px;
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -ms-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  /* gap uniforme entre elementos internos */
+  gap:0;
+}
+.profile-card:active{transform:scale(.97);}
+.profile-card.olivia{background:linear-gradient(145deg,var(--o-soft) 0%,#FFC8DC 100%);}
+.profile-card.gala  {background:linear-gradient(145deg,var(--g-soft) 0%,#D4C2FF 100%);}
+
+/* Avatar — fijo en px, no rem, para que iOS 9 no lo reduzca */
+.card-avatar{
+  font-size:52px;   /* px fijo */
+  line-height:1;
+  margin-bottom:10px;
+  display:block;
+  /* fuerza el emoji a renderizar tamaño correcto en WebKit antiguo */
+  -webkit-text-size-adjust:none;
+  text-size-adjust:none;
+}
+.card-name{
+  font-family:'Pacifico',cursive;font-size:1.6rem;
+  line-height:1.1;margin-bottom:14px;
+}
+.profile-card.olivia .card-name{color:var(--o-dark);}
+.profile-card.gala   .card-name{color:var(--g-dark);}
+
+/* Burbuja de puntos — inline-flex alineado */
+.card-pts{
+  display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
+  gap:6px;border-radius:50px;padding:10px 22px;
+  font-size:1.9rem;font-weight:900;
+  line-height:1;
+}
+.profile-card.olivia .card-pts{background:var(--o);color:#fff;}
+.profile-card.gala   .card-pts{background:var(--g);color:#fff;}
+
+.card-pts-label{
+  font-size:.72rem;font-weight:800;color:var(--muted);
+  margin-top:8px;text-transform:uppercase;letter-spacing:.07em;
+}
+
+/* Badge pendientes */
+.pending-badge{
+  position:absolute;top:14px;right:14px;
+  background:var(--pend);color:#fff;border-radius:50%;
+  width:32px;height:32px;font-size:.9rem;font-weight:900;
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
+  line-height:1;
+}
+.pending-badge.hidden{display:none;}
+
+.card-hint{
+  margin-top:12px;font-size:.7rem;font-weight:800;
+  opacity:.45;letter-spacing:.04em;
+}
+
+/* ═══════════════════════════
+   SECTION LABEL
+═══════════════════════════ */
+.sec{
+  font-size:.78rem;font-weight:900;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);
+  margin:28px 0 12px 2px;
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:8px;
+}
+.sec::after{content:'';-webkit-box-flex:1;-ms-flex:1;flex:1;height:1px;background:linear-gradient(90deg,rgba(144,135,176,.25),transparent);}
+
+/* ═══════════════════════════
+   BADGES STRIP
+═══════════════════════════ */
+.badges-strip{
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  gap:10px;overflow-x:auto;padding-bottom:6px;
+  -webkit-overflow-scrolling:touch;
+}
+.badges-strip::-webkit-scrollbar{display:none;}
+.badge{
+  background:var(--white);border-radius:16px;padding:14px 16px;
+  box-shadow:var(--sh);text-align:center;min-width:88px;
+  -ms-flex-negative:0;flex-shrink:0;
+}
+.badge-ico{font-size:28px;line-height:1;margin-bottom:5px;display:block;}
+.badge-lbl{font-size:.62rem;font-weight:800;color:var(--muted);line-height:1.25;}
+.badge.locked{opacity:.3;filter:grayscale(1);-webkit-filter:grayscale(1);}
+
+/* ═══════════════════════════
+   REWARDS
+═══════════════════════════ */
+.reward-item{
+  background:var(--white);border-radius:var(--r);padding:16px 18px;
+  box-shadow:var(--sh);margin-bottom:10px;
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:14px;
+}
+.reward-ico{font-size:32px;line-height:1;-ms-flex-negative:0;flex-shrink:0;}
+.reward-info{-webkit-box-flex:1;-ms-flex:1;flex:1;}
+.reward-name{font-size:.95rem;font-weight:900;color:var(--ink);}
+.reward-cost{font-size:.72rem;font-weight:800;color:var(--muted);margin-top:3px;}
+.reward-action{
+  padding:12px 18px;border-radius:50px;border:none;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:.78rem;
+  cursor:pointer;-webkit-appearance:none;min-height:48px;min-width:86px;
+  line-height:1;
+}
+.reward-action.can{background:linear-gradient(135deg,var(--g),var(--o));color:#fff;}
+.reward-action.cant{background:#EDEDF0;color:#aaa;cursor:default;}
+
+/* ═══════════════════════════
+   PROFILE DETAIL
+═══════════════════════════ */
+.detail-header{
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  padding:28px 0 20px;gap:14px;
+}
+/* Botón atrás — círculo grande, centrado con flexbox */
+.back-btn{
+  background:var(--white);border:none;border-radius:50%;
+  width:52px;height:52px;
+  font-size:22px;          /* px fijo para centrar bien */
+  cursor:pointer;
+  box-shadow:var(--sh);
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
+  -ms-flex-negative:0;flex-shrink:0;
+  line-height:1;
+  /* fuerza el layout en iOS 9 */
+  -webkit-appearance:none;
+}
+.back-btn:active{opacity:.7;}
+.detail-avatar{font-size:36px;line-height:1;-ms-flex-negative:0;flex-shrink:0;}
+.detail-name{font-family:'Pacifico',cursive;font-size:1.7rem;line-height:1;}
+.detail-name.olivia{color:var(--o-dark);}
+.detail-name.gala  {color:var(--g-dark);}
+.detail-pts{
+  margin-left:auto;border-radius:50px;padding:10px 20px;
+  font-size:1.4rem;font-weight:900;color:#fff;
+  display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  gap:5px;line-height:1;-ms-flex-negative:0;flex-shrink:0;
+}
+.detail-pts.olivia{background:var(--o);}
+.detail-pts.gala  {background:var(--g);}
+
+/* ── TASK BUTTONS ── */
+.task-btn{
+  width:100%;border:none;border-radius:var(--r);
+  padding:18px 18px;
+  margin-bottom:12px;cursor:pointer;
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  gap:14px;text-align:left;font-family:'Nunito',sans-serif;
+  -webkit-appearance:none;transition:transform .15s;
+  min-height:76px;box-shadow:var(--sh);
+}
+.task-btn:active{transform:scale(.98);}
+.task-btn.idle   {background:var(--white);}
+.task-btn.pending{background:var(--pend-soft);border:2.5px solid var(--pend);}
+.task-btn.done   {background:var(--ok-soft);  border:2.5px solid var(--ok);}
+
+/* Emoji tarea — fijo en px */
+.task-emoji{
+  font-size:32px;line-height:1;
+  -ms-flex-negative:0;flex-shrink:0;
+  display:block;width:40px;text-align:center;
+}
+.task-body{-webkit-box-flex:1;-ms-flex:1;flex:1;min-width:0;}
+.task-name{font-size:1rem;font-weight:900;color:var(--ink);line-height:1.25;}
+.task-btn.done    .task-name{color:var(--ok);}
+.task-btn.pending .task-name{color:#A07800;}
+.task-sub{font-size:.68rem;font-weight:800;color:var(--muted);margin-top:4px;line-height:1.3;}
+
+/* Badge puntos — bien alineado a la derecha */
+.task-pts{
+  font-size:.75rem;font-weight:900;
+  background:rgba(0,0,0,.07);border-radius:20px;
+  padding:5px 11px;color:var(--ink);
+  -ms-flex-negative:0;flex-shrink:0;
+  white-space:nowrap;line-height:1;
+  display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+}
+.task-btn.done    .task-pts{background:var(--ok);color:#fff;}
+.task-btn.pending .task-pts{background:var(--pend);color:#fff;}
+
+.day-tag{
+  display:inline-block;background:var(--white);border-radius:30px;
+  padding:7px 16px;font-size:.75rem;font-weight:900;color:var(--muted);
+  box-shadow:var(--sh);margin-bottom:16px;
+}
+
+/* ═══════════════════════════
+   ADMIN PAGE
+═══════════════════════════ */
+.admin-header{
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
+  padding:28px 0 18px;gap:14px;
+}
+.admin-title{font-family:'Pacifico',cursive;font-size:1.5rem;color:var(--ink);}
+.admin-sub{font-size:.72rem;font-weight:800;color:var(--muted);margin-top:3px;}
+
+.confirm-card{
+  background:var(--pend-soft);border:2.5px solid var(--pend);
+  border-radius:var(--r);padding:18px;margin-bottom:12px;
+  display:-webkit-box;display:-ms-flexbox;display:flex;
+  -webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:14px;
+}
+.confirm-info{-webkit-box-flex:1;-ms-flex:1;flex:1;min-width:0;}
+.confirm-who{font-size:.75rem;font-weight:900;margin-bottom:4px;}
+.confirm-who.olivia{color:var(--o-dark);}
+.confirm-who.gala  {color:var(--g-dark);}
+.confirm-task{font-size:.95rem;font-weight:900;color:var(--ink);}
+.confirm-pts{font-size:.7rem;font-weight:800;color:var(--muted);margin-top:3px;}
+.confirm-btns{display:-webkit-box;display:-ms-flexbox;display:flex;gap:8px;-ms-flex-negative:0;flex-shrink:0;}
+.conf-yes,.conf-no{
+  border:none;border-radius:50px;padding:12px 16px;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:.82rem;
+  cursor:pointer;min-height:48px;min-width:56px;
+  -webkit-appearance:none;line-height:1;
+}
+.conf-yes{background:var(--ok);color:#fff;}
+.conf-no {background:#FFE5E5;color:#C0392B;}
+.conf-yes:active,.conf-no:active{opacity:.75;}
+
+.no-pending{text-align:center;padding:32px 20px;font-size:.88rem;font-weight:800;color:var(--muted);}
+.no-pending .big{font-size:2.8rem;margin-bottom:10px;display:block;}
+
+.adm-row{display:-webkit-box;display:-ms-flexbox;display:flex;gap:12px;margin-bottom:12px;}
+.adm-btn{
+  -webkit-box-flex:1;-ms-flex:1;flex:1;
+  padding:16px 12px;border-radius:var(--r);border:none;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:.88rem;
+  cursor:pointer;min-height:54px;-webkit-appearance:none;transition:transform .15s;
+  line-height:1.2;
+}
+.adm-btn:active{transform:scale(.96);}
+.adm-btn.o{background:var(--o-soft);color:var(--o-dark);}
+.adm-btn.g{background:var(--g-soft);color:var(--g-dark);}
+.adm-btn.danger{background:#FFE5E5;color:#C0392B;}
+.adm-status{
+  background:var(--white);border-radius:var(--r);padding:20px;
+  box-shadow:var(--sh);font-size:.88rem;line-height:2.4;font-weight:800;color:var(--muted);
+}
+
+/* ═══════════════════════════
+   PIN MODAL — grande y cómodo
+═══════════════════════════ */
+.pin-over{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:500;
+  background:rgba(26,15,60,.55);
+  /* iOS 9 Safari: no flexbox centering — usamos position en el hijo */
+}
+.pin-over.open{ display:block; }
+
+.pin-box{
+  background:#fff;
+  border-radius:28px;
+  padding:30px 24px 26px;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+  text-align:center;
+  /* Centrado robusto para iOS 9: absolute + transform */
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:320px;
+  max-width:86vw;
+  -webkit-transform:translateX(-50%) translateY(-50%);
+          transform:translateX(-50%) translateY(-50%);
+}
+
+.pin-ico{font-size:48px;margin-bottom:10px;display:block;line-height:1;}
+.pin-ttl{font-weight:900;font-size:1.15rem;color:var(--ink);margin-bottom:4px;}
+.pin-sub{font-size:.78rem;font-weight:800;color:var(--muted);margin-bottom:22px;}
+
+.pin-dots{
+  text-align:center;
+  margin-bottom:24px;
+  /* sin flex — usamos inline-block con margin para compatibilidad */
+}
+.pin-dot{
+  display:inline-block !important;
+  margin:0 8px;
+}
+.pin-dot{
+  width:18px;height:18px;border-radius:50%;
+  border:3px solid var(--g);
+  transition:background .15s,border-color .15s;
+}
+.pin-dot.on {background:var(--g);}
+.pin-dot.err{background:#FF5C5C;border-color:#FF5C5C;}
+
+/* Teclado PIN — float para compatibilidad iOS 9 */
+.pin-kb{
+  overflow:hidden; /* clearfix */
+  margin:-6px;     /* compensa el padding de cada tecla */
+}
+.pin-k{
+  float:left;
+  width:33.333%;
+  /* padding trick para cuadrar: box dentro del float */
+  padding:6px;
+  -webkit-box-sizing:border-box;box-sizing:border-box;
+  background:transparent;border:none;cursor:pointer;
+  -webkit-appearance:none;
+}
+/* El botón visual va dentro del label */
+.pin-k-inner{
+  display:block;
+  height:66px;
+  border-radius:16px;
+  background:#F3EFFF;color:var(--ink);
+  font-family:'Nunito',sans-serif;font-size:1.5rem;font-weight:900;
+  line-height:66px;   /* centra verticalmente en iOS 9 sin flexbox */
+  text-align:center;
+  -webkit-transition:background .1s;transition:background .1s;
+}
+.pin-k:active .pin-k-inner{background:var(--g-soft);}
+.pin-k.del  .pin-k-inner{background:#FFE4EF;color:var(--o-dark);font-size:1.2rem;}
+.pin-k.cancel .pin-k-inner{background:#F0F0F3;color:var(--muted);font-size:.78rem;}
+
+.pin-shake{animation:shake .35s;}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%    {transform:translateX(-10px);}
+  40%    {transform:translateX(10px);}
+  60%    {transform:translateX(-7px);}
+  80%    {transform:translateX(7px);}
+}
+
+/* ═══════════════════════════
+   TOAST
+═══════════════════════════ */
+.toast{
+  position:fixed;top:20px;left:50%;
+  -webkit-transform:translateX(-50%) translateY(-90px);
+  transform:translateX(-50%) translateY(-90px);
+  background:var(--ink);color:#fff;border-radius:50px;
+  padding:13px 24px;font-size:.88rem;font-weight:900;
+  z-index:999;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.22);
+  transition:-webkit-transform .35s cubic-bezier(.34,1.56,.64,1);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.toast.show{
+  -webkit-transform:translateX(-50%) translateY(0);
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ═══════════════════════════
+   CONFETTI
+═══════════════════════════ */
+.cfp{position:fixed;pointer-events:none;z-index:9999;border-radius:2px;animation:cfFall 1.4s ease-out forwards;}
+@keyframes cfFall{0%{opacity:1;-webkit-transform:translateY(0) rotate(0);transform:translateY(0) rotate(0);}100%{opacity:0;-webkit-transform:translateY(240px) rotate(720deg);transform:translateY(240px) rotate(720deg);}}
+
+/* ═══════════════════════════
+   PAGES
+═══════════════════════════ */
+.page{display:none;}
+.page.active{display:block;}
+</style>
+</head>
+<body>
+
+<!-- PIN MODAL -->
+<div class="pin-over" id="pinOver">
+  <div class="pin-box" id="pinBox">
+    <div class="pin-ico">🔐</div>
+    <div class="pin-ttl">Zona de Papá</div>
+    <div class="pin-sub">Introduce tu PIN</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-kb">
+      <button class="pin-k" onclick="pk('1')"><span class="pin-k-inner">1</span></button>
+      <button class="pin-k" onclick="pk('2')"><span class="pin-k-inner">2</span></button>
+      <button class="pin-k" onclick="pk('3')"><span class="pin-k-inner">3</span></button>
+      <button class="pin-k" onclick="pk('4')"><span class="pin-k-inner">4</span></button>
+      <button class="pin-k" onclick="pk('5')"><span class="pin-k-inner">5</span></button>
+      <button class="pin-k" onclick="pk('6')"><span class="pin-k-inner">6</span></button>
+      <button class="pin-k" onclick="pk('7')"><span class="pin-k-inner">7</span></button>
+      <button class="pin-k" onclick="pk('8')"><span class="pin-k-inner">8</span></button>
+      <button class="pin-k" onclick="pk('9')"><span class="pin-k-inner">9</span></button>
+      <button class="pin-k cancel" onclick="pinClose()"><span class="pin-k-inner">Cancelar</span></button>
+      <button class="pin-k" onclick="pk('0')"><span class="pin-k-inner">0</span></button>
+      <button class="pin-k del" onclick="pDel()"><span class="pin-k-inner">⌫</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════
+     HOME PAGE
+══════════════════════════════ -->
+<div class="page active" id="pg-home">
+<div class="wrap">
+
+  <div class="home-header">
+    <div class="home-icon">🏠</div>
+    <div class="home-date" id="homeDate"></div>
+    <button class="papa-btn" onclick="requirePin('admin')">⚙️ Papá</button>
+  </div>
+
+  <div class="cards-row">
+    <!-- OLIVIA -->
+    <div class="profile-card olivia" onclick="goProfile('olivia')">
+      <div class="pending-badge hidden" id="pend-olivia">0</div>
+      <div class="card-avatar">🐱</div>
+      <div class="card-name">Olivia</div>
+      <div class="card-pts">⭐ <span id="h-o-pts">0</span></div>
+      <div class="card-pts-label">estrellas</div>
+      <div class="card-hint">toca para ver tus tareas →</div>
+    </div>
+    <!-- GALA -->
+    <div class="profile-card gala" onclick="goProfile('gala')">
+      <div class="pending-badge hidden" id="pend-gala">0</div>
+      <div class="card-avatar">🦄</div>
+      <div class="card-name">Gala</div>
+      <div class="card-pts">⭐ <span id="h-g-pts">0</span></div>
+      <div class="card-pts-label">estrellas</div>
+      <div class="card-hint">toca para ver tus tareas →</div>
+    </div>
+  </div>
+
+  <div class="sec">🏅 Logros</div>
+  <div class="badges-strip" id="badgesStrip"></div>
+
+  <div class="sec">🎁 Premios</div>
+  <div id="rewardsList"></div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════
+     PROFILE: OLIVIA
+══════════════════════════════ -->
+<div class="page" id="pg-olivia">
+<div class="wrap">
+  <div class="detail-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="detail-avatar">🐱</div>
+    <div>
+      <div class="detail-name olivia">Olivia</div>
+      <div style="font-size:.7rem;font-weight:800;color:var(--muted);">10 años</div>
+    </div>
+    <div class="detail-pts olivia">⭐ <span id="d-o-pts">0</span></div>
+  </div>
+  <div class="day-tag" id="olivia-day-tag"></div>
+  <div id="olivia-tasks"></div>
+</div>
+</div>
+
+<!-- ══════════════════════════════
+     PROFILE: GALA
+══════════════════════════════ -->
+<div class="page" id="pg-gala">
+<div class="wrap">
+  <div class="detail-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="detail-avatar">🦄</div>
+    <div>
+      <div class="detail-name gala">Gala</div>
+      <div style="font-size:.7rem;font-weight:800;color:var(--muted);">5 años</div>
+    </div>
+    <div class="detail-pts gala">⭐ <span id="d-g-pts">0</span></div>
+  </div>
+  <div class="day-tag" id="gala-day-tag"></div>
+  <div id="gala-tasks"></div>
+</div>
+</div>
+
+<!-- ══════════════════════════════
+     ADMIN PAGE
+══════════════════════════════ -->
+<div class="page" id="pg-admin">
+<div class="wrap">
+  <div class="admin-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div>
+      <div class="admin-title">⚙️ Panel de Papá</div>
+      <div class="admin-sub">Confirma tareas y gestiona puntos</div>
+    </div>
+  </div>
+
+  <div class="sec">⏳ Pendientes de confirmar</div>
+  <div id="pendingList"></div>
+
+  <div class="sec">⭐ Dar estrellas extra</div>
+  <div class="adm-row">
+    <button class="adm-btn o" onclick="addPts('olivia',10)">🐱 +10 Olivia</button>
+    <button class="adm-btn g" onclick="addPts('gala',10)">🦄 +10 Gala</button>
+  </div>
+  <div class="adm-row">
+    <button class="adm-btn o" onclick="addPts('olivia',25)">🐱 +25 Olivia</button>
+    <button class="adm-btn g" onclick="addPts('gala',25)">🦄 +25 Gala</button>
+  </div>
+  <div class="adm-row">
+    <button class="adm-btn o" onclick="addPts('olivia',-10)">🐱 -10 Olivia</button>
+    <button class="adm-btn g" onclick="addPts('gala',-10)">🦄 -10 Gala</button>
+  </div>
+
+  <div class="sec">🔄 Resetear</div>
+  <div class="adm-row">
+    <button class="adm-btn danger" onclick="resetDay()">🔄 Resetear día</button>
+  </div>
+  <div class="adm-row">
+    <button class="adm-btn danger" onclick="resetAll()" style="background:#FFCDD2;font-size:.8rem;">⚠️ Borrar TODO (puntos + tareas)</button>
+  </div>
+
+  <div class="sec">📊 Estado</div>
+  <div class="adm-status">
+    <div>🐱 Olivia: <span id="ad-o" style="color:var(--o-dark);font-size:1.1rem;">0</span> ⭐</div>
+    <div>🦄 Gala: <span id="ad-g" style="color:var(--g-dark);font-size:1.1rem;">0</span> ⭐</div>
+    <div style="font-size:.65rem;margin-top:6px;color:#bbb;">💾 v3.0 · <span id="ad-date"></span></div>
+  </div>
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG — edita aquí las tareas reales
+// ═══════════════════════════════════════
+var PIN = '2111'; // ← cambia tu PIN aquí
+
+// Días: 0=dom, 1=lun, 2=mar, 3=mié, 4=jue, 5=vie, 6=sáb
+// Tareas que aplican según el día de la semana
+// Si 'days' está vacío [] = todos los días
+
+var TASKS_OLIVIA = [
+  // DIARIAS
+  { id:'o-dientes-m', emoji:'🦷', name:'Dientes por la mañana', pts:5,  days:[] },
+  { id:'o-dientes-n', emoji:'🦷', name:'Dientes por la noche',  pts:5,  days:[] },
+  { id:'o-habita',    emoji:'🛏️', name:'Recoger la habitación', pts:10, days:[] },
+  // COLE (lun-vie)
+  { id:'o-mochila',   emoji:'🎒', name:'Mochila preparada',     pts:5,  days:[1,2,3,4,5] },
+  { id:'o-deberes',   emoji:'📚', name:'Deberes del cole',      pts:20, days:[1,2,3,4,5] },
+  // DUCHA rápida (mar y jue)
+  { id:'o-ducha-r',   emoji:'🚿', name:'Ducha rápida',          pts:10, days:[2,4] },
+  // DUCHA completa (dom)
+  { id:'o-ducha-c',   emoji:'🛁', name:'Ducha completa',        pts:10, days:[0] },
+  { id:'o-pelo',      emoji:'💆', name:'Pelo a fondo',          pts:10, days:[0] },
+  // AYUDA CASA
+  { id:'o-mesa',      emoji:'🍽️', name:'Poner / quitar la mesa',pts:5,  days:[] },
+];
+
+var TASKS_GALA = [
+  // DIARIAS
+  { id:'g-dientes-m', emoji:'🦷', name:'Dientes por la mañana', pts:5,  days:[] },
+  { id:'g-dientes-n', emoji:'🦷', name:'Dientes por la noche',  pts:5,  days:[] },
+  { id:'g-habita',    emoji:'🛏️', name:'Recoger los juguetes',  pts:10, days:[] },
+  // COLE (lun-vie)
+  { id:'g-mochila',   emoji:'🎒', name:'Mochila preparada',     pts:5,  days:[1,2,3,4,5] },
+  { id:'g-tarea',     emoji:'✏️', name:'Tarea del cole',        pts:15, days:[1,2,3,4,5] },
+  // DUCHA rápida (mar y jue)
+  { id:'g-ducha-r',   emoji:'🚿', name:'Ducha rápida',          pts:10, days:[2,4] },
+  // DUCHA completa (dom)
+  { id:'g-ducha-c',   emoji:'🛁', name:'Ducha completa',        pts:10, days:[0] },
+  { id:'g-pelo',      emoji:'💆', name:'Pelo a fondo',          pts:10, days:[0] },
+  // AYUDA CASA
+  { id:'g-mesa',      emoji:'🍽️', name:'Poner / quitar la mesa',pts:5,  days:[] },
+];
+
+var REWARDS = [
+  { ico:'🍦', name:'Un helado',           cost:50  },
+  { ico:'🎬', name:'Peli el finde',        cost:80  },
+  { ico:'🎮', name:'Tiempo extra tablet',  cost:40  },
+  { ico:'🍕', name:'Elegir la cena',       cost:60  },
+  { ico:'🛍️', name:'Comprar una cosita',   cost:150 },
+  { ico:'🎡', name:'Salida especial',       cost:300 },
+];
+
+var BADGES = [
+  { ico:'⭐', lbl:'Primera\nestrella',  req:function(s){ return s.olivia>=1||s.gala>=1; }},
+  { ico:'🌟', lbl:'25 estrellas',       req:function(s){ return s.olivia>=25||s.gala>=25; }},
+  { ico:'💯', lbl:'100 estrellas',      req:function(s){ return s.olivia>=100||s.gala>=100; }},
+  { ico:'🦷', lbl:'Dientes x7',        req:function(s){ return s.t_dientes>=7; }},
+  { ico:'🛏️', lbl:'Habitación\nlimpia', req:function(s){ return s.t_habita>=5; }},
+  { ico:'🚿', lbl:'Ducha siempre',      req:function(s){ return s.t_ducha>=4; }},
+  { ico:'📚', lbl:'Deberes x5',        req:function(s){ return s.t_deberes>=5; }},
+  { ico:'🍽️', lbl:'Ayuda en casa',      req:function(s){ return s.t_mesa>=5; }},
+  { ico:'🔥', lbl:'5 días seguidos',    req:function(s){ return s.streak>=5; }},
+  { ico:'💪', lbl:'Todo en un día',     req:function(s){ return s.full_day>=1; }},
+  { ico:'🏆', lbl:'250 estrellas',      req:function(s){ return s.olivia>=250||s.gala>=250; }},
+  { ico:'👑', lbl:'500 estrellas',      req:function(s){ return s.olivia>=500||s.gala>=500; }},
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+function defState(){
+  return {
+    olivia:0, gala:0,
+    // tareas: { taskId: 'idle'|'pending'|'done' }
+    tasks:{},
+    // counters para logros
+    t_dientes:0, t_habita:0, t_ducha:0, t_deberes:0, t_mesa:0,
+    streak:0, full_day:0,
+    lastDay:null
+  };
+}
+function load(){
+  try{ var s=localStorage.getItem('hub4'); if(s) return JSON.parse(s); }catch(e){}
+  return defState();
+}
+function save(){ try{ localStorage.setItem('hub4',JSON.stringify(S)); }catch(e){} }
+var S = load();
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+var DAY_NAMES=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+var MON_NAMES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function todayDow(){ return new Date().getDay(); }
+function todayStr(){
+  var d=new Date();
+  return DAY_NAMES[d.getDay()]+', '+d.getDate()+' de '+MON_NAMES[d.getMonth()];
+}
+function todayKey(){
+  var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+
+function tasksForDay(allTasks, dow){
+  return allTasks.filter(function(t){
+    return t.days.length===0 || t.days.indexOf(dow)!==-1;
+  });
+}
+
+function taskState(id){ return (S.tasks&&S.tasks[id]) || 'idle'; }
+
+function pendingCount(who){
+  var tasks = who==='olivia' ? TASKS_OLIVIA : TASKS_GALA;
+  var dow   = todayDow();
+  var today = tasksForDay(tasks, dow);
+  return today.filter(function(t){ return taskState(t.id)==='pending'; }).length;
+}
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+function renderAll(){
+  renderDate();
+  renderHomeCards();
+  renderBadges();
+  renderRewards();
+  renderAdmin();
+  // Re-render profile if visible
+  if(document.getElementById('pg-olivia').classList.contains('active')) renderProfile('olivia');
+  if(document.getElementById('pg-gala').classList.contains('active'))   renderProfile('gala');
+}
+
+function renderDate(){
+  var el=document.getElementById('homeDate'); if(el) el.textContent='📅 '+todayStr();
+  var ad=document.getElementById('ad-date');  if(ad) ad.textContent=todayStr();
+}
+
+function renderHomeCards(){
+  var el;
+  el=document.getElementById('h-o-pts'); if(el) el.textContent=S.olivia;
+  el=document.getElementById('h-g-pts'); if(el) el.textContent=S.gala;
+  // pending badges
+  ['olivia','gala'].forEach(function(who){
+    var n=pendingCount(who);
+    var badge=document.getElementById('pend-'+who);
+    if(!badge) return;
+    if(n>0){ badge.textContent=n; badge.classList.remove('hidden'); }
+    else badge.classList.add('hidden');
+  });
+}
+
+function renderProfile(who){
+  var tasks    = who==='olivia' ? TASKS_OLIVIA : TASKS_GALA;
+  var dow      = todayDow();
+  var today    = tasksForDay(tasks, dow);
+  var container= document.getElementById(who+'-tasks');
+  var dayTag   = document.getElementById(who+'-day-tag');
+  var ptsEl    = document.getElementById('d-'+(who==='olivia'?'o':'g')+'-pts');
+
+  if(ptsEl)  ptsEl.textContent = S[who];
+  if(dayTag) dayTag.textContent = '📅 ' + DAY_NAMES[dow].charAt(0).toUpperCase()+DAY_NAMES[dow].slice(1);
+
+  if(!container) return;
+  container.innerHTML='';
+
+  today.forEach(function(t){
+    var st = taskState(t.id);
+    var btn = document.createElement('button');
+    btn.className = 'task-btn ' + st;
+
+    var statusIco = st==='idle'?'○' : st==='pending'?'⏳' : '✅';
+    var ptsLabel  = st==='done'? '✅ +'+t.pts : '+'+t.pts+'⭐';
+    var sub       = st==='idle'    ? 'Toca cuando lo hayas hecho' :
+                    st==='pending' ? '⏳ Esperando confirmación de papá' :
+                                     '✅ ¡Confirmado! Puntos ganados';
+
+    btn.innerHTML=
+      '<div class="task-emoji">'+t.emoji+'</div>'+
+      '<div class="task-body">'+
+        '<div class="task-name">'+t.name+'</div>'+
+        '<div class="task-sub">'+sub+'</div>'+
+      '</div>'+
+      '<div class="task-pts">'+ptsLabel+'</div>';
+
+    if(st==='idle'){
+      btn.addEventListener('click',function(){ markPending(t.id); });
+    }
+    container.appendChild(btn);
+  });
+}
+
+function renderBadges(){
+  var c=document.getElementById('badgesStrip'); if(!c) return; c.innerHTML='';
+  var ctx={ olivia:S.olivia, gala:S.gala,
+    t_dientes:S.t_dientes||0, t_habita:S.t_habita||0,
+    t_ducha:S.t_ducha||0, t_deberes:S.t_deberes||0,
+    t_mesa:S.t_mesa||0, streak:S.streak||0, full_day:S.full_day||0 };
+  BADGES.forEach(function(b){
+    var u=b.req(ctx);
+    var div=document.createElement('div');
+    div.className='badge'+(u?'':' locked');
+    div.innerHTML='<div class="badge-ico">'+b.ico+'</div><div class="badge-lbl">'+b.lbl.replace(/\n/,'<br>')+'</div>';
+    c.appendChild(div);
+  });
+}
+
+function renderRewards(){
+  var c=document.getElementById('rewardsList'); if(!c) return; c.innerHTML='';
+  REWARDS.forEach(function(r){
+    var canO=S.olivia>=r.cost, canG=S.gala>=r.cost, can=canO||canG;
+    var div=document.createElement('div'); div.className='reward-item';
+    div.innerHTML=
+      '<div class="reward-ico">'+r.ico+'</div>'+
+      '<div class="reward-info">'+
+        '<div class="reward-name">'+r.name+'</div>'+
+        '<div class="reward-cost">⭐ '+r.cost+' estrellas</div>'+
+      '</div>'+
+      '<button class="reward-action '+(can?'can':'cant')+'"'+(can?'':' disabled')+
+      ' onclick="redeemReward(\''+r.name+'\')">'+
+      (can?'¡Canjear!':'Sin estrellas')+'</button>';
+    c.appendChild(div);
+  });
+}
+
+function renderAdmin(){
+  var el;
+  el=document.getElementById('ad-o'); if(el) el.textContent=S.olivia;
+  el=document.getElementById('ad-g'); if(el) el.textContent=S.gala;
+  renderPendingList();
+}
+
+function renderPendingList(){
+  var c=document.getElementById('pendingList'); if(!c) return; c.innerHTML='';
+  var found=false;
+  [
+    {who:'olivia', tasks:TASKS_OLIVIA},
+    {who:'gala',   tasks:TASKS_GALA}
+  ].forEach(function(p){
+    var dow=todayDow();
+    var today=tasksForDay(p.tasks,dow);
+    today.forEach(function(t){
+      if(taskState(t.id)!=='pending') return;
+      found=true;
+      var div=document.createElement('div'); div.className='confirm-card';
+      var whoLabel=p.who==='olivia'?'🐱 Olivia':'🦄 Gala';
+      div.innerHTML=
+        '<div class="confirm-info">'+
+          '<div class="confirm-who '+p.who+'">'+whoLabel+'</div>'+
+          '<div class="confirm-task">'+t.emoji+' '+t.name+'</div>'+
+          '<div class="confirm-pts">+'+t.pts+' estrellas si confirmas</div>'+
+        '</div>'+
+        '<div class="confirm-btns">'+
+          '<button class="conf-yes" onclick="confirmTask(\''+t.id+'\',\''+p.who+'\','+t.pts+')">✅ Sí</button>'+
+          '<button class="conf-no"  onclick="rejectTask(\''+t.id+'\')">✗ No</button>'+
+        '</div>';
+      c.appendChild(div);
+    });
+  });
+  if(!found){
+    c.innerHTML='<div class="no-pending"><div class="big">🎉</div>Todo confirmado, sin pendientes</div>';
+  }
+}
+
+// ═══════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════
+function markPending(id){
+  if(!S.tasks) S.tasks={};
+  S.tasks[id]='pending';
+  save(); renderAll();
+  showToast('⏳ ¡Avisado! Papá lo confirmará');
+}
+
+function confirmTask(id, who, pts){
+  S.tasks[id]='done';
+  S[who]=(S[who]||0)+pts;
+  // Counters for badges
+  if(id.indexOf('dientes')!==-1) S.t_dientes=(S.t_dientes||0)+1;
+  if(id.indexOf('habita')!==-1||id.indexOf('jugue')!==-1) S.t_habita=(S.t_habita||0)+1;
+  if(id.indexOf('ducha')!==-1||id.indexOf('pelo')!==-1) S.t_ducha=(S.t_ducha||0)+1;
+  if(id.indexOf('deberes')!==-1||id.indexOf('tarea')!==-1) S.t_deberes=(S.t_deberes||0)+1;
+  if(id.indexOf('mesa')!==-1) S.t_mesa=(S.t_mesa||0)+1;
+  save(); confetti(); renderAll();
+  showToast('🎉 +'+pts+' estrellas a '+(who==='olivia'?'Olivia':'Gala')+'!');
+}
+
+function rejectTask(id){
+  S.tasks[id]='idle';
+  save(); renderAll();
+  showToast('❌ Tarea devuelta como pendiente');
+}
+
+function addPts(who,n){
+  S[who]=Math.max(0,(S[who]||0)+n);
+  save(); renderAll();
+  showToast((n>0?'⭐ +':' -')+Math.abs(n)+' a '+(who==='olivia'?'Olivia':'Gala'));
+}
+
+function redeemReward(name){
+  showToast('🎁 Habla con papá para canjear: '+name);
+}
+
+function resetDay(){
+  if(!confirm('¿Resetear las tareas de hoy? Los puntos se mantienen.')) return;
+  S.tasks={};
+  save(); renderAll();
+  showToast('🔄 Tareas del día reseteadas');
+}
+
+function resetAll(){
+  if(!confirm('¿Borrar TODO? Puntos, tareas y logros.')) return;
+  S=defState(); save(); renderAll();
+  showToast('🔄 Todo reseteado');
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function showPg(id){
+  var pgs=document.querySelectorAll('.page');
+  for(var i=0;i<pgs.length;i++) pgs[i].classList.remove('active');
+  var p=document.getElementById(id); if(p) p.classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome(){ showPg('pg-home'); renderAll(); }
+function goProfile(who){
+  showPg('pg-'+who);
+  renderProfile(who);
+}
+
+// ═══════════════════════════════════════
+// PIN
+// ═══════════════════════════════════════
+var pinBuf='', pinTarget='';
+function requirePin(target){
+  pinTarget=target; pinBuf=''; updDots();
+  document.getElementById('pinOver').classList.add('open');
+}
+function pinClose(){
+  document.getElementById('pinOver').classList.remove('open');
+  pinBuf=''; updDots();
+}
+function pk(d){
+  if(pinBuf.length>=4) return;
+  pinBuf+=d; updDots();
+  if(pinBuf.length===4){
+    if(pinBuf===PIN){ pinClose(); showPg('pg-'+pinTarget); renderAdmin(); }
+    else{
+      var b=document.getElementById('pinBox');
+      var dots=document.querySelectorAll('.pin-dot');
+      for(var i=0;i<dots.length;i++) dots[i].classList.add('err');
+      b.classList.add('pin-shake');
+      setTimeout(function(){
+        b.classList.remove('pin-shake');
+        for(var j=0;j<dots.length;j++) dots[j].classList.remove('err');
+        pinBuf=''; updDots();
+      },400);
+    }
+  }
+}
+function pDel(){ if(pinBuf.length>0){ pinBuf=pinBuf.slice(0,-1); updDots(); } }
+function updDots(){
+  for(var i=0;i<4;i++){
+    var d=document.getElementById('d'+i);
+    if(i<pinBuf.length) d.classList.add('on'); else d.classList.remove('on');
+    d.classList.remove('err');
+  }
+}
+
+// ═══════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════
+var tTimer;
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(tTimer);
+  tTimer=setTimeout(function(){ t.classList.remove('show'); },2400);
+}
+
+function confetti(){
+  var cols=['#FF5C93','#9B6FE8','#FFD700','#22C97A','#67E8F9','#FDB0C0'];
+  for(var i=0;i<20;i++){
+    (function(i){
+      setTimeout(function(){
+        var el=document.createElement('div'); el.className='cfp';
+        el.style.cssText=
+          'left:'+(10+Math.random()*80)+'%;top:'+(5+Math.random()*30)+'%;'+
+          'background:'+cols[Math.floor(Math.random()*cols.length)]+';'+
+          'border-radius:'+(Math.random()>.5?'50%':'3px')+';'+
+          'width:'+(7+Math.random()*9)+'px;height:'+(7+Math.random()*9)+'px;';
+        document.body.appendChild(el);
+        setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },1600);
+      },i*50);
+    })(i);
+  }
+}
+
+// Icono estático — apple-touch-icon.png en la misma carpeta del repo
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+renderAll();
+</script>
+</body>
+</html>
