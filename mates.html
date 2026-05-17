@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mates">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI0ZGNUM5MyIvPjx0ZXh0IHk9IjcwIiB4PSI1MCIgZm9udC1zaXplPSI1MCIgZmlsbD0iI2ZmZiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPis8L3RleHQ+PC9zdmc+">
+<title>Mates Adaptadas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+
+  :root {
+    --o: #FF5C93; --o-soft: #FFE4EF;
+    --g: #9B6FE8; --g-soft: #EDE4FF;
+    --ok: #22C97A; --bg: #F7F4FF; --white: #FFFFFF;
+    --text: #2D2D2D; --gray: #D1D1D1;
+    --col-u: #3498db; --col-d: #e74c3c; --col-c: #2ecc71;
+  }
+
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+    font-family: 'Nunito', sans-serif; background-color: var(--bg);
+    color: var(--text); -webkit-user-select: none; user-select: none;
+  }
+
+  .app-container {
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-orient: vertical; -webkit-flex-direction: column; flex-direction: column;
+    height: 100%; width: 100%;
+  }
+
+  /* Navegación */
+  .nav-tags {
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+    padding: 10px 0 5px 0; background: var(--white);
+  }
+  .tag-btn {
+    padding: 10px 18px; margin: 0 5px; border-radius: 20px;
+    background: var(--bg); color: var(--text); font-size: 18px; font-weight: 800;
+  }
+  .tag-btn.active { background: var(--g); color: var(--white); }
+
+  .nav-levels {
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+    padding: 10px 0; background: var(--white); border-bottom: 2px solid var(--g-soft);
+  }
+  .lvl-btn {
+    width: 45px; height: 45px; margin: 0 10px; border-radius: 50%;
+    background: var(--gray); color: var(--white); font-size: 22px; font-weight: 800;
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+  }
+  .lvl-btn.active { background: var(--o); }
+
+  /* ZONA EJERCICIO (GIGANTE) */
+  .exercise-area {
+    -webkit-box-flex: 1; -webkit-flex: 1; flex: 1;
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-orient: vertical; -webkit-flex-direction: column; flex-direction: column;
+    -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+    padding: 10px; width: 100%; box-sizing: border-box;
+  }
+
+  /* Textos y Combinadas */
+  .huge-text { font-size: 65px; font-weight: 900; text-align: center; }
+  .history-text { font-size: 35px; color: #a5a5a5; text-align: center; margin: 10px 0; font-weight: 800; }
+  .tip { font-size: 22px; color: var(--g); background: var(--g-soft); padding: 5px 20px; border-radius: 20px; margin-bottom: 20px; text-align: center; font-weight: 800;}
+
+  /* Tablas Matemáticas Gigantes */
+  .math-table { border-collapse: collapse; margin: 0 auto; }
+  .math-table td {
+    width: 75px; height: 75px; text-align: center; vertical-align: bottom;
+    font-size: 55px; font-weight: 900;
+  }
+  .op-sign { color: var(--g); font-size: 55px !important; text-align: right; padding-right: 15px;}
+  .line-bottom td { border-bottom: 6px solid var(--text); padding-bottom: 5px; }
+
+  /* Cuadrícula División Estricta */
+  .div-grid { border-collapse: collapse; margin: 0 auto; }
+  .div-grid td { padding: 8px; text-align: center; vertical-align: middle; }
+  .div-corner { border-left: 6px solid var(--text); border-bottom: 6px solid var(--text); }
+  .res-label { font-size: 24px; color: var(--gray); font-weight: 800; margin-right: 10px; }
+
+  /* Cajas Input Gigantes */
+  .box {
+    width: 65px; height: 70px; margin: 0 auto;
+    border: 4px dashed var(--gray); border-radius: 12px;
+    background: var(--white); color: var(--text);
+    line-height: 70px; font-size: 50px; font-weight: 900; text-align: center;
+  }
+  .box.static { border: 4px solid var(--gray); background: var(--bg); color: var(--text); }
+  .box.carry {
+    width: 35px; height: 35px; border-radius: 50%; border: 3px solid var(--gray);
+    line-height: 35px; font-size: 22px; color: var(--o);
+  }
+  .box.full { width: 100px; display: inline-block; vertical-align: middle; margin: 0 10px;}
+  .box.active { border-color: var(--o); border-style: solid; background: var(--o-soft); }
+  .box.success { border-color: var(--ok); border-style: solid; color: var(--ok); background: #f0fdf4; }
+  .box.error { border-color: red; border-style: solid; background: #ffeeee; }
+
+  /* TECLADO ACHATADO */
+  .numpad {
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-flex-wrap: wrap; flex-wrap: wrap;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+    width: 450px; max-width: 100%; margin: 0 auto 10px auto;
+  }
+  .num-key {
+    width: 95px; height: 55px; margin: 6px;
+    background: var(--white); border-radius: 12px; box-shadow: 0 4px 0 #E2D9F3;
+    font-size: 30px; font-weight: 800; color: var(--text);
+    display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+  }
+  .num-key:active { transform: translateY(4px); box-shadow: 0 0 0 #E2D9F3; }
+  .num-key.action { background: var(--g-soft); color: var(--g); }
+  .num-key.check { background: var(--ok); color: var(--white); box-shadow: 0 4px 0 #1A995C; width: 200px;} /* Botón OK más grande */
+
+  /* Confeti CSS (Compatible con webkit antiguo) */
+  .cfp {
+    position: absolute; top: -20px; width: 15px; height: 15px;
+    -webkit-animation: fall 2s linear forwards; pointer-events: none;
+  }
+  @-webkit-keyframes fall {
+    to { -webkit-transform: translateY(110vh) rotate(360deg); transform: translateY(110vh) rotate(360deg); }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <div class="nav-tags" id="tagNav">
+    <div class="tag-btn active" id="tag_SUM" onclick="setTag('SUM')">SUMAS</div>
+    <div class="tag-btn" id="tag_RES" onclick="setTag('RES')">RESTAS</div>
+    <div class="tag-btn" id="tag_MUL" onclick="setTag('MUL')">MULT</div>
+    <div class="tag-btn" id="tag_DIV" onclick="setTag('DIV')">DIV</div>
+    <div class="tag-btn" id="tag_COM" onclick="setTag('COM')">COMB</div>
+  </div>
+
+  <div class="nav-levels" id="levelNav">
+    <div class="lvl-btn active" id="lvl_1" onclick="setLevel(1)">1</div>
+    <div class="lvl-btn" id="lvl_2" onclick="setLevel(2)">2</div>
+    <div class="lvl-btn" id="lvl_3" onclick="setLevel(3)">3</div>
+  </div>
+
+  <div class="exercise-area" id="exerciseArea"></div>
+  <div class="numpad" id="numpadArea"></div>
+
+</div>
+
+<script>
+  // ESTADO GLOBAL (ES5)
+  var currentTag = 'SUM';
+  var currentLevel = 1;
+  var expectedAnswers = {}; 
+  var activeBoxId = null;   
+  var comData = {}; // Datos para Combinadas
+
+  window.onload = function() {
+    renderNumpad();
+    generateExercise();
+  };
+
+  function setTag(tag) {
+    currentTag = tag;
+    var tags = ['SUM','RES','MUL','DIV','COM'];
+    for(var i=0; i<tags.length; i++) document.getElementById('tag_'+tags[i]).className = "tag-btn";
+    document.getElementById('tag_'+tag).className = "tag-btn active";
+    generateExercise();
+  }
+
+  function setLevel(lvl) {
+    currentLevel = lvl;
+    for(var i=1; i<=3; i++) document.getElementById('lvl_'+i).className = "lvl-btn";
+    document.getElementById('lvl_'+lvl).className = "lvl-btn active";
+    generateExercise();
+  }
+
+  function renderNumpad() {
+    var keys = [7, 8, 9, "C", 4, 5, 6, 0, 1, 2, 3, "OK"];
+    var html = "";
+    for(var i=0; i<keys.length; i++) {
+      var k = keys[i];
+      var cls = "num-key";
+      if(k === "C") cls += " action";
+      if(k === "OK") cls += " check";
+      html += "<div class='" + cls + "' onclick='pressKey(\"" + k + "\")'>" + k + "</div>";
+    }
+    document.getElementById('numpadArea').innerHTML = html;
+  }
+
+  function random(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+  
+  function getColorCol(index) {
+    if(index === 0) return "var(--col-u)";
+    if(index === 1) return "var(--col-d)";
+    if(index === 2) return "var(--col-c)";
+    return "var(--text)";
+  }
+
+  // --- GENERADOR PRINCIPAL ---
+  function generateExercise() {
+    expectedAnswers = {};
+    var a, b, res;
+
+    if (currentTag === 'SUM') {
+      if (currentLevel === 1) { a = random(1,9); b = random(1,9); renderHorizontal(a, b, "+", a+b); } 
+      else {
+        if (currentLevel === 2) { a = random(10,99); b = random(10,99); }
+        if (currentLevel === 3) { a = random(100,999); b = random(50,999); }
+        renderVerticalGrid(a, b, "+", a+b);
+      }
+    } 
+    else if (currentTag === 'RES') {
+      if (currentLevel === 1) { a = random(5,15); b = random(1, a); renderHorizontal(a, b, "-", a-b); } 
+      else {
+        if (currentLevel === 2) { a = random(50,99); b = random(10, a); }
+        if (currentLevel === 3) { a = random(300,999); b = random(50, a); }
+        renderVerticalGrid(a, b, "-", a-b);
+      }
+    }
+    else if (currentTag === 'MUL') {
+      if (currentLevel === 1) { a = random(2,9); b = random(2,9); renderHorizontalFocus(a, b, "x", a*b); } 
+      else if (currentLevel === 2) { a = random(10,99); b = random(2,9); renderVerticalGrid(a, b, "x", a*b); } 
+      else if (currentLevel === 3) { a = random(12,49); b = random(12,49); renderMul2x2(a, b); }
+    }
+    else if (currentTag === 'DIV') {
+      if (currentLevel === 1) { b = random(2,5); res = random(2,5); a = b * res; renderHorizontal(a, b, "÷", res); } 
+      else {
+        if(currentLevel === 2) { a = random(20, 99); b = random(2, 5); }
+        if(currentLevel === 3) { a = random(100, 999); b = random(3, 9); }
+        renderDivisionGrid(a, b);
+      }
+    }
+    else if (currentTag === 'COM') {
+      generateCombinedData();
+      renderCombinedStep();
+    }
+  }
+
+  // --- RENDERIZADORES VISUALES ---
+
+  function renderHorizontal(a, b, sign, res) {
+    expectedAnswers = { "ans_full": String(res) };
+    var html = "<div class='huge-text'>" + a + " " + sign + " " + b + " = <div class='box full' id='ans_full' onclick='activateBox(\"ans_full\")'></div></div>";
+    document.getElementById('exerciseArea').innerHTML = html;
+    activateBox("ans_full");
+  }
+
+  function renderHorizontalFocus(a, b, sign, res) {
+    expectedAnswers = { "ans_full": String(res) };
+    var html = "<div class='history-text'>" + a + " x " + (b-1) + " = " + (a*(b-1)) + "</div>";
+    html += "<div class='huge-text' style='margin:20px 0;'>" + a + " x " + b + " = <div class='box full' id='ans_full' onclick='activateBox(\"ans_full\")'></div></div>";
+    html += "<div class='history-text'>" + a + " x " + (b+1) + " = ?</div>";
+    document.getElementById('exerciseArea').innerHTML = html;
+    activateBox("ans_full");
+  }
+
+  function renderVerticalGrid(a, b, sign, res) {
+    var strA = String(a).split('').reverse();
+    var strB = String(b).split('').reverse();
+    var strRes = String(res).split('').reverse();
+    var cols = strRes.length;
+
+    for(var i=0; i<strRes.length; i++) expectedAnswers["ans_" + i] = strRes[i];
+
+    var html = "<table class='math-table'>";
+    html += "<tr><td></td>";
+    for(var i = cols-1; i >= 0; i--) {
+      if(i === 0 || i >= strA.length) html += "<td></td>"; 
+      else html += "<td><div class='box carry' id='carry_" + i + "' onclick='activateBox(\"carry_" + i + "\")'></div></td>";
+    }
+    html += "</tr><tr><td></td>";
+    for(var i = cols-1; i >= 0; i--) html += "<td style='color:"+getColorCol(i)+"'>" + (strA[i] || "") + "</td>";
+    html += "</tr><tr class='line-bottom'><td class='op-sign'>" + sign + "</td>";
+    for(var i = cols-1; i >= 0; i--) html += "<td style='color:"+getColorCol(i)+"'>" + (strB[i] || "") + "</td>";
+    html += "</tr><tr><td></td>";
+    for(var i = cols-1; i >= 0; i--) html += "<td><div class='box' id='ans_" + i + "' onclick='activateBox(\"ans_" + i + "\")'></div></td>";
+    html += "</tr></table>";
+
+    document.getElementById('exerciseArea').innerHTML = html;
+    activateBox("ans_0");
+  }
+
+  function renderMul2x2(a, b) {
+    var strRes = String(a*b).split('').reverse();
+    for(var i=0; i<strRes.length; i++) expectedAnswers["ans_" + i] = strRes[i];
+
+    var html = "<table class='math-table'>";
+    html += "<tr><td colspan='4' style='text-align:right; padding-right:15px;'>" + a + "</td></tr>";
+    html += "<tr class='line-bottom'><td class='op-sign'>x</td><td colspan='3' style='text-align:right; padding-right:15px;'>" + b + "</td></tr>";
+    html += "<tr><td colspan='4' style='height:40px;'></td></tr>"; // Espacio para que resuelvan en papel
+    html += "<tr>";
+    for(var i = strRes.length-1; i >= 0; i--) {
+      html += "<td><div class='box' id='ans_" + i + "' onclick='activateBox(\"ans_" + i + "\")'></div></td>";
+    }
+    html += "</tr></table>";
+
+    document.getElementById('exerciseArea').innerHTML = html;
+    activateBox("ans_0");
+  }
+
+  // NUEVA CUADRÍCULA DE DIVISIÓN (Plantilla Discalculia)
+  function renderDivisionGrid(dividendo, divisor) {
+    var cociente = Math.floor(dividendo / divisor);
+    var resto = dividendo % divisor;
+    
+    expectedAnswers = { "ans_coc": String(cociente), "ans_res": String(resto) };
+    
+    var strDiv = String(dividendo).split('');
+
+    var html = "<table class='div-grid'>";
+    // Fila 1: Dividendo en cajas estáticas y Divisor
+    html += "<tr>";
+    for(var i=0; i<strDiv.length; i++) {
+      html += "<td><div class='box static'>" + strDiv[i] + "</div></td>";
+    }
+    html += "<td class='div-corner'><div class='box static' style='border-color:var(--g); color:var(--g);'>" + divisor + "</div></td>";
+    html += "</tr>";
+
+    // Fila 2: Resto y Cociente
+    html += "<tr>";
+    html += "<td colspan='" + strDiv.length + "' style='text-align:right; padding-top:20px;'>";
+    html += "<span class='res-label'>Resto:</span><div class='box full' id='ans_res' onclick='activateBox(\"ans_res\")'></div>";
+    html += "</td>";
+    html += "<td style='padding-top:20px;'>";
+    html += "<div class='box full' id='ans_coc' style='border-color:var(--g); color:var(--g);' onclick='activateBox(\"ans_coc\")'></div>";
+    html += "</td>";
+    html += "</tr></table>";
+
+    document.getElementById('exerciseArea').innerHTML = html;
+    activateBox("ans_coc");
+  }
+
+  // --- LÓGICA DE COMBINADAS (Embudo con Historial) ---
+  function generateCombinedData() {
+    var a, b, c, d;
+    if(currentLevel === 1) {
+      a = random(1,5); b = random(4,8); c = random(1,3);
+      comData = {
+        history: [],
+        steps: [
+          { text: "Primero los paréntesis", expr: a + " + ( " + b + " - " + c + " )", pre: a + " + ", post: "", exp: String(b-c) },
+          { text: "Ahora la suma final", expr: a + " + " + (b-c), pre: "", post: "", exp: String(a+(b-c)) }
+        ], curr: 0
+      };
+    } else if(currentLevel === 2) {
+      a = random(1,5); b = random(2,4); c = random(5,9); d = random(1,4);
+      comData = {
+        history: [],
+        steps: [
+          { text: "Primero los paréntesis", expr: a + " + " + b + " x ( " + c + " - " + d + " )", pre: a + " + " + b + " x ", post: "", exp: String(c-d) },
+          { text: "Multiplicaciones antes que sumas", expr: a + " + " + b + " x " + (c-d), pre: a + " + ", post: "", exp: String(b*(c-d)) },
+          { text: "Suma final", expr: a + " + " + (b*(c-d)), pre: "", post: "", exp: String(a+(b*(c-d))) }
+        ], curr: 0
+      };
+    } else {
+      a = random(2,5); b = random(1,4); c = random(1,5); d = random(2,8);
+      comData = {
+        history: [],
+        steps: [
+          { text: "Paréntesis", expr: a + " x ( " + b + " + " + c + " ) - " + d, pre: a + " x ", post: " - " + d, exp: String(b+c) },
+          { text: "Multiplicaciones", expr: a + " x " + (b+c) + " - " + d, pre: "", post: " - " + d, exp: String(a*(b+c)) },
+          { text: "Resta final", expr: (a*(b+c)) + " - " + d, pre: "", post: "", exp: String((a*(b+c))-d) }
+        ], curr: 0
+      };
+    }
+  }
+
+  function renderCombinedStep() {
+    var step = comData.steps[comData.curr];
+    expectedAnswers = { "ans_full": step.exp };
+    
+    var html = "<div class='tip'>" + step.text + "</div>";
+    
+    // Dibujar historial anterior
+    for(var i=0; i<comData.history.length; i++) {
+      html += "<div class='history-text'>" + comData.history[i] + "</div>";
+    }
+    
+    // Dibujar paso actual con caja
+    if (comData.curr === 0) {
+      html += "<div class='history-text' style='color:var(--text);'>" + step.expr + "</div>";
+    }
+    
+    html += "<div class='huge-text' style='margin-top:10px;'>" + step.pre + "<div class='box full' id='ans_full' onclick='activateBox(\"ans_full\")'></div>" + step.post + "</div>";
+    
+    document.getElementById('exerciseArea').innerHTML = html;
+    activateBox("ans_full");
+  }
+
+  // --- EFECTO CONFETI ---
+  function throwConfetti() {
+    var colors = ['#FF5C93', '#9B6FE8', '#22C97A', '#3498db', '#f1c40f'];
+    for (var i = 0; i < 30; i++) {
+      var conf = document.createElement('div');
+      conf.className = 'cfp';
+      conf.style.left = (Math.random() * 100) + 'vw';
+      conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      conf.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+      document.body.appendChild(conf);
+      
+      // Limpiar DOM después de la animación
+      setTimeout(function(c) { return function() { if(c.parentNode) c.parentNode.removeChild(c); }; }(conf), 3500);
+    }
+  }
+
+  // --- CONTROL TECLADO ---
+  function activateBox(id) {
+    if(activeBoxId) {
+      var oldBox = document.getElementById(activeBoxId);
+      if(oldBox) oldBox.className = oldBox.className.replace(" active", "");
+    }
+    activeBoxId = id;
+    var newBox = document.getElementById(id);
+    if(newBox) {
+      if(newBox.className.indexOf("carry") > -1) newBox.className = "box carry active";
+      else if(newBox.className.indexOf("full") > -1) newBox.className = "box full active";
+      else newBox.className = "box active";
+    }
+  }
+
+  function pressKey(k) {
+    if(!activeBoxId) return;
+    if(k === "OK") { checkAllAnswers(); return; }
+
+    var box = document.getElementById(activeBoxId);
+    if(k === "C") { box.textContent = ""; return; }
+
+    if (activeBoxId.indexOf("full") > -1 || activeBoxId.indexOf("coc") > -1 || activeBoxId.indexOf("res") > -1) {
+      if(box.textContent.length < 4) box.textContent += k;
+    } else {
+      box.textContent = k; 
+      if(activeBoxId.indexOf("ans_") === 0) {
+        var currentIndex = parseInt(activeBoxId.split("_")[1], 10);
+        var nextId = "ans_" + (currentIndex + 1);
+        if(document.getElementById(nextId)) activateBox(nextId);
+      }
+    }
+  }
+
+  function checkAllAnswers() {
+    var allCorrect = true;
+    for(var key in expectedAnswers) {
+      var box = document.getElementById(key);
+      if(!box || box.textContent !== expectedAnswers[key]) {
+        allCorrect = false;
+        if(box) {
+          box.className += " error";
+          setTimeout(function(b){ return function(){ b.className = b.className.replace(" error",""); }; }(box), 800);
+        }
+      } else {
+        box.className += " success";
+      }
+    }
+
+    if(allCorrect) {
+      throwConfetti(); // ¡Alegría!
+      
+      setTimeout(function(){ 
+        if(currentTag === 'COM') {
+          // Guardar el paso completado en el historial
+          var step = comData.steps[comData.curr];
+          if (comData.curr > 0) {
+             comData.history.push(step.pre + step.exp + step.post);
+          } else {
+             comData.history.push(step.expr);
+             comData.history.push(step.pre + step.exp + step.post);
+          }
+          
+          comData.curr++;
+          if(comData.curr < comData.steps.length) renderCombinedStep();
+          else generateExercise();
+        } else {
+          generateExercise(); 
+        }
+      }, 1500); // Darles tiempo a ver el confeti antes de limpiar
+    }
+  }
+</script>
+
+</body>
+</html>
