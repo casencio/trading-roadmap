@@ -404,6 +404,7 @@ function g(){return S.girls[S.girl];}
 function sv(gi){return gi.history.filter(h=>h.t==='save').length;}
 function sp(gi){return gi.history.filter(h=>h.t==='spend').length;}
 function totalInt(gi){return gi.history.filter(h=>h.t==='interest').reduce((a,h)=>a+h.a,0);}
+function pf(v){return parseFloat(String(v||0).replace(',','.'))||0;}
 function eur(n){return '€'+Math.abs(n).toFixed(2).replace('.',',');}
 function eurS(n){const v=Math.abs(n);return v>=1000?'€'+(v/1000).toFixed(1).replace('.',',')+'k':'€'+Math.round(v);}
 function fv(p,y,r){return p*Math.pow(1+r,y);}
@@ -463,10 +464,10 @@ async function loadAll(){
     S.girls.forEach(gi=>{
       const r=state[gi.name];
       if(r){
-        gi.balance=parseFloat(r.balance)||0;
+        gi.balance=pf(r.balance);
         gi.path=r.path||'safe';
         gi.stock=r.stock||'';
-        gi.entryPrice=parseFloat(r.entryPrice)||0;
+        gi.entryPrice=pf(r.entryPrice);
         gi.startDate=r.startDate||'';
       }
     });
