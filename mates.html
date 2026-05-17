@@ -7,486 +7,1138 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mates">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAylpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAzIDc5Ljk2OTBhODdmYywgMjAyNS8wMy8wNi0yMDo1MDoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI2LjEwIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjU5MzlERUY5NEE1MDExRjE4NTREQjkxNkRCNzMxQjk0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjU5MzlERUZBNEE1MDExRjE4NTREQjkxNkRCNzMxQjk0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NTkzOURFRjc0QTUwMTFGMTg1NERCOTE2REI3MzFCOTQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NTkzOURFRjg0QTUwMTFGMTg1NERCOTE2REI3MzFCOTQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4JAYFoAAADAFBMVEX7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">
-  <title>Mates Adaptadas</title>
+<title>Mates</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+:root {
+  --o:#FF5C93; --o-soft:#FFE4EF; --o-dark:#D93D73;
+  --g:#7C5CE8; --g-soft:#EDE4FF; --g-dark:#5A3DC0;
+  --ok:#22C97A; --ok-dark:#17A05F; --err:#FF4757;
+  --bg:#F7F4FF; --white:#FFFFFF; --text:#2D2D2D;
+  --gray:#C8C8D8; --gray-lt:#EBEBF5;
+  --col-u:#3498db; --col-d:#e74c3c; --col-c:#2ecc71;
+  --shad:rgba(100,80,180,0.13);
+  /* colores plantilla multiplicación */
+  --mul-a-bg:#FFF9C4; --mul-a-bd:#D4B800;   /* amarillo: multiplicando */
+  --mul-b-bg:#B2EBF2; --mul-b-bd:#00ACC1;   /* azul: multiplicador */
+  --mul-p1-bg:#FFE0B2; --mul-p1-bd:#E65100; /* naranja: parcial 1 (unidades) */
+  --mul-p2-bg:#B3E5FC; --mul-p2-bd:#0277BD; /* azul claro: parcial 2 (decenas) */
+  --mul-r-bg:#C8E6C9;  --mul-r-bd:#388E3C;  /* verde: resultado */
+}
+html,body { margin:0;padding:0;width:100%;height:100%;overflow:hidden;
+  font-family:'Nunito','Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);color:var(--text);
+  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent; }
+.app-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  height:100%;width:100%;box-sizing:border-box; }
 
-  :root {
-    --o: #FF5C93; --o-soft: #FFE4EF;
-    --g: #9B6FE8; --g-soft: #EDE4FF;
-    --ok: #22C97A; --bg: #F7F4FF; --white: #FFFFFF;
-    --text: #2D2D2D; --gray: #D1D1D1;
-    --col-u: #3498db; --col-d: #e74c3c; --col-c: #2ecc71;
-  }
+/* TOP BAR */
+.top-bar { background:var(--white);box-shadow:0 2px 10px var(--shad);
+  padding:8px 10px;-webkit-flex-shrink:0;flex-shrink:0;z-index:10;position:relative; }
+.main-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center; }
+.ops-group { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;margin-right:6px; }
+.op-btn { padding:6px 12px;margin:2px 3px 2px 0;border-radius:30px;
+  font-size:14px;font-weight:900;color:var(--gray);background:var(--gray-lt);
+  cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s;white-space:nowrap; }
+.op-btn.active { background:var(--g);color:var(--white); }
+.spacer { -webkit-box-flex:1;-webkit-flex:1;flex:1; }
+.sisters-group { display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-shrink:0;flex-shrink:0; }
+.sister-btn { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  padding:6px 11px 6px 7px;border-radius:30px;margin-left:5px;
+  background:var(--gray-lt);font-size:14px;font-weight:900;color:var(--gray);cursor:pointer;
+  -webkit-transition:all 0.15s;transition:all 0.15s; }
+.sister-btn .av { width:22px;height:22px;border-radius:50%;background:var(--gray);
+  color:var(--white);font-size:12px;font-weight:900;text-align:center;line-height:22px;
+  margin-right:5px;-webkit-flex-shrink:0;flex-shrink:0; }
+.sister-btn .pts { font-size:11px;font-weight:800;background:var(--white);
+  border-radius:20px;padding:1px 6px;margin-left:5px; }
+.sister-btn.act-o { background:var(--o-soft);color:var(--o); }
+.sister-btn.act-o .av { background:var(--o); }
+.sister-btn.act-o .pts { color:var(--o); }
+.sister-btn.act-g { background:var(--g-soft);color:var(--g); }
+.sister-btn.act-g .av { background:var(--g); }
+.sister-btn.act-g .pts { color:var(--g); }
 
-  html, body {
-    margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-    font-family: 'Nunito', sans-serif; background-color: var(--bg);
-    color: var(--text); -webkit-user-select: none; user-select: none;
-  }
+/* NIVELES */
+.nav-levels { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  background:var(--g);padding:6px 10px;-webkit-flex-shrink:0;flex-shrink:0; }
+.lvl-btn { width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);
+  color:var(--white);font-size:17px;font-weight:900;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  margin:0 4px;cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s; }
+.lvl-btn.active { background:var(--white);color:var(--g);box-shadow:0 3px 10px rgba(0,0,0,0.2); }
 
-  .app-container {
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-box-orient: vertical; -webkit-flex-direction: column; flex-direction: column;
-    height: 100%; width: 100%;
-  }
+/* ZONA EJERCICIO */
+.exercise-area { -webkit-box-flex:1;-webkit-flex:1;flex:1;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  padding:8px 12px;width:100%;box-sizing:border-box;overflow:hidden;position:relative; }
 
-  /* Navegación */
-  .nav-tags {
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-    padding: 10px 0 5px 0; background: var(--white);
-  }
-  .tag-btn {
-    padding: 10px 18px; margin: 0 5px; border-radius: 20px;
-    background: var(--bg); color: var(--text); font-size: 18px; font-weight: 800;
-  }
-  .tag-btn.active { background: var(--g); color: var(--white); }
+/* TIPOGRAFÍA OPERACIONES */
+.huge-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  font-size:80px;font-weight:900;line-height:1; }
+.ctx-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  font-size:38px;font-weight:800;color:#b0a8cc;line-height:1;margin:6px 0; }
 
-  .nav-levels {
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-    padding: 10px 0; background: var(--white); border-bottom: 2px solid var(--g-soft);
-  }
-  .lvl-btn {
-    width: 45px; height: 45px; margin: 0 10px; border-radius: 50%;
-    background: var(--gray); color: var(--white); font-size: 22px; font-weight: 800;
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-  }
-  .lvl-btn.active { background: var(--o); }
+/* CAJAS */
+.box { display:inline-block;width:76px;height:80px;line-height:80px;
+  border:4px dashed var(--gray);border-radius:16px;background:var(--white);
+  font-size:58px;font-weight:900;text-align:center;vertical-align:middle;
+  box-sizing:border-box;-webkit-transition:all 0.15s;transition:all 0.15s; }
+.box.static { border:4px solid var(--gray-lt);background:var(--gray-lt);color:var(--text); }
+.box.carry { width:34px;height:34px;border-radius:50%;border:3px solid var(--gray);
+  line-height:34px;font-size:19px;color:var(--o); }
+.box.full { width:120px;margin:0 8px; }
+.box.wide { width:96px;margin:0 5px; }
+.box.active { border-color:var(--o);border-style:solid;background:var(--o-soft);
+  -webkit-transform:scale(1.06);transform:scale(1.06);
+  box-shadow:0 4px 18px rgba(255,92,147,0.28); }
+.box.carry.active { border-color:var(--o);border-style:solid;background:var(--o-soft); }
+.box.success { border-color:var(--ok);border-style:solid;color:var(--ok);background:#edfbf3; }
+.box.error { border-color:var(--err);border-style:solid;background:#ffeeee;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s; }
 
-  /* ZONA EJERCICIO (GIGANTE) */
-  .exercise-area {
-    -webkit-box-flex: 1; -webkit-flex: 1; flex: 1;
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-box-orient: vertical; -webkit-flex-direction: column; flex-direction: column;
-    -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-    padding: 10px; width: 100%; box-sizing: border-box;
-  }
+@-webkit-keyframes shake {
+  0%,100%{-webkit-transform:translateX(0);}20%{-webkit-transform:translateX(-9px);}
+  40%{-webkit-transform:translateX(9px);}60%{-webkit-transform:translateX(-6px);}
+  80%{-webkit-transform:translateX(6px);} }
+@keyframes shake {
+  0%,100%{transform:translateX(0);}20%{transform:translateX(-9px);}
+  40%{transform:translateX(9px);}60%{transform:translateX(-6px);}
+  80%{transform:translateX(6px);} }
 
-  /* Textos y Combinadas */
-  .huge-text { font-size: 65px; font-weight: 900; text-align: center; }
-  .history-text { font-size: 35px; color: #a5a5a5; text-align: center; margin: 10px 0; font-weight: 800; }
-  .tip { font-size: 22px; color: var(--g); background: var(--g-soft); padding: 5px 20px; border-radius: 20px; margin-bottom: 20px; text-align: center; font-weight: 800;}
+/* TABLAS VERTICALES (sumas/restas nivel 2+) */
+.math-table { border-collapse:collapse;margin:0 auto; }
+.math-table td { width:78px;height:80px;text-align:center;vertical-align:bottom;
+  font-size:58px;font-weight:900; }
+.op-sign { color:var(--g);font-size:58px !important;text-align:right;padding-right:14px; }
+.line-bottom td { border-bottom:6px solid var(--text);padding-bottom:4px; }
 
-  /* Tablas Matemáticas Gigantes */
-  .math-table { border-collapse: collapse; margin: 0 auto; }
-  .math-table td {
-    width: 75px; height: 75px; text-align: center; vertical-align: bottom;
-    font-size: 55px; font-weight: 900;
-  }
-  .op-sign { color: var(--g); font-size: 55px !important; text-align: right; padding-right: 15px;}
-  .line-bottom td { border-bottom: 6px solid var(--text); padding-bottom: 5px; }
+/* ============================================================
+   MULTIPLICACIÓN PLANTILLA TIPO CENTRO DISCALCULIA
+   Fiel a la foto: cuadrados amarillos (multiplicando), 
+   cuadrados azules (multiplicador), carries cuadraditos pequeños,
+   círculos beige (parcial x unidades), círculos azules (parcial x decenas),
+   cuadrados verdes (resultado)
+   ============================================================ */
+.mul-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  width:100%;max-width:520px; }
 
-  /* Cuadrícula División Estricta */
-  .div-grid { border-collapse: collapse; margin: 0 auto; }
-  .div-grid td { padding: 8px; text-align: center; vertical-align: middle; }
-  .div-corner { border-left: 6px solid var(--text); border-bottom: 6px solid var(--text); }
-  .res-label { font-size: 24px; color: var(--gray); font-weight: 800; margin-right: 10px; }
+/* Fila carry: cuadraditos pequeños alineados con las columnas */
+.mul-carry-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:flex-end;-webkit-justify-content:flex-end;justify-content:flex-end;
+  width:100%;margin-bottom:2px; }
+.mul-carry-sq { width:30px;height:30px;border:2px solid var(--gray);border-radius:5px;
+  background:var(--white);font-size:17px;font-weight:900;text-align:center;line-height:30px;
+  margin:0 4px;color:var(--o);display:inline-block;cursor:pointer;box-sizing:border-box; }
+.mul-carry-sq.active { border-color:var(--o);background:var(--o-soft); }
 
-  /* Cajas Input Gigantes */
-  .box {
-    width: 65px; height: 70px; margin: 0 auto;
-    border: 4px dashed var(--gray); border-radius: 12px;
-    background: var(--white); color: var(--text);
-    line-height: 70px; font-size: 50px; font-weight: 900; text-align: center;
-  }
-  .box.static { border: 4px solid var(--gray); background: var(--bg); color: var(--text); }
-  .box.carry {
-    width: 35px; height: 35px; border-radius: 50%; border: 3px solid var(--gray);
-    line-height: 35px; font-size: 22px; color: var(--o);
-  }
-  .box.full { width: 100px; display: inline-block; vertical-align: middle; margin: 0 10px;}
-  .box.active { border-color: var(--o); border-style: solid; background: var(--o-soft); }
-  .box.success { border-color: var(--ok); border-style: solid; color: var(--ok); background: #f0fdf4; }
-  .box.error { border-color: red; border-style: solid; background: #ffeeee; }
+/* Fila números: cuadrados amarillos (A) × cuadrados azules (B) */
+.mul-nums-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:flex-end;-webkit-justify-content:flex-end;justify-content:flex-end;
+  width:100%;margin-bottom:4px; }
+.mul-sq { width:58px;height:60px;line-height:60px;border-radius:10px;
+  font-size:40px;font-weight:900;text-align:center;margin:0 3px;
+  display:inline-block;box-sizing:border-box; }
+.mul-sq.a { background:var(--mul-a-bg);border:3px solid var(--mul-a-bd);color:#5a4a00; }
+.mul-sq.b { background:var(--mul-b-bg);border:3px solid var(--mul-b-bd);color:#003d47; }
+.mul-x { font-size:50px;font-weight:900;color:var(--text);margin:0 8px 0 4px; }
+.mul-line { border-top:5px solid var(--text);margin:4px 0;width:100%; }
 
-  /* TECLADO ACHATADO */
-  .numpad {
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-flex-wrap: wrap; flex-wrap: wrap;
-    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-    width: 450px; max-width: 100%; margin: 0 auto 10px auto;
-  }
-  .num-key {
-    width: 95px; height: 55px; margin: 6px;
-    background: var(--white); border-radius: 12px; box-shadow: 0 4px 0 #E2D9F3;
-    font-size: 30px; font-weight: 800; color: var(--text);
-    display: -webkit-box; display: -webkit-flex; display: flex;
-    -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-  }
-  .num-key:active { transform: translateY(4px); box-shadow: 0 0 0 #E2D9F3; }
-  .num-key.action { background: var(--g-soft); color: var(--g); }
-  .num-key.check { background: var(--ok); color: var(--white); box-shadow: 0 4px 0 #1A995C; width: 200px;} /* Botón OK más grande */
+/* Filas parciales: círculos beige (row 0) y azules (row 1) */
+.mul-partial-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  width:100%;margin-bottom:5px; }
+.mul-circ { width:56px;height:56px;border-radius:50%;
+  font-size:34px;font-weight:900;text-align:center;line-height:56px;
+  margin:0 3px;display:inline-block;box-sizing:border-box;
+  -webkit-transition:all 0.12s;transition:all 0.12s; }
+.mul-circ.p1 { background:var(--mul-p1-bg);border:3px solid var(--mul-p1-bd);color:#5a2000; }
+.mul-circ.p2 { background:var(--mul-p2-bg);border:3px solid var(--mul-p2-bd);color:#003060; }
+.mul-circ.empty { background:var(--gray-lt);border:3px dashed var(--gray);color:var(--gray); }
+.mul-circ.inp { cursor:pointer; }
+.mul-circ.inp.active { border-color:var(--o);background:var(--o-soft);color:var(--text);
+  -webkit-transform:scale(1.1);transform:scale(1.1); }
+.mul-circ.success { border-color:var(--ok);background:#edfbf3;color:var(--ok); }
+.mul-circ.error { border-color:var(--err);background:#ffeeee;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s; }
+/* El cero fijo del parcial 2 */
+.mul-circ.zero { background:var(--mul-p2-bg);border:3px solid var(--mul-p2-bd);
+  color:#88aacc;font-size:28px; }
 
-  /* Confeti CSS (Compatible con webkit antiguo) */
-  .cfp {
-    position: absolute; top: -20px; width: 15px; height: 15px;
-    -webkit-animation: fall 2s linear forwards; pointer-events: none;
-  }
-  @-webkit-keyframes fall {
-    to { -webkit-transform: translateY(110vh) rotate(360deg); transform: translateY(110vh) rotate(360deg); }
-  }
+/* Carry de los parciales (cuadraditos pequeños encima) */
+.mul-pcarry-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  width:100%;margin-bottom:1px; }
+.mul-pcarry { width:30px;height:30px;border:2px solid var(--gray);border-radius:5px;
+  background:var(--white);font-size:15px;font-weight:900;text-align:center;line-height:30px;
+  margin:0 5px;color:var(--o);display:inline-block;cursor:pointer;box-sizing:border-box; }
+.mul-pcarry.active { border-color:var(--o);background:var(--o-soft); }
 
+/* Resultado final: cuadrados verdes */
+.mul-result-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  width:100%; }
+.mul-plus { font-size:44px;font-weight:900;color:var(--g);margin-right:6px; }
+.mul-res-sq { width:58px;height:60px;line-height:60px;border-radius:10px;
+  font-size:38px;font-weight:900;text-align:center;margin:0 3px;
+  display:inline-block;box-sizing:border-box; }
+.mul-res-sq.filled { background:var(--mul-r-bg);border:3px solid var(--mul-r-bd);color:#1a4a1a; }
+.mul-res-sq.inp { background:var(--white);border:4px dashed var(--gray);cursor:pointer;
+  -webkit-transition:all 0.12s;transition:all 0.12s; }
+.mul-res-sq.inp.active { border-color:var(--o);background:var(--o-soft);border-style:solid; }
+.mul-res-sq.success { border-color:var(--ok);border-style:solid;background:#edfbf3;color:var(--ok); }
+.mul-res-sq.error { border-color:var(--err);border-style:solid;background:#ffeeee;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s; }
+
+/* DIVISIONES */
+.div-wrapper { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  width:100%;max-width:500px; }
+.div-top { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  background:var(--g-soft);border:3px solid var(--g);border-radius:22px;
+  padding:10px 20px;margin-bottom:16px; }
+.div-top-n { font-size:56px;font-weight:900;color:var(--o);margin:0 5px; }
+.div-top-s { font-size:50px;font-weight:900;color:var(--g);margin:0 3px; }
+.div-top-eq { font-size:46px;font-weight:900;color:var(--text);margin:0 5px; }
+.div-work { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:flex-start;-webkit-align-items:flex-start;align-items:flex-start; }
+.div-left { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:flex-end;-webkit-align-items:flex-end;align-items:flex-end;margin-right:10px; }
+.div-digits { display:-webkit-box;display:-webkit-flex;display:flex;margin-bottom:8px; }
+.div-dbox { width:54px;height:58px;line-height:58px;background:#f0ecff;
+  border:3px solid var(--g);border-radius:10px;font-size:38px;font-weight:900;
+  color:var(--g-dark);text-align:center;margin:0 2px; }
+.div-calc-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:5px; }
+.div-calc-label { font-size:15px;font-weight:900;color:var(--gray);width:38px;text-align:right;margin-right:5px; }
+.div-calc-box { width:50px;height:54px;line-height:54px;border:3px dashed var(--gray);
+  border-radius:10px;background:var(--white);font-size:34px;font-weight:900;
+  text-align:center;margin:0 2px; }
+.div-line-h { border-top:4px solid var(--gray);margin:5px 0;width:100%; }
+.div-resto-row { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-top:4px; }
+.div-resto-label { font-size:16px;font-weight:900;color:var(--o);margin-right:8px; }
+.div-right { border-left:6px solid var(--text);border-bottom:6px solid var(--text);
+  padding:8px 10px 12px 12px;min-width:80px; }
+.div-right-num { font-size:42px;font-weight:900;color:var(--g);text-align:center;margin-bottom:6px; }
+.div-tabla-line { border-top:3px solid var(--gray);margin-bottom:4px; }
+.div-hint { font-size:11px;color:var(--gray);font-weight:800;text-align:center; }
+
+/* Botón ayuda + panel */
+.ayuda-btn { display:inline-block;padding:5px 14px;border-radius:20px;
+  background:var(--o-soft);color:var(--o);font-size:14px;font-weight:900;
+  border:2px solid var(--o);cursor:pointer;margin-bottom:10px;
+  -webkit-transition:all 0.15s;transition:all 0.15s; }
+.ayuda-panel { position:fixed;right:8px;top:50%;margin-top:-170px;
+  width:128px;background:var(--white);border-radius:16px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.18);border:2px solid var(--g);
+  z-index:200;padding:10px 8px;display:none; }
+.ayuda-panel.show { display:block; }
+.ayuda-title { font-size:13px;font-weight:900;color:var(--g);text-align:center;margin-bottom:5px; }
+.ayuda-nav { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:5px; }
+.ayuda-arrow { width:26px;height:26px;border-radius:50%;background:var(--g-soft);
+  color:var(--g);font-size:16px;font-weight:900;text-align:center;line-height:26px;cursor:pointer; }
+.ayuda-base-num { font-size:19px;font-weight:900;color:var(--g);margin:0 8px; }
+.ayuda-rows { font-size:12px;font-weight:800;line-height:1.65;text-align:center; }
+.ayuda-rows b { color:var(--o); }
+.ayuda-close { display:block;text-align:center;margin-top:6px;
+  font-size:12px;font-weight:900;color:var(--gray);cursor:pointer; }
+
+/* ============================================================
+   COMBINADAS — nueva UX
+   Enunciado arriba (mismo tamaño que el paso), paso abajo.
+   Siempre alineados columna a columna.
+   ============================================================ */
+.com-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  width:100%;max-width:560px; }
+
+/* Línea de operación — usada tanto para enunciado como para paso */
+.com-line { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  font-size:62px;font-weight:900;line-height:1.1;margin:4px 0; }
+/* Enunciado original: mismo tamaño pero gris cuando ya es referencia */
+.com-line.ref { color:#b0a8cc;font-size:52px; }
+/* Separador entre enunciado y paso */
+.com-sep { width:80%;border-top:3px dashed var(--gray-lt);margin:6px 0; }
+
+/* Token dentro de la línea — número, signo o paréntesis */
+.com-tok { display:inline-block;text-align:center;vertical-align:middle; }
+/* Paréntesis resaltado (paso 1): color naranja, ligeramente más grande */
+.com-tok.par-active { color:var(--o); }
+/* Paréntesis ya resuelto: gris */
+.com-tok.par-done { color:var(--gray); }
+/* Bloque tapable (paréntesis completo) que se convierte en caja */
+.com-par-block { display:inline-block;vertical-align:middle;cursor:pointer;
+  padding:2px 6px;border-radius:12px;
+  border:3px solid transparent;
+  -webkit-transition:all 0.15s;transition:all 0.15s; }
+.com-par-block:active { background:var(--o-soft);border-color:var(--o); }
+.com-par-block.selected { background:var(--o-soft);border-color:var(--o); }
+
+/* Etiqueta de fase, justo a la izquierda de la línea de paso */
+.com-phase-label { font-size:16px;font-weight:900;color:var(--g);
+  background:var(--g-soft);border-radius:20px;padding:3px 12px;
+  margin-bottom:5px;text-align:center; }
+
+/* TABLAS MULTIPLICAR (nivel 1 mult) */
+.tabla-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;width:100%; }
+.tabla-ctx { font-size:38px;font-weight:800;color:#b0a8cc;margin:6px 0; }
+.tabla-main { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  font-size:72px;font-weight:900;background:var(--white);border-radius:26px;
+  padding:14px 28px;box-shadow:0 6px 28px var(--shad);margin:8px 0; }
+
+/* TECLADO */
+.numpad-wrap { background:var(--white);box-shadow:0 -2px 14px var(--shad);
+  padding:7px 8px 10px 8px;-webkit-flex-shrink:0;flex-shrink:0; }
+.numpad { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  max-width:460px;margin:0 auto; }
+.num-key { width:85px;height:56px;margin:4px;background:var(--gray-lt);
+  border-radius:14px;box-shadow:0 4px 0 #d0c8e8;font-size:28px;font-weight:900;
+  color:var(--text);display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  cursor:pointer;-webkit-transition:-webkit-transform 0.08s,box-shadow 0.08s;
+  transition:transform 0.08s,box-shadow 0.08s; }
+.num-key:active { -webkit-transform:translateY(4px);transform:translateY(4px);box-shadow:0 0 0 #d0c8e8; }
+.num-key.key-del { background:#ffe4ef;color:var(--o);box-shadow:0 4px 0 #f0c0d0;font-size:20px; }
+.num-key.key-ok  { background:var(--ok);color:var(--white);box-shadow:0 4px 0 var(--ok-dark);width:184px;font-size:20px; }
+.num-key.key-next{ background:var(--g);color:var(--white);box-shadow:0 4px 0 var(--g-dark);width:184px;font-size:18px; }
+
+/* EFECTOS */
+.cfp { position:fixed;top:-30px;width:13px;height:13px;border-radius:3px;
+  pointer-events:none;z-index:999;
+  -webkit-animation:cffall 2.2s linear forwards;animation:cffall 2.2s linear forwards; }
+@-webkit-keyframes cffall { to{-webkit-transform:translateY(110vh) rotate(540deg);opacity:0;} }
+@keyframes cffall { to{transform:translateY(110vh) rotate(540deg);opacity:0;} }
+.flash-ov { position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;
+  z-index:500;opacity:0;-webkit-transition:opacity 0.12s;transition:opacity 0.12s; }
+.flash-ov.green { background:rgba(34,201,122,0.2); }
+.flash-ov.red   { background:rgba(255,71,87,0.2); }
+.flash-ov.show  { opacity:1; }
+.pts-pop { position:fixed;left:50%;top:28%;font-size:56px;font-weight:900;color:var(--ok);
+  text-shadow:0 3px 14px rgba(0,0,0,0.18);pointer-events:none;z-index:998;
+  -webkit-transform:translateX(-50%);transform:translateX(-50%);
+  -webkit-animation:ptspop 1.3s ease-out forwards;animation:ptspop 1.3s ease-out forwards; }
+@-webkit-keyframes ptspop {
+  0%{opacity:0;-webkit-transform:translateX(-50%) scale(0.4);}
+  25%{opacity:1;-webkit-transform:translateX(-50%) translateY(-14px) scale(1.25);}
+  65%{opacity:1;-webkit-transform:translateX(-50%) translateY(-36px) scale(1);}
+  100%{opacity:0;-webkit-transform:translateX(-50%) translateY(-65px) scale(0.85);} }
+@keyframes ptspop {
+  0%{opacity:0;transform:translateX(-50%) scale(0.4);}
+  25%{opacity:1;transform:translateX(-50%) translateY(-14px) scale(1.25);}
+  65%{opacity:1;transform:translateX(-50%) translateY(-36px) scale(1);}
+  100%{opacity:0;transform:translateX(-50%) translateY(-65px) scale(0.85);} }
+.star-pop { position:fixed;left:50%;top:50%;font-size:88px;pointer-events:none;z-index:997;
+  -webkit-transform:translate(-50%,-50%) scale(0);transform:translate(-50%,-50%) scale(0);
+  -webkit-animation:starout 0.65s ease-out forwards;animation:starout 0.65s ease-out forwards; }
+@-webkit-keyframes starout {
+  0%{-webkit-transform:translate(-50%,-50%) scale(0);opacity:1;}
+  60%{-webkit-transform:translate(-50%,-50%) scale(1.4);opacity:1;}
+  100%{-webkit-transform:translate(-50%,-50%) scale(1.1);opacity:0;} }
+@keyframes starout {
+  0%{transform:translate(-50%,-50%) scale(0);opacity:1;}
+  60%{transform:translate(-50%,-50%) scale(1.4);opacity:1;}
+  100%{transform:translate(-50%,-50%) scale(1.1);opacity:0;} }
 </style>
 </head>
 <body>
-
-<div class="app-container">
-  
-  <div class="nav-tags" id="tagNav">
-    <div class="tag-btn active" id="tag_SUM" onclick="setTag('SUM')">SUMAS</div>
-    <div class="tag-btn" id="tag_RES" onclick="setTag('RES')">RESTAS</div>
-    <div class="tag-btn" id="tag_MUL" onclick="setTag('MUL')">MULT</div>
-    <div class="tag-btn" id="tag_DIV" onclick="setTag('DIV')">DIV</div>
-    <div class="tag-btn" id="tag_COM" onclick="setTag('COM')">COMB</div>
+<div class="app-wrap">
+  <div class="top-bar">
+    <div class="main-row">
+      <div class="ops-group">
+        <div class="op-btn active" id="op_SUM" onclick="setTag('SUM')">Sumas</div>
+        <div class="op-btn" id="op_RES" onclick="setTag('RES')">Restas</div>
+        <div class="op-btn" id="op_MUL" onclick="setTag('MUL')">Mult</div>
+        <div class="op-btn" id="op_DIV" onclick="setTag('DIV')">Div</div>
+        <div class="op-btn" id="op_COM" onclick="setTag('COM')">Comb</div>
+        <div class="op-btn" id="op_RAN" onclick="setTag('RAN')">Random</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="sisters-group">
+        <div class="sister-btn act-o" id="btn_olivia" onclick="switchSister('olivia')">
+          <div class="av">O</div>Olivia<span class="pts" id="pts_olivia">0</span>
+        </div>
+        <div class="sister-btn" id="btn_gala" onclick="switchSister('gala')">
+          <div class="av">G</div>Gala<span class="pts" id="pts_gala">0</span>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="nav-levels" id="levelNav">
+  <div class="nav-levels">
     <div class="lvl-btn active" id="lvl_1" onclick="setLevel(1)">1</div>
     <div class="lvl-btn" id="lvl_2" onclick="setLevel(2)">2</div>
     <div class="lvl-btn" id="lvl_3" onclick="setLevel(3)">3</div>
+    <div class="lvl-btn" id="lvl_4" onclick="setLevel(4)">4</div>
+    <div class="lvl-btn" id="lvl_5" onclick="setLevel(5)">5</div>
   </div>
-
   <div class="exercise-area" id="exerciseArea"></div>
-  <div class="numpad" id="numpadArea"></div>
-
+  <div class="numpad-wrap"><div class="numpad" id="numpadArea"></div></div>
 </div>
 
+<div class="ayuda-panel" id="ayudaPanel">
+  <div class="ayuda-title">Tabla del <span id="ayudaBaseNum">2</span></div>
+  <div class="ayuda-nav">
+    <div class="ayuda-arrow" onclick="ayudaNav(-1)">&#8249;</div>
+    <div class="ayuda-base-num" id="ayudaBaseDisplay">2</div>
+    <div class="ayuda-arrow" onclick="ayudaNav(1)">&#8250;</div>
+  </div>
+  <div class="ayuda-rows" id="ayudaRows"></div>
+  <span class="ayuda-close" onclick="toggleAyuda()">Cerrar</span>
+</div>
+<div class="flash-ov" id="flashOv"></div>
+
 <script>
-  // ESTADO GLOBAL (ES5)
-  var currentTag = 'SUM';
-  var currentLevel = 1;
-  var expectedAnswers = {}; 
-  var activeBoxId = null;   
-  var comData = {}; // Datos para Combinadas
+// ============================================================
+// UTIL ES5
+// ============================================================
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function $(id){return document.getElementById(id);}
 
-  window.onload = function() {
-    renderNumpad();
-    generateExercise();
-  };
+// ============================================================
+// COOKIES
+// ============================================================
+function setCookie(name,val,hours){
+  var d=new Date();d.setTime(d.getTime()+hours*3600000);
+  document.cookie=name+'='+encodeURIComponent(val)+';expires='+d.toUTCString()+';path=/';
+}
+function getCookie(name){
+  var n=name+'=',ca=document.cookie.split(';');
+  for(var i=0;i<ca.length;i++){
+    var c=ca[i];while(c.charAt(0)===' ')c=c.substring(1);
+    if(c.indexOf(n)===0)return decodeURIComponent(c.substring(n.length));
+  }return null;
+}
 
-  function setTag(tag) {
-    currentTag = tag;
-    var tags = ['SUM','RES','MUL','DIV','COM'];
-    for(var i=0; i<tags.length; i++) document.getElementById('tag_'+tags[i]).className = "tag-btn";
-    document.getElementById('tag_'+tag).className = "tag-btn active";
-    generateExercise();
+// ============================================================
+// ESTADO
+// ============================================================
+var currentSister='olivia',currentTag='SUM',currentLevel=1;
+var scores={olivia:0,gala:0};
+var expectedAnswers={},activeBoxId=null;
+var comData={},tablaData={};
+var comInProgress=false,randomLvlUsed=1;
+var ptsTable={1:1,2:2,3:3,4:5,5:8};
+var ayudaBase=2;
+
+window.onload=function(){loadScores();renderNumpad();generateExercise();};
+
+// ============================================================
+// SCORES
+// ============================================================
+function loadScores(){
+  var raw=getCookie('mates_scores');
+  if(raw){try{var p=JSON.parse(raw);
+    if(typeof p.olivia==='number')scores.olivia=p.olivia;
+    if(typeof p.gala==='number')scores.gala=p.gala;
+  }catch(e){}}
+  updateScoreUI();
+}
+function saveScores(){setCookie('mates_scores',JSON.stringify(scores),24);}
+function addPoint(){
+  var lvl=(currentTag==='RAN')?randomLvlUsed:currentLevel;
+  var pts=ptsTable[lvl]||1;
+  scores[currentSister]+=pts;saveScores();updateScoreUI();showPtsPopup('+'+pts+' pts');
+}
+function updateScoreUI(){$('pts_olivia').textContent=scores.olivia;$('pts_gala').textContent=scores.gala;}
+
+// ============================================================
+// NAV
+// ============================================================
+function switchSister(s){
+  currentSister=s;
+  $('btn_olivia').className='sister-btn'+(s==='olivia'?' act-o':'');
+  $('btn_gala').className='sister-btn'+(s==='gala'?' act-g':'');
+}
+function setTag(tag){
+  currentTag=tag;
+  var tags=['SUM','RES','MUL','DIV','COM','RAN'];
+  for(var i=0;i<tags.length;i++)$('op_'+tags[i]).className='op-btn'+(tags[i]===tag?' active':'');
+  generateExercise();
+}
+function setLevel(lvl){
+  currentLevel=lvl;
+  for(var i=1;i<=5;i++)$('lvl_'+i).className='lvl-btn'+(i===lvl?' active':'');
+  generateExercise();
+}
+
+// ============================================================
+// TECLADO
+// ============================================================
+function renderNumpad(){_buildPad([7,8,9,'C',4,5,6,0,1,2,3,'OK']);}
+function renderNumpadNext(){_buildPad([7,8,9,'C',4,5,6,0,1,2,3,'SIG']);}
+function _buildPad(keys){
+  var html='';
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i],cls='num-key';
+    if(k==='C')cls+=' key-del';
+    if(k==='OK')cls+=' key-ok';
+    if(k==='SIG')cls+=' key-next';
+    html+='<div class="'+cls+'" onclick="pressKey(\''+k+'\')">'+(k==='SIG'?'Siguiente':k)+'</div>';
   }
+  $('numpadArea').innerHTML=html;
+}
 
-  function setLevel(lvl) {
-    currentLevel = lvl;
-    for(var i=1; i<=3; i++) document.getElementById('lvl_'+i).className = "lvl-btn";
-    document.getElementById('lvl_'+lvl).className = "lvl-btn active";
-    generateExercise();
+function activateBox(id){
+  if(activeBoxId){
+    var old=$(activeBoxId);
+    if(old)old.className=old.className.replace(/\s*active/g,'');
   }
+  activeBoxId=id;
+  var nb=$(id);if(nb)nb.className+=' active';
+}
 
-  function renderNumpad() {
-    var keys = [7, 8, 9, "C", 4, 5, 6, 0, 1, 2, 3, "OK"];
-    var html = "";
-    for(var i=0; i<keys.length; i++) {
-      var k = keys[i];
-      var cls = "num-key";
-      if(k === "C") cls += " action";
-      if(k === "OK") cls += " check";
-      html += "<div class='" + cls + "' onclick='pressKey(\"" + k + "\")'>" + k + "</div>";
+function pressKey(k){
+  if(k==='SIG'){generateExercise();return;}
+  if(!activeBoxId)return;
+  if(k==='OK'){checkAnswers();return;}
+  var box=$(activeBoxId);if(!box)return;
+  if(k==='C'){box.textContent='';return;}
+  var multi=(activeBoxId.indexOf('full')>-1||activeBoxId.indexOf('wide')>-1||
+             activeBoxId.indexOf('coc')>-1||activeBoxId.indexOf('res')>-1||
+             activeBoxId.indexOf('tab_')>-1||activeBoxId.indexOf('mres_')>-1);
+  if(multi){if(box.textContent.length<5)box.textContent+=k;}
+  else{
+    box.textContent=k;
+    // Auto-avance en cajas de un dígito
+    if(activeBoxId.indexOf('ans_')===0){
+      var idx=parseInt(activeBoxId.replace('ans_',''),10);
+      var nxt='ans_'+(idx+1);if($(nxt)){activateBox(nxt);return;}
     }
-    document.getElementById('numpadArea').innerHTML = html;
+    if(activeBoxId.indexOf('mc_')===0){
+      var parts=activeBoxId.split('_');
+      var row=parseInt(parts[1],10),col=parseInt(parts[2],10);
+      var nxtId='mc_'+row+'_'+(col+1);
+      if(!$(nxtId))nxtId='mc_'+(row+1)+'_0';
+      if($(nxtId)){activateBox(nxtId);return;}
+    }
   }
+}
 
-  function random(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-  
-  function getColorCol(index) {
-    if(index === 0) return "var(--col-u)";
-    if(index === 1) return "var(--col-d)";
-    if(index === 2) return "var(--col-c)";
-    return "var(--text)";
+// ============================================================
+// GENERADOR
+// ============================================================
+function generateExercise(){
+  expectedAnswers={};activeBoxId=null;comInProgress=false;
+  renderNumpad();hideAyuda();
+  var lvl=currentLevel;
+  if(currentTag==='RAN'){
+    randomLvlUsed=lvl;
+    var tipos=(lvl<=2)?['SUM','RES','MUL']:['SUM','RES','MUL','DIV','COM'];
+    _runTag(tipos[Math.floor(Math.random()*tipos.length)],lvl);
+  }else{_runTag(currentTag,lvl);}
+}
+function _runTag(tag,lvl){
+  if(tag==='SUM')genSuma(lvl);
+  else if(tag==='RES')genResta(lvl);
+  else if(tag==='MUL')genMult(lvl);
+  else if(tag==='DIV')genDiv(lvl);
+  else if(tag==='COM')genCom(lvl);
+}
+
+// ============================================================
+// SUMAS / RESTAS
+// ============================================================
+function genSuma(lvl){
+  var a,b;
+  if(lvl===1){a=rand(1,5);b=rand(1,5);}
+  else if(lvl===2){a=rand(5,19);b=rand(5,19);}
+  else if(lvl===3){a=rand(20,99);b=rand(20,99);}
+  else if(lvl===4){a=rand(100,499);b=rand(100,499);}
+  else{a=rand(500,9999);b=rand(500,9999);}
+  if(lvl===1)renderHoriz(a,b,'+',a+b);else renderVertical(a,b,'+',a+b);
+}
+function genResta(lvl){
+  var a,b;
+  if(lvl===1){b=rand(1,4);a=rand(b,b+4);}
+  else if(lvl===2){a=rand(10,29);b=rand(1,a);}
+  else if(lvl===3){a=rand(30,99);b=rand(10,a);}
+  else if(lvl===4){a=rand(100,499);b=rand(50,a);}
+  else{a=rand(500,9999);b=rand(100,a);}
+  if(lvl===1)renderHoriz(a,b,'-',a-b);else renderVertical(a,b,'-',a-b);
+}
+
+// ============================================================
+// MULTIPLICACIONES
+// Nivel 1 = Tablas (horizontal con contexto)
+// Nivel 2 = horizontal 1 dígito x 1 dígito
+// Nivel 3 = vertical N x 1 dígito
+// Nivel 4-5 = plantilla discalculia (2 dígitos x 2 dígitos)
+// ============================================================
+function genMult(lvl){
+  if(lvl===1){genTabla();return;}
+  var a,b;
+  if(lvl===2){a=rand(2,9);b=rand(2,9);}
+  else if(lvl===3){a=rand(10,99);b=rand(2,9);}
+  else if(lvl===4){a=rand(20,99);b=rand(10,19);}
+  else{a=rand(20,99);b=rand(12,29);}
+  if(lvl===2)renderHoriz(a,b,'x',a*b);
+  else if(lvl===3)renderVertical(a,b,'x',a*b);
+  else renderMulPlantilla(a,b);
+}
+
+function genTabla(){
+  tablaData.base=rand(2,5);tablaData.factor=rand(2,10);
+  tablaData.result=tablaData.base*tablaData.factor;renderTabla();
+}
+function renderTabla(){
+  var b=tablaData.base,f=tablaData.factor,r=tablaData.result;
+  expectedAnswers={'tab_ans':String(r)};
+  var html='<div class="tabla-wrap">';
+  html+='<div class="tabla-ctx">'+(f>1?b+' x '+(f-1)+' = '+(b*(f-1)):'&nbsp;')+'</div>';
+  html+='<div class="tabla-main">'+b+' x '+f+' = ';
+  html+='<div class="box full" id="tab_ans" onclick="activateBox(\'tab_ans\')"></div></div>';
+  html+='<div class="tabla-ctx" id="tab_next">'+b+' x '+(f+1)+' = ?</div>';
+  html+='</div>';
+  $('exerciseArea').innerHTML=html;
+  renderNumpadNext();activateBox('tab_ans');
+}
+
+// ============================================================
+// MUL PLANTILLA (niveles 4-5) — fiel a la foto del centro
+// A x B donde B es 2 dígitos (ej. 75 x 19)
+// Fila amarilla: dígitos de A
+// Fila azul: dígitos de B (el multiplicador)
+// Parcial 1 (círculos beige): A x unidades(B)
+// Parcial 2 (círculos azules): A x decenas(B) — desplazado, primer círculo = 0
+// Resultado (cuadrados verdes): suma de parciales
+// Carries (cuadraditos) encima de cada fila de círculos
+// ============================================================
+function renderMulPlantilla(a,b){
+  var bU=b%10,bD=Math.floor(b/10);
+  var p1=a*bU,p2=a*bD,res=a*b;
+  var strA=String(a),strB=String(b);
+  var strP1=String(p1).split('').reverse();
+  var strP2=String(p2).split('').reverse();
+  var strRes=String(res).split('').reverse();
+  // Columnas totales = max de todos los resultados + 1 (por desplazamiento p2)
+  var cols=Math.max(strP1.length,strP2.length+1,strRes.length);
+
+  // Respuestas esperadas
+  for(var i=0;i<strP1.length;i++)expectedAnswers['mc_0_'+i]=strP1[i];
+  for(var i=0;i<strP2.length;i++)expectedAnswers['mc_1_'+i]=strP2[i];
+  for(var i=0;i<strRes.length;i++)expectedAnswers['mres_'+i]=strRes[i];
+
+  var html='<div class="mul-wrap">';
+
+  // ---- Carries de las filas de números (encima de los amarillos) ----
+  html+='<div class="mul-carry-row">';
+  for(var c=cols-1;c>=0;c--){
+    html+='<div class="mul-carry-sq" id="cA_'+c+'" onclick="activateBox(\'cA_'+c+'\')">&nbsp;</div>';
   }
+  html+='</div>';
 
-  // --- GENERADOR PRINCIPAL ---
-  function generateExercise() {
-    expectedAnswers = {};
-    var a, b, res;
+  // ---- Fila A (amarillo) + × + Fila B (azul) ----
+  html+='<div class="mul-nums-row">';
+  for(var i=0;i<strA.length;i++)html+='<div class="mul-sq a">'+strA[i]+'</div>';
+  html+='<span class="mul-x">x</span>';
+  for(var i=0;i<strB.length;i++)html+='<div class="mul-sq b">'+strB[i]+'</div>';
+  html+='</div>';
+  html+='<div class="mul-line"></div>';
 
-    if (currentTag === 'SUM') {
-      if (currentLevel === 1) { a = random(1,9); b = random(1,9); renderHorizontal(a, b, "+", a+b); } 
-      else {
-        if (currentLevel === 2) { a = random(10,99); b = random(10,99); }
-        if (currentLevel === 3) { a = random(100,999); b = random(50,999); }
-        renderVerticalGrid(a, b, "+", a+b);
+  // ---- Carries fila parcial 1 ----
+  html+='<div class="mul-pcarry-row">';
+  // Espacio a la izquierda para alinear con los círculos
+  var leftPad=cols-strP1.length;
+  for(var c=0;c<leftPad;c++)html+='<div style="width:62px;display:inline-block;"></div>';
+  for(var c=strP1.length-1;c>=0;c--){
+    html+='<div class="mul-pcarry" id="cp1_'+c+'" onclick="activateBox(\'cp1_'+c+'\')">&nbsp;</div>';
+  }
+  html+='</div>';
+
+  // ---- Parcial 1: círculos beige (A x unidades B) ----
+  html+='<div class="mul-partial-row">';
+  // Casillas vacías a la izquierda
+  for(var c=cols-1;c>=0;c--){
+    if(c<strP1.length){
+      html+='<div class="mul-circ p1 inp" id="mc_0_'+c+'" onclick="activateBox(\'mc_0_'+c+'\')">&nbsp;</div>';
+    }else{
+      html+='<div class="mul-circ empty">&nbsp;</div>';
+    }
+  }
+  html+='</div>';
+
+  // ---- Carries fila parcial 2 (solo si hay decenas) ----
+  if(bD>0){
+    html+='<div class="mul-pcarry-row">';
+    // El parcial 2 ocupa strP2.length+1 posiciones (la +1 es el cero)
+    var leftPad2=cols-(strP2.length+1);
+    for(var c=0;c<leftPad2;c++)html+='<div style="width:62px;display:inline-block;"></div>';
+    // Carries sobre los dígitos del parcial 2 (sin el cero)
+    for(var c=strP2.length-1;c>=0;c--){
+      html+='<div class="mul-pcarry" id="cp2_'+c+'" onclick="activateBox(\'cp2_'+c+'\')">&nbsp;</div>';
+    }
+    // Espacio sobre el cero
+    html+='<div style="width:62px;display:inline-block;"></div>';
+    html+='</div>';
+
+    // ---- Parcial 2: círculos azules (A x decenas B), desplazado ----
+    html+='<div class="mul-partial-row">';
+    for(var c=cols-1;c>=0;c--){
+      if(c===0){
+        // Cero fijo (desplazamiento)
+        html+='<div class="mul-circ zero">0</div>';
+      }else if(c-1<strP2.length){
+        html+='<div class="mul-circ p2 inp" id="mc_1_'+(c-1)+'" onclick="activateBox(\'mc_1_'+(c-1)+'\')">&nbsp;</div>';
+      }else{
+        html+='<div class="mul-circ empty">&nbsp;</div>';
       }
-    } 
-    else if (currentTag === 'RES') {
-      if (currentLevel === 1) { a = random(5,15); b = random(1, a); renderHorizontal(a, b, "-", a-b); } 
-      else {
-        if (currentLevel === 2) { a = random(50,99); b = random(10, a); }
-        if (currentLevel === 3) { a = random(300,999); b = random(50, a); }
-        renderVerticalGrid(a, b, "-", a-b);
+    }
+    html+='</div>';
+  }
+
+  // ---- Línea suma final ----
+  html+='<div class="mul-line"></div>';
+
+  // ---- Resultado: cuadrados verdes ----
+  html+='<div class="mul-result-row">';
+  html+='<span class="mul-plus">+</span>';
+  for(var c=cols-1;c>=0;c--){
+    if(c<strRes.length){
+      html+='<div class="mul-res-sq inp" id="mres_'+c+'" onclick="activateBox(\'mres_'+c+'\')">&nbsp;</div>';
+    }else{
+      html+='<div class="mul-res-sq filled">&nbsp;</div>';
+    }
+  }
+  html+='</div>';
+
+  html+='</div>';
+  $('exerciseArea').innerHTML=html;
+  // Activar primer círculo del parcial 1
+  activateBox('mc_0_'+(strP1.length-1));
+}
+
+// ============================================================
+// DIVISIONES
+// ============================================================
+function genDiv(lvl){
+  var divisor,cociente,dividendo,resto;
+  if(lvl===1){
+    divisor=rand(2,4);cociente=rand(2,4);dividendo=divisor*cociente;
+    renderDivHorizConAyuda(dividendo,divisor,cociente);return;
+  }
+  if(lvl===2){divisor=rand(2,5);dividendo=rand(10,49);}
+  else if(lvl===3){divisor=rand(2,9);dividendo=rand(20,99);}
+  else if(lvl===4){divisor=rand(3,9);dividendo=rand(50,200);}
+  else{divisor=rand(4,9);dividendo=rand(100,999);}
+  cociente=Math.floor(dividendo/divisor);resto=dividendo%divisor;
+  renderDivPlantilla(dividendo,divisor,cociente,resto);
+}
+
+// División nivel 1 horizontal + ayuda
+function renderDivHorizConAyuda(dividendo,divisor,cociente){
+  expectedAnswers={'ans_full':String(cociente)};
+  ayudaBase=divisor;
+  var html='<div style="text-align:center;">';
+  html+='<div class="ayuda-btn" onclick="toggleAyuda()">Ayuda tablas</div>';
+  html+='</div>';
+  html+='<div class="huge-row">'+dividendo+' ÷ '+divisor+' = ';
+  html+='<div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div></div>';
+  $('exerciseArea').innerHTML=html;activateBox('ans_full');
+}
+
+function renderDivPlantilla(dividendo,divisor,cociente,resto){
+  expectedAnswers={'ans_coc':String(cociente),'ans_res':String(resto)};
+  ayudaBase=divisor;
+  var strDiv=String(dividendo).split('');
+  var strCoc=String(cociente).split('');
+  var html='<div class="div-wrapper">';
+  html+='<div class="ayuda-btn" onclick="toggleAyuda()">Ayuda tablas</div>';
+  html+='<div class="div-top">';
+  html+='<span class="div-top-n">'+dividendo+'</span>';
+  html+='<span class="div-top-s">÷</span>';
+  html+='<span class="div-top-n" style="color:var(--g);">'+divisor+'</span>';
+  html+='<span class="div-top-eq">=</span>';
+  html+='<div class="box wide" id="ans_coc" onclick="activateBox(\'ans_coc\')"></div>';
+  html+='</div>';
+  html+='<div class="div-work"><div class="div-left">';
+  html+='<div class="div-digits">';
+  for(var i=0;i<strDiv.length;i++)html+='<div class="div-dbox">'+strDiv[i]+'</div>';
+  html+='</div>';
+  for(var j=0;j<strCoc.length;j++){
+    html+='<div class="div-calc-row"><span class="div-calc-label">'+(j===0?'x':'-')+'</span>';
+    for(var k=0;k<strDiv.length;k++)html+='<div class="div-calc-box">&nbsp;</div>';
+    html+='</div>';
+  }
+  html+='<div class="div-line-h"></div>';
+  html+='<div class="div-resto-row"><span class="div-resto-label">R =</span>';
+  html+='<div class="box wide" id="ans_res" onclick="activateBox(\'ans_res\')"></div></div>';
+  html+='</div>';
+  html+='<div class="div-right"><div class="div-right-num">'+divisor+'</div>';
+  html+='<div class="div-tabla-line"></div>';
+  html+='<div class="div-hint">pulsa<br>Ayuda</div>';
+  html+='</div></div></div>';
+  $('exerciseArea').innerHTML=html;activateBox('ans_coc');
+}
+
+// Panel ayuda tablas
+function toggleAyuda(){
+  var p=$('ayudaPanel');
+  if(p.className.indexOf('show')>-1){p.className='ayuda-panel';}
+  else{renderAyudaPanel();p.className='ayuda-panel show';}
+}
+function hideAyuda(){var p=$('ayudaPanel');if(p)p.className='ayuda-panel';}
+function ayudaNav(dir){
+  ayudaBase+=dir;if(ayudaBase<1)ayudaBase=10;if(ayudaBase>10)ayudaBase=1;
+  renderAyudaPanel();
+}
+function renderAyudaPanel(){
+  $('ayudaBaseNum').textContent=$('ayudaBaseDisplay').textContent=ayudaBase;
+  var html='';
+  for(var i=0;i<=10;i++)html+=ayudaBase+' x '+i+' = <b>'+(ayudaBase*i)+'</b><br>';
+  $('ayudaRows').innerHTML=html;
+}
+
+// ============================================================
+// OPERACIONES COMBINADAS — nueva UX
+//
+// La idea:
+// - comData.original = string del enunciado completo
+// - comData.steps = array de pasos
+// - Cada paso tiene:
+//     inst: 1/2/3 (qué regla aplica)
+//     label: texto de la fase ("1. Parentesis", etc.)
+//     tokens: array de tokens del enunciado en ese momento
+//       Cada token: { type:'num'/'op'/'par', text, parIdx (si es par) }
+//     parIdx: índice del paréntesis activo (null si no toca elegir)
+//     exp: resultado esperado del elemento activo
+//
+// Flujo:
+// 1. Se muestra enunciado original arriba (grande)
+// 2. Si el paso tiene paréntesis para elegir, se muestran resaltados y clickables
+// 3. Al tocar un paréntesis → aparece caja para escribir resultado
+// 4. OK correcto → enunciado sube como referencia gris, paso resuelto baja
+// 5. Siguiente paso: referencia anterior arriba, nueva expresión abajo
+// ============================================================
+
+// comData:
+// { original, steps:[], curr, refLine:'', tokens:[] }
+// step: { inst, label, expr (string), pars:[{start,end,inner,exp}], activeParIdx }
+
+function genCom(lvl){
+  var steps=[];
+  var a,b,c,d,e,f;
+
+  if(lvl===1){
+    // 2+( 5-3 ) → solo 1 par, suma/resta, nums 1-8
+    a=rand(1,5);b=rand(4,8);c=rand(1,3);
+    var r1=b-c,r2=a+r1;
+    steps=[
+      {inst:1,label:'1. Parentesis ( )',
+       expr:a+' + ( '+b+' - '+c+' )',
+       pars:[{inner:b+' - '+c,exp:String(r1)}]},
+      {inst:3,label:'3. Sumar y restar',
+       expr:a+' + '+r1,pars:[]},
+    ];
+    steps[1].exp=String(r2);
+  } else if(lvl===2){
+    a=rand(2,7);b=rand(5,12);c=rand(2,5);
+    var r1=b-c,r2=a+r1;
+    steps=[
+      {inst:1,label:'1. Parentesis ( )',
+       expr:a+' + ( '+b+' - '+c+' )',
+       pars:[{inner:b+' - '+c,exp:String(r1)}]},
+      {inst:3,label:'3. Sumar y restar',expr:a+' + '+r1,pars:[],exp:String(r2)},
+    ];
+  } else if(lvl===3){
+    a=rand(1,5);b=rand(2,4);c=rand(4,9);d=rand(1,4);
+    var r1=c-d,r2=b*r1,r3=a+r2;
+    steps=[
+      {inst:1,label:'1. Parentesis ( )',
+       expr:a+' + '+b+' x ( '+c+' - '+d+' )',
+       pars:[{inner:c+' - '+d,exp:String(r1)}]},
+      {inst:2,label:'2. Multiplicar',expr:a+' + '+b+' x '+r1,pars:[],exp:String(r2),
+       activeOp:{pre:a+' + ',op:'x',left:String(b),right:String(r1),post:''}},
+      {inst:3,label:'3. Sumar y restar',expr:a+' + '+r2,pars:[],exp:String(r3)},
+    ];
+  } else if(lvl===4){
+    // dos paréntesis
+    a=rand(2,6);b=rand(1,4);c=rand(2,6);d=rand(3,8);e=rand(1,3);
+    var r1=b+c,r2=d-e,r3=a*r1+r2;
+    steps=[
+      {inst:1,label:'1. Parentesis ( )',
+       expr:a+' x ( '+b+' + '+c+' ) + ( '+d+' - '+e+' )',
+       pars:[{inner:b+' + '+c,exp:String(r1)},{inner:d+' - '+e,exp:String(r2)}]},
+      {inst:2,label:'2. Multiplicar',expr:a+' x '+r1+' + '+r2,pars:[],exp:String(a*r1)},
+      {inst:3,label:'3. Sumar y restar',expr:(a*r1)+' + '+r2,pars:[],exp:String(r3)},
+    ];
+  } else {
+    // nivel 5: dos pars + dos multiplicaciones
+    a=rand(3,7);b=rand(2,5);c=rand(2,5);d=rand(4,9);e=rand(2,4);f=rand(2,5);
+    var r1=b+c,r2=d-e,r3=a*r1,r4=r2*f;
+    var r5=r3-r4;if(r5<0){f=1;r4=r2*f;r5=r3-r4;}
+    steps=[
+      {inst:1,label:'1. Parentesis ( )',
+       expr:a+' x ( '+b+' + '+c+' ) - ( '+d+' - '+e+' ) x '+f,
+       pars:[{inner:b+' + '+c,exp:String(r1)},{inner:d+' - '+e,exp:String(r2)}]},
+      {inst:2,label:'2. Multiplicar (x'+a+')',expr:a+' x '+r1+' - '+r2+' x '+f,pars:[],exp:String(r3)},
+      {inst:2,label:'2. Multiplicar (x'+f+')',expr:r3+' - '+r2+' x '+f,pars:[],exp:String(r4)},
+      {inst:3,label:'3. Restar',expr:r3+' - '+r4,pars:[],exp:String(r5)},
+    ];
+  }
+
+  comData={steps:steps,curr:0,refLine:'',activeParIdx:null};
+  comInProgress=true;
+  renderComStep();
+}
+
+function renderComStep(){
+  var step=comData.steps[comData.curr];
+  var html='<div class="com-wrap">';
+
+  // Línea de referencia (enunciado original o paso anterior resuelto)
+  if(comData.refLine){
+    html+='<div class="com-line ref">'+comData.refLine+'</div>';
+    html+='<div class="com-sep"></div>';
+  }
+
+  // Etiqueta de fase (a la izquierda del paso)
+  html+='<div class="com-phase-label">'+step.label+'</div>';
+
+  // Si el paso tiene paréntesis para resolver:
+  if(step.pars && step.pars.length>0){
+    // Aún no se ha tocado ningún paréntesis → mostrarlos todos resaltados y clickables
+    if(comData.activeParIdx===null){
+      expectedAnswers={};
+      html+=buildComLineWithPars(step.expr,step.pars,null,false);
+      if(step.pars.length>1){
+        html+='<div style="font-size:16px;font-weight:800;color:var(--g);margin-top:8px;">Toca el parentesis que quieres resolver</div>';
+      }else{
+        // 1 solo par: activar directamente
+        html+='</div>';
+        $('exerciseArea').innerHTML=html;
+        comSelectPar(0);return;
       }
-    }
-    else if (currentTag === 'MUL') {
-      if (currentLevel === 1) { a = random(2,9); b = random(2,9); renderHorizontalFocus(a, b, "x", a*b); } 
-      else if (currentLevel === 2) { a = random(10,99); b = random(2,9); renderVerticalGrid(a, b, "x", a*b); } 
-      else if (currentLevel === 3) { a = random(12,49); b = random(12,49); renderMul2x2(a, b); }
-    }
-    else if (currentTag === 'DIV') {
-      if (currentLevel === 1) { b = random(2,5); res = random(2,5); a = b * res; renderHorizontal(a, b, "÷", res); } 
-      else {
-        if(currentLevel === 2) { a = random(20, 99); b = random(2, 5); }
-        if(currentLevel === 3) { a = random(100, 999); b = random(3, 9); }
-        renderDivisionGrid(a, b);
-      }
-    }
-    else if (currentTag === 'COM') {
-      generateCombinedData();
-      renderCombinedStep();
-    }
-  }
-
-  // --- RENDERIZADORES VISUALES ---
-
-  function renderHorizontal(a, b, sign, res) {
-    expectedAnswers = { "ans_full": String(res) };
-    var html = "<div class='huge-text'>" + a + " " + sign + " " + b + " = <div class='box full' id='ans_full' onclick='activateBox(\"ans_full\")'></div></div>";
-    document.getElementById('exerciseArea').innerHTML = html;
-    activateBox("ans_full");
-  }
-
-  function renderHorizontalFocus(a, b, sign, res) {
-    expectedAnswers = { "ans_full": String(res) };
-    var html = "<div class='history-text'>" + a + " x " + (b-1) + " = " + (a*(b-1)) + "</div>";
-    html += "<div class='huge-text' style='margin:20px 0;'>" + a + " x " + b + " = <div class='box full' id='ans_full' onclick='activateBox(\"ans_full\")'></div></div>";
-    html += "<div class='history-text'>" + a + " x " + (b+1) + " = ?</div>";
-    document.getElementById('exerciseArea').innerHTML = html;
-    activateBox("ans_full");
-  }
-
-  function renderVerticalGrid(a, b, sign, res) {
-    var strA = String(a).split('').reverse();
-    var strB = String(b).split('').reverse();
-    var strRes = String(res).split('').reverse();
-    var cols = strRes.length;
-
-    for(var i=0; i<strRes.length; i++) expectedAnswers["ans_" + i] = strRes[i];
-
-    var html = "<table class='math-table'>";
-    html += "<tr><td></td>";
-    for(var i = cols-1; i >= 0; i--) {
-      if(i === 0 || i >= strA.length) html += "<td></td>"; 
-      else html += "<td><div class='box carry' id='carry_" + i + "' onclick='activateBox(\"carry_" + i + "\")'></div></td>";
-    }
-    html += "</tr><tr><td></td>";
-    for(var i = cols-1; i >= 0; i--) html += "<td style='color:"+getColorCol(i)+"'>" + (strA[i] || "") + "</td>";
-    html += "</tr><tr class='line-bottom'><td class='op-sign'>" + sign + "</td>";
-    for(var i = cols-1; i >= 0; i--) html += "<td style='color:"+getColorCol(i)+"'>" + (strB[i] || "") + "</td>";
-    html += "</tr><tr><td></td>";
-    for(var i = cols-1; i >= 0; i--) html += "<td><div class='box' id='ans_" + i + "' onclick='activateBox(\"ans_" + i + "\")'></div></td>";
-    html += "</tr></table>";
-
-    document.getElementById('exerciseArea').innerHTML = html;
-    activateBox("ans_0");
-  }
-
-  function renderMul2x2(a, b) {
-    var strRes = String(a*b).split('').reverse();
-    for(var i=0; i<strRes.length; i++) expectedAnswers["ans_" + i] = strRes[i];
-
-    var html = "<table class='math-table'>";
-    html += "<tr><td colspan='4' style='text-align:right; padding-right:15px;'>" + a + "</td></tr>";
-    html += "<tr class='line-bottom'><td class='op-sign'>x</td><td colspan='3' style='text-align:right; padding-right:15px;'>" + b + "</td></tr>";
-    html += "<tr><td colspan='4' style='height:40px;'></td></tr>"; // Espacio para que resuelvan en papel
-    html += "<tr>";
-    for(var i = strRes.length-1; i >= 0; i--) {
-      html += "<td><div class='box' id='ans_" + i + "' onclick='activateBox(\"ans_" + i + "\")'></div></td>";
-    }
-    html += "</tr></table>";
-
-    document.getElementById('exerciseArea').innerHTML = html;
-    activateBox("ans_0");
-  }
-
-  // NUEVA CUADRÍCULA DE DIVISIÓN (Plantilla Discalculia)
-  function renderDivisionGrid(dividendo, divisor) {
-    var cociente = Math.floor(dividendo / divisor);
-    var resto = dividendo % divisor;
-    
-    expectedAnswers = { "ans_coc": String(cociente), "ans_res": String(resto) };
-    
-    var strDiv = String(dividendo).split('');
-
-    var html = "<table class='div-grid'>";
-    // Fila 1: Dividendo en cajas estáticas y Divisor
-    html += "<tr>";
-    for(var i=0; i<strDiv.length; i++) {
-      html += "<td><div class='box static'>" + strDiv[i] + "</div></td>";
-    }
-    html += "<td class='div-corner'><div class='box static' style='border-color:var(--g); color:var(--g);'>" + divisor + "</div></td>";
-    html += "</tr>";
-
-    // Fila 2: Resto y Cociente
-    html += "<tr>";
-    html += "<td colspan='" + strDiv.length + "' style='text-align:right; padding-top:20px;'>";
-    html += "<span class='res-label'>Resto:</span><div class='box full' id='ans_res' onclick='activateBox(\"ans_res\")'></div>";
-    html += "</td>";
-    html += "<td style='padding-top:20px;'>";
-    html += "<div class='box full' id='ans_coc' style='border-color:var(--g); color:var(--g);' onclick='activateBox(\"ans_coc\")'></div>";
-    html += "</td>";
-    html += "</tr></table>";
-
-    document.getElementById('exerciseArea').innerHTML = html;
-    activateBox("ans_coc");
-  }
-
-  // --- LÓGICA DE COMBINADAS (Embudo con Historial) ---
-  function generateCombinedData() {
-    var a, b, c, d;
-    if(currentLevel === 1) {
-      a = random(1,5); b = random(4,8); c = random(1,3);
-      comData = {
-        history: [],
-        steps: [
-          { text: "Primero los paréntesis", expr: a + " + ( " + b + " - " + c + " )", pre: a + " + ", post: "", exp: String(b-c) },
-          { text: "Ahora la suma final", expr: a + " + " + (b-c), pre: "", post: "", exp: String(a+(b-c)) }
-        ], curr: 0
-      };
-    } else if(currentLevel === 2) {
-      a = random(1,5); b = random(2,4); c = random(5,9); d = random(1,4);
-      comData = {
-        history: [],
-        steps: [
-          { text: "Primero los paréntesis", expr: a + " + " + b + " x ( " + c + " - " + d + " )", pre: a + " + " + b + " x ", post: "", exp: String(c-d) },
-          { text: "Multiplicaciones antes que sumas", expr: a + " + " + b + " x " + (c-d), pre: a + " + ", post: "", exp: String(b*(c-d)) },
-          { text: "Suma final", expr: a + " + " + (b*(c-d)), pre: "", post: "", exp: String(a+(b*(c-d))) }
-        ], curr: 0
-      };
     } else {
-      a = random(2,5); b = random(1,4); c = random(1,5); d = random(2,8);
-      comData = {
-        history: [],
-        steps: [
-          { text: "Paréntesis", expr: a + " x ( " + b + " + " + c + " ) - " + d, pre: a + " x ", post: " - " + d, exp: String(b+c) },
-          { text: "Multiplicaciones", expr: a + " x " + (b+c) + " - " + d, pre: "", post: " - " + d, exp: String(a*(b+c)) },
-          { text: "Resta final", expr: (a*(b+c)) + " - " + d, pre: "", post: "", exp: String((a*(b+c))-d) }
-        ], curr: 0
-      };
+      // Un paréntesis seleccionado → mostrar línea con caja en ese par
+      var parObj=step.pars[comData.activeParIdx];
+      expectedAnswers={'ans_full':parObj.exp};
+      html+=buildComLineWithPars(step.expr,step.pars,comData.activeParIdx,true);
     }
+  } else {
+    // Paso sin paréntesis: expresión directa con caja
+    expectedAnswers={'ans_full':step.exp};
+    html+='<div class="com-line">'+step.expr+' = <div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div></div>';
   }
 
-  function renderCombinedStep() {
-    var step = comData.steps[comData.curr];
-    expectedAnswers = { "ans_full": step.exp };
-    
-    var html = "<div class='tip'>" + step.text + "</div>";
-    
-    // Dibujar historial anterior
-    for(var i=0; i<comData.history.length; i++) {
-      html += "<div class='history-text'>" + comData.history[i] + "</div>";
-    }
-    
-    // Dibujar paso actual con caja
-    if (comData.curr === 0) {
-      html += "<div class='history-text' style='color:var(--text);'>" + step.expr + "</div>";
-    }
-    
-    html += "<div class='huge-text' style='margin-top:10px;'>" + step.pre + "<div class='box full' id='ans_full' onclick='activateBox(\"ans_full\")'></div>" + step.post + "</div>";
-    
-    document.getElementById('exerciseArea').innerHTML = html;
-    activateBox("ans_full");
+  html+='</div>';
+  $('exerciseArea').innerHTML=html;
+
+  if(comData.activeParIdx!==null || (step.pars&&step.pars.length===0)){
+    activateBox('ans_full');
   }
+}
 
-  // --- EFECTO CONFETI ---
-  function throwConfetti() {
-    var colors = ['#FF5C93', '#9B6FE8', '#22C97A', '#3498db', '#f1c40f'];
-    for (var i = 0; i < 30; i++) {
-      var conf = document.createElement('div');
-      conf.className = 'cfp';
-      conf.style.left = (Math.random() * 100) + 'vw';
-      conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      conf.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
-      document.body.appendChild(conf);
-      
-      // Limpiar DOM después de la animación
-      setTimeout(function(c) { return function() { if(c.parentNode) c.parentNode.removeChild(c); }; }(conf), 3500);
-    }
-  }
-
-  // --- CONTROL TECLADO ---
-  function activateBox(id) {
-    if(activeBoxId) {
-      var oldBox = document.getElementById(activeBoxId);
-      if(oldBox) oldBox.className = oldBox.className.replace(" active", "");
-    }
-    activeBoxId = id;
-    var newBox = document.getElementById(id);
-    if(newBox) {
-      if(newBox.className.indexOf("carry") > -1) newBox.className = "box carry active";
-      else if(newBox.className.indexOf("full") > -1) newBox.className = "box full active";
-      else newBox.className = "box active";
-    }
-  }
-
-  function pressKey(k) {
-    if(!activeBoxId) return;
-    if(k === "OK") { checkAllAnswers(); return; }
-
-    var box = document.getElementById(activeBoxId);
-    if(k === "C") { box.textContent = ""; return; }
-
-    if (activeBoxId.indexOf("full") > -1 || activeBoxId.indexOf("coc") > -1 || activeBoxId.indexOf("res") > -1) {
-      if(box.textContent.length < 4) box.textContent += k;
-    } else {
-      box.textContent = k; 
-      if(activeBoxId.indexOf("ans_") === 0) {
-        var currentIndex = parseInt(activeBoxId.split("_")[1], 10);
-        var nextId = "ans_" + (currentIndex + 1);
-        if(document.getElementById(nextId)) activateBox(nextId);
-      }
-    }
-  }
-
-  function checkAllAnswers() {
-    var allCorrect = true;
-    for(var key in expectedAnswers) {
-      var box = document.getElementById(key);
-      if(!box || box.textContent !== expectedAnswers[key]) {
-        allCorrect = false;
-        if(box) {
-          box.className += " error";
-          setTimeout(function(b){ return function(){ b.className = b.className.replace(" error",""); }; }(box), 800);
-        }
-      } else {
-        box.className += " success";
-      }
-    }
-
-    if(allCorrect) {
-      throwConfetti(); // ¡Alegría!
-      
-      setTimeout(function(){ 
-        if(currentTag === 'COM') {
-          // Guardar el paso completado en el historial
-          var step = comData.steps[comData.curr];
-          if (comData.curr > 0) {
-             comData.history.push(step.pre + step.exp + step.post);
-          } else {
-             comData.history.push(step.expr);
-             comData.history.push(step.pre + step.exp + step.post);
-          }
-          
-          comData.curr++;
-          if(comData.curr < comData.steps.length) renderCombinedStep();
-          else generateExercise();
+// Construye la línea de la expresión con los paréntesis resaltados/clickables
+// selectedIdx: índice del par seleccionado (null = todos clickables)
+// showBox: si true, el par seleccionado se reemplaza por la caja
+function buildComLineWithPars(expr,pars,selectedIdx,showBox){
+  // Localizar los paréntesis en el string y sustituirlos por spans/cajas
+  var result=expr;
+  // Hacemos la sustitución de atrás hacia adelante para no desplazar índices
+  // Buscamos '( inner )' para cada par
+  var html='<div class="com-line">';
+  // Trabajamos token a token: buscamos ( ... ) en el expr
+  var remaining=expr;
+  var parFoundIdx=0;
+  var out='';
+  var i=0;
+  while(i<remaining.length){
+    if(remaining[i]==='('){
+      var close=remaining.indexOf(')',i);
+      if(close>-1){
+        var inner=remaining.substring(i+1,close); // incluye espacios
+        var pIdx=parFoundIdx;parFoundIdx++;
+        var isSelected=(selectedIdx===pIdx);
+        var isDone=(selectedIdx!==null&&pIdx<selectedIdx);
+        if(showBox&&isSelected){
+          // Reemplazar por la caja
+          out+='<div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div>';
+        } else if(isDone){
+          // Paréntesis ya resuelto: gris
+          out+='<span class="com-tok par-done">( '+inner.trim()+' )</span>';
         } else {
-          generateExercise(); 
+          // Paréntesis pendiente: naranja, clickable
+          out+='<span class="com-par-block'+(isSelected?' selected':'')+'" onclick="comSelectPar('+pIdx+')"><span class="com-tok par-active">( '+inner.trim()+' )</span></span>';
         }
-      }, 1500); // Darles tiempo a ver el confeti antes de limpiar
-    }
+        i=close+1;
+      } else {i++;out+=remaining[i-1];}
+    } else {out+=remaining[i];i++;}
   }
-</script>
+  html+=out+'</div>';
+  return html;
+}
 
+// El usuario toca un paréntesis
+function comSelectPar(pIdx){
+  comData.activeParIdx=pIdx;
+  renderComStep();
+}
+
+// ============================================================
+// CHECK
+// ============================================================
+function checkAnswers(){
+  var allOk=true;
+  for(var key in expectedAnswers){
+    var box=$(key);if(!box){allOk=false;continue;}
+    var val=box.textContent.replace(/\s/g,'');
+    if(val!==expectedAnswers[key]){
+      allOk=false;
+      (function(b){
+        var oc=b.className.replace(/ error/g,'');
+        b.className=oc+' error';
+        setTimeout(function(){b.className=oc;},520);
+      })(box);
+    }else{box.className=box.className.replace(/ success/g,'')+' success';}
+  }
+  if(allOk){
+    flashScreen('green');showStar();throwConfetti();
+    if(!comInProgress)addPoint();
+    setTimeout(function(){
+      if(currentTag==='MUL'&&currentLevel===1){
+        var nxt=$('tab_next');
+        if(nxt)nxt.textContent=tablaData.base+' x '+(tablaData.factor+1)+' = '+(tablaData.base*(tablaData.factor+1));
+      } else if(comInProgress){
+        advanceCom();
+      } else {
+        generateExercise();
+      }
+    },1200);
+  }else{flashScreen('red');}
+}
+
+function advanceCom(){
+  var step=comData.steps[comData.curr];
+
+  if(step.pars&&step.pars.length>0&&comData.activeParIdx!==null){
+    // Hemos resuelto un paréntesis: sustituirlo en la expr y ver si quedan más
+    var parObj=step.pars[comData.activeParIdx];
+    // Reemplazar '( inner )' por el resultado en el expr
+    var inner=parObj.inner;
+    step.expr=step.expr.replace('( '+inner+' )',parObj.exp);
+    // Marcar ese par como hecho (lo eliminamos del array)
+    step.pars.splice(comData.activeParIdx,1);
+    comData.activeParIdx=null;
+    if(step.pars.length>0){
+      // Quedan más paréntesis en este paso
+      renderComStep();return;
+    }
+    // Todos los paréntesis de este paso resueltos: guardar como refLine y avanzar
+    comData.refLine=step.expr;
+    comData.curr++;
+  } else {
+    // Paso sin paréntesis completado
+    comData.refLine=step.expr+' = '+step.exp;
+    comData.curr++;
+  }
+
+  if(comData.curr<comData.steps.length){
+    comData.activeParIdx=null;
+    renderComStep();
+  } else {
+    comInProgress=false;addPoint();
+    setTimeout(function(){generateExercise();},600);
+  }
+}
+
+// ============================================================
+// RENDERIZADORES BASE
+// ============================================================
+function renderHoriz(a,b,sign,res){
+  expectedAnswers={'ans_full':String(res)};
+  var html='<div class="huge-row">'+a+' '+sign+' '+b+' = ';
+  html+='<div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div></div>';
+  $('exerciseArea').innerHTML=html;activateBox('ans_full');
+}
+function renderVertical(a,b,sign,res){
+  var strA=String(a).split('').reverse(),strB=String(b).split('').reverse();
+  var strR=String(res).split('').reverse(),cols=strR.length;
+  for(var i=0;i<strR.length;i++)expectedAnswers['ans_'+i]=strR[i];
+  var html='<table class="math-table"><tr><td></td>';
+  for(var c=cols-1;c>=0;c--){
+    if(c===0)html+='<td></td>';
+    else html+='<td><div class="box carry" id="carry_'+c+'" onclick="activateBox(\'carry_'+c+'\')">&nbsp;</div></td>';
+  }
+  html+='</tr><tr><td></td>';
+  for(var c=cols-1;c>=0;c--)html+='<td style="color:'+colColor(c)+'">'+(strA[c]||'')+'</td>';
+  html+='</tr><tr class="line-bottom"><td class="op-sign">'+sign+'</td>';
+  for(var c=cols-1;c>=0;c--)html+='<td style="color:'+colColor(c)+'">'+(strB[c]||'')+'</td>';
+  html+='</tr><tr><td></td>';
+  for(var c=cols-1;c>=0;c--)html+='<td><div class="box" id="ans_'+c+'" onclick="activateBox(\'ans_'+c+'\')">&nbsp;</div></td>';
+  html+='</tr></table>';
+  $('exerciseArea').innerHTML=html;activateBox('ans_0');
+}
+function colColor(i){
+  if(i===0)return 'var(--col-u)';if(i===1)return 'var(--col-d)';
+  if(i===2)return 'var(--col-c)';return 'var(--text)';
+}
+
+// ============================================================
+// FEEDBACK
+// ============================================================
+function flashScreen(color){
+  var ov=$('flashOv');ov.className='flash-ov '+color+' show';
+  setTimeout(function(){ov.className='flash-ov '+color;},320);
+}
+function showStar(){
+  var el=document.createElement('div');el.className='star-pop';el.textContent='*';
+  document.body.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},800);
+}
+function throwConfetti(){
+  var colors=['#FF5C93','#7C5CE8','#22C97A','#3498db','#f1c40f','#FF7675'];
+  for(var i=0;i<38;i++){
+    var cf=document.createElement('div');cf.className='cfp';
+    cf.style.left=(Math.random()*100)+'vw';
+    cf.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+    cf.style.animationDuration=(Math.random()*1.5+1.5)+'s';
+    cf.style.animationDelay=(Math.random()*0.5)+'s';
+    document.body.appendChild(cf);
+    (function(c){setTimeout(function(){if(c.parentNode)c.parentNode.removeChild(c);},3600);})(cf);
+  }
+}
+function showPtsPopup(txt){
+  var el=document.createElement('div');el.className='pts-pop';el.textContent=txt;
+  document.body.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1500);
+}
+</script>
 </body>
 </html>
