@@ -167,10 +167,10 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
 .hi{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F5F5F5;}
 .hi:last-child{border:none;}
 .hico{width:38px;height:38px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.hico.save{background:#e8fff5;}.hico.spend{background:#fff0f0;}.hico.interest{background:#fff8e0;}.hico.loss{background:#fff0f0;}
+.hico.save{background:#e8fff5;}.hico.spend{background:#fff0f0;}.hico.interest{background:#fff8e0;}.hico.loss{background:#fff0f0;}.hico.stock{background:#f3eeff;}.hico.mode{background:#e8f4ff;}
 .hinf{flex:1;}.hd{font-weight:700;font-size:.82rem;}.hdt{font-size:.68rem;color:var(--muted);margin-top:1px;}
 .ha{font-family:'Fredoka One',cursive;font-size:.95rem;}
-.ha.pos{color:var(--mint);}.ha.neg{color:var(--coral);}.ha.yel{color:#B8860B;}
+.ha.pos{color:var(--mint);}.ha.neg{color:var(--coral);}.ha.yel{color:#B8860B;}.ha.neu{color:var(--purple);}
 
 .footer{text-align:center;padding:20px 0 10px;}
 .footer a{font-size:.65rem;font-weight:700;color:#CCC;text-decoration:none;letter-spacing:.5px;}
@@ -347,7 +347,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
 <div class="toast" id="toast"></div>
 
 <script>
-const SHEETS_URL='https://script.google.com/macros/s/AKfycbxFId_c0Fea2J24BDcDCgUqkXdbIX4Y-wOWqaQ6nf1TemPqjTHvH7081OkdVpvypV6ImA/exec';
+const SHEETS_URL='https://script.google.com/macros/s/AKfycbymemYown3pTxHrTy-fXaL0eSjHwNDSC4QJu9s_LQGCEB1dcxNfmIHQvOksTflCs4riMQ/exec';
 const TREE_GOAL=25;
 const MONTHS=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const PY=[1,3,5,10],PL=['1 año','3 años','5 años','10 años'];
@@ -425,16 +425,20 @@ function barCol(gi){
 }
 
 /* ══ RENDIMIENTO — cálculo por tiempo transcurrido ══ */
+function getInvestedCapital(gi){
+  var total=gi.history.filter(function(h){return h.t==='save';}).reduce(function(a,h){return a+Math.abs(h.a);},0);
+  return total||gi.balance;
+}
 function computeGain(gi){
   if(gi.balance<=0||!gi.startDate) return {gain:0,pct:0};
   const days=Math.max(0,(Date.now()-new Date(gi.startDate))/(1000*60*60*24));
+  const capital=getInvestedCapital(gi);
 
   if(gi.path==='mattress'||gi.path==='safe'){
     const rate=gi.path==='mattress'?-.035:.03;
-    // Balance real acumulado desde startDate
-    const realBal=gi.balance*Math.pow(1+rate/365,days);
-    const gain=parseFloat((realBal-gi.balance).toFixed(2));
-    const pct=parseFloat(((gain/gi.balance)*100).toFixed(2));
+    const projected=capital*Math.pow(1+rate/365,days);
+    const gain=parseFloat((projected-capital).toFixed(2));
+    const pct=capital>0?parseFloat(((gain/capital)*100).toFixed(2)):0;
     return {gain,pct};
   }
 
@@ -442,9 +446,8 @@ function computeGain(gi){
     const s=STOCKS.find(x=>x.id===gi.stock);
     const cur=s?PRICES[s.ticker]:0;
     if(!cur||cur<=0) return {gain:0,pct:0};
-    const realBal=gi.balance*(cur/gi.entryPrice);
-    const gain=parseFloat((realBal-gi.balance).toFixed(2));
     const pct=parseFloat(((cur-gi.entryPrice)/gi.entryPrice*100).toFixed(2));
+    const gain=parseFloat((capital*(pct/100)).toFixed(2));
     return {gain,pct};
   }
   return {gain:0,pct:0};
@@ -457,7 +460,7 @@ async function api(p){
 }
 async function loadAll(){
   setSS('spin','conectando');
-  document.getElementById('lsMsg').textContent='Leyendo tu hucha…';
+  document.getElementById('lsMsg').textContent='Leyendo tu hucha\u2026';
   try{
     const [state,prices]=await Promise.all([api({action:'getState'}),api({action:'getPrices'})]);
     PRICES=prices||{};
@@ -469,10 +472,31 @@ async function loadAll(){
         gi.stock=r.stock||'';
         gi.entryPrice=pf(r.entryPrice);
         gi.startDate=r.startDate||'';
+        gi.history=[];
+        gi.badges=gi.badges||{};
+        var log=r.log;
+        if(log&&log.length){
+          for(var i=0;i<log.length;i++){
+            var row=log[i];
+            if(row.action==='save'){
+              gi.history.unshift({t:'save',d:'Guardaste dinero',a:pf(row.amount),date:row.date});
+            } else if(row.action==='spend'){
+              gi.history.unshift({t:'spend',d:'Compraste algo',a:-pf(row.amount),date:row.date});
+            } else if(row.action==='interest'){
+              gi.history.unshift({t:'interest',d:row.desc||'Intereses',a:pf(row.amount),date:row.date});
+            } else if(row.action==='loss'){
+              gi.history.unshift({t:'loss',d:'Inflaci\u00f3n \ud83d\udd25',a:-pf(row.amount),date:row.date});
+            } else if(row.action==='mode'){
+              gi.history.unshift({t:'mode',d:'Cambi\u00f3 a '+(row.desc||'nuevo modo'),a:0,date:row.date});
+            } else if(row.action==='stock'&&row.stock){
+              gi.history.unshift({t:'stock',d:'Invierte en '+row.stock,a:0,date:row.date});
+            }
+          }
+        }
       }
     });
     setSS('ok','online');return true;
-  }catch(e){setSS('err','sin conexión');return false;}
+  }catch(e){setSS('err','sin conexi\u00f3n');return false;}
 }
 async function saveState(gi){
   try{
@@ -600,6 +624,8 @@ function selPath(p){
   document.getElementById('pr-m').className='path-row'+(p==='mattress'?' pm':'');
   document.getElementById('pr-s').className='path-row'+(p==='safe'?' ps':'');
   document.getElementById('pr-i').className='path-row'+(p==='invest'?' pi':'');
+  const labels={mattress:'Hucha \ud83d\udc37',safe:'Banco \ud83c\udfe6',invest:'Inversi\u00f3n \ud83d\udcc8'};
+  logMov('mode',{girl:gi.name,label:labels[p]||p});
   syncInvUI();saveState(gi);renderWallet();renderProj();
 }
 function syncInvUI(){
@@ -747,6 +773,7 @@ function closePopup(){
 
 /* ══ BADGES ══ */
 function checkBadges(gi){
+  if(!gi.badges)gi.badges={};
   BADGES.forEach(b=>{
     if(!gi.badges[b.id]&&b.ok(gi)){
       gi.badges[b.id]=true;
@@ -771,11 +798,13 @@ function renderHist(){
     list.innerHTML='<div style="text-align:center;color:var(--muted);padding:20px;font-size:.82rem;">Vacío — ¡guarda algo! 🌱</div>';return;
   }
   list.innerHTML='';
-  const icons={save:'💰',spend:'🛍️',interest:'✨',loss:'🔥'};
-  gi.history.slice(0,10).forEach(h=>{
+  const icons={save:'💰',spend:'🛍️',interest:'✨',loss:'🔥',stock:'📈',mode:'🔄'};
+  gi.history.slice(0,20).forEach(h=>{
     const el=document.createElement('div');el.className='hi';
-    const cls=h.t==='save'?'pos':h.t==='interest'?'yel':'neg',pre=h.a>0?'+':'';
-    el.innerHTML=`<div class="hico ${h.t}">${icons[h.t]||'💫'}</div><div class="hinf"><div class="hd">${h.d}</div><div class="hdt">${h.date}</div></div><div class="ha ${cls}">${pre}${eur(h.a)}</div>`;
+    const cls=h.t==='save'?'pos':h.t==='interest'?'yel':(h.t==='stock'||h.t==='mode')?'neu':'neg';
+    const pre=h.a>0?'+':'';
+    const amtTxt=h.a===0?'\u2014':pre+eur(h.a);
+    el.innerHTML=`<div class="hico ${h.t}">${icons[h.t]||'💫'}</div><div class="hinf"><div class="hd">${h.d}</div><div class="hdt">${h.date}</div></div><div class="ha ${cls}">${amtTxt}</div>`;
     list.appendChild(el);
   });
 }
