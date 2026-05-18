@@ -7,375 +7,330 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mates">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAylpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAzIDc5Ljk2OTBhODdmYywgMjAyNS8wMy8wNi0yMDo1MDoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI2LjEwIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjU5MzlERUY5NEE1MDExRjE4NTREQjkxNkRCNzMxQjk0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjU5MzlERUZBNEE1MDExRjE4NTREQjkxNkRCNzMxQjk0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NTkzOURFRjc0QTUwMTFGMTg1NERCOTE2REI3MzFCOTQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NTkzOURFRjg0QTUwMTFGMTg1NERCOTE2REI3MzFCOTQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4JAYFoAAADAFBMVEX7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">
-<title>Mates</title>
+<title>Mates Gala y Olivia</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
 :root {
-  --o:#FF5C93; --o-soft:#FFE4EF; --o-dark:#D93D73;
+  --o:#FF5C93; --o-soft:#FFE4EF;
   --g:#7C5CE8; --g-soft:#EDE4FF; --g-dark:#5A3DC0;
   --ok:#22C97A; --ok-dark:#17A05F; --err:#FF4757;
   --bg:#F7F4FF; --white:#FFFFFF; --text:#2D2D2D;
   --gray:#C8C8D8; --gray-lt:#EBEBF5;
-  --col-u:#3498db; --col-d:#e74c3c; --col-c:#2ecc71;
   --shad:rgba(100,80,180,0.13);
-  /* colores plantilla multiplicación */
-  --mul-a-bg:#FFF9C4; --mul-a-bd:#D4B800;   /* amarillo: multiplicando */
-  --mul-b-bg:#B2EBF2; --mul-b-bd:#00ACC1;   /* azul: multiplicador */
-  --mul-p1-bg:#FFE0B2; --mul-p1-bd:#E65100; /* naranja: parcial 1 (unidades) */
-  --mul-p2-bg:#B3E5FC; --mul-p2-bd:#0277BD; /* azul claro: parcial 2 (decenas) */
-  --mul-r-bg:#C8E6C9;  --mul-r-bd:#388E3C;  /* verde: resultado */
+  /* Colores valor posicional — iguales en TODAS las operaciones */
+  --col-u:#4A90E2;   /* Unidades: azul */
+  --col-d:#E75C3C;   /* Decenas: coral */
+  --col-c:#2ECC71;   /* Centenas: verde */
+  --col-um:#F1C40F;  /* Millar: amarillo */
+  /* Multiplicación nivel 5: filas parciales */
+  --mul-pu:#FFB300;  /* fila x unidades */
+  --mul-pd:#9B5DE5;  /* fila x decenas */
+  --mul-res:#94A3B8; /* resultado final */
 }
-html,body { margin:0;padding:0;width:100%;height:100%;overflow:hidden;
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;
   font-family:'Nunito','Helvetica Neue',Arial,sans-serif;
   background:var(--bg);color:var(--text);
-  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent; }
-.app-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;}
+.app-wrap{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
-  height:100%;width:100%;box-sizing:border-box; }
+  height:100%;width:100%;box-sizing:border-box;}
 
-/* TOP BAR */
-.top-bar { background:var(--white);box-shadow:0 2px 10px var(--shad);
-  padding:8px 10px;-webkit-flex-shrink:0;flex-shrink:0;z-index:10;position:relative; }
-.main-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center; }
-.ops-group { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-flex-wrap:wrap;flex-wrap:wrap;margin-right:6px; }
-.op-btn { padding:6px 12px;margin:2px 3px 2px 0;border-radius:30px;
+/* ── TOP BAR ── */
+.top-bar{background:var(--white);box-shadow:0 2px 10px var(--shad);
+  padding:8px 10px;-webkit-flex-shrink:0;flex-shrink:0;z-index:10;}
+.main-row{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.ops-group{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;margin-right:6px;}
+.pill{padding:6px 12px;margin:2px 3px 2px 0;border-radius:30px;
   font-size:14px;font-weight:900;color:var(--gray);background:var(--gray-lt);
-  cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s;white-space:nowrap; }
-.op-btn.active { background:var(--g);color:var(--white); }
-.spacer { -webkit-box-flex:1;-webkit-flex:1;flex:1; }
-.sisters-group { display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-shrink:0;flex-shrink:0; }
-.sister-btn { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  padding:6px 11px 6px 7px;border-radius:30px;margin-left:5px;
-  background:var(--gray-lt);font-size:14px;font-weight:900;color:var(--gray);cursor:pointer;
-  -webkit-transition:all 0.15s;transition:all 0.15s; }
-.sister-btn .av { width:22px;height:22px;border-radius:50%;background:var(--gray);
-  color:var(--white);font-size:12px;font-weight:900;text-align:center;line-height:22px;
-  margin-right:5px;-webkit-flex-shrink:0;flex-shrink:0; }
-.sister-btn .pts { font-size:11px;font-weight:800;background:var(--white);
-  border-radius:20px;padding:1px 6px;margin-left:5px; }
-.sister-btn.act-o { background:var(--o-soft);color:var(--o); }
-.sister-btn.act-o .av { background:var(--o); }
-.sister-btn.act-o .pts { color:var(--o); }
-.sister-btn.act-g { background:var(--g-soft);color:var(--g); }
-.sister-btn.act-g .av { background:var(--g); }
-.sister-btn.act-g .pts { color:var(--g); }
+  cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s;white-space:nowrap;}
+.pill.on{background:var(--g);color:var(--white);}
+.pill.on-o{background:var(--o-soft);color:var(--o);}
+.pill.on-g{background:var(--g-soft);color:var(--g);}
+.spacer{-webkit-box-flex:1;-webkit-flex:1;flex:1;}
+.av{width:22px;height:22px;border-radius:50%;font-size:12px;font-weight:900;
+  text-align:center;line-height:22px;margin-right:5px;-webkit-flex-shrink:0;flex-shrink:0;}
+.pts-badge{font-size:11px;font-weight:800;background:var(--white);
+  border-radius:20px;padding:1px 6px;margin-left:5px;}
 
-/* NIVELES */
-.nav-levels { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+/* ── NIVELES ── */
+.nav-levels{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  background:var(--g);padding:6px 10px;-webkit-flex-shrink:0;flex-shrink:0; }
-.lvl-btn { width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);
-  color:var(--white);font-size:17px;font-weight:900;
-  display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  margin:0 4px;cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s; }
-.lvl-btn.active { background:var(--white);color:var(--g);box-shadow:0 3px 10px rgba(0,0,0,0.2); }
+  background:var(--g);padding:6px 10px;-webkit-flex-shrink:0;flex-shrink:0;}
+.lvl{width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,0.2);color:var(--white);
+  font-size:17px;font-weight:900;text-align:center;line-height:38px;
+  margin:0 4px;cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s;}
+.lvl.on{background:var(--white);color:var(--g);box-shadow:0 3px 10px rgba(0,0,0,0.2);}
 
-/* ZONA EJERCICIO */
-.exercise-area { -webkit-box-flex:1;-webkit-flex:1;flex:1;
+/* ── EJERCICIO ── */
+.ex-area{-webkit-box-flex:1;-webkit-flex:1;flex:1;
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  padding:8px 12px;width:100%;box-sizing:border-box;overflow:hidden;position:relative; }
+  padding:8px 12px;width:100%;box-sizing:border-box;overflow:hidden;}
 
-/* TIPOGRAFÍA OPERACIONES */
-.huge-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  -webkit-flex-wrap:wrap;flex-wrap:wrap;
-  font-size:80px;font-weight:900;line-height:1; }
-.ctx-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  -webkit-flex-wrap:wrap;flex-wrap:wrap;
-  font-size:38px;font-weight:800;color:#b0a8cc;line-height:1;margin:6px 0; }
-
-/* CAJAS */
-.box { display:inline-block;width:76px;height:80px;line-height:80px;
+/* ── CAJAS GENÉRICAS ── */
+.box{display:inline-block;width:76px;height:80px;line-height:80px;
   border:4px dashed var(--gray);border-radius:16px;background:var(--white);
   font-size:58px;font-weight:900;text-align:center;vertical-align:middle;
-  box-sizing:border-box;-webkit-transition:all 0.15s;transition:all 0.15s; }
-.box.static { border:4px solid var(--gray-lt);background:var(--gray-lt);color:var(--text); }
-.box.carry { width:34px;height:34px;border-radius:50%;border:3px solid var(--gray);
-  line-height:34px;font-size:19px;color:var(--o); }
-.box.full { width:120px;margin:0 8px; }
-.box.wide { width:96px;margin:0 5px; }
-.box.active { border-color:var(--o);border-style:solid;background:var(--o-soft);
+  box-sizing:border-box;-webkit-transition:all 0.15s;transition:all 0.15s;}
+.box.full{width:120px;margin:0 8px;}
+.box.wide{width:96px;margin:0 5px;}
+.box.carry{width:34px;height:34px;border-radius:50%;border:3px solid var(--gray);
+  line-height:34px;font-size:19px;color:var(--o);height:34px;}
+.box.on{border-color:var(--o);border-style:solid;background:var(--o-soft);
   -webkit-transform:scale(1.06);transform:scale(1.06);
-  box-shadow:0 4px 18px rgba(255,92,147,0.28); }
-.box.carry.active { border-color:var(--o);border-style:solid;background:var(--o-soft); }
-.box.success { border-color:var(--ok);border-style:solid;color:var(--ok);background:#edfbf3; }
-.box.error { border-color:var(--err);border-style:solid;background:#ffeeee;
-  -webkit-animation:shake 0.4s;animation:shake 0.4s; }
+  box-shadow:0 4px 18px rgba(255,92,147,0.28);}
+.box.carry.on{border-color:var(--o);border-style:solid;background:var(--o-soft);}
+.box.ok{border-color:var(--ok);border-style:solid;color:var(--ok);background:#edfbf3;}
+.box.err{border-color:var(--err);border-style:solid;background:#ffeeee;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s;}
 
-@-webkit-keyframes shake {
-  0%,100%{-webkit-transform:translateX(0);}20%{-webkit-transform:translateX(-9px);}
-  40%{-webkit-transform:translateX(9px);}60%{-webkit-transform:translateX(-6px);}
-  80%{-webkit-transform:translateX(6px);} }
-@keyframes shake {
-  0%,100%{transform:translateX(0);}20%{transform:translateX(-9px);}
-  40%{transform:translateX(9px);}60%{transform:translateX(-6px);}
-  80%{transform:translateX(6px);} }
+/* ── TABLA VERTICAL (sumas/restas n>1) ── */
+.vt{border-collapse:collapse;margin:0 auto;}
+.vt td{width:78px;height:80px;text-align:center;vertical-align:bottom;
+  font-size:58px;font-weight:900;}
+.vt-sign{color:var(--g);font-size:58px !important;text-align:right;padding-right:14px;}
+.vt-line td{border-bottom:6px solid var(--text);padding-bottom:4px;}
 
-/* TABLAS VERTICALES (sumas/restas nivel 2+) */
-.math-table { border-collapse:collapse;margin:0 auto; }
-.math-table td { width:78px;height:80px;text-align:center;vertical-align:bottom;
-  font-size:58px;font-weight:900; }
-.op-sign { color:var(--g);font-size:58px !important;text-align:right;padding-right:14px; }
-.line-bottom td { border-bottom:6px solid var(--text);padding-bottom:4px; }
+/* ── TIPOGRAFÍA OPERACIÓN HORIZONTAL ── */
+.h-row{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  font-size:80px;font-weight:900;line-height:1;}
 
-/* ============================================================
-   MULTIPLICACIÓN PLANTILLA TIPO CENTRO DISCALCULIA
-   Fiel a la foto: cuadrados amarillos (multiplicando), 
-   cuadrados azules (multiplicador), carries cuadraditos pequeños,
-   círculos beige (parcial x unidades), círculos azules (parcial x decenas),
-   cuadrados verdes (resultado)
-   ============================================================ */
-.mul-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+/* ── TABLAS MULT NIVEL 1 (tablas con contexto) ── */
+.tab-ctx{font-size:38px;font-weight:800;color:#b0a8cc;margin:6px 0;text-align:center;}
+.tab-main{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  font-size:72px;font-weight:900;background:var(--white);border-radius:26px;
+  padding:14px 28px;box-shadow:0 6px 28px var(--shad);margin:8px 0;}
+
+/* ════════════════════════════════════════════════════════════
+   MULTIPLICACIÓN PLANTILLA — tabla HTML con columnas fijas
+   Cada columna = 1 posición numérica (U, D, C, DM…)
+   Las filas comparten las mismas columnas → alineación perfecta
+   ════════════════════════════════════════════════════════════ */
+.mt{border-collapse:collapse;}
+/* Todas las celdas de datos tienen el mismo ancho fijo */
+.mt td{padding:2px;text-align:center;vertical-align:middle;}
+.mt td.dc{width:60px;}  /* data column */
+.mt td.sc{width:44px;}  /* sign column (×, +) */
+
+/* Cuadrado de número (multiplicando / multiplicador) */
+.msq{display:inline-block;width:54px;height:56px;line-height:56px;
+  border-radius:10px;font-size:38px;font-weight:900;text-align:center;
+  box-sizing:border-box;vertical-align:middle;}
+/* Cuadradito carry */
+.mcy{display:inline-block;width:28px;height:28px;line-height:28px;
+  border:2px solid var(--gray);border-radius:5px;background:var(--white);
+  font-size:15px;font-weight:900;text-align:center;color:var(--o);
+  box-sizing:border-box;cursor:pointer;}
+.mcy.on{border-color:var(--o);background:var(--o-soft);}
+/* Cuadrado resultado/parcial (rellenable) */
+.mrq{display:inline-block;width:54px;height:56px;line-height:56px;
+  border-radius:10px;font-size:38px;font-weight:900;text-align:center;
+  box-sizing:border-box;vertical-align:middle;cursor:pointer;
+  -webkit-transition:all 0.12s;transition:all 0.12s;}
+.mrq.on{border-style:solid;border-color:var(--o);background:var(--o-soft);}
+.mrq.ok{border-style:solid;border-color:var(--ok);background:#edfbf3;color:var(--ok);}
+.mrq.err{border-style:solid;border-color:var(--err);background:#ffeeee;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s;}
+/* Celda vacía espaciadora (sin borde) */
+.memp{display:inline-block;width:54px;height:56px;}
+/* Línea de separación en tabla */
+.mt-line td{border-top:5px solid var(--text);}
+
+/* ════════════════════════════════════════════════════════════
+   DIVISIONES
+   Nivel 1: 4 cajas grandes (plantilla PiruleTEA)
+   ════════════════════════════════════════════════════════════ */
+/* Las 4 cajas se alinean en un grid 2×2 de ~200px cada celda */
+.d1-wrap{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  max-width:400px;}
+.d1-cell{width:50%;box-sizing:border-box;padding:6px;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.d1-lbl{font-size:14px;font-weight:900;border-radius:8px;
+  padding:3px 12px;margin-bottom:6px;text-align:center;}
+.d1-box{width:120px;height:110px;border-radius:20px;
+  font-size:64px;font-weight:900;text-align:center;line-height:110px;
+  box-sizing:border-box;cursor:pointer;-webkit-transition:all 0.15s;transition:all 0.15s;}
+.d1-box.on{-webkit-transform:scale(1.06);transform:scale(1.06);
+  box-shadow:0 4px 18px rgba(255,92,147,0.3);border-color:var(--o) !important;
+  border-style:solid !important;background:var(--o-soft) !important;color:var(--text);}
+.d1-box.ok{border-color:var(--ok) !important;border-style:solid !important;background:#edfbf3 !important;}
+.d1-box.err{border-color:var(--err) !important;border-style:solid !important;background:#ffeeee !important;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s;}
+/* Colores por rol */
+.d1-dividendo{background:#e8f4fd;border:4px solid #3498db;color:#3498db;}
+.d1-lbl.dividendo{background:#ebf5fb;color:#2980b9;border:2px solid #3498db;}
+.d1-divisor{background:#fdedec;border:4px solid var(--err);color:var(--err);}
+.d1-lbl.divisor{background:#fdedec;color:var(--err);border:2px solid var(--err);}
+.d1-resto{background:#fef9e7;border:4px dashed #e6c200;color:#b8860b;}
+.d1-lbl.resto{background:#fef9e7;color:#b8860b;border:2px solid #e6c200;}
+.d1-cociente{background:#eafaf1;border:4px dashed var(--ok);color:var(--ok-dark);}
+.d1-lbl.cociente{background:#eafaf1;color:var(--ok-dark);border:2px solid var(--ok);}
+
+/* Divisiones niveles 2-5 */
+.dN-wrap{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  width:100%;max-width:520px; }
-
-/* Fila carry: cuadraditos pequeños alineados con las columnas */
-.mul-carry-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:flex-end;-webkit-justify-content:flex-end;justify-content:flex-end;
-  width:100%;margin-bottom:2px; }
-.mul-carry-sq { width:30px;height:30px;border:2px solid var(--gray);border-radius:5px;
-  background:var(--white);font-size:17px;font-weight:900;text-align:center;line-height:30px;
-  margin:0 4px;color:var(--o);display:inline-block;cursor:pointer;box-sizing:border-box; }
-.mul-carry-sq.active { border-color:var(--o);background:var(--o-soft); }
-
-/* Fila números: cuadrados amarillos (A) × cuadrados azules (B) */
-.mul-nums-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:flex-end;-webkit-justify-content:flex-end;justify-content:flex-end;
-  width:100%;margin-bottom:4px; }
-.mul-sq { width:58px;height:60px;line-height:60px;border-radius:10px;
-  font-size:40px;font-weight:900;text-align:center;margin:0 3px;
-  display:inline-block;box-sizing:border-box; }
-.mul-sq.a { background:var(--mul-a-bg);border:3px solid var(--mul-a-bd);color:#5a4a00; }
-.mul-sq.b { background:var(--mul-b-bg);border:3px solid var(--mul-b-bd);color:#003d47; }
-.mul-x { font-size:50px;font-weight:900;color:var(--text);margin:0 8px 0 4px; }
-.mul-line { border-top:5px solid var(--text);margin:4px 0;width:100%; }
-
-/* Filas parciales: círculos beige (row 0) y azules (row 1) */
-.mul-partial-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  width:100%;margin-bottom:5px; }
-.mul-circ { width:56px;height:56px;border-radius:50%;
-  font-size:34px;font-weight:900;text-align:center;line-height:56px;
-  margin:0 3px;display:inline-block;box-sizing:border-box;
-  -webkit-transition:all 0.12s;transition:all 0.12s; }
-.mul-circ.p1 { background:var(--mul-p1-bg);border:3px solid var(--mul-p1-bd);color:#5a2000; }
-.mul-circ.p2 { background:var(--mul-p2-bg);border:3px solid var(--mul-p2-bd);color:#003060; }
-.mul-circ.empty { background:var(--gray-lt);border:3px dashed var(--gray);color:var(--gray); }
-.mul-circ.inp { cursor:pointer; }
-.mul-circ.inp.active { border-color:var(--o);background:var(--o-soft);color:var(--text);
-  -webkit-transform:scale(1.1);transform:scale(1.1); }
-.mul-circ.success { border-color:var(--ok);background:#edfbf3;color:var(--ok); }
-.mul-circ.error { border-color:var(--err);background:#ffeeee;
-  -webkit-animation:shake 0.4s;animation:shake 0.4s; }
-/* El cero fijo del parcial 2 */
-.mul-circ.zero { background:var(--mul-p2-bg);border:3px solid var(--mul-p2-bd);
-  color:#88aacc;font-size:28px; }
-
-/* Carry de los parciales (cuadraditos pequeños encima) */
-.mul-pcarry-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  width:100%;margin-bottom:1px; }
-.mul-pcarry { width:30px;height:30px;border:2px solid var(--gray);border-radius:5px;
-  background:var(--white);font-size:15px;font-weight:900;text-align:center;line-height:30px;
-  margin:0 5px;color:var(--o);display:inline-block;cursor:pointer;box-sizing:border-box; }
-.mul-pcarry.active { border-color:var(--o);background:var(--o-soft); }
-
-/* Resultado final: cuadrados verdes */
-.mul-result-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  width:100%; }
-.mul-plus { font-size:44px;font-weight:900;color:var(--g);margin-right:6px; }
-.mul-res-sq { width:58px;height:60px;line-height:60px;border-radius:10px;
-  font-size:38px;font-weight:900;text-align:center;margin:0 3px;
-  display:inline-block;box-sizing:border-box; }
-.mul-res-sq.filled { background:var(--mul-r-bg);border:3px solid var(--mul-r-bd);color:#1a4a1a; }
-.mul-res-sq.inp { background:var(--white);border:4px dashed var(--gray);cursor:pointer;
-  -webkit-transition:all 0.12s;transition:all 0.12s; }
-.mul-res-sq.inp.active { border-color:var(--o);background:var(--o-soft);border-style:solid; }
-.mul-res-sq.success { border-color:var(--ok);border-style:solid;background:#edfbf3;color:var(--ok); }
-.mul-res-sq.error { border-color:var(--err);border-style:solid;background:#ffeeee;
-  -webkit-animation:shake 0.4s;animation:shake 0.4s; }
-
-/* DIVISIONES */
-.div-wrapper { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  width:100%;max-width:500px; }
-.div-top { display:-webkit-box;display:-webkit-flex;display:flex;
+  width:100%;max-width:480px;}
+.dN-top{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   background:var(--g-soft);border:3px solid var(--g);border-radius:22px;
-  padding:10px 20px;margin-bottom:16px; }
-.div-top-n { font-size:56px;font-weight:900;color:var(--o);margin:0 5px; }
-.div-top-s { font-size:50px;font-weight:900;color:var(--g);margin:0 3px; }
-.div-top-eq { font-size:46px;font-weight:900;color:var(--text);margin:0 5px; }
-.div-work { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:flex-start;-webkit-align-items:flex-start;align-items:flex-start; }
-.div-left { display:-webkit-box;display:-webkit-flex;display:flex;
+  padding:10px 20px;margin-bottom:14px;}
+.dN-n{font-size:54px;font-weight:900;margin:0 5px;}
+.dN-work{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:flex-start;-webkit-align-items:flex-start;align-items:flex-start;}
+.dN-left{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-align:flex-end;-webkit-align-items:flex-end;align-items:flex-end;margin-right:10px; }
-.div-digits { display:-webkit-box;display:-webkit-flex;display:flex;margin-bottom:8px; }
-.div-dbox { width:54px;height:58px;line-height:58px;background:#f0ecff;
-  border:3px solid var(--g);border-radius:10px;font-size:38px;font-weight:900;
-  color:var(--g-dark);text-align:center;margin:0 2px; }
-.div-calc-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:5px; }
-.div-calc-label { font-size:15px;font-weight:900;color:var(--gray);width:38px;text-align:right;margin-right:5px; }
-.div-calc-box { width:50px;height:54px;line-height:54px;border:3px dashed var(--gray);
-  border-radius:10px;background:var(--white);font-size:34px;font-weight:900;
-  text-align:center;margin:0 2px; }
-.div-line-h { border-top:4px solid var(--gray);margin:5px 0;width:100%; }
-.div-resto-row { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-top:4px; }
-.div-resto-label { font-size:16px;font-weight:900;color:var(--o);margin-right:8px; }
-.div-right { border-left:6px solid var(--text);border-bottom:6px solid var(--text);
-  padding:8px 10px 12px 12px;min-width:80px; }
-.div-right-num { font-size:42px;font-weight:900;color:var(--g);text-align:center;margin-bottom:6px; }
-.div-tabla-line { border-top:3px solid var(--gray);margin-bottom:4px; }
-.div-hint { font-size:11px;color:var(--gray);font-weight:800;text-align:center; }
+  -webkit-box-align:flex-end;-webkit-align-items:flex-end;align-items:flex-end;
+  margin-right:8px;}
+.dN-digits{display:-webkit-box;display:-webkit-flex;display:flex;margin-bottom:8px;}
+.dN-dbox{width:52px;height:56px;line-height:56px;background:#f0ecff;
+  border:3px solid var(--g);border-radius:10px;font-size:36px;font-weight:900;
+  color:var(--g-dark);text-align:center;margin:0 2px;}
+.dN-calc-row{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:4px;}
+.dN-clbl{font-size:14px;font-weight:900;color:var(--gray);width:32px;text-align:right;margin-right:4px;}
+.dN-cbox{width:48px;height:52px;line-height:52px;border:3px dashed var(--gray);
+  border-radius:10px;background:var(--white);font-size:32px;font-weight:900;
+  text-align:center;margin:0 2px;}
+.dN-sep{border-top:4px solid var(--gray);margin:5px 0;width:100%;}
+.dN-rrow{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-top:4px;}
+.dN-right{border-left:6px solid var(--text);border-bottom:6px solid var(--text);
+  padding:8px 10px 12px 12px;min-width:74px;}
+.dN-rnum{font-size:40px;font-weight:900;color:var(--g);text-align:center;margin-bottom:5px;}
+.dN-rline{border-top:3px solid var(--gray);margin-bottom:4px;}
+.dN-rhint{font-size:11px;color:var(--gray);font-weight:800;text-align:center;}
 
-/* Botón ayuda + panel */
-.ayuda-btn { display:inline-block;padding:5px 14px;border-radius:20px;
+/* Botón ayuda + panel flotante */
+.ayuda-btn{display:inline-block;padding:5px 14px;border-radius:20px;
   background:var(--o-soft);color:var(--o);font-size:14px;font-weight:900;
-  border:2px solid var(--o);cursor:pointer;margin-bottom:10px;
-  -webkit-transition:all 0.15s;transition:all 0.15s; }
-.ayuda-panel { position:fixed;right:8px;top:50%;margin-top:-170px;
-  width:128px;background:var(--white);border-radius:16px;
+  border:2px solid var(--o);cursor:pointer;margin-bottom:8px;}
+.ayuda-panel{position:fixed;right:8px;top:50%;margin-top:-170px;
+  width:126px;background:var(--white);border-radius:16px;
   box-shadow:0 8px 32px rgba(0,0,0,0.18);border:2px solid var(--g);
-  z-index:200;padding:10px 8px;display:none; }
-.ayuda-panel.show { display:block; }
-.ayuda-title { font-size:13px;font-weight:900;color:var(--g);text-align:center;margin-bottom:5px; }
-.ayuda-nav { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:5px; }
-.ayuda-arrow { width:26px;height:26px;border-radius:50%;background:var(--g-soft);
-  color:var(--g);font-size:16px;font-weight:900;text-align:center;line-height:26px;cursor:pointer; }
-.ayuda-base-num { font-size:19px;font-weight:900;color:var(--g);margin:0 8px; }
-.ayuda-rows { font-size:12px;font-weight:800;line-height:1.65;text-align:center; }
-.ayuda-rows b { color:var(--o); }
-.ayuda-close { display:block;text-align:center;margin-top:6px;
-  font-size:12px;font-weight:900;color:var(--gray);cursor:pointer; }
+  z-index:200;padding:10px 8px;display:none;}
+.ayuda-panel.show{display:block;}
+.ayuda-title{font-size:13px;font-weight:900;color:var(--g);text-align:center;margin-bottom:5px;}
+.ayuda-nav{display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:5px;}
+.ayuda-arr{width:26px;height:26px;border-radius:50%;background:var(--g-soft);
+  color:var(--g);font-size:16px;font-weight:900;text-align:center;line-height:26px;cursor:pointer;}
+.ayuda-num{font-size:19px;font-weight:900;color:var(--g);margin:0 8px;}
+.ayuda-rows{font-size:12px;font-weight:800;line-height:1.65;text-align:center;}
+.ayuda-rows b{color:var(--o);}
+.ayuda-close{display:block;text-align:center;margin-top:6px;
+  font-size:12px;font-weight:900;color:var(--gray);cursor:pointer;}
 
-/* ============================================================
-   COMBINADAS — nueva UX
-   Enunciado arriba (mismo tamaño que el paso), paso abajo.
-   Siempre alineados columna a columna.
-   ============================================================ */
-.com-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
+/* ════════════════════════════════════════════════════════════
+   COMBINADAS
+   Dos líneas a mismo font-size, centradas, alineadas.
+   Línea 1 (ref): el enunciado original, en gris.
+   Separador fino.
+   Línea 2 (paso): etiqueta pequeña a la izq + expresión igual tamaño.
+   ════════════════════════════════════════════════════════════ */
+.com-wrap{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  width:100%;max-width:560px; }
-
-/* Línea de operación — usada tanto para enunciado como para paso */
-.com-line { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  -webkit-flex-wrap:wrap;flex-wrap:wrap;
-  font-size:62px;font-weight:900;line-height:1.1;margin:4px 0; }
-/* Enunciado original: mismo tamaño pero gris cuando ya es referencia */
-.com-line.ref { color:#b0a8cc;font-size:52px; }
-/* Separador entre enunciado y paso */
-.com-sep { width:80%;border-top:3px dashed var(--gray-lt);margin:6px 0; }
-
-/* Token dentro de la línea — número, signo o paréntesis */
-.com-tok { display:inline-block;text-align:center;vertical-align:middle; }
-/* Paréntesis resaltado (paso 1): color naranja, ligeramente más grande */
-.com-tok.par-active { color:var(--o); }
-/* Paréntesis ya resuelto: gris */
-.com-tok.par-done { color:var(--gray); }
-/* Bloque tapable (paréntesis completo) que se convierte en caja */
-.com-par-block { display:inline-block;vertical-align:middle;cursor:pointer;
-  padding:2px 6px;border-radius:12px;
-  border:3px solid transparent;
-  -webkit-transition:all 0.15s;transition:all 0.15s; }
-.com-par-block:active { background:var(--o-soft);border-color:var(--o); }
-.com-par-block.selected { background:var(--o-soft);border-color:var(--o); }
-
-/* Etiqueta de fase, justo a la izquierda de la línea de paso */
-.com-phase-label { font-size:16px;font-weight:900;color:var(--g);
+  width:100%;}
+/* Ambas líneas usan EXACTAMENTE esta clase — mismo tamaño */
+.com-line{font-size:60px;font-weight:900;line-height:1.1;
+  text-align:center;width:100%;}
+.com-line.ref{color:#b0a8cc;}   /* enunciado: gris */
+.com-line.act{color:var(--text);}  /* paso activo: negro */
+.com-sep{width:80%;border:none;border-top:3px dashed var(--gray-lt);margin:8px auto;}
+/* Etiqueta fase: PEQUEÑA, encima del paso activo, a la izquierda */
+.com-lbl{font-size:14px;font-weight:900;color:var(--g);
   background:var(--g-soft);border-radius:20px;padding:3px 12px;
-  margin-bottom:5px;text-align:center; }
+  margin-bottom:6px;text-align:left;-webkit-align-self:flex-start;align-self:flex-start;}
+/* La caja dentro de la línea activa */
+.com-box{display:inline-block;width:100px;height:70px;line-height:70px;
+  border:4px dashed var(--o);border-radius:14px;background:var(--o-soft);
+  font-size:52px;font-weight:900;text-align:center;vertical-align:middle;
+  box-sizing:border-box;-webkit-transition:all 0.15s;transition:all 0.15s;
+  cursor:pointer;}
+.com-box.on{border-style:solid;-webkit-transform:scale(1.06);transform:scale(1.06);}
+.com-box.ok{border-color:var(--ok);border-style:solid;background:#edfbf3;color:var(--ok);}
+.com-box.err{border-color:var(--err);border-style:solid;background:#ffeeee;
+  -webkit-animation:shake 0.4s;animation:shake 0.4s;}
 
-/* TABLAS MULTIPLICAR (nivel 1 mult) */
-.tabla-wrap { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;width:100%; }
-.tabla-ctx { font-size:38px;font-weight:800;color:#b0a8cc;margin:6px 0; }
-.tabla-main { display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  font-size:72px;font-weight:900;background:var(--white);border-radius:26px;
-  padding:14px 28px;box-shadow:0 6px 28px var(--shad);margin:8px 0; }
-
-/* TECLADO */
-.numpad-wrap { background:var(--white);box-shadow:0 -2px 14px var(--shad);
-  padding:7px 8px 10px 8px;-webkit-flex-shrink:0;flex-shrink:0; }
-.numpad { display:-webkit-box;display:-webkit-flex;display:flex;
+/* ── TECLADO ── */
+.numpad-wrap{background:var(--white);box-shadow:0 -2px 14px var(--shad);
+  padding:7px 8px 10px 8px;-webkit-flex-shrink:0;flex-shrink:0;}
+.numpad{display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-flex-wrap:wrap;flex-wrap:wrap;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  max-width:460px;margin:0 auto; }
-.num-key { width:85px;height:56px;margin:4px;background:var(--gray-lt);
+  max-width:460px;margin:0 auto;}
+.nk{width:85px;height:56px;margin:4px;background:var(--gray-lt);
   border-radius:14px;box-shadow:0 4px 0 #d0c8e8;font-size:28px;font-weight:900;
   color:var(--text);display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   cursor:pointer;-webkit-transition:-webkit-transform 0.08s,box-shadow 0.08s;
-  transition:transform 0.08s,box-shadow 0.08s; }
-.num-key:active { -webkit-transform:translateY(4px);transform:translateY(4px);box-shadow:0 0 0 #d0c8e8; }
-.num-key.key-del { background:#ffe4ef;color:var(--o);box-shadow:0 4px 0 #f0c0d0;font-size:20px; }
-.num-key.key-ok  { background:var(--ok);color:var(--white);box-shadow:0 4px 0 var(--ok-dark);width:184px;font-size:20px; }
-.num-key.key-next{ background:var(--g);color:var(--white);box-shadow:0 4px 0 var(--g-dark);width:184px;font-size:18px; }
+  transition:transform 0.08s,box-shadow 0.08s;}
+.nk:active{-webkit-transform:translateY(4px);transform:translateY(4px);box-shadow:0 0 0 #d0c8e8;}
+.nk.del{background:#ffe4ef;color:var(--o);box-shadow:0 4px 0 #f0c0d0;font-size:20px;}
+.nk.ok {background:var(--ok);color:var(--white);box-shadow:0 4px 0 var(--ok-dark);width:184px;font-size:20px;}
+.nk.nxt{background:var(--g);color:var(--white);box-shadow:0 4px 0 var(--g-dark);width:184px;font-size:18px;}
 
-/* EFECTOS */
-.cfp { position:fixed;top:-30px;width:13px;height:13px;border-radius:3px;
+/* ── EFECTOS ── */
+@-webkit-keyframes shake{
+  0%,100%{-webkit-transform:translateX(0);}20%{-webkit-transform:translateX(-9px);}
+  40%{-webkit-transform:translateX(9px);}60%{-webkit-transform:translateX(-6px);}
+  80%{-webkit-transform:translateX(6px);}}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}20%{transform:translateX(-9px);}
+  40%{transform:translateX(9px);}60%{transform:translateX(-6px);}
+  80%{transform:translateX(6px);}}
+.cfp{position:fixed;top:-30px;width:13px;height:13px;border-radius:3px;
   pointer-events:none;z-index:999;
-  -webkit-animation:cffall 2.2s linear forwards;animation:cffall 2.2s linear forwards; }
-@-webkit-keyframes cffall { to{-webkit-transform:translateY(110vh) rotate(540deg);opacity:0;} }
-@keyframes cffall { to{transform:translateY(110vh) rotate(540deg);opacity:0;} }
-.flash-ov { position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;
-  z-index:500;opacity:0;-webkit-transition:opacity 0.12s;transition:opacity 0.12s; }
-.flash-ov.green { background:rgba(34,201,122,0.2); }
-.flash-ov.red   { background:rgba(255,71,87,0.2); }
-.flash-ov.show  { opacity:1; }
-.pts-pop { position:fixed;left:50%;top:28%;font-size:56px;font-weight:900;color:var(--ok);
-  text-shadow:0 3px 14px rgba(0,0,0,0.18);pointer-events:none;z-index:998;
+  -webkit-animation:cffall 2.2s linear forwards;animation:cffall 2.2s linear forwards;}
+@-webkit-keyframes cffall{to{-webkit-transform:translateY(110vh) rotate(540deg);opacity:0;}}
+@keyframes cffall{to{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+.flash-ov{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;
+  z-index:500;opacity:0;-webkit-transition:opacity 0.12s;transition:opacity 0.12s;}
+.flash-ov.green{background:rgba(34,201,122,0.2);}
+.flash-ov.red{background:rgba(255,71,87,0.2);}
+.flash-ov.show{opacity:1;}
+.pts-pop{position:fixed;left:50%;top:28%;font-size:52px;font-weight:900;color:var(--ok);
+  pointer-events:none;z-index:998;
   -webkit-transform:translateX(-50%);transform:translateX(-50%);
-  -webkit-animation:ptspop 1.3s ease-out forwards;animation:ptspop 1.3s ease-out forwards; }
-@-webkit-keyframes ptspop {
+  -webkit-animation:ptspop 1.3s ease-out forwards;animation:ptspop 1.3s ease-out forwards;}
+@-webkit-keyframes ptspop{
   0%{opacity:0;-webkit-transform:translateX(-50%) scale(0.4);}
-  25%{opacity:1;-webkit-transform:translateX(-50%) translateY(-14px) scale(1.25);}
-  65%{opacity:1;-webkit-transform:translateX(-50%) translateY(-36px) scale(1);}
-  100%{opacity:0;-webkit-transform:translateX(-50%) translateY(-65px) scale(0.85);} }
-@keyframes ptspop {
+  25%{opacity:1;-webkit-transform:translateX(-50%) translateY(-14px) scale(1.2);}
+  65%{opacity:1;-webkit-transform:translateX(-50%) translateY(-32px) scale(1);}
+  100%{opacity:0;-webkit-transform:translateX(-50%) translateY(-60px) scale(0.8);}}
+@keyframes ptspop{
   0%{opacity:0;transform:translateX(-50%) scale(0.4);}
-  25%{opacity:1;transform:translateX(-50%) translateY(-14px) scale(1.25);}
-  65%{opacity:1;transform:translateX(-50%) translateY(-36px) scale(1);}
-  100%{opacity:0;transform:translateX(-50%) translateY(-65px) scale(0.85);} }
-.star-pop { position:fixed;left:50%;top:50%;font-size:88px;pointer-events:none;z-index:997;
+  25%{opacity:1;transform:translateX(-50%) translateY(-14px) scale(1.2);}
+  65%{opacity:1;transform:translateX(-50%) translateY(-32px) scale(1);}
+  100%{opacity:0;transform:translateX(-50%) translateY(-60px) scale(0.8);}}
+.star-pop{position:fixed;left:50%;top:50%;font-size:80px;pointer-events:none;z-index:997;
   -webkit-transform:translate(-50%,-50%) scale(0);transform:translate(-50%,-50%) scale(0);
-  -webkit-animation:starout 0.65s ease-out forwards;animation:starout 0.65s ease-out forwards; }
-@-webkit-keyframes starout {
-  0%{-webkit-transform:translate(-50%,-50%) scale(0);opacity:1;}
-  60%{-webkit-transform:translate(-50%,-50%) scale(1.4);opacity:1;}
-  100%{-webkit-transform:translate(-50%,-50%) scale(1.1);opacity:0;} }
-@keyframes starout {
-  0%{transform:translate(-50%,-50%) scale(0);opacity:1;}
-  60%{transform:translate(-50%,-50%) scale(1.4);opacity:1;}
-  100%{transform:translate(-50%,-50%) scale(1.1);opacity:0;} }
+  -webkit-animation:starpop 0.6s ease-out forwards;animation:starpop 0.6s ease-out forwards;}
+@-webkit-keyframes starpop{
+  60%{-webkit-transform:translate(-50%,-50%) scale(1.3);opacity:1;}
+  100%{-webkit-transform:translate(-50%,-50%) scale(1);opacity:0;}}
+@keyframes starpop{
+  60%{transform:translate(-50%,-50%) scale(1.3);opacity:1;}
+  100%{transform:translate(-50%,-50%) scale(1);opacity:0;}}
 </style>
 </head>
 <body>
@@ -383,762 +338,592 @@ html,body { margin:0;padding:0;width:100%;height:100%;overflow:hidden;
   <div class="top-bar">
     <div class="main-row">
       <div class="ops-group">
-        <div class="op-btn active" id="op_SUM" onclick="setTag('SUM')">Sumas</div>
-        <div class="op-btn" id="op_RES" onclick="setTag('RES')">Restas</div>
-        <div class="op-btn" id="op_MUL" onclick="setTag('MUL')">Mult</div>
-        <div class="op-btn" id="op_DIV" onclick="setTag('DIV')">Div</div>
-        <div class="op-btn" id="op_COM" onclick="setTag('COM')">Comb</div>
-        <div class="op-btn" id="op_RAN" onclick="setTag('RAN')">Random</div>
+        <div class="pill on" id="op_SUM" onclick="setTag('SUM')">Sumas</div>
+        <div class="pill" id="op_RES" onclick="setTag('RES')">Restas</div>
+        <div class="pill" id="op_MUL" onclick="setTag('MUL')">Mult</div>
+        <div class="pill" id="op_DIV" onclick="setTag('DIV')">Div</div>
+        <div class="pill" id="op_COM" onclick="setTag('COM')">Comb</div>
+        <div class="pill" id="op_RAN" onclick="setTag('RAN')">Random</div>
       </div>
       <div class="spacer"></div>
-      <div class="sisters-group">
-        <div class="sister-btn act-o" id="btn_olivia" onclick="switchSister('olivia')">
-          <div class="av">O</div>Olivia<span class="pts" id="pts_olivia">0</span>
+      <div style="display:-webkit-box;display:-webkit-flex;display:flex;">
+        <div class="pill" id="btn_olivia" onclick="setSister('olivia')" style="display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-left:5px;">
+          <div class="av" id="av_o" style="background:var(--gray);color:var(--white);">O</div>
+          Olivia<span class="pts-badge" id="pts_o">0</span>
         </div>
-        <div class="sister-btn" id="btn_gala" onclick="switchSister('gala')">
-          <div class="av">G</div>Gala<span class="pts" id="pts_gala">0</span>
+        <div class="pill" id="btn_gala" onclick="setSister('gala')" style="display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-left:5px;">
+          <div class="av" id="av_g" style="background:var(--gray);color:var(--white);">G</div>
+          Gala<span class="pts-badge" id="pts_g">0</span>
         </div>
       </div>
     </div>
   </div>
   <div class="nav-levels">
-    <div class="lvl-btn active" id="lvl_1" onclick="setLevel(1)">1</div>
-    <div class="lvl-btn" id="lvl_2" onclick="setLevel(2)">2</div>
-    <div class="lvl-btn" id="lvl_3" onclick="setLevel(3)">3</div>
-    <div class="lvl-btn" id="lvl_4" onclick="setLevel(4)">4</div>
-    <div class="lvl-btn" id="lvl_5" onclick="setLevel(5)">5</div>
+    <div class="lvl on" id="lvl1" onclick="setLevel(1)">1</div>
+    <div class="lvl" id="lvl2" onclick="setLevel(2)">2</div>
+    <div class="lvl" id="lvl3" onclick="setLevel(3)">3</div>
+    <div class="lvl" id="lvl4" onclick="setLevel(4)">4</div>
+    <div class="lvl" id="lvl5" onclick="setLevel(5)">5</div>
   </div>
-  <div class="exercise-area" id="exerciseArea"></div>
-  <div class="numpad-wrap"><div class="numpad" id="numpadArea"></div></div>
+  <div class="ex-area" id="exArea"></div>
+  <div class="numpad-wrap"><div class="numpad" id="numpad"></div></div>
 </div>
 
+<!-- Panel ayuda tablas -->
 <div class="ayuda-panel" id="ayudaPanel">
-  <div class="ayuda-title">Tabla del <span id="ayudaBaseNum">2</span></div>
+  <div class="ayuda-title">Tabla del <span id="ayudaN">2</span></div>
   <div class="ayuda-nav">
-    <div class="ayuda-arrow" onclick="ayudaNav(-1)">&#8249;</div>
-    <div class="ayuda-base-num" id="ayudaBaseDisplay">2</div>
-    <div class="ayuda-arrow" onclick="ayudaNav(1)">&#8250;</div>
+    <div class="ayuda-arr" onclick="ayudaNav(-1)">&#8249;</div>
+    <div class="ayuda-num" id="ayudaND">2</div>
+    <div class="ayuda-arr" onclick="ayudaNav(1)">&#8250;</div>
   </div>
   <div class="ayuda-rows" id="ayudaRows"></div>
-  <span class="ayuda-close" onclick="toggleAyuda()">Cerrar</span>
+  <span class="ayuda-close" onclick="closeAyuda()">Cerrar</span>
 </div>
-<div class="flash-ov" id="flashOv"></div>
+<div class="flash-ov" id="fov"></div>
 
 <script>
-// ============================================================
-// UTIL ES5
-// ============================================================
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function $(id){return document.getElementById(id);}
+/* ============================================================
+   UTILIDADES ES5 ESTRICTO
+   ============================================================ */
+function r(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function G(id){return document.getElementById(id);}
 
-// ============================================================
-// COOKIES
-// ============================================================
-function setCookie(name,val,hours){
-  var d=new Date();d.setTime(d.getTime()+hours*3600000);
-  document.cookie=name+'='+encodeURIComponent(val)+';expires='+d.toUTCString()+';path=/';
-}
-function getCookie(name){
-  var n=name+'=',ca=document.cookie.split(';');
-  for(var i=0;i<ca.length;i++){
-    var c=ca[i];while(c.charAt(0)===' ')c=c.substring(1);
-    if(c.indexOf(n)===0)return decodeURIComponent(c.substring(n.length));
-  }return null;
-}
+/* ============================================================
+   COOKIES
+   ============================================================ */
+function setCK(n,v,h){var d=new Date();d.setTime(d.getTime()+h*3600000);
+  document.cookie=n+'='+encodeURIComponent(v)+';expires='+d.toUTCString()+';path=/';}
+function getCK(n){var q=n+'=',ca=document.cookie.split(';');
+  for(var i=0;i<ca.length;i++){var c=ca[i];
+    while(c.charAt(0)===' ')c=c.substring(1);
+    if(c.indexOf(q)===0)return decodeURIComponent(c.substring(q.length));}return null;}
 
-// ============================================================
-// ESTADO
-// ============================================================
-var currentSister='olivia',currentTag='SUM',currentLevel=1;
+/* ============================================================
+   ESTADO
+   ============================================================ */
+var sister='olivia', tag='SUM', lvl=1;
 var scores={olivia:0,gala:0};
-var expectedAnswers={},activeBoxId=null;
-var comData={},tablaData={};
-var comInProgress=false,randomLvlUsed=1;
-var ptsTable={1:1,2:2,3:3,4:5,5:8};
-var ayudaBase=2;
+var exp={}, actId=null;
+var tabD={}, comD={}, comOn=false, rndLvl=1;
+var ptsT={1:1,2:2,3:3,4:5,5:8};
+var ayudaB=2;
 
-window.onload=function(){loadScores();renderNumpad();generateExercise();};
+window.onload=function(){loadSc();buildPad();genEx();};
 
-// ============================================================
-// SCORES
-// ============================================================
-function loadScores(){
-  var raw=getCookie('mates_scores');
-  if(raw){try{var p=JSON.parse(raw);
+/* ── SCORES ── */
+function loadSc(){var r2=getCK('mates_scores');
+  if(r2){try{var p=JSON.parse(r2);
     if(typeof p.olivia==='number')scores.olivia=p.olivia;
-    if(typeof p.gala==='number')scores.gala=p.gala;
-  }catch(e){}}
-  updateScoreUI();
-}
-function saveScores(){setCookie('mates_scores',JSON.stringify(scores),24);}
-function addPoint(){
-  var lvl=(currentTag==='RAN')?randomLvlUsed:currentLevel;
-  var pts=ptsTable[lvl]||1;
-  scores[currentSister]+=pts;saveScores();updateScoreUI();showPtsPopup('+'+pts+' pts');
-}
-function updateScoreUI(){$('pts_olivia').textContent=scores.olivia;$('pts_gala').textContent=scores.gala;}
+    if(typeof p.gala==='number')scores.gala=p.gala;}catch(e){}}
+  updUI();}
+function saveSc(){setCK('mates_scores',JSON.stringify(scores),24);}
+function addPt(){var l=(tag==='RAN')?rndLvl:lvl,pts=ptsT[l]||1;
+  scores[sister]+=pts;saveSc();updUI();showPts('+'+pts+' pts');}
+function updUI(){G('pts_o').textContent=scores.olivia;G('pts_g').textContent=scores.gala;}
 
-// ============================================================
-// NAV
-// ============================================================
-function switchSister(s){
-  currentSister=s;
-  $('btn_olivia').className='sister-btn'+(s==='olivia'?' act-o':'');
-  $('btn_gala').className='sister-btn'+(s==='gala'?' act-g':'');
-}
-function setTag(tag){
-  currentTag=tag;
-  var tags=['SUM','RES','MUL','DIV','COM','RAN'];
-  for(var i=0;i<tags.length;i++)$('op_'+tags[i]).className='op-btn'+(tags[i]===tag?' active':'');
-  generateExercise();
-}
-function setLevel(lvl){
-  currentLevel=lvl;
-  for(var i=1;i<=5;i++)$('lvl_'+i).className='lvl-btn'+(i===lvl?' active':'');
-  generateExercise();
-}
+/* ── NAV ── */
+function setSister(s){
+  sister=s;
+  G('btn_olivia').className='pill'+(s==='olivia'?' on-o':'');
+  G('av_o').style.background=(s==='olivia')?'var(--o)':'var(--gray)';
+  G('btn_gala').className='pill'+(s==='gala'?' on-g':'');
+  G('av_g').style.background=(s==='gala')?'var(--g)':'var(--gray)';}
 
-// ============================================================
-// TECLADO
-// ============================================================
-function renderNumpad(){_buildPad([7,8,9,'C',4,5,6,0,1,2,3,'OK']);}
-function renderNumpadNext(){_buildPad([7,8,9,'C',4,5,6,0,1,2,3,'SIG']);}
-function _buildPad(keys){
-  var html='';
-  for(var i=0;i<keys.length;i++){
-    var k=keys[i],cls='num-key';
-    if(k==='C')cls+=' key-del';
-    if(k==='OK')cls+=' key-ok';
-    if(k==='SIG')cls+=' key-next';
-    html+='<div class="'+cls+'" onclick="pressKey(\''+k+'\')">'+(k==='SIG'?'Siguiente':k)+'</div>';
-  }
-  $('numpadArea').innerHTML=html;
-}
+function setTag(t){tag=t;
+  var ts=['SUM','RES','MUL','DIV','COM','RAN'];
+  for(var i=0;i<ts.length;i++)G('op_'+ts[i]).className='pill'+(ts[i]===t?' on':'');
+  genEx();}
 
-function activateBox(id){
-  if(activeBoxId){
-    var old=$(activeBoxId);
-    if(old)old.className=old.className.replace(/\s*active/g,'');
-  }
-  activeBoxId=id;
-  var nb=$(id);if(nb)nb.className+=' active';
-}
+function setLevel(l){lvl=l;
+  for(var i=1;i<=5;i++)G('lvl'+i).className='lvl'+(i===l?' on':'');
+  genEx();}
 
-function pressKey(k){
-  if(k==='SIG'){generateExercise();return;}
-  if(!activeBoxId)return;
-  if(k==='OK'){checkAnswers();return;}
-  var box=$(activeBoxId);if(!box)return;
-  if(k==='C'){box.textContent='';return;}
-  var multi=(activeBoxId.indexOf('full')>-1||activeBoxId.indexOf('wide')>-1||
-             activeBoxId.indexOf('coc')>-1||activeBoxId.indexOf('res')>-1||
-             activeBoxId.indexOf('tab_')>-1||activeBoxId.indexOf('mres_')>-1);
-  if(multi){if(box.textContent.length<5)box.textContent+=k;}
+/* ── TECLADO ── */
+function buildPad(){_pad([7,8,9,'C',4,5,6,0,1,2,3,'OK']);}
+function buildPadNext(){_pad([7,8,9,'C',4,5,6,0,1,2,3,'SIG']);}
+function _pad(keys){
+  var h='';for(var i=0;i<keys.length;i++){
+    var k=keys[i],c='nk';
+    if(k==='C')c+=' del';if(k==='OK')c+=' ok';if(k==='SIG')c+=' nxt';
+    h+='<div class="'+c+'" onclick="pk(\''+k+'\')">'+(k==='SIG'?'Siguiente':k)+'</div>';}
+  G('numpad').innerHTML=h;}
+
+function actBox(id){
+  if(actId){var o=G(actId);if(o){
+    o.className=o.className.replace(/\s*on/g,'');}}
+  actId=id;var nb=G(id);if(nb){nb.className+=' on';}}
+
+function pk(k){
+  if(k==='SIG'){genEx();return;}
+  if(!actId)return;
+  if(k==='OK'){checkAll();return;}
+  var b=G(actId);if(!b)return;
+  if(k==='C'){b.textContent='';return;}
+  /* Cajas multi-dígito */
+  var multi=(actId.indexOf('full')>-1||actId.indexOf('wide')>-1||
+    actId.indexOf('coc')>-1||actId.indexOf('dNres')>-1||
+    actId.indexOf('tab_')>-1||actId.indexOf('d1_')>-1||
+    actId.indexOf('com_')>-1||actId.indexOf('p1_')>-1||
+    actId.indexOf('p2_')>-1||actId.indexOf('rf_')>-1||
+    actId.indexOf('m2_')>-1||actId.indexOf('m3_')>-1||
+    actId.indexOf('m4_')>-1);
+  if(multi){if(b.textContent.length<5)b.textContent+=k;}
   else{
-    box.textContent=k;
-    // Auto-avance en cajas de un dígito
-    if(activeBoxId.indexOf('ans_')===0){
-      var idx=parseInt(activeBoxId.replace('ans_',''),10);
-      var nxt='ans_'+(idx+1);if($(nxt)){activateBox(nxt);return;}
-    }
-    if(activeBoxId.indexOf('mc_')===0){
-      var parts=activeBoxId.split('_');
-      var row=parseInt(parts[1],10),col=parseInt(parts[2],10);
-      var nxtId='mc_'+row+'_'+(col+1);
-      if(!$(nxtId))nxtId='mc_'+(row+1)+'_0';
-      if($(nxtId)){activateBox(nxtId);return;}
-    }
-  }
-}
+    b.textContent=k;
+    if(actId.indexOf('ans_')===0){
+      var idx=parseInt(actId.replace('ans_',''),10);
+      var nx='ans_'+(idx+1);if(G(nx)){actBox(nx);return;}}}}
 
-// ============================================================
-// GENERADOR
-// ============================================================
-function generateExercise(){
-  expectedAnswers={};activeBoxId=null;comInProgress=false;
-  renderNumpad();hideAyuda();
-  var lvl=currentLevel;
-  if(currentTag==='RAN'){
-    randomLvlUsed=lvl;
-    var tipos=(lvl<=2)?['SUM','RES','MUL']:['SUM','RES','MUL','DIV','COM'];
-    _runTag(tipos[Math.floor(Math.random()*tipos.length)],lvl);
-  }else{_runTag(currentTag,lvl);}
-}
-function _runTag(tag,lvl){
-  if(tag==='SUM')genSuma(lvl);
-  else if(tag==='RES')genResta(lvl);
-  else if(tag==='MUL')genMult(lvl);
-  else if(tag==='DIV')genDiv(lvl);
-  else if(tag==='COM')genCom(lvl);
-}
+/* ============================================================
+   GENERADOR
+   ============================================================ */
+function genEx(){exp={};actId=null;comOn=false;buildPad();closeAyuda();
+  var l=lvl;
+  if(tag==='RAN'){
+    rndLvl=l;
+    var ts=(l<=2)?['SUM','RES','MUL']:['SUM','RES','MUL','DIV','COM'];
+    _run(ts[Math.floor(Math.random()*ts.length)],l);
+  }else{_run(tag,l);}}
+function _run(t,l){
+  if(t==='SUM')gSum(l);else if(t==='RES')gRes(l);
+  else if(t==='MUL')gMul(l);else if(t==='DIV')gDiv(l);
+  else if(t==='COM')gCom(l);}
 
-// ============================================================
-// SUMAS / RESTAS
-// ============================================================
-function genSuma(lvl){
+/* ── SUMAS ── */
+function gSum(l){
   var a,b;
-  if(lvl===1){a=rand(1,5);b=rand(1,5);}
-  else if(lvl===2){a=rand(5,19);b=rand(5,19);}
-  else if(lvl===3){a=rand(20,99);b=rand(20,99);}
-  else if(lvl===4){a=rand(100,499);b=rand(100,499);}
-  else{a=rand(500,9999);b=rand(500,9999);}
-  if(lvl===1)renderHoriz(a,b,'+',a+b);else renderVertical(a,b,'+',a+b);
-}
-function genResta(lvl){
+  if(l===1){a=r(1,5);b=r(1,5);}
+  else if(l===2){a=r(5,19);b=r(5,19);}
+  else if(l===3){a=r(20,99);b=r(20,99);}
+  else if(l===4){a=r(100,499);b=r(100,499);}
+  else{a=r(500,9999);b=r(500,9999);}
+  if(l===1)rendH(a,b,'+',a+b);else rendV(a,b,'+',a+b);}
+
+/* ── RESTAS — siempre a >= b, resultado >= 0 ── */
+function gRes(l){
   var a,b;
-  if(lvl===1){b=rand(1,4);a=rand(b,b+4);}
-  else if(lvl===2){a=rand(10,29);b=rand(1,a);}
-  else if(lvl===3){a=rand(30,99);b=rand(10,a);}
-  else if(lvl===4){a=rand(100,499);b=rand(50,a);}
-  else{a=rand(500,9999);b=rand(100,a);}
-  if(lvl===1)renderHoriz(a,b,'-',a-b);else renderVertical(a,b,'-',a-b);
-}
+  if(l===1){b=r(1,4);a=r(b,b+4);}          /* a: b..b+4, max 8 */
+  else if(l===2){b=r(1,9);a=r(b+1,b+20);}  /* siempre a>b */
+  else if(l===3){b=r(10,49);a=r(b+1,b+50);}
+  else if(l===4){b=r(50,199);a=r(b+1,b+300);}
+  else{b=r(100,999);a=r(b+1,b+3000);}
+  if(l===1)rendH(a,b,'-',a-b);else rendV(a,b,'-',a-b);}
 
-// ============================================================
-// MULTIPLICACIONES
-// Nivel 1 = Tablas (horizontal con contexto)
-// Nivel 2 = horizontal 1 dígito x 1 dígito
-// Nivel 3 = vertical N x 1 dígito
-// Nivel 4-5 = plantilla discalculia (2 dígitos x 2 dígitos)
-// ============================================================
-function genMult(lvl){
-  if(lvl===1){genTabla();return;}
+/* ── MULTIPLICACIONES ── */
+function gMul(l){
+  if(l===1){gTabla();return;}
   var a,b;
-  if(lvl===2){a=rand(2,9);b=rand(2,9);}
-  else if(lvl===3){a=rand(10,99);b=rand(2,9);}
-  else if(lvl===4){a=rand(20,99);b=rand(10,19);}
-  else{a=rand(20,99);b=rand(12,29);}
-  if(lvl===2)renderHoriz(a,b,'x',a*b);
-  else if(lvl===3)renderVertical(a,b,'x',a*b);
-  else renderMulPlantilla(a,b);
-}
+  /* Niveles 2,3,4: misma estructura vertical que sumas/restas */
+  if(l===2){a=r(2,9);b=r(2,9);rendV(a,b,'x',a*b);return;}
+  if(l===3){a=r(10,99);b=r(2,9);rendV(a,b,'x',a*b);return;}
+  if(l===4){a=r(100,999);b=r(2,9);rendV(a,b,'x',a*b);return;}
+  /* Nivel 5: 2 cifras × 2 cifras, dos parciales */
+  a=r(20,99);b=r(12,29);rendMul2(a,b);}
 
-function genTabla(){
-  tablaData.base=rand(2,5);tablaData.factor=rand(2,10);
-  tablaData.result=tablaData.base*tablaData.factor;renderTabla();
-}
-function renderTabla(){
-  var b=tablaData.base,f=tablaData.factor,r=tablaData.result;
-  expectedAnswers={'tab_ans':String(r)};
-  var html='<div class="tabla-wrap">';
-  html+='<div class="tabla-ctx">'+(f>1?b+' x '+(f-1)+' = '+(b*(f-1)):'&nbsp;')+'</div>';
-  html+='<div class="tabla-main">'+b+' x '+f+' = ';
-  html+='<div class="box full" id="tab_ans" onclick="activateBox(\'tab_ans\')"></div></div>';
-  html+='<div class="tabla-ctx" id="tab_next">'+b+' x '+(f+1)+' = ?</div>';
-  html+='</div>';
-  $('exerciseArea').innerHTML=html;
-  renderNumpadNext();activateBox('tab_ans');
-}
+/* Nivel 5: misma tabla .vt que sumas/restas + filas parciales */
+function rendMul2(A,B){
+  var BU=B%10,BD=Math.floor(B/10);
+  var P1=A*BU,P2=A*BD,RES=A*B;
+  var sA=String(A).split('').reverse();
+  var sB=String(B).split('').reverse();
+  var sP1=String(P1).split('').reverse();
+  var sP2=String(P2).split('').reverse();
+  var sRES=String(RES).split('').reverse();
+  /* cols = la anchura máxima que necesitamos */
+  var cols=Math.max(sA.length,sB.length,sP1.length,sP2.length+1,sRES.length);
 
-// ============================================================
-// MUL PLANTILLA (niveles 4-5) — fiel a la foto del centro
-// A x B donde B es 2 dígitos (ej. 75 x 19)
-// Fila amarilla: dígitos de A
-// Fila azul: dígitos de B (el multiplicador)
-// Parcial 1 (círculos beige): A x unidades(B)
-// Parcial 2 (círculos azules): A x decenas(B) — desplazado, primer círculo = 0
-// Resultado (cuadrados verdes): suma de parciales
-// Carries (cuadraditos) encima de cada fila de círculos
-// ============================================================
-function renderMulPlantilla(a,b){
-  var bU=b%10,bD=Math.floor(b/10);
-  var p1=a*bU,p2=a*bD,res=a*b;
-  var strA=String(a),strB=String(b);
-  var strP1=String(p1).split('').reverse();
-  var strP2=String(p2).split('').reverse();
-  var strRes=String(res).split('').reverse();
-  // Columnas totales = max de todos los resultados + 1 (por desplazamiento p2)
-  var cols=Math.max(strP1.length,strP2.length+1,strRes.length);
+  exp={};
+  for(var i=0;i<sP1.length;i++)exp['p1_'+i]=sP1[i];
+  if(BD>0)for(var i=0;i<sP2.length;i++)exp['p2_'+i]=sP2[i];
+  for(var i=0;i<sRES.length;i++)exp['rf_'+i]=sRES[i];
 
-  // Respuestas esperadas
-  for(var i=0;i<strP1.length;i++)expectedAnswers['mc_0_'+i]=strP1[i];
-  for(var i=0;i<strP2.length;i++)expectedAnswers['mc_1_'+i]=strP2[i];
-  for(var i=0;i<strRes.length;i++)expectedAnswers['mres_'+i]=strRes[i];
+  var h='<table class="vt">';
 
-  var html='<div class="mul-wrap">';
-
-  // ---- Carries de las filas de números (encima de los amarillos) ----
-  html+='<div class="mul-carry-row">';
+  /* Fila carries: SOLO sobre columnas con dígito en A Y columna >= 1 (nunca unidades) */
+  h+='<tr><td></td>';
   for(var c=cols-1;c>=0;c--){
-    html+='<div class="mul-carry-sq" id="cA_'+c+'" onclick="activateBox(\'cA_'+c+'\')">&nbsp;</div>';
-  }
-  html+='</div>';
+    if(c>=1&&sA[c]!==undefined&&sA[c]!=='')
+      h+='<td><div class="box carry" id="cy5_'+c+'" onclick="actBox(\'cy5_'+c+'\')">&nbsp;</div></td>';
+    else
+      h+='<td></td>';}
+  h+='</tr>';
 
-  // ---- Fila A (amarillo) + × + Fila B (azul) ----
-  html+='<div class="mul-nums-row">';
-  for(var i=0;i<strA.length;i++)html+='<div class="mul-sq a">'+strA[i]+'</div>';
-  html+='<span class="mul-x">x</span>';
-  for(var i=0;i<strB.length;i++)html+='<div class="mul-sq b">'+strB[i]+'</div>';
-  html+='</div>';
-  html+='<div class="mul-line"></div>';
+  /* Fila multiplicando (A) — colores valor posicional, igual que rendV */
+  h+='<tr><td></td>';
+  for(var c=cols-1;c>=0;c--)h+='<td style="color:'+vc(c)+'">'+(sA[c]||'')+'</td>';
+  h+='</tr>';
 
-  // ---- Carries fila parcial 1 ----
-  html+='<div class="mul-pcarry-row">';
-  // Espacio a la izquierda para alinear con los círculos
-  var leftPad=cols-strP1.length;
-  for(var c=0;c<leftPad;c++)html+='<div style="width:62px;display:inline-block;"></div>';
-  for(var c=strP1.length-1;c>=0;c--){
-    html+='<div class="mul-pcarry" id="cp1_'+c+'" onclick="activateBox(\'cp1_'+c+'\')">&nbsp;</div>';
-  }
-  html+='</div>';
-
-  // ---- Parcial 1: círculos beige (A x unidades B) ----
-  html+='<div class="mul-partial-row">';
-  // Casillas vacías a la izquierda
+  /* Fila multiplicador (B) — unidades en naranja, decenas en morado */
+  h+='<tr class="vt-line"><td class="vt-sign">x</td>';
   for(var c=cols-1;c>=0;c--){
-    if(c<strP1.length){
-      html+='<div class="mul-circ p1 inp" id="mc_0_'+c+'" onclick="activateBox(\'mc_0_'+c+'\')">&nbsp;</div>';
-    }else{
-      html+='<div class="mul-circ empty">&nbsp;</div>';
-    }
-  }
-  html+='</div>';
+    var col=(c===0)?'var(--mul-pu)':(c===1)?'var(--mul-pd)':'var(--text)';
+    h+='<td style="color:'+col+'">'+(sB[c]||'')+'</td>';}
+  h+='</tr>';
 
-  // ---- Carries fila parcial 2 (solo si hay decenas) ----
-  if(bD>0){
-    html+='<div class="mul-pcarry-row">';
-    // El parcial 2 ocupa strP2.length+1 posiciones (la +1 es el cero)
-    var leftPad2=cols-(strP2.length+1);
-    for(var c=0;c<leftPad2;c++)html+='<div style="width:62px;display:inline-block;"></div>';
-    // Carries sobre los dígitos del parcial 2 (sin el cero)
-    for(var c=strP2.length-1;c>=0;c--){
-      html+='<div class="mul-pcarry" id="cp2_'+c+'" onclick="activateBox(\'cp2_'+c+'\')">&nbsp;</div>';
-    }
-    // Espacio sobre el cero
-    html+='<div style="width:62px;display:inline-block;"></div>';
-    html+='</div>';
+  /* Fila parcial 1 (A × unidades B) — borde naranja */
+  h+='<tr><td></td>';
+  for(var c=cols-1;c>=0;c--){
+    h+='<td>';
+    if(c<sP1.length)
+      h+='<div class="box" id="p1_'+c+'" onclick="actBox(\'p1_'+c+'\')" style="border:4px dashed var(--mul-pu);">&nbsp;</div>';
+    h+='</td>';}
+  h+='</tr>';
 
-    // ---- Parcial 2: círculos azules (A x decenas B), desplazado ----
-    html+='<div class="mul-partial-row">';
+  /* Fila parcial 2 (A × decenas B) — borde morado, desplazada 1 col */
+  if(BD>0){
+    h+='<tr class="vt-line"><td class="vt-sign" style="color:var(--g);">+</td>';
     for(var c=cols-1;c>=0;c--){
-      if(c===0){
-        // Cero fijo (desplazamiento)
-        html+='<div class="mul-circ zero">0</div>';
-      }else if(c-1<strP2.length){
-        html+='<div class="mul-circ p2 inp" id="mc_1_'+(c-1)+'" onclick="activateBox(\'mc_1_'+(c-1)+'\')">&nbsp;</div>';
-      }else{
-        html+='<div class="mul-circ empty">&nbsp;</div>';
-      }
-    }
-    html+='</div>';
-  }
+      h+='<td>';
+      if(c>0&&c-1<sP2.length)
+        h+='<div class="box" id="p2_'+(c-1)+'" onclick="actBox(\'p2_'+(c-1)+'\')" style="border:4px dashed var(--mul-pd);">&nbsp;</div>';
+      h+='</td>';}
+    h+='</tr>';}
 
-  // ---- Línea suma final ----
-  html+='<div class="mul-line"></div>';
-
-  // ---- Resultado: cuadrados verdes ----
-  html+='<div class="mul-result-row">';
-  html+='<span class="mul-plus">+</span>';
+  /* Fila resultado final — borde gris */
+  h+='<tr><td></td>';
   for(var c=cols-1;c>=0;c--){
-    if(c<strRes.length){
-      html+='<div class="mul-res-sq inp" id="mres_'+c+'" onclick="activateBox(\'mres_'+c+'\')">&nbsp;</div>';
-    }else{
-      html+='<div class="mul-res-sq filled">&nbsp;</div>';
-    }
-  }
-  html+='</div>';
+    h+='<td>';
+    if(c<sRES.length)
+      h+='<div class="box" id="rf_'+c+'" onclick="actBox(\'rf_'+c+'\')" style="border:4px dashed var(--mul-res);background:#F8FAFC;">&nbsp;</div>';
+    h+='</td>';}
+  h+='</tr>';
 
-  html+='</div>';
-  $('exerciseArea').innerHTML=html;
-  // Activar primer círculo del parcial 1
-  activateBox('mc_0_'+(strP1.length-1));
-}
+  h+='</table>';
+  G('exArea').innerHTML=h;
+  scaleToFit();
+  actBox('p1_0');}
 
-// ============================================================
-// DIVISIONES
-// ============================================================
-function genDiv(lvl){
-  var divisor,cociente,dividendo,resto;
-  if(lvl===1){
-    divisor=rand(2,4);cociente=rand(2,4);dividendo=divisor*cociente;
-    renderDivHorizConAyuda(dividendo,divisor,cociente);return;
-  }
-  if(lvl===2){divisor=rand(2,5);dividendo=rand(10,49);}
-  else if(lvl===3){divisor=rand(2,9);dividendo=rand(20,99);}
-  else if(lvl===4){divisor=rand(3,9);dividendo=rand(50,200);}
-  else{divisor=rand(4,9);dividendo=rand(100,999);}
-  cociente=Math.floor(dividendo/divisor);resto=dividendo%divisor;
-  renderDivPlantilla(dividendo,divisor,cociente,resto);
-}
 
-// División nivel 1 horizontal + ayuda
-function renderDivHorizConAyuda(dividendo,divisor,cociente){
-  expectedAnswers={'ans_full':String(cociente)};
-  ayudaBase=divisor;
-  var html='<div style="text-align:center;">';
-  html+='<div class="ayuda-btn" onclick="toggleAyuda()">Ayuda tablas</div>';
-  html+='</div>';
-  html+='<div class="huge-row">'+dividendo+' ÷ '+divisor+' = ';
-  html+='<div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div></div>';
-  $('exerciseArea').innerHTML=html;activateBox('ans_full');
-}
+/* Tablas nivel 1 */
+function gTabla(){
+  tabD.base=r(2,5);tabD.factor=r(2,10);tabD.res=tabD.base*tabD.factor;rendTabla();}
+function rendTabla(){
+  var b=tabD.base,f=tabD.factor,res=tabD.res;
+  exp={'tab_ans':String(res)};
+  var h='<div style="text-align:center;">';
+  h+='<div class="tab-ctx">'+(f>1?b+' x '+(f-1)+' = '+(b*(f-1)):'&nbsp;')+'</div>';
+  h+='<div class="tab-main" style="display:inline-box;display:inline-flex;">'+b+' x '+f+' = ';
+  h+='<div class="box full" id="tab_ans" onclick="actBox(\'tab_ans\')"></div></div>';
+  h+='<div class="tab-ctx" id="tab_next">'+b+' x '+(f+1)+' = ?</div>';
+  h+='</div>';
+  G('exArea').innerHTML=h;buildPadNext();actBox('tab_ans');}
 
-function renderDivPlantilla(dividendo,divisor,cociente,resto){
-  expectedAnswers={'ans_coc':String(cociente),'ans_res':String(resto)};
-  ayudaBase=divisor;
-  var strDiv=String(dividendo).split('');
-  var strCoc=String(cociente).split('');
-  var html='<div class="div-wrapper">';
-  html+='<div class="ayuda-btn" onclick="toggleAyuda()">Ayuda tablas</div>';
-  html+='<div class="div-top">';
-  html+='<span class="div-top-n">'+dividendo+'</span>';
-  html+='<span class="div-top-s">÷</span>';
-  html+='<span class="div-top-n" style="color:var(--g);">'+divisor+'</span>';
-  html+='<span class="div-top-eq">=</span>';
-  html+='<div class="box wide" id="ans_coc" onclick="activateBox(\'ans_coc\')"></div>';
-  html+='</div>';
-  html+='<div class="div-work"><div class="div-left">';
-  html+='<div class="div-digits">';
-  for(var i=0;i<strDiv.length;i++)html+='<div class="div-dbox">'+strDiv[i]+'</div>';
-  html+='</div>';
-  for(var j=0;j<strCoc.length;j++){
-    html+='<div class="div-calc-row"><span class="div-calc-label">'+(j===0?'x':'-')+'</span>';
-    for(var k=0;k<strDiv.length;k++)html+='<div class="div-calc-box">&nbsp;</div>';
-    html+='</div>';
-  }
-  html+='<div class="div-line-h"></div>';
-  html+='<div class="div-resto-row"><span class="div-resto-label">R =</span>';
-  html+='<div class="box wide" id="ans_res" onclick="activateBox(\'ans_res\')"></div></div>';
-  html+='</div>';
-  html+='<div class="div-right"><div class="div-right-num">'+divisor+'</div>';
-  html+='<div class="div-tabla-line"></div>';
-  html+='<div class="div-hint">pulsa<br>Ayuda</div>';
-  html+='</div></div></div>';
-  $('exerciseArea').innerHTML=html;activateBox('ans_coc');
-}
 
-// Panel ayuda tablas
-function toggleAyuda(){
-  var p=$('ayudaPanel');
-  if(p.className.indexOf('show')>-1){p.className='ayuda-panel';}
-  else{renderAyudaPanel();p.className='ayuda-panel show';}
-}
-function hideAyuda(){var p=$('ayudaPanel');if(p)p.className='ayuda-panel';}
-function ayudaNav(dir){
-  ayudaBase+=dir;if(ayudaBase<1)ayudaBase=10;if(ayudaBase>10)ayudaBase=1;
-  renderAyudaPanel();
-}
-function renderAyudaPanel(){
-  $('ayudaBaseNum').textContent=$('ayudaBaseDisplay').textContent=ayudaBase;
-  var html='';
-  for(var i=0;i<=10;i++)html+=ayudaBase+' x '+i+' = <b>'+(ayudaBase*i)+'</b><br>';
-  $('ayudaRows').innerHTML=html;
-}
+/* ============================================================
+   DIVISIONES
+   ============================================================ */
+function gDiv(l){
+  var dsr,coc,dvd,rst;
+  if(l===1){
+    dsr=r(2,4);coc=r(2,5);dvd=dsr*coc;
+    rendDiv1(dvd,dsr,coc);return;}
+  if(l===2){dsr=r(2,5);dvd=r(10,49);}
+  else if(l===3){dsr=r(2,9);dvd=r(20,99);}
+  else if(l===4){dsr=r(3,9);dvd=r(50,199);}
+  else{dsr=r(4,9);dvd=r(100,999);}
+  coc=Math.floor(dvd/dsr);rst=dvd%dsr;
+  rendDivN(dvd,dsr,coc,rst);}
 
-// ============================================================
-// OPERACIONES COMBINADAS — nueva UX
-//
-// La idea:
-// - comData.original = string del enunciado completo
-// - comData.steps = array de pasos
-// - Cada paso tiene:
-//     inst: 1/2/3 (qué regla aplica)
-//     label: texto de la fase ("1. Parentesis", etc.)
-//     tokens: array de tokens del enunciado en ese momento
-//       Cada token: { type:'num'/'op'/'par', text, parIdx (si es par) }
-//     parIdx: índice del paréntesis activo (null si no toca elegir)
-//     exp: resultado esperado del elemento activo
-//
-// Flujo:
-// 1. Se muestra enunciado original arriba (grande)
-// 2. Si el paso tiene paréntesis para elegir, se muestran resaltados y clickables
-// 3. Al tocar un paréntesis → aparece caja para escribir resultado
-// 4. OK correcto → enunciado sube como referencia gris, paso resuelto baja
-// 5. Siguiente paso: referencia anterior arriba, nueva expresión abajo
-// ============================================================
+/* División nivel 1 — plantilla PiruleTEA 4 cajas grandes */
+function rendDiv1(dvd,dsr,coc){
+  /* Solo el cociente es variable (división exacta: resto=0) */
+  exp={'d1_coc':String(coc),'d1_res':'0'};
+  ayudaB=dsr;
+  var h='<div style="text-align:center;margin-bottom:6px;">';
+  h+='<div class="ayuda-btn" onclick="openAyuda()">Ayuda tablas</div></div>';
+  h+='<div class="d1-wrap">';
+  /* Arriba izq: dividendo (azul, estático) */
+  h+='<div class="d1-cell">';
+  h+='<div class="d1-lbl dividendo">dividendo</div>';
+  h+='<div class="d1-box d1-dividendo">'+dvd+'</div></div>';
+  /* Arriba der: divisor (rojo, estático) */
+  h+='<div class="d1-cell">';
+  h+='<div class="d1-lbl divisor">divisor</div>';
+  h+='<div class="d1-box d1-divisor">'+dsr+'</div></div>';
+  /* Abajo izq: resto (amarillo, rellenable) */
+  h+='<div class="d1-cell">';
+  h+='<div class="d1-lbl resto">resto</div>';
+  h+='<div class="d1-box d1-resto" id="d1_res" onclick="actBox(\'d1_res\')"></div></div>';
+  /* Abajo der: cociente (verde, rellenable) */
+  h+='<div class="d1-cell">';
+  h+='<div class="d1-lbl cociente">cociente</div>';
+  h+='<div class="d1-box d1-cociente" id="d1_coc" onclick="actBox(\'d1_coc\')"></div></div>';
+  h+='</div>';
+  G('exArea').innerHTML=h;actBox('d1_coc');}
 
-// comData:
-// { original, steps:[], curr, refLine:'', tokens:[] }
-// step: { inst, label, expr (string), pars:[{start,end,inner,exp}], activeParIdx }
+/* Divisiones niveles 2-5 — plantilla columnas */
+function rendDivN(dvd,dsr,coc,rst){
+  exp={'ans_coc':String(coc),'dNres':String(rst)};
+  ayudaB=dsr;
+  var sd=String(dvd).split(''),sc=String(coc).split('');
+  var h='<div class="dN-wrap">';
+  h+='<div style="text-align:center;"><div class="ayuda-btn" onclick="openAyuda()">Ayuda tablas</div></div>';
+  h+='<div class="dN-top">';
+  h+='<span class="dN-n" style="color:var(--o);">'+dvd+'</span>';
+  h+='<span class="dN-n" style="color:var(--g);">&#247;</span>';
+  h+='<span class="dN-n" style="color:var(--g);">'+dsr+'</span>';
+  h+='<span class="dN-n">=</span>';
+  h+='<div class="box wide" id="ans_coc" onclick="actBox(\'ans_coc\')"></div></div>';
+  h+='<div class="dN-work"><div class="dN-left">';
+  h+='<div class="dN-digits">';
+  for(var i=0;i<sd.length;i++)h+='<div class="dN-dbox">'+sd[i]+'</div>';
+  h+='</div>';
+  for(var j=0;j<sc.length;j++){
+    h+='<div class="dN-calc-row"><span class="dN-clbl">'+(j===0?'x':'-')+'</span>';
+    for(var k=0;k<sd.length;k++)h+='<div class="dN-cbox">&nbsp;</div>';
+    h+='</div>';}
+  h+='<div class="dN-sep"></div>';
+  h+='<div class="dN-rrow"><span style="font-size:15px;font-weight:900;color:var(--o);margin-right:8px;">R =</span>';
+  h+='<div class="box wide" id="dNres" onclick="actBox(\'dNres\')"></div></div>';
+  h+='</div>';
+  h+='<div class="dN-right"><div class="dN-rnum">'+dsr+'</div>';
+  h+='<div class="dN-rline"></div>';
+  h+='<div class="dN-rhint">pulsa<br>Ayuda</div></div>';
+  h+='</div></div>';
+  G('exArea').innerHTML=h;actBox('ans_coc');}
 
-function genCom(lvl){
-  var steps=[];
-  var a,b,c,d,e,f;
+/* ── Ayuda tablas ── */
+function openAyuda(){rendAyuda();G('ayudaPanel').className='ayuda-panel show';}
+function closeAyuda(){G('ayudaPanel').className='ayuda-panel';}
+function ayudaNav(d){ayudaB+=d;if(ayudaB<1)ayudaB=10;if(ayudaB>10)ayudaB=1;rendAyuda();}
+function rendAyuda(){G('ayudaN').textContent=G('ayudaND').textContent=ayudaB;
+  var h='';for(var i=0;i<=10;i++)h+=ayudaB+' x '+i+' = <b>'+(ayudaB*i)+'</b><br>';
+  G('ayudaRows').innerHTML=h;}
 
-  if(lvl===1){
-    // 2+( 5-3 ) → solo 1 par, suma/resta, nums 1-8
-    a=rand(1,5);b=rand(4,8);c=rand(1,3);
-    var r1=b-c,r2=a+r1;
+/* ============================================================
+   COMBINADAS
+   
+   Regla: nunca divisiones.
+   Niveles 1-2: 1 paréntesis, +/−, números bajos.
+   Nivel 3: 1 par + multiplicación.
+   Nivel 4: 2 pars + multiplicación.
+   Nivel 5: 2 pars + 2 multiplicaciones.
+   
+   La pantalla muestra SIEMPRE:
+   
+   [enunciado original - gris - mismo font-size]
+   ···········································
+   [etiqueta fase pequeña izq]
+   [paso actual - negro - mismo font-size - con caja]
+   
+   El paso activo muestra el enunciado con el paréntesis
+   REEMPLAZADO por la caja blanca (no se muestra su contenido).
+   ============================================================ */
+function gCom(l){
+  var a,b,c,d,e,f,r1,r2,r3,r4,r5,steps=[];
+  if(l===1){
+    a=r(1,5);b=r(4,8);c=r(1,b-1); /* c < b para que b-c > 0 */
+    r1=b-c;r2=a+r1;
     steps=[
-      {inst:1,label:'1. Parentesis ( )',
-       expr:a+' + ( '+b+' - '+c+' )',
-       pars:[{inner:b+' - '+c,exp:String(r1)}]},
-      {inst:3,label:'3. Sumar y restar',
-       expr:a+' + '+r1,pars:[]},
-    ];
-    steps[1].exp=String(r2);
-  } else if(lvl===2){
-    a=rand(2,7);b=rand(5,12);c=rand(2,5);
-    var r1=b-c,r2=a+r1;
+      {lbl:'1. Parentesis ( )',orig:a+' + ('+b+'-'+c+')',
+       pre:a+' + ',parInner:b+'-'+c,post:'',ans:String(r1)},
+      {lbl:'3. Sumar',orig:a+' + '+r1,
+       pre:'',parInner:null,post:'',ans:String(r2),plain:true}];}
+  else if(l===2){
+    a=r(2,8);b=r(5,14);c=r(1,b-1);r1=b-c;r2=a+r1;
     steps=[
-      {inst:1,label:'1. Parentesis ( )',
-       expr:a+' + ( '+b+' - '+c+' )',
-       pars:[{inner:b+' - '+c,exp:String(r1)}]},
-      {inst:3,label:'3. Sumar y restar',expr:a+' + '+r1,pars:[],exp:String(r2)},
-    ];
-  } else if(lvl===3){
-    a=rand(1,5);b=rand(2,4);c=rand(4,9);d=rand(1,4);
-    var r1=c-d,r2=b*r1,r3=a+r2;
+      {lbl:'1. Parentesis ( )',orig:a+' + ('+b+'-'+c+')',
+       pre:a+' + ',parInner:b+'-'+c,post:'',ans:String(r1)},
+      {lbl:'3. Sumar',orig:a+' + '+r1,
+       pre:'',parInner:null,post:'',ans:String(r2),plain:true}];}
+  else if(l===3){
+    a=r(1,5);b=r(2,4);c=r(4,10);d=r(1,c-1);
+    r1=c-d;r2=b*r1;r3=a+r2;
     steps=[
-      {inst:1,label:'1. Parentesis ( )',
-       expr:a+' + '+b+' x ( '+c+' - '+d+' )',
-       pars:[{inner:c+' - '+d,exp:String(r1)}]},
-      {inst:2,label:'2. Multiplicar',expr:a+' + '+b+' x '+r1,pars:[],exp:String(r2),
-       activeOp:{pre:a+' + ',op:'x',left:String(b),right:String(r1),post:''}},
-      {inst:3,label:'3. Sumar y restar',expr:a+' + '+r2,pars:[],exp:String(r3)},
-    ];
-  } else if(lvl===4){
-    // dos paréntesis
-    a=rand(2,6);b=rand(1,4);c=rand(2,6);d=rand(3,8);e=rand(1,3);
-    var r1=b+c,r2=d-e,r3=a*r1+r2;
+      {lbl:'1. Parentesis ( )',orig:a+' + '+b+' x ('+c+'-'+d+')',
+       pre:a+' + '+b+' x ',parInner:c+'-'+d,post:'',ans:String(r1)},
+      {lbl:'2. Multiplicar',orig:a+' + '+b+' x '+r1,
+       pre:a+' + ',parInner:null,mulPre:b+' x ',mulPost:'',ans:String(r2)},
+      {lbl:'3. Sumar',orig:a+' + '+r2,
+       pre:'',parInner:null,mulPre:a+' + ',mulPost:'',ans:String(r3)}];}
+  else if(l===4){
+    a=r(2,5);b=r(1,4);c=r(2,5);d=r(3,8);e=r(1,d-1);
+    r1=b+c;r2=d-e;r3=a*r1;r4=r3+r2;
     steps=[
-      {inst:1,label:'1. Parentesis ( )',
-       expr:a+' x ( '+b+' + '+c+' ) + ( '+d+' - '+e+' )',
-       pars:[{inner:b+' + '+c,exp:String(r1)},{inner:d+' - '+e,exp:String(r2)}]},
-      {inst:2,label:'2. Multiplicar',expr:a+' x '+r1+' + '+r2,pars:[],exp:String(a*r1)},
-      {inst:3,label:'3. Sumar y restar',expr:(a*r1)+' + '+r2,pars:[],exp:String(r3)},
-    ];
-  } else {
-    // nivel 5: dos pars + dos multiplicaciones
-    a=rand(3,7);b=rand(2,5);c=rand(2,5);d=rand(4,9);e=rand(2,4);f=rand(2,5);
-    var r1=b+c,r2=d-e,r3=a*r1,r4=r2*f;
-    var r5=r3-r4;if(r5<0){f=1;r4=r2*f;r5=r3-r4;}
+      {lbl:'1. Parentesis 1',orig:a+' x ('+b+'+'+c+') + ('+d+'-'+e+')',
+       pre:a+' x ',parInner:b+'+'+c,post:' + ('+d+'-'+e+')',ans:String(r1)},
+      {lbl:'1. Parentesis 2',orig:a+' x '+r1+' + ('+d+'-'+e+')',
+       pre:a+' x '+r1+' + ',parInner:d+'-'+e,post:'',ans:String(r2)},
+      {lbl:'2. Multiplicar',orig:a+' x '+r1+' + '+r2,
+       pre:'',parInner:null,mulPre:a+' x ',mulPost:' + '+r2,ans:String(r3)},
+      {lbl:'3. Sumar',orig:r3+' + '+r2,
+       pre:'',parInner:null,mulPre:r3+' + ',mulPost:'',ans:String(r4)}];}
+  else{
+    a=r(3,6);b=r(2,5);c=r(2,5);d=r(4,9);e=r(1,d-1);f=r(2,4);
+    r1=b+c;r2=d-e;r3=a*r1;r4=r2*f;r5=r3-r4;
+    if(r5<0){r5=r3;r4=0;f=0;}
     steps=[
-      {inst:1,label:'1. Parentesis ( )',
-       expr:a+' x ( '+b+' + '+c+' ) - ( '+d+' - '+e+' ) x '+f,
-       pars:[{inner:b+' + '+c,exp:String(r1)},{inner:d+' - '+e,exp:String(r2)}]},
-      {inst:2,label:'2. Multiplicar (x'+a+')',expr:a+' x '+r1+' - '+r2+' x '+f,pars:[],exp:String(r3)},
-      {inst:2,label:'2. Multiplicar (x'+f+')',expr:r3+' - '+r2+' x '+f,pars:[],exp:String(r4)},
-      {inst:3,label:'3. Restar',expr:r3+' - '+r4,pars:[],exp:String(r5)},
-    ];
+      {lbl:'1. Parentesis 1',orig:a+' x ('+b+'+'+c+') - ('+d+'-'+e+') x '+f,
+       pre:a+' x ',parInner:b+'+'+c,post:' - ('+d+'-'+e+') x '+f,ans:String(r1)},
+      {lbl:'1. Parentesis 2',orig:a+' x '+r1+' - ('+d+'-'+e+') x '+f,
+       pre:a+' x '+r1+' - ',parInner:d+'-'+e,post:' x '+f,ans:String(r2)},
+      {lbl:'2. Mult x'+a,orig:a+' x '+r1+' - '+r2+' x '+f,
+       pre:'',parInner:null,mulPre:a+' x ',mulPost:' - '+r2+' x '+f,ans:String(r3)},
+      {lbl:'2. Mult x'+f,orig:r3+' - '+r2+' x '+f,
+       pre:'',parInner:null,mulPre:r2+' x ',mulPost:'',ans:String(r4)},
+      {lbl:'3. Restar',orig:r3+' - '+r4,
+       pre:'',parInner:null,mulPre:r3+' - ',mulPost:'',ans:String(r5)}];}
+
+  var origStr=steps[0].orig;
+  comD={steps:steps,curr:0,refLine:origStr};
+  comOn=true;rendCom();}
+
+function rendCom(){
+  var step=comD.steps[comD.curr];
+  exp={'com_ans':step.ans};
+
+  var BOX='<div class="com-box" id="com_ans" onclick="actBox(\'com_ans\')"></div>';
+  var stepHtml;
+  if(step.parInner!==null){
+    /* Paréntesis: pre + ( [caja] ) + post */
+    stepHtml=step.pre+'( '+BOX+' )'+step.post;
+  }else if(step.mulPre!==null&&step.mulPre!==undefined){
+    /* Multiplicación/suma/resta: mulPre + [caja] + mulPost */
+    stepHtml=step.mulPre+BOX+step.mulPost;
+  }else{
+    /* Fallback: orig + = + caja */
+    stepHtml=step.orig+' = '+BOX;
   }
 
-  comData={steps:steps,curr:0,refLine:'',activeParIdx:null};
-  comInProgress=true;
-  renderComStep();
-}
+  var h='<div class="com-wrap">';
+  /* Línea 1: referencia gris */
+  h+='<div class="com-line ref">'+comD.refLine+'</div>';
+  h+='<div class="com-sep"></div>';
+  /* Etiqueta + paso en la MISMA línea visual:
+     usamos un wrapper flex con la etiqueta a la izquierda y la expresión centrada */
+  h+='<div style="display:-webkit-box;display:-webkit-flex;display:flex;';
+  h+='-webkit-box-align:center;-webkit-align-items:center;align-items:center;';
+  h+='-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;';
+  h+='width:100%;position:relative;">';
+  /* Etiqueta absoluta a la izquierda */
+  h+='<div style="position:absolute;left:0;top:50%;margin-top:-16px;">';
+  h+='<div class="com-lbl">'+step.lbl+'</div></div>';
+  /* Expresión centrada */
+  h+='<div class="com-line act">'+stepHtml+'</div>';
+  h+='</div>';
+  h+='</div>';
+  G('exArea').innerHTML=h;actBox('com_ans');}
 
-function renderComStep(){
-  var step=comData.steps[comData.curr];
-  var html='<div class="com-wrap">';
+/* ============================================================
+   RENDERIZADORES BASE (horizontal / vertical)
+   ============================================================ */
+function rendH(a,b,sign,res){
+  exp={'full':String(res)};
+  var h='<div class="h-row">'+a+' '+sign+' '+b+' = ';
+  h+='<div class="box full" id="full" onclick="actBox(\'full\')"></div></div>';
+  G('exArea').innerHTML=h;scaleToFit();actBox('full');}
 
-  // Línea de referencia (enunciado original o paso anterior resuelto)
-  if(comData.refLine){
-    html+='<div class="com-line ref">'+comData.refLine+'</div>';
-    html+='<div class="com-sep"></div>';
-  }
+function rendV(a,b,sign,res){
+  var sA=String(a).split('').reverse(),sB=String(b).split('').reverse();
+  var sR=String(res).split('').reverse(),cols=sR.length;
+  for(var i=0;i<sR.length;i++)exp['ans_'+i]=sR[i];
+  /* Fila carries: sobre cada columna donde A tiene dígito, NUNCA en unidades (c=0) */
+  var h='<table class="vt"><tr><td></td>';
+  for(var c=cols-1;c>=0;c--){
+    if(c>=1&&sA[c]!==undefined&&sA[c]!=='')
+      h+='<td><div class="box carry" id="cy'+c+'" onclick="actBox(\'cy'+c+'\')">&nbsp;</div></td>';
+    else
+      h+='<td></td>';}
+  h+='</tr><tr><td></td>';
+  for(var c=cols-1;c>=0;c--)h+='<td style="color:'+vc(c)+'">'+(sA[c]||'')+'</td>';
+  h+='</tr><tr class="vt-line"><td class="vt-sign">'+sign+'</td>';
+  for(var c=cols-1;c>=0;c--)h+='<td style="color:'+vc(c)+'">'+(sB[c]||'')+'</td>';
+  h+='</tr><tr><td></td>';
+  for(var c=cols-1;c>=0;c--)h+='<td><div class="box" id="ans_'+c+'" onclick="actBox(\'ans_'+c+'\')">&nbsp;</div></td>';
+  h+='</tr></table>';
+  G('exArea').innerHTML=h;
+  scaleToFit();
+  actBox('ans_0');}
+function vc(i){if(i===0)return'var(--col-u)';if(i===1)return'var(--col-d)';if(i===2)return'var(--col-c)';if(i===3)return'var(--col-um)';return'var(--text)';}
 
-  // Etiqueta de fase (a la izquierda del paso)
-  html+='<div class="com-phase-label">'+step.label+'</div>';
+/* Escala el contenido del ex-area para que quepa siempre */
+function scaleToFit(){
+  var area=G('exArea');
+  var child=area.firstElementChild;
+  if(!child)return;
+  /* Reset escala previa */
+  child.style.webkitTransform='scale(1)';
+  child.style.transform='scale(1)';
+  child.style.webkitTransformOrigin='center center';
+  child.style.transformOrigin='center center';
+  /* Medir espacio disponible vs tamaño del contenido */
+  var aw=area.offsetWidth-24, ah=area.offsetHeight-24;
+  var cw=child.offsetWidth,   ch=child.offsetHeight;
+  if(cw<=0||ch<=0)return;
+  var scaleW=aw/cw, scaleH=ah/ch;
+  var scale=Math.min(scaleW,scaleH,1); /* nunca ampliar, solo reducir */
+  if(scale<0.98){
+    child.style.webkitTransform='scale('+scale+')';
+    child.style.transform='scale('+scale+')';}}
 
-  // Si el paso tiene paréntesis para resolver:
-  if(step.pars && step.pars.length>0){
-    // Aún no se ha tocado ningún paréntesis → mostrarlos todos resaltados y clickables
-    if(comData.activeParIdx===null){
-      expectedAnswers={};
-      html+=buildComLineWithPars(step.expr,step.pars,null,false);
-      if(step.pars.length>1){
-        html+='<div style="font-size:16px;font-weight:800;color:var(--g);margin-top:8px;">Toca el parentesis que quieres resolver</div>';
-      }else{
-        // 1 solo par: activar directamente
-        html+='</div>';
-        $('exerciseArea').innerHTML=html;
-        comSelectPar(0);return;
-      }
-    } else {
-      // Un paréntesis seleccionado → mostrar línea con caja en ese par
-      var parObj=step.pars[comData.activeParIdx];
-      expectedAnswers={'ans_full':parObj.exp};
-      html+=buildComLineWithPars(step.expr,step.pars,comData.activeParIdx,true);
-    }
-  } else {
-    // Paso sin paréntesis: expresión directa con caja
-    expectedAnswers={'ans_full':step.exp};
-    html+='<div class="com-line">'+step.expr+' = <div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div></div>';
-  }
+/* ============================================================
+   COMPROBACIÓN
+   ============================================================ */
+function checkAll(){
+  var ok=true;
+  for(var key in exp){
+    var b=G(key);if(!b){ok=false;continue;}
+    var v=b.textContent.replace(/\s/g,'');
+    if(v!==exp[key]){
+      ok=false;
+      (function(bx){var oc=bx.className.replace(/ err/g,'');
+        bx.className=oc+' err';
+        setTimeout(function(){bx.className=oc;},520);})(b);
+    }else{b.className=b.className.replace(/ ok/g,'')+' ok';}}
 
-  html+='</div>';
-  $('exerciseArea').innerHTML=html;
-
-  if(comData.activeParIdx!==null || (step.pars&&step.pars.length===0)){
-    activateBox('ans_full');
-  }
-}
-
-// Construye la línea de la expresión con los paréntesis resaltados/clickables
-// selectedIdx: índice del par seleccionado (null = todos clickables)
-// showBox: si true, el par seleccionado se reemplaza por la caja
-function buildComLineWithPars(expr,pars,selectedIdx,showBox){
-  // Localizar los paréntesis en el string y sustituirlos por spans/cajas
-  var result=expr;
-  // Hacemos la sustitución de atrás hacia adelante para no desplazar índices
-  // Buscamos '( inner )' para cada par
-  var html='<div class="com-line">';
-  // Trabajamos token a token: buscamos ( ... ) en el expr
-  var remaining=expr;
-  var parFoundIdx=0;
-  var out='';
-  var i=0;
-  while(i<remaining.length){
-    if(remaining[i]==='('){
-      var close=remaining.indexOf(')',i);
-      if(close>-1){
-        var inner=remaining.substring(i+1,close); // incluye espacios
-        var pIdx=parFoundIdx;parFoundIdx++;
-        var isSelected=(selectedIdx===pIdx);
-        var isDone=(selectedIdx!==null&&pIdx<selectedIdx);
-        if(showBox&&isSelected){
-          // Reemplazar por la caja
-          out+='<div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div>';
-        } else if(isDone){
-          // Paréntesis ya resuelto: gris
-          out+='<span class="com-tok par-done">( '+inner.trim()+' )</span>';
-        } else {
-          // Paréntesis pendiente: naranja, clickable
-          out+='<span class="com-par-block'+(isSelected?' selected':'')+'" onclick="comSelectPar('+pIdx+')"><span class="com-tok par-active">( '+inner.trim()+' )</span></span>';
-        }
-        i=close+1;
-      } else {i++;out+=remaining[i-1];}
-    } else {out+=remaining[i];i++;}
-  }
-  html+=out+'</div>';
-  return html;
-}
-
-// El usuario toca un paréntesis
-function comSelectPar(pIdx){
-  comData.activeParIdx=pIdx;
-  renderComStep();
-}
-
-// ============================================================
-// CHECK
-// ============================================================
-function checkAnswers(){
-  var allOk=true;
-  for(var key in expectedAnswers){
-    var box=$(key);if(!box){allOk=false;continue;}
-    var val=box.textContent.replace(/\s/g,'');
-    if(val!==expectedAnswers[key]){
-      allOk=false;
-      (function(b){
-        var oc=b.className.replace(/ error/g,'');
-        b.className=oc+' error';
-        setTimeout(function(){b.className=oc;},520);
-      })(box);
-    }else{box.className=box.className.replace(/ success/g,'')+' success';}
-  }
-  if(allOk){
-    flashScreen('green');showStar();throwConfetti();
-    if(!comInProgress)addPoint();
+  if(ok){
+    flash('green');showStar();confetti();
+    if(!comOn)addPt();
     setTimeout(function(){
-      if(currentTag==='MUL'&&currentLevel===1){
-        var nxt=$('tab_next');
-        if(nxt)nxt.textContent=tablaData.base+' x '+(tablaData.factor+1)+' = '+(tablaData.base*(tablaData.factor+1));
-      } else if(comInProgress){
-        advanceCom();
-      } else {
-        generateExercise();
-      }
+      if(tag==='MUL'&&lvl===1){
+        /* Tablas: mostrar siguiente */
+        var nx=G('tab_next');
+        if(nx)nx.textContent=tabD.base+' x '+(tabD.factor+1)+' = '+(tabD.base*(tabD.factor+1));
+      }else if(comOn){
+        advCom();
+      }else{genEx();}
     },1200);
-  }else{flashScreen('red');}
-}
+  }else{flash('red');}}
 
-function advanceCom(){
-  var step=comData.steps[comData.curr];
-
-  if(step.pars&&step.pars.length>0&&comData.activeParIdx!==null){
-    // Hemos resuelto un paréntesis: sustituirlo en la expr y ver si quedan más
-    var parObj=step.pars[comData.activeParIdx];
-    // Reemplazar '( inner )' por el resultado en el expr
-    var inner=parObj.inner;
-    step.expr=step.expr.replace('( '+inner+' )',parObj.exp);
-    // Marcar ese par como hecho (lo eliminamos del array)
-    step.pars.splice(comData.activeParIdx,1);
-    comData.activeParIdx=null;
-    if(step.pars.length>0){
-      // Quedan más paréntesis en este paso
-      renderComStep();return;
-    }
-    // Todos los paréntesis de este paso resueltos: guardar como refLine y avanzar
-    comData.refLine=step.expr;
-    comData.curr++;
-  } else {
-    // Paso sin paréntesis completado
-    comData.refLine=step.expr+' = '+step.exp;
-    comData.curr++;
+function advCom(){
+  var step=comD.steps[comD.curr];
+  if(step.parInner!==null){
+    /* Reemplazar (inner) por el resultado en el refLine */
+    var old='('+step.parInner+')';
+    comD.refLine=comD.refLine.replace(old,step.ans);
+  }else if(step.mulPre!==null&&step.mulPre!==undefined){
+    /* El resultado reemplaza la sub-expresión: mulPre+resultado+mulPost */
+    /* Buscamos mulPre+[número]+mulPost en el refLine y lo reemplazamos */
+    /* Simplificado: el refLine ya es el orig del paso, lo actualizamos directo */
+    comD.refLine=step.mulPre+step.ans+step.mulPost;
+  }else{
+    comD.refLine=step.orig+' = '+step.ans;
   }
+  comD.curr++;
+  if(comD.curr<comD.steps.length){
+    rendCom();
+  }else{
+    comOn=false;addPt();
+    setTimeout(function(){genEx();},600);}}
 
-  if(comData.curr<comData.steps.length){
-    comData.activeParIdx=null;
-    renderComStep();
-  } else {
-    comInProgress=false;addPoint();
-    setTimeout(function(){generateExercise();},600);
-  }
-}
-
-// ============================================================
-// RENDERIZADORES BASE
-// ============================================================
-function renderHoriz(a,b,sign,res){
-  expectedAnswers={'ans_full':String(res)};
-  var html='<div class="huge-row">'+a+' '+sign+' '+b+' = ';
-  html+='<div class="box full" id="ans_full" onclick="activateBox(\'ans_full\')"></div></div>';
-  $('exerciseArea').innerHTML=html;activateBox('ans_full');
-}
-function renderVertical(a,b,sign,res){
-  var strA=String(a).split('').reverse(),strB=String(b).split('').reverse();
-  var strR=String(res).split('').reverse(),cols=strR.length;
-  for(var i=0;i<strR.length;i++)expectedAnswers['ans_'+i]=strR[i];
-  var html='<table class="math-table"><tr><td></td>';
-  for(var c=cols-1;c>=0;c--){
-    if(c===0)html+='<td></td>';
-    else html+='<td><div class="box carry" id="carry_'+c+'" onclick="activateBox(\'carry_'+c+'\')">&nbsp;</div></td>';
-  }
-  html+='</tr><tr><td></td>';
-  for(var c=cols-1;c>=0;c--)html+='<td style="color:'+colColor(c)+'">'+(strA[c]||'')+'</td>';
-  html+='</tr><tr class="line-bottom"><td class="op-sign">'+sign+'</td>';
-  for(var c=cols-1;c>=0;c--)html+='<td style="color:'+colColor(c)+'">'+(strB[c]||'')+'</td>';
-  html+='</tr><tr><td></td>';
-  for(var c=cols-1;c>=0;c--)html+='<td><div class="box" id="ans_'+c+'" onclick="activateBox(\'ans_'+c+'\')">&nbsp;</div></td>';
-  html+='</tr></table>';
-  $('exerciseArea').innerHTML=html;activateBox('ans_0');
-}
-function colColor(i){
-  if(i===0)return 'var(--col-u)';if(i===1)return 'var(--col-d)';
-  if(i===2)return 'var(--col-c)';return 'var(--text)';
-}
-
-// ============================================================
-// FEEDBACK
-// ============================================================
-function flashScreen(color){
-  var ov=$('flashOv');ov.className='flash-ov '+color+' show';
-  setTimeout(function(){ov.className='flash-ov '+color;},320);
-}
-function showStar(){
-  var el=document.createElement('div');el.className='star-pop';el.textContent='*';
-  document.body.appendChild(el);
-  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},800);
-}
-function throwConfetti(){
-  var colors=['#FF5C93','#7C5CE8','#22C97A','#3498db','#f1c40f','#FF7675'];
-  for(var i=0;i<38;i++){
-    var cf=document.createElement('div');cf.className='cfp';
+/* ── EFECTOS ── */
+function flash(c){var ov=G('fov');ov.className='flash-ov '+c+' show';
+  setTimeout(function(){ov.className='flash-ov '+c;},320);}
+function showStar(){var el=document.createElement('div');el.className='star-pop';
+  el.textContent='*';document.body.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},700);}
+function confetti(){var cs=['#FF5C93','#7C5CE8','#22C97A','#3498db','#f1c40f','#FF7675'];
+  for(var i=0;i<36;i++){var cf=document.createElement('div');cf.className='cfp';
     cf.style.left=(Math.random()*100)+'vw';
-    cf.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+    cf.style.backgroundColor=cs[Math.floor(Math.random()*cs.length)];
     cf.style.animationDuration=(Math.random()*1.5+1.5)+'s';
     cf.style.animationDelay=(Math.random()*0.5)+'s';
     document.body.appendChild(cf);
-    (function(c){setTimeout(function(){if(c.parentNode)c.parentNode.removeChild(c);},3600);})(cf);
-  }
-}
-function showPtsPopup(txt){
-  var el=document.createElement('div');el.className='pts-pop';el.textContent=txt;
-  document.body.appendChild(el);
-  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1500);
-}
+    (function(c2){setTimeout(function(){if(c2.parentNode)c2.parentNode.removeChild(c2);},3600);})(cf);}}
+function showPts(txt){var el=document.createElement('div');el.className='pts-pop';
+  el.textContent=txt;document.body.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1500);}
 </script>
 </body>
 </html>
