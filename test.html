@@ -1,334 +1,1283 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1024, height=768, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sudoku Kids - iOS Modern UI</title>
-    <style>
-        /* ==========================================================================
-           1. BASE Y TIPOGRAFÍA APPLE
-           ========================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="UTF-8">
 
-        body {
-            /* Pila tipográfica nativa de Apple. Busca SF Pro Rounded si está disponible */
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Helvetica Rounded", Arial, sans-serif;
-            background-color: #F2F2F7; /* Gris fondo de sistema iOS */
-            color: #1C1C1E;
-            padding: 40px;
-            -webkit-font-smoothing: antialiased;
-        }
+<!-- iPad 1 full-screen web app meta tags -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sudoku Kids">
+<meta name="format-detection" content="telephone=no">
 
-        .presentation-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+<!-- Preconnect + fuentes con fallback seguro -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap">
 
-        .section-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #000000;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
+<title>Sudoku Kids — Olivia &amp; Gala</title>
 
-        .section-desc {
-            font-size: 17px;
-            color: #8E8E93;
-            margin-bottom: 30px;
-            line-height: 1.4;
-        }
+<style>
 
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: #C6C6C8;
-            margin: 50px 0;
-        }
+/* ════════════════════════════════════════════════
+   VARIABLES — paleta idéntica al original
+   ════════════════════════════════════════════════ */
+:root {
+  --bg:      #EDF4FF;
+  --surface: rgba(255,255,255,0.72);
+  --s-bord:  rgba(255,255,255,0.90);
+  --s-shad:  0 2px 0 rgba(255,255,255,0.95) inset, 0 10px 28px rgba(100,140,220,0.14), 0 2px 6px rgba(100,140,220,0.10);
+  --cell-bg: #E8EBF5;
+  --cell-hi: rgba(190,210,255,0.55);
 
-        /* ==========================================================================
-           2. COMPONENTES DEL TABLERO (FLEX MATRIZ INDESTRUCTIBLE)
-           ========================================================================== */
-        .ipad-frame {
-            background: #FFFFFF;
-            border-radius: 32px;
-            padding: 40px;
-            display: -webkit-flex;
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.04), 0 2px 10px rgba(0,0,0,0.02);
-            margin-bottom: 40px;
-        }
+  --t1-a:#FFE566;--t1-b:#FFD60A;--t1-s:#C9A000;--t1-txt:#7A5800;
+  --t2-a:#72EC8E;--t2-b:#30C85A;--t2-s:#1A8A3C;--t2-txt:#0A4D1E;
+  --t3-a:#FF7A99;--t3-b:#FF2D55;--t3-s:#C01038;--t3-txt:#7A001F;
+  --t4-a:#62CCFF;--t4-b:#30A8E6;--t4-s:#1070AA;--t4-txt:#063D60;
+  --t5-a:#CF80FF;--t5-b:#AA50DE;--t5-s:#7820AC;--t5-txt:#420866;
+  --t6-a:#FFBA50;--t6-b:#FF9500;--t6-s:#C06800;--t6-txt:#7A3800;
+  --t7-a:#50E8DF;--t7-b:#00C4BB;--t7-s:#008880;--t7-txt:#004844;
+  --t8-a:#FF9898;--t8-b:#FF5555;--t8-s:#C82828;--t8-txt:#801010;
+  --t9-a:#8886FF;--t9-b:#5654E8;--t9-s:#3028B0;--t9-txt:#180E6A;
 
-        /* El contenedor del tablero. Fondo gris suave donde "encajan" las fichas */
-        .board-wrapper {
-            background-color: #E5E5EA; 
-            padding: 8px;
-            border-radius: 28px; /* Squircle */
-            width: 540px;
-            height: 540px;
-            display: -webkit-flex;
-            display: flex;
-            flex-direction: column; /* Apila las filas */
-        }
+  --font: 'Nunito', -apple-system, 'Helvetica Neue', sans-serif;
+}
 
-        /* Fila estricta. Imposible que se desmonte */
-        .board-row {
-            display: -webkit-flex;
-            display: flex;
-            flex-direction: row;
-            flex: 1; /* Ocupa el espacio vertical disponible equitativamente */
-        }
+/* ════════════════════════════════════════════════
+   RESET & BASE — compatible con Safari iOS 5
+   ════════════════════════════════════════════════ */
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0; padding: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
 
-        /* Ficha blanca nativa */
-        .cell {
-            flex: 1; /* Ocupa el espacio horizontal equitativamente */
-            background-color: #FFFFFF;
-            border-radius: 12px;
-            margin: 4px; /* Espaciado vital. Elimina la necesidad de bordes */
-            display: -webkit-flex;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        }
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: var(--font);
+  background-color: var(--bg);
+  /* Gradiente de fondo — sin mesh complejo para rendimiento iPad 1 */
+  background-image:
+    -webkit-radial-gradient(15% 5%, ellipse 65% 55%, #D6E9FF 0%, transparent 60%),
+    -webkit-radial-gradient(85% 95%, ellipse 55% 60%, #DCF5EC 0%, transparent 55%),
+    -webkit-radial-gradient(50% 50%, ellipse 80% 80%, #F2FAFF 0%, transparent 100%);
+  background-image:
+    radial-gradient(ellipse 65% 55% at 15% 5%, #D6E9FF 0%, transparent 60%),
+    radial-gradient(ellipse 55% 60% at 85% 95%, #DCF5EC 0%, transparent 55%),
+    radial-gradient(ellipse 80% 80% at 50% 50%, #F2FAFF 0%, transparent 100%);
+}
 
-        /* Celdas interactivas (vacías) */
-        .cell.empty {
-            background-color: #F2F2F7;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-        }
+/* ════════════════════════════════════════════════
+   SHELL — flexbox con prefijos webkit
+   Landscape: 1024×768, con safe-area por status bar
+   ════════════════════════════════════════════════ */
+.shell {
+  width: 100%; height: 100%;
+  /* Padding superior para compensar status bar translúcida (≈20px)
+     y márgenes de seguridad en todos los lados */
+  padding: 24px 16px 16px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  gap: 12px;
+  /* fallback gap para Safari antiguo */
+}
+/* Safari < 8 no entiende gap en flex — usamos margin en hijos */
+.shell > * + * { margin-top: 12px; }
 
-        /* Tipografía de los números */
-        .cell .digit {
-            font-weight: 800;
-            line-height: 1;
-            color: #1C1C1E;
-        }
+/* ════════════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════════════ */
+.header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
+  height: 64px;
+}
 
-        .cell .dots {
-            font-weight: 800;
-            color: #AEAEB2;
-            letter-spacing: 3px;
-            margin-top: 4px;
-        }
+/* ── Perfiles ── */
+.profiles {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  gap: 8px;
+}
+.profiles > * + * { margin-left: 8px; }
 
-        /* ==========================================================================
-           3. COLORES DISCALCULIA (Vibrantes pero pastel, fondo completo)
-           ========================================================================== */
-        .c-1 { background-color: #FFD60A; } /* Amarillo iOS */
-        .c-2 { background-color: #32ADE6; color: #FFF;} /* Azul Cyan iOS */
-        .c-3 { background-color: #FF375F; color: #FFF;} /* Rosa iOS */
-        .c-4 { background-color: #34C759; color: #FFF;} /* Verde iOS */
-        .c-5 { background-color: #AF52DE; color: #FFF;} /* Morado iOS */
-        .c-6 { background-color: #FF9500; color: #FFF;} /* Naranja iOS */
+.profile {
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 900;
+  color: #BEBEC8;
+  background: transparent;
+  border: 2px solid transparent;
+  -webkit-transition: all 0.18s ease;
+          transition: all 0.18s ease;
+  letter-spacing: 0.2px;
+  /* Touch target mínimo 44×44 recomendado por Apple */
+  min-height: 44px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.profile.active {
+  color: #1C1C1E;
+  background: var(--surface);
+  border-color: var(--s-bord);
+  -webkit-box-shadow: var(--s-shad);
+          box-shadow: var(--s-shad);
+}
+.profile-sep {
+  width: 2px; height: 26px;
+  background: rgba(0,0,0,0.10);
+  border-radius: 999px;
+  margin-left: 4px; margin-right: 4px;
+}
 
-        .c-1 .digit, .c-2 .digit, .c-3 .digit, .c-4 .digit, .c-5 .digit, .c-6 .digit {
-            color: inherit; /* Hereda el blanco o negro para contraste */
-        }
+/* ── Selector de nivel ── */
+.level-selector {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  background: var(--surface);
+  border: 1.5px solid var(--s-bord);
+  border-radius: 999px;
+  padding: 8px 14px;
+  -webkit-box-shadow: var(--s-shad);
+          box-shadow: var(--s-shad);
+  gap: 4px;
+}
+.level-selector > * + * { margin-left: 4px; }
 
-        /* ==========================================================================
-           4. LÓGICA DE AGRUPACIÓN (ESPACIO NEGATIVO)
-           En lugar de bordes negros, usamos un margen extra para separar bloques
-           ========================================================================== */
+.level-label {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 900;
+  color: #8E8E93;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-right: 6px;
+}
 
-        /* --- NIVEL 5 & 4: 9x9 --- */
-        .grid-9x9 .cell { border-radius: 8px; margin: 2px; }
-        .grid-9x9 .cell .digit { font-size: 28px; }
-        .grid-9x9 .cell .dots { display: none; }
-        
-        /* Separadores de bloques de 3x3 usando márgenes (Espacio negativo) */
-        .grid-9x9 .board-row:nth-child(3), 
-        .grid-9x9 .board-row:nth-child(6) { margin-bottom: 6px; }
-        .grid-9x9 .cell:nth-child(3), 
-        .grid-9x9 .cell:nth-child(6) { margin-right: 6px; }
+.lvl-pip {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 900;
+  color: #8E8E93;
+  background: rgba(0,0,0,0.05);
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.18s ease, background 0.15s, color 0.15s;
+          transition: transform 0.18s ease, background 0.15s, color 0.15s;
+}
+.lvl-pip.active {
+  background: -webkit-linear-gradient(top, #4DB8FF, #007AFF);
+  background: linear-gradient(180deg, #4DB8FF, #007AFF);
+  color: #fff;
+  -webkit-box-shadow: 0 4px 0 #004DC7, 0 6px 12px rgba(0,100,255,0.30);
+          box-shadow: 0 4px 0 #004DC7, 0 6px 12px rgba(0,100,255,0.30);
+  -webkit-transform: scale(1.14);
+          transform: scale(1.14);
+}
 
-        /* --- NIVEL 3: 6x6 --- */
-        .grid-6x6 .cell { border-radius: 12px; margin: 3px; }
-        .grid-6x6 .cell .digit { font-size: 40px; }
-        .grid-6x6 .cell .dots { font-size: 14px; margin-top: 6px; }
-        
-        /* Cajas de 3x2 (3 ancho x 2 alto) */
-        .grid-6x6 .board-row:nth-child(2), 
-        .grid-6x6 .board-row:nth-child(4) { margin-bottom: 8px; }
-        .grid-6x6 .cell:nth-child(3) { margin-right: 8px; }
+/* ── Puntos ── */
+.pts-badge {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1.5px solid var(--s-bord);
+  border-radius: 999px;
+  padding: 10px 20px;
+  -webkit-box-shadow: var(--s-shad);
+          box-shadow: var(--s-shad);
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 900;
+  color: #1C1C1E;
+  white-space: nowrap;
+}
+.pts-star { font-size: 22px; margin-right: 2px; }
 
-        /* --- NIVEL 2: 4x4 --- */
-        .grid-4x4 .cell { border-radius: 16px; margin: 4px; }
-        .grid-4x4 .cell .digit { font-size: 60px; }
-        .grid-4x4 .cell .dots { font-size: 20px; margin-top: 8px; }
-        
-        /* Cajas de 2x2 */
-        .grid-4x4 .board-row:nth-child(2) { margin-bottom: 12px; }
-        .grid-4x4 .cell:nth-child(2) { margin-right: 12px; }
+/* ════════════════════════════════════════════════
+   CONTENT — fila principal
+   ════════════════════════════════════════════════ */
+.content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  gap: 14px;
+  min-height: 0;
+  overflow: hidden;
+}
+.content > * + * { margin-left: 14px; }
 
-        /* --- NIVEL 1: 3x3 --- */
-        .grid-3x3 .cell { border-radius: 20px; margin: 6px; }
-        .grid-3x3 .cell .digit { font-size: 80px; }
-        .grid-3x3 .cell .dots { font-size: 24px; margin-top: 12px; }
+/* ════════════════════════════════════════════════
+   BOARD
+   ════════════════════════════════════════════════ */
+.board-area {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
 
+.board-shell {
+  background: var(--surface);
+  border: 2px solid var(--s-bord);
+  border-radius: 28px;
+  padding: 16px;
+  -webkit-box-shadow: inset 0 3px 0 rgba(255,255,255,0.95), 0 20px 50px rgba(80,120,200,0.15), 0 4px 12px rgba(80,120,200,0.08);
+          box-shadow: inset 0 3px 0 rgba(255,255,255,0.95), 0 20px 50px rgba(80,120,200,0.15), 0 4px 12px rgba(80,120,200,0.08);
+}
 
-        /* ==========================================================================
-           5. SIDEBAR MOCKUP
-           ========================================================================== */
-        .mock-sidebar {
-            flex: 1;
-            display: -webkit-flex;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .badge {
-            align-self: flex-start;
-            background-color: #E5E5EA;
-            color: #8E8E93;
-            font-size: 13px;
-            font-weight: 800;
-            padding: 6px 14px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-        .instruction {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1C1C1E;
-            line-height: 1.3;
-        }
-    </style>
+.board-grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+}
+.board-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+/* ── Celdas ── */
+.cell {
+  background: var(--cell-bg);
+  border: 2px solid rgba(255,255,255,0.85);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  position: relative;
+  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,0.08), inset 0 1px 3px rgba(0,0,0,0.05);
+          box-shadow: inset 0 3px 7px rgba(0,0,0,0.08), inset 0 1px 3px rgba(0,0,0,0.05);
+  cursor: pointer;
+  -webkit-transition: background 0.12s ease;
+          transition: background 0.12s ease;
+}
+.cell.empty:active { background: var(--cell-hi); }
+.cell.selected     { background: rgba(0,122,255,0.12); border-color: #007AFF; -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,0.06), 0 0 0 2px #007AFF; box-shadow: inset 0 3px 7px rgba(0,0,0,0.06), 0 0 0 2px #007AFF; }
+.cell.highlighted  { background: rgba(0,122,255,0.06); }
+.cell.same-num     { background: rgba(0,122,255,0.12); }
+
+.cell.conflict-flash { -webkit-animation: conflictPulse 0.5s ease forwards; animation: conflictPulse 0.5s ease forwards; }
+.cell.correct-flash  { -webkit-animation: correctPulse  0.4s ease forwards; animation: correctPulse  0.4s ease forwards; }
+.cell.hint-glow      { -webkit-animation: hintGlow      1.1s ease forwards; animation: hintGlow      1.1s ease forwards; }
+
+/* ── Fichas ── */
+.tile {
+  position: absolute;
+  top: 2px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  font-family: var(--font);
+  font-weight: 900;
+  -webkit-transition: -webkit-transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+          transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+}
+.tile.given   { cursor: default; -webkit-animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+.tile.user    { opacity: 0.92; -webkit-animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both; animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both; }
+.tile.hint-peek { opacity: 0.55; cursor: default; }
+
+/* ── Colores de fichas ── */
+.t1{background:-webkit-linear-gradient(top,var(--t1-a),var(--t1-b));background:linear-gradient(180deg,var(--t1-a),var(--t1-b));color:var(--t1-txt);--tshadow:var(--t1-s);}
+.t2{background:-webkit-linear-gradient(top,var(--t2-a),var(--t2-b));background:linear-gradient(180deg,var(--t2-a),var(--t2-b));color:var(--t2-txt);--tshadow:var(--t2-s);}
+.t3{background:-webkit-linear-gradient(top,var(--t3-a),var(--t3-b));background:linear-gradient(180deg,var(--t3-a),var(--t3-b));color:var(--t3-txt);--tshadow:var(--t3-s);}
+.t4{background:-webkit-linear-gradient(top,var(--t4-a),var(--t4-b));background:linear-gradient(180deg,var(--t4-a),var(--t4-b));color:var(--t4-txt);--tshadow:var(--t4-s);}
+.t5{background:-webkit-linear-gradient(top,var(--t5-a),var(--t5-b));background:linear-gradient(180deg,var(--t5-a),var(--t5-b));color:var(--t5-txt);--tshadow:var(--t5-s);}
+.t6{background:-webkit-linear-gradient(top,var(--t6-a),var(--t6-b));background:linear-gradient(180deg,var(--t6-a),var(--t6-b));color:var(--t6-txt);--tshadow:var(--t6-s);}
+.t7{background:-webkit-linear-gradient(top,var(--t7-a),var(--t7-b));background:linear-gradient(180deg,var(--t7-a),var(--t7-b));color:var(--t7-txt);--tshadow:var(--t7-s);}
+.t8{background:-webkit-linear-gradient(top,var(--t8-a),var(--t8-b));background:linear-gradient(180deg,var(--t8-a),var(--t8-b));color:var(--t8-txt);--tshadow:var(--t8-s);}
+.t9{background:-webkit-linear-gradient(top,var(--t9-a),var(--t9-b));background:linear-gradient(180deg,var(--t9-a),var(--t9-b));color:var(--t9-txt);--tshadow:var(--t9-s);}
+
+/* box-shadow con variables: fallback explícito por color ya que
+   iOS 5 Safari soporta variables CSS de forma limitada.
+   Se aplica la sombra como clase extra en JS */
+.tile-shadow {
+  -webkit-box-shadow:
+    inset 0 var(--ti,5px) 0 rgba(255,255,255,0.55),
+    inset 0 calc(-1*var(--ti,5px)) 0 rgba(0,0,0,0.10),
+    0 var(--ts,5px) 0 var(--tshadow,#999),
+    0 calc(var(--ts,5px) + 4px) 12px rgba(0,0,0,0.15);
+          box-shadow:
+    inset 0 var(--ti,5px) 0 rgba(255,255,255,0.55),
+    inset 0 calc(-1*var(--ti,5px)) 0 rgba(0,0,0,0.10),
+    0 var(--ts,5px) 0 var(--tshadow,#999),
+    0 calc(var(--ts,5px) + 4px) 12px rgba(0,0,0,0.15);
+}
+/* Fallback sombras explícitas por número */
+.t1.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C9A000,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C9A000,0 9px 12px rgba(0,0,0,0.14);}
+.t2.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #1A8A3C,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #1A8A3C,0 9px 12px rgba(0,0,0,0.14);}
+.t3.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C01038,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C01038,0 9px 12px rgba(0,0,0,0.14);}
+.t4.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #1070AA,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #1070AA,0 9px 12px rgba(0,0,0,0.14);}
+.t5.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #7820AC,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #7820AC,0 9px 12px rgba(0,0,0,0.14);}
+.t6.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C06800,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C06800,0 9px 12px rgba(0,0,0,0.14);}
+.t7.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #008880,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #008880,0 9px 12px rgba(0,0,0,0.14);}
+.t8.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C82828,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #C82828,0 9px 12px rgba(0,0,0,0.14);}
+.t9.tile-shadow{-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #3028B0,0 9px 12px rgba(0,0,0,0.14);box-shadow:inset 0 5px 0 rgba(255,255,255,0.55),inset 0 -4px 0 rgba(0,0,0,0.10),0 5px 0 #3028B0,0 9px 12px rgba(0,0,0,0.14);}
+
+/* ════════════════════════════════════════════════
+   TAMAÑOS POR NIVEL — ajustados para iPad 1 (1024×768)
+   La pantalla útil en landscape, con padding y header:
+   ≈ 600px alto × 800px ancho disponibles para board+panel
+   ════════════════════════════════════════════════ */
+
+/* Nivel 1 — 3×3 — Fichas grandes y cómodas */
+.sz3 .cell  { width:150px; height:150px; border-radius:36px; margin:6px; }
+.sz3 .tile  { width:138px; height:138px; border-radius:32px; font-size:78px; text-shadow:0 2px 0 rgba(255,255,255,0.4); }
+
+/* Nivel 2 — 4×4 */
+.sz4 .cell  { width:112px; height:112px; border-radius:30px; margin:5px; }
+.sz4 .tile  { width:102px; height:102px; border-radius:26px; font-size:56px; text-shadow:0 2px 0 rgba(255,255,255,0.4); }
+.sz4 .board-row:nth-child(2) { margin-bottom: 12px; }
+.sz4 .cell:nth-child(2)      { margin-right: 12px; }
+
+/* Nivel 3 — 6×6 */
+.sz6 .cell  { width:82px;  height:82px;  border-radius:22px; margin:4px; }
+.sz6 .tile  { width:74px;  height:74px;  border-radius:18px; font-size:42px; text-shadow:0 1px 0 rgba(255,255,255,0.4); }
+.sz6 .board-row:nth-child(2) { margin-bottom: 10px; }
+.sz6 .board-row:nth-child(4) { margin-bottom: 10px; }
+.sz6 .cell:nth-child(3)      { margin-right: 10px; }
+
+/* Nivel 4 — 9×9 normal — tamaño clave para buena usabilidad */
+.sz9 .cell  { width:56px;  height:56px;  border-radius:14px; margin:3px; }
+.sz9 .tile  { width:50px;  height:50px;  border-radius:11px; font-size:28px; }
+.sz9 .board-row:nth-child(3) { margin-bottom: 14px; }
+.sz9 .board-row:nth-child(6) { margin-bottom: 14px; }
+.sz9 .cell:nth-child(3)      { margin-right: 14px; }
+.sz9 .cell:nth-child(6)      { margin-right: 14px; }
+
+/* Nivel 5 — 9×9 difícil — igual grid que nivel 4 */
+
+/* ════════════════════════════════════════════════
+   PANEL DERECHO
+   ════════════════════════════════════════════════ */
+.right-panel {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  width: 108px;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
+  gap: 8px;
+}
+.right-panel > * + * { margin-top: 8px; }
+
+.keys-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  gap: 7px;
+}
+.keys-wrap > * + * { margin-top: 7px; }
+
+/* Botón de número — mínimo 44px touch target */
+.num-key {
+  width: 90px; height: 62px;
+  border-radius: 18px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  font-family: var(--font);
+  font-size: 34px;
+  font-weight: 900;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+          transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+}
+.num-key:active { -webkit-transform: translateY(2px) scale(0.96); transform: translateY(2px) scale(0.96); }
+.num-key.disabled { opacity: 0.28; pointer-events: none; -webkit-filter: grayscale(0.5); filter: grayscale(0.5); }
+
+/* Sombras de los botones de teclado — explícitas por color */
+.num-key.t1{background:-webkit-linear-gradient(top,var(--t1-a),var(--t1-b));background:linear-gradient(180deg,var(--t1-a),var(--t1-b));color:var(--t1-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C9A000,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C9A000,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t2{background:-webkit-linear-gradient(top,var(--t2-a),var(--t2-b));background:linear-gradient(180deg,var(--t2-a),var(--t2-b));color:var(--t2-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #1A8A3C,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #1A8A3C,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t3{background:-webkit-linear-gradient(top,var(--t3-a),var(--t3-b));background:linear-gradient(180deg,var(--t3-a),var(--t3-b));color:var(--t3-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C01038,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C01038,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t4{background:-webkit-linear-gradient(top,var(--t4-a),var(--t4-b));background:linear-gradient(180deg,var(--t4-a),var(--t4-b));color:var(--t4-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #1070AA,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #1070AA,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t5{background:-webkit-linear-gradient(top,var(--t5-a),var(--t5-b));background:linear-gradient(180deg,var(--t5-a),var(--t5-b));color:var(--t5-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #7820AC,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #7820AC,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t6{background:-webkit-linear-gradient(top,var(--t6-a),var(--t6-b));background:linear-gradient(180deg,var(--t6-a),var(--t6-b));color:var(--t6-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C06800,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C06800,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t7{background:-webkit-linear-gradient(top,var(--t7-a),var(--t7-b));background:linear-gradient(180deg,var(--t7-a),var(--t7-b));color:var(--t7-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #008880,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #008880,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t8{background:-webkit-linear-gradient(top,var(--t8-a),var(--t8-b));background:linear-gradient(180deg,var(--t8-a),var(--t8-b));color:var(--t8-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C82828,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #C82828,0 10px 18px rgba(0,0,0,0.15);}
+.num-key.t9{background:-webkit-linear-gradient(top,var(--t9-a),var(--t9-b));background:linear-gradient(180deg,var(--t9-a),var(--t9-b));color:var(--t9-txt);-webkit-box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #3028B0,0 10px 18px rgba(0,0,0,0.15);box-shadow:inset 0 5px 0 rgba(255,255,255,0.5),inset 0 -5px 0 rgba(0,0,0,0.10),0 6px 0 #3028B0,0 10px 18px rgba(0,0,0,0.15);}
+
+.panel-sep {
+  width: 60%; height: 2px;
+  background: rgba(0,0,0,0.07);
+  border-radius: 999px;
+  margin: 4px 0;
+}
+
+.btn-hint {
+  width: 90px; height: 66px;
+  border-radius: 18px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 900;
+  color: #8A6000;
+  background: -webkit-linear-gradient(top, #FFF5CC, #FFE680);
+  background: linear-gradient(180deg, #FFF5CC, #FFE680);
+  border: 1.5px solid rgba(255,220,0,0.35);
+  -webkit-box-shadow: inset 0 3px 0 rgba(255,255,255,0.7), 0 5px 0 #C9A000, 0 8px 16px rgba(0,0,0,0.10);
+          box-shadow: inset 0 3px 0 rgba(255,255,255,0.7), 0 5px 0 #C9A000, 0 8px 16px rgba(0,0,0,0.10);
+  -webkit-transition: -webkit-transform 0.15s ease;
+          transition: transform 0.15s ease;
+}
+.btn-hint:active { -webkit-transform: translateY(2px); transform: translateY(2px); }
+.btn-hint-icon { font-size: 26px; line-height: 1; }
+
+/* ════════════════════════════════════════════════
+   CANVAS CONFETTI
+   position:fixed tiene bugs en iOS 5 Safari dentro de
+   web-app mode → usamos absolute con z-index alto
+   ════════════════════════════════════════════════ */
+#confetti-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 300;
+}
+
+/* ════════════════════════════════════════════════
+   FLOATERS DE PUNTOS
+   ════════════════════════════════════════════════ */
+.pts-float {
+  position: absolute;
+  font-family: var(--font);
+  font-size: 40px;
+  font-weight: 900;
+  color: #34C759;
+  pointer-events: none;
+  z-index: 500;
+  text-shadow: 0 3px 14px rgba(0,0,0,0.22), 0 0 20px rgba(52,199,89,0.5);
+  -webkit-animation: ptsPop 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+          animation: ptsPop 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════════════════
+   KEYFRAMES — todos con -webkit- prefix
+   ════════════════════════════════════════════════ */
+@-webkit-keyframes popIn {
+  0%   { opacity:0; -webkit-transform:scale(0.55); }
+  65%  { -webkit-transform:scale(1.12); }
+  100% { opacity:1; -webkit-transform:scale(1); }
+}
+@keyframes popIn {
+  0%   { opacity:0; transform:scale(0.55); }
+  65%  { transform:scale(1.12); }
+  100% { opacity:1; transform:scale(1); }
+}
+
+@-webkit-keyframes correctPulse {
+  0%   { background:rgba(52,199,89,0.0); }
+  30%  { background:rgba(52,199,89,0.30); }
+  100% { background:#E8EBF5; }
+}
+@keyframes correctPulse {
+  0%   { background:rgba(52,199,89,0.0); }
+  30%  { background:rgba(52,199,89,0.30); }
+  100% { background:#E8EBF5; }
+}
+
+@-webkit-keyframes conflictPulse {
+  0%,100%{ -webkit-transform:translateX(0); background:rgba(255,45,85,0.0); }
+  15%    { -webkit-transform:translateX(-5px); background:rgba(255,45,85,0.25); }
+  35%    { -webkit-transform:translateX(5px); }
+  55%    { -webkit-transform:translateX(-3px); }
+  75%    { -webkit-transform:translateX(3px); }
+}
+@keyframes conflictPulse {
+  0%,100%{ transform:translateX(0); background:rgba(255,45,85,0.0); }
+  15%    { transform:translateX(-5px); background:rgba(255,45,85,0.25); }
+  35%    { transform:translateX(5px); }
+  55%    { transform:translateX(-3px); }
+  75%    { transform:translateX(3px); }
+}
+
+@-webkit-keyframes hintGlow {
+  0%   { background:rgba(255,214,10,0.0); }
+  25%  { background:rgba(255,214,10,0.35); }
+  80%  { background:rgba(255,214,10,0.20); }
+  100% { background:#E8EBF5; }
+}
+@keyframes hintGlow {
+  0%   { background:rgba(255,214,10,0.0); }
+  25%  { background:rgba(255,214,10,0.35); }
+  80%  { background:rgba(255,214,10,0.20); }
+  100% { background:#E8EBF5; }
+}
+
+@-webkit-keyframes ptsPop {
+  0%   { opacity:0; -webkit-transform:translateY(0)    scale(0.5); }
+  30%  { opacity:1; -webkit-transform:translateY(-36px) scale(1.4); }
+  70%  { opacity:1; -webkit-transform:translateY(-60px) scale(1.2); }
+  100% { opacity:0; -webkit-transform:translateY(-88px) scale(1.0); }
+}
+@keyframes ptsPop {
+  0%   { opacity:0; transform:translateY(0)    scale(0.5); }
+  30%  { opacity:1; transform:translateY(-36px) scale(1.4); }
+  70%  { opacity:1; transform:translateY(-60px) scale(1.2); }
+  100% { opacity:0; transform:translateY(-88px) scale(1.0); }
+}
+
+@-webkit-keyframes slideDown {
+  from { opacity:0; -webkit-transform:translateY(-10px); }
+  to   { opacity:1; -webkit-transform:translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity:0; transform:translateY(-10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── Animación entrada header ── */
+.header { -webkit-animation: slideDown 0.4s cubic-bezier(0.22,1,0.36,1) both; animation: slideDown 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ── Touch scroll prevention ── */
+body { -webkit-overflow-scrolling: touch; }
+
+</style>
 </head>
 <body>
 
-<div class="presentation-container">
+<div class="shell" id="app">
 
-    <h1 class="section-title">iOS Modern Kids UI</h1>
-    <p class="section-desc">Layout reconstruido con Flexbox (Filas x Columnas). Adiós a los bordes de tabla de Excel. Las subcuadrículas se diferencian mediante un aumento sutil del "espacio negativo" (márgenes), técnica base de diseño de Apple para interfaces limpias.</p>
-    
-    <hr>
+  <header class="header">
 
-    <h2 class="section-title">Nivel 5: Experto (9x9)</h2>
-    <div class="ipad-frame">
-        <div class="board-wrapper grid-9x9">
-            <script>
-                // Generamos 9 filas x 9 columnas dinámicamente para el prototipo
-                for(let r=0; r<9; r++) {
-                    document.write('<div class="board-row">');
-                    for(let c=0; c<9; c++) {
-                        let i = r * 9 + c;
-                        let numClass = (i%7 === 0) ? 'c-2' : 'empty';
-                        let content = (i%7 === 0) ? '<span class="digit">2</span>' : '';
-                        document.write(`<div class="cell ${numClass}">${content}</div>`);
-                    }
-                    document.write('</div>');
-                }
-            </script>
-        </div>
-        <div class="mock-sidebar">
-            <div class="badge">Nivel 5 • 9x9</div>
-            <h3 class="instruction">Observa cómo los bloques de 3x3 se separan sutilmente usando espacio negativo, sin líneas divisorias.</h3>
-        </div>
+    <div class="profiles">
+      <div class="profile active" id="p-olivia" onclick="switchProfile('olivia')">Olivia</div>
+      <div class="profile-sep"></div>
+      <div class="profile"        id="p-gala"   onclick="switchProfile('gala')">Gala</div>
     </div>
 
-    <h2 class="section-title">Nivel 4: Básico (9x9)</h2>
-    <div class="ipad-frame">
-        <div class="board-wrapper grid-9x9">
-            <script>
-                for(let r=0; r<9; r++) {
-                    document.write('<div class="board-row">');
-                    for(let c=0; c<9; c++) {
-                        let i = r * 9 + c;
-                        let numClass = (i%3 === 0) ? 'c-1' : 'empty';
-                        let content = (i%3 === 0) ? '<span class="digit">1</span>' : '';
-                        document.write(`<div class="cell ${numClass}">${content}</div>`);
-                    }
-                    document.write('</div>');
-                }
-            </script>
-        </div>
-        <div class="mock-sidebar">
-            <div class="badge">Nivel 4 • 9x9</div>
-            <h3 class="instruction">El mismo tablero base pero con una tasa de relleno mayor para bajar la dificultad.</h3>
-        </div>
+    <div class="level-selector">
+      <span class="level-label">Nivel</span>
+      <div class="lvl-pip" data-lv="1" onclick="switchLevel(1)">1</div>
+      <div class="lvl-pip" data-lv="2" onclick="switchLevel(2)">2</div>
+      <div class="lvl-pip" data-lv="3" onclick="switchLevel(3)">3</div>
+      <div class="lvl-pip active" data-lv="4" onclick="switchLevel(4)">4</div>
+      <div class="lvl-pip" data-lv="5" onclick="switchLevel(5)">5</div>
     </div>
 
-    <h2 class="section-title">Nivel 3: Intermedio (6x6)</h2>
-    <div class="ipad-frame">
-        <div class="board-wrapper grid-6x6">
-            <script>
-                for(let r=0; r<6; r++) {
-                    document.write('<div class="board-row">');
-                    for(let c=0; c<6; c++) {
-                        let i = r * 6 + c;
-                        let isFilled = (i === 4 || i === 12 || i === 25);
-                        let numClass = isFilled ? 'c-6' : 'empty'; 
-                        let content = isFilled ? '<span class="digit">6</span><span class="dots">••••••</span>' : '';
-                        document.write(`<div class="cell ${numClass}">${content}</div>`);
-                    }
-                    document.write('</div>');
-                }
-            </script>
-        </div>
-        <div class="mock-sidebar">
-            <div class="badge">Nivel 3 • 6x6</div>
-            <h3 class="instruction">Cajas rectangulares (3x2). La celda gana redondez y reaparecen los marcadores analógicos.</h3>
-        </div>
+    <div class="pts-badge">
+      <span class="pts-star">⭐</span>
+      <span id="session-pts">0</span>&nbsp;pts
     </div>
 
-    <h2 class="section-title">Nivel 2: Iniciación (4x4)</h2>
-    <div class="ipad-frame">
-        <div class="board-wrapper grid-4x4">
-            <script>
-                for(let r=0; r<4; r++) {
-                    document.write('<div class="board-row">');
-                    for(let c=0; c<4; c++) {
-                        let i = r * 4 + c;
-                        let content = ''; let numClass = 'empty';
-                        if(i===0) { numClass='c-4'; content='<span class="digit">4</span><span class="dots">••••</span>'; }
-                        else if(i===11) { numClass='c-1'; content='<span class="digit">1</span><span class="dots">•</span>'; }
-                        document.write(`<div class="cell ${numClass}">${content}</div>`);
-                    }
-                    document.write('</div>');
-                }
-            </script>
-        </div>
-        <div class="mock-sidebar">
-            <div class="badge">Nivel 2 • 4x4</div>
-            <h3 class="instruction">Fichas masivas tipo burbuja. Separación central exacta para dividir en bloques de 2x2.</h3>
-        </div>
-    </div>
+  </header>
 
-    <h2 class="section-title">Nivel 1: Primeros Pasos (3x3)</h2>
-    <div class="ipad-frame">
-        <div class="board-wrapper grid-3x3">
-            <script>
-                for(let r=0; r<3; r++) {
-                    document.write('<div class="board-row">');
-                    for(let c=0; c<3; c++) {
-                        let i = r * 3 + c;
-                        let content = ''; let numClass = 'empty';
-                        if(i===2) { numClass='c-3'; content='<span class="digit">3</span><span class="dots">•••</span>'; }
-                        else if(i===6) { numClass='c-2'; content='<span class="digit">2</span><span class="dots">••</span>'; }
-                        document.write(`<div class="cell ${numClass}">${content}</div>`);
-                    }
-                    document.write('</div>');
-                }
-            </script>
-        </div>
-        <div class="mock-sidebar">
-            <div class="badge">Nivel 1 • 3x3</div>
-            <h3 class="instruction">Layout perfecto. Sin saltos de línea extraños. Máxima claridad visual para entender las mecánicas base.</h3>
-        </div>
+  <div class="content">
+    <div class="board-area">
+      <div class="board-shell">
+        <div class="board-grid" id="board"></div>
+      </div>
     </div>
+    <div class="right-panel" id="right-panel"></div>
+  </div>
 
 </div>
+
+<!-- Canvas sobre el shell para confetti — absolute dentro de body -->
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   COOKIES — puntos persistentes 12 horas por perfil
+   ══════════════════════════════════════════════════════ */
+
+var COOKIE_NAME = 'sudoku_kids_pts';
+var COOKIE_HOURS = 12;
+
+function setCookie(name, value, hours) {
+  var d = new Date();
+  d.setTime(d.getTime() + (hours * 3600000));
+  var expires = 'expires=' + d.toUTCString();
+  document.cookie = name + '=' + encodeURIComponent(JSON.stringify(value)) + '; ' + expires + '; path=/';
+}
+
+function getCookie(name) {
+  var key = name + '=';
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) === ' ') { c = c.substring(1); }
+    if (c.indexOf(key) === 0) {
+      try {
+        return JSON.parse(decodeURIComponent(c.substring(key.length, c.length)));
+      } catch(e) { return null; }
+    }
+  }
+  return null;
+}
+
+function loadPts() {
+  var saved = getCookie(COOKIE_NAME);
+  if (saved && typeof saved === 'object') {
+    return {
+      olivia: (typeof saved.olivia === 'number') ? saved.olivia : 0,
+      gala:   (typeof saved.gala   === 'number') ? saved.gala   : 0
+    };
+  }
+  return { olivia: 0, gala: 0 };
+}
+
+function savePts() {
+  setCookie(COOKIE_NAME, { olivia: state.pts.olivia, gala: state.pts.gala }, COOKIE_HOURS);
+}
+
+/* ══════════════════════════════════════════════════════
+   SUDOKU GENERATOR — backtracking, sin dependencias
+   ══════════════════════════════════════════════════════ */
+
+function shuffle(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+  return arr;
+}
+
+function isValid(board, row, col, num, size, boxR, boxC) {
+  for (var i = 0; i < size; i++) {
+    if (board[row][i] === num) return false;
+    if (board[i][col] === num) return false;
+  }
+  var sr = Math.floor(row / boxR) * boxR;
+  var sc = Math.floor(col / boxC) * boxC;
+  for (var r = sr; r < sr + boxR; r++)
+    for (var c = sc; c < sc + boxC; c++)
+      if (board[r][c] === num) return false;
+  return true;
+}
+
+function fillBoard(board, size, boxR, boxC) {
+  for (var r = 0; r < size; r++) {
+    for (var c = 0; c < size; c++) {
+      if (board[r][c] === 0) {
+        var nums = shuffle([1,2,3,4,5,6,7,8,9].slice(0, size));
+        for (var ni = 0; ni < nums.length; ni++) {
+          var n = nums[ni];
+          if (isValid(board, r, c, n, size, boxR, boxC)) {
+            board[r][c] = n;
+            if (fillBoard(board, size, boxR, boxC)) return true;
+            board[r][c] = 0;
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function generatePuzzle(size, boxR, boxC, givenRatio) {
+  var solution = [];
+  for (var i = 0; i < size; i++) {
+    solution.push([]);
+    for (var j = 0; j < size; j++) solution[i].push(0);
+  }
+  fillBoard(solution, size, boxR, boxC);
+
+  var puzzle = [];
+  for (var i = 0; i < size; i++) puzzle.push(solution[i].slice());
+
+  var cells = [];
+  for (var r = 0; r < size; r++)
+    for (var c = 0; c < size; c++)
+      cells.push([r, c]);
+  shuffle(cells);
+
+  var toRemove = Math.floor(size * size * (1 - givenRatio));
+  for (var i = 0; i < toRemove; i++) {
+    puzzle[cells[i][0]][cells[i][1]] = 0;
+  }
+  return { puzzle: puzzle, solution: solution };
+}
+
+/* ══════════════════════════════════════════════════════
+   CONFIGURACIÓN DE NIVELES
+   ══════════════════════════════════════════════════════ */
+var LEVELS = {
+  1: { size:3, cls:'sz3', boxR:1, boxC:1, given:0.55, keys:3, pts:1,  bonus:5  },
+  2: { size:4, cls:'sz4', boxR:2, boxC:2, given:0.55, keys:4, pts:2,  bonus:10 },
+  3: { size:6, cls:'sz6', boxR:2, boxC:3, given:0.50, keys:6, pts:3,  bonus:20 },
+  4: { size:9, cls:'sz9', boxR:3, boxC:3, given:0.46, keys:9, pts:4,  bonus:40 },
+  5: { size:9, cls:'sz9', boxR:3, boxC:3, given:0.30, keys:9, pts:6,  bonus:70 }
+};
+
+/* ══════════════════════════════════════════════════════
+   ESTADO GLOBAL
+   ══════════════════════════════════════════════════════ */
+var savedPts = loadPts();
+
+var state = {
+  level:    4,
+  profile:  'olivia',
+  pts:      { olivia: savedPts.olivia, gala: savedPts.gala },
+  selected: null,
+  puzzle:   [],
+  solution: [],
+  userGrid: [],
+  size:     9,
+  hintTimeout: null,
+  winPts:   0,
+  /* Set de celdas que recibieron pista — no puntúan */
+  hintedCells: {}
+};
+
+/* ══════════════════════════════════════════════════════
+   RENDER DEL TABLERO
+   ══════════════════════════════════════════════════════ */
+function renderBoard() {
+  var cfg = LEVELS[state.level];
+  var grid = document.getElementById('board');
+  grid.className = 'board-grid ' + cfg.cls;
+  grid.innerHTML = '';
+
+  var gen     = generatePuzzle(cfg.size, cfg.boxR, cfg.boxC, cfg.given);
+  state.puzzle   = gen.puzzle;
+  state.solution = gen.solution;
+  state.userGrid = [];
+  for (var i = 0; i < cfg.size; i++) state.userGrid.push(gen.puzzle[i].slice());
+  state.size     = cfg.size;
+  state.selected = null;
+  state.winPts   = 0;
+  state.hintedCells = {};
+
+  for (var r = 0; r < cfg.size; r++) {
+    var rowEl = document.createElement('div');
+    rowEl.className = 'board-row';
+    for (var c = 0; c < cfg.size; c++) {
+      var val = state.puzzle[r][c];
+      var cellEl = document.createElement('div');
+      cellEl.className = 'cell' + (val === 0 ? ' empty' : '');
+      cellEl.setAttribute('data-r', r);
+      cellEl.setAttribute('data-c', c);
+      if (val !== 0) {
+        var tile = document.createElement('div');
+        tile.className = 'tile given t' + val + ' tile-shadow';
+        tile.textContent = val;
+        tile.style.WebkitAnimationDelay = (r * cfg.size + c) * 0.022 + 's';
+        tile.style.animationDelay       = (r * cfg.size + c) * 0.022 + 's';
+        cellEl.appendChild(tile);
+      }
+      /* touch + click — usar touchend para respuesta más rápida en iOS */
+      (function(row, col) {
+        cellEl.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          onCellClick(row, col);
+        }, false);
+        /* fallback mouse para pruebas en escritorio */
+        cellEl.addEventListener('click', function() {
+          onCellClick(row, col);
+        }, false);
+      })(r, c);
+      rowEl.appendChild(cellEl);
+    }
+    grid.appendChild(rowEl);
+  }
+
+  /* Seleccionar primera celda vacía */
+  var firstEmpty = null;
+  for (var r = 0; r < cfg.size && !firstEmpty; r++)
+    for (var c = 0; c < cfg.size && !firstEmpty; c++)
+      if (state.puzzle[r][c] === 0) firstEmpty = { r: r, c: c };
+
+  if (firstEmpty) {
+    var fe = firstEmpty;
+    setTimeout(function() {
+      state.selected = fe;
+      updateHighlights();
+    }, 250);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER DEL PANEL DERECHO
+   ══════════════════════════════════════════════════════ */
+function renderPanel() {
+  var cfg   = LEVELS[state.level];
+  var panel = document.getElementById('right-panel');
+  panel.innerHTML = '';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'keys-wrap';
+
+  /* Para nivel 9×9: botones más compactos para caber en pantalla */
+  var is9 = cfg.size === 9;
+
+  for (var n = 1; n <= cfg.keys; n++) {
+    var key = document.createElement('div');
+    key.className = 'num-key t' + n;
+    key.textContent = n;
+    key.setAttribute('data-n', n);
+    if (is9) {
+      /* botones más estrechos para que quepan los 9 */
+      key.style.height     = '52px';
+      key.style.fontSize   = '28px';
+      key.style.borderRadius = '14px';
+    }
+    /* touch event para respuesta inmediata */
+    (function(num) {
+      key.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        onKeyPress(num);
+      }, false);
+      key.addEventListener('click', function() {
+        onKeyPress(num);
+      }, false);
+    })(n);
+    wrap.appendChild(key);
+  }
+  panel.appendChild(wrap);
+
+  var sep = document.createElement('div');
+  sep.className = 'panel-sep';
+  panel.appendChild(sep);
+
+  var hint = document.createElement('div');
+  hint.className = 'btn-hint';
+  if (is9) {
+    hint.style.height   = '58px';
+    hint.style.fontSize = '13px';
+  }
+  hint.innerHTML = '<span class="btn-hint-icon">&#128161;</span>Pista';
+  hint.addEventListener('touchend', function(e) { e.preventDefault(); onHint(); }, false);
+  hint.addEventListener('click', function() { onHint(); }, false);
+  panel.appendChild(hint);
+}
+
+/* ══════════════════════════════════════════════════════
+   HIGHLIGHTS
+   ══════════════════════════════════════════════════════ */
+function updateHighlights() {
+  var cfg   = LEVELS[state.level];
+  var cells = document.querySelectorAll('.cell');
+  for (var i = 0; i < cells.length; i++) {
+    cells[i].className = cells[i].className
+      .replace(/\s*(selected|highlighted|same-num)/g, '');
+  }
+  if (!state.selected) return;
+
+  var r = state.selected.r;
+  var c = state.selected.c;
+  var selVal = state.userGrid[r][c];
+
+  getCellEl(r, c).className += ' selected';
+
+  for (var i = 0; i < cfg.size; i++) {
+    if (i !== c) addClass(getCellEl(r, i), 'highlighted');
+    if (i !== r) addClass(getCellEl(i, c), 'highlighted');
+  }
+  /* Bloque */
+  var boxR = cfg.boxR, boxC = cfg.boxC;
+  var sr = Math.floor(r / boxR) * boxR;
+  var sc = Math.floor(c / boxC) * boxC;
+  for (var rr = sr; rr < sr + boxR; rr++)
+    for (var cc = sc; cc < sc + boxC; cc++)
+      if (rr !== r || cc !== c) addClass(getCellEl(rr, cc), 'highlighted');
+
+  /* Mismo número */
+  if (selVal > 0) {
+    for (var i = 0; i < cells.length; i++) {
+      var er = parseInt(cells[i].getAttribute('data-r'));
+      var ec = parseInt(cells[i].getAttribute('data-c'));
+      if (state.userGrid[er][ec] === selVal) addClass(cells[i], 'same-num');
+    }
+  }
+}
+
+function addClass(el, cls) {
+  if (!el) return;
+  if ((' ' + el.className + ' ').indexOf(' ' + cls + ' ') === -1) {
+    el.className += ' ' + cls;
+  }
+}
+function removeClass(el, cls) {
+  if (!el) return;
+  el.className = el.className.replace(new RegExp('(^|\\s)' + cls + '(\\s|$)', 'g'), ' ').trim();
+}
+
+/* ══════════════════════════════════════════════════════
+   INTERACCIÓN
+   ══════════════════════════════════════════════════════ */
+function onCellClick(r, c) {
+  var cellEl = getCellEl(r, c);
+  if (!cellEl) return;
+  if (cellEl.getAttribute('data-solved') === '1') return;
+  if (state.puzzle[r][c] !== 0) return;
+  state.selected = { r: r, c: c };
+  updateHighlights();
+}
+
+function onKeyPress(n) {
+  if (!state.selected) return;
+  var r = state.selected.r;
+  var c = state.selected.c;
+  if (state.puzzle[r][c] !== 0) return;
+  if (state.userGrid[r][c] === state.solution[r][c] && state.userGrid[r][c] !== 0) return;
+
+  var correct = state.solution[r][c];
+  var cellKey = r + '_' + c;
+
+  if (n === correct) {
+    /* ✅ Acierto */
+    state.userGrid[r][c] = n;
+    var cellEl = getCellEl(r, c);
+    removeClass(cellEl, 'empty');
+    cellEl.setAttribute('data-solved', '1');
+    cellEl.style.cursor = 'default';
+
+    var tile = cellEl.querySelector('.tile');
+    if (!tile) {
+      tile = document.createElement('div');
+      cellEl.appendChild(tile);
+    }
+    tile.className = 'tile user t' + n + ' tile-shadow';
+    tile.textContent = n;
+    /* Re-trigger animation */
+    tile.style.WebkitAnimation = 'none';
+    tile.style.animation       = 'none';
+    /* Force reflow */
+    void tile.offsetWidth;
+    tile.style.WebkitAnimation = 'popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both';
+    tile.style.animation       = 'popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both';
+
+    addClass(cellEl, 'correct-flash');
+    setTimeout(function() { removeClass(cellEl, 'correct-flash'); }, 450);
+
+    /* Puntos — NO puntúa si la celda recibió pista */
+    if (!state.hintedCells[cellKey]) {
+      var earned = LEVELS[state.level].pts;
+      state.winPts += earned;
+      addPoints(earned, cellEl);
+    }
+
+    updateHighlights();
+
+    if (isBoardComplete()) {
+      setTimeout(showWin, 600);
+    }
+  } else {
+    /* ❌ Error — solo temblor */
+    var cellEl = getCellEl(r, c);
+    addClass(cellEl, 'conflict-flash');
+    setTimeout(function() { removeClass(cellEl, 'conflict-flash'); }, 520);
+  }
+}
+
+function onHint() {
+  if (!state.selected) return;
+  var r = state.selected.r;
+  var c = state.selected.c;
+  if (state.puzzle[r][c] !== 0) return;
+  if (state.userGrid[r][c] !== 0) return;
+
+  var correct = state.solution[r][c];
+  var cellEl  = getCellEl(r, c);
+  var cellKey = r + '_' + c;
+
+  /* Marcar celda como hintada — no sumará puntos */
+  state.hintedCells[cellKey] = true;
+
+  var tile = cellEl.querySelector('.tile');
+  if (!tile) {
+    tile = document.createElement('div');
+    cellEl.appendChild(tile);
+  }
+  tile.className = 'tile hint-peek t' + correct;
+  tile.textContent = correct;
+  addClass(cellEl, 'hint-glow');
+
+  clearTimeout(state.hintTimeout);
+  var capturedTile = tile;
+  var capturedCell = cellEl;
+  state.hintTimeout = setTimeout(function() {
+    capturedTile.remove();
+    removeClass(capturedCell, 'hint-glow');
+  }, 1100);
+}
+
+/* ══════════════════════════════════════════════════════
+   LÓGICA
+   ══════════════════════════════════════════════════════ */
+function isBoardComplete() {
+  var n = state.size;
+  for (var r = 0; r < n; r++)
+    for (var c = 0; c < n; c++)
+      if (state.userGrid[r][c] !== state.solution[r][c]) return false;
+  return true;
+}
+
+/* ══════════════════════════════════════════════════════
+   UI HELPERS
+   ══════════════════════════════════════════════════════ */
+function getCellEl(r, c) {
+  return document.querySelector('.cell[data-r="' + r + '"][data-c="' + c + '"]');
+}
+
+function addPoints(pts, anchorEl) {
+  state.pts[state.profile] += pts;
+  document.getElementById('session-pts').textContent = state.pts[state.profile];
+  savePts();
+
+  var rect = anchorEl.getBoundingClientRect();
+  /* getBoundingClientRect puede ser diferente en iOS 5 — usamos offsetTop/Left */
+  var floater = document.createElement('div');
+  floater.className = 'pts-float';
+  floater.textContent = '+' + pts;
+  floater.style.left = (rect.left + rect.width / 2 - 20) + 'px';
+  floater.style.top  = (rect.top + window.scrollY - 10) + 'px';
+  document.body.appendChild(floater);
+  setTimeout(function() {
+    if (floater.parentNode) floater.parentNode.removeChild(floater);
+  }, 1200);
+}
+
+/* ══════════════════════════════════════════════════════
+   WIN
+   ══════════════════════════════════════════════════════ */
+function showWin() {
+  var cfg   = LEVELS[state.level];
+  var bonus = cfg.bonus;
+  state.pts[state.profile] += bonus;
+  document.getElementById('session-pts').textContent = state.pts[state.profile];
+  savePts();
+
+  var floater = document.createElement('div');
+  floater.className = 'pts-float';
+  floater.textContent = '+' + bonus + ' \uD83C\uDF89';
+  floater.style.left      = '50%';
+  floater.style.top       = '45%';
+  floater.style.WebkitTransform = 'translateX(-50%)';
+  floater.style.transform       = 'translateX(-50%)';
+  floater.style.fontSize  = '56px';
+  document.body.appendChild(floater);
+  setTimeout(function() {
+    if (floater.parentNode) floater.parentNode.removeChild(floater);
+  }, 1400);
+
+  startConfetti();
+
+  setTimeout(function() {
+    stopConfetti();
+    renderBoard();
+    renderPanel();
+  }, 3500);
+}
+
+/* ══════════════════════════════════════════════════════
+   CONFETTI — compatible con webkit RAF
+   ══════════════════════════════════════════════════════ */
+var confettiRAF = null;
+var CONFETTI_COLORS = ['#FFD60A','#34C759','#FF2D55','#30A8E6','#AA50DE','#FF9500','#00C4BB'];
+
+/* RAF con fallback a setTimeout para iOS 5 */
+var raf = window.requestAnimationFrame
+  || window.webkitRequestAnimationFrame
+  || function(cb) { return setTimeout(cb, 16); };
+var caf = window.cancelAnimationFrame
+  || window.webkitCancelAnimationFrame
+  || clearTimeout;
+
+function startConfetti() {
+  var canvas = document.getElementById('confetti-canvas');
+  var ctx    = canvas.getContext('2d');
+  canvas.width  = window.innerWidth  || 1024;
+  canvas.height = window.innerHeight || 768;
+
+  var pieces = [];
+  for (var i = 0; i < 130; i++) {
+    pieces.push({
+      x:         Math.random() * canvas.width,
+      y:         Math.random() * -200,
+      r:         Math.random() * 7 + 4,
+      d:         Math.random() * 180 + 80,
+      color:     CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      tiltAngle: 0,
+      tiltSpeed: Math.random() * 0.07 + 0.03,
+      vy:        Math.random() * 3 + 2,
+      vx:        Math.random() * 2 - 1,
+      shape:     Math.random() > 0.5 ? 'circle' : 'rect'
+    });
+  }
+
+  var angle = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    angle += 0.008;
+    for (var i = 0; i < pieces.length; i++) {
+      var p = pieces[i];
+      p.tiltAngle += p.tiltSpeed;
+      p.y += p.vy;
+      p.x += p.vx + Math.sin(angle + p.d) * 0.7;
+      var tilt = Math.sin(p.tiltAngle) * 12;
+      if (p.y > canvas.height + 20) {
+        p.y = -20;
+        p.x = Math.random() * canvas.width;
+      }
+      ctx.save();
+      ctx.beginPath();
+      ctx.fillStyle  = p.color;
+      ctx.globalAlpha = 0.88;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(tilt * Math.PI / 180);
+      if (p.shape === 'circle') {
+        ctx.arc(0, 0, p.r, 0, Math.PI * 2);
+      } else {
+        ctx.rect(-p.r, -p.r / 2, p.r * 2, p.r);
+      }
+      ctx.fill();
+      ctx.restore();
+    }
+    confettiRAF = raf(draw);
+  }
+  draw();
+}
+
+function stopConfetti() {
+  caf(confettiRAF);
+  confettiRAF = null;
+  var canvas = document.getElementById('confetti-canvas');
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+}
+
+/* ══════════════════════════════════════════════════════
+   SWITCH PERFIL / NIVEL
+   ══════════════════════════════════════════════════════ */
+function switchProfile(who) {
+  state.profile = who;
+  var ids = ['olivia', 'gala'];
+  for (var i = 0; i < ids.length; i++) {
+    var el = document.getElementById('p-' + ids[i]);
+    if (ids[i] === who) addClass(el, 'active');
+    else removeClass(el, 'active');
+  }
+  document.getElementById('session-pts').textContent = state.pts[who];
+}
+
+function switchLevel(lv) {
+  state.level = lv;
+  var pips = document.querySelectorAll('.lvl-pip');
+  for (var i = 0; i < pips.length; i++) {
+    if (parseInt(pips[i].getAttribute('data-lv')) === lv) addClass(pips[i], 'active');
+    else removeClass(pips[i], 'active');
+  }
+  stopConfetti();
+  renderBoard();
+  renderPanel();
+}
+
+/* ══════════════════════════════════════════════════════
+   ARRANQUE
+   ══════════════════════════════════════════════════════ */
+/* Mostrar puntos del perfil activo al arrancar */
+document.getElementById('session-pts').textContent = state.pts[state.profile];
+switchLevel(4);
+</script>
 
 </body>
 </html>
