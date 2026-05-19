@@ -2,203 +2,708 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- iOS PWA / Fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wallet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+
 <title>Wallet | CHENSIO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
-  --bg-base: #000000; --bg-card: #000000; --bg-hover: #1c1c1e;
-  --border: #38383a; --border-light: #48484a;
-  --text-main: #f5f5f7; --text-muted: #86868b; --text-dim: #515154;
-  --blue: #0a84ff; --green: #30d158; --amber: #ff9f0a; --red: #ff453a;
-  --font-sans: 'Inter', -apple-system, sans-serif;
+  --bg-base: #000000;
+  --bg-card: #111111;
+  --bg-hover: #1c1c1e;
+  --border: #2c2c2e;
+  --border-light: #38383a;
+  --text-main: #f5f5f7;
+  --text-muted: #86868b;
+  --text-dim: #48484a;
+  --blue: #0a84ff;
+  --green: #30d158;
+  --amber: #ff9f0a;
+  --red: #ff453a;
+  --purple: #bf5af2;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --bg-base: #f2f2f7; --bg-card: #ffffff; --bg-hover: #f4f5f7;
-    --border: #d1d1d6; --border-light: #e5e5ea;
-    --text-main: #1c1c1e; --text-muted: #8e8e93; --text-dim: #aeaeae;
-    --blue: #007aff; --green: #34c759; --amber: #ff9500; --red: #ff3b30;
+    --bg-base: #f2f2f7;
+    --bg-card: #ffffff;
+    --bg-hover: #f4f5f7;
+    --border: #d1d1d6;
+    --border-light: #e5e5ea;
+    --text-main: #1c1c1e;
+    --text-muted: #6e6e73;
+    --text-dim: #aeaeae;
+    --blue: #007aff;
+    --green: #34c759;
+    --amber: #ff9500;
+    --red: #ff3b30;
+    --purple: #af52de;
   }
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); background-color: var(--bg-base); color: var(--text-main); line-height: 1.4; padding: 16px 12px; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
 
-.container { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+html { height: 100%; }
 
-/* 1. Header Ultra-Compacto y Centrado */
-.header-container { display: grid; grid-template-columns: 80px 1fr 80px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-.header-container h1 { margin: 0; font-size: 22px; letter-spacing: -0.02em; font-weight: 700; text-align: center; }
-.btn-volver { background: var(--bg-hover); color: var(--text-main); text-decoration: none; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 12px; border: 1px solid var(--border); transition: 0.2s; text-align: center; justify-self: start; }
-.btn-volver:hover { background: var(--border-light); }
-#syncStatus { font-size: 11px; color: var(--text-muted); font-weight: 500; text-align: right; justify-self: end; white-space: nowrap; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--text-main);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  /* Fix: prevent layout shift on input focus in iOS */
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding-top: calc(var(--safe-top) + 12px);
+  padding-bottom: calc(var(--safe-bottom) + 20px);
+  padding-left: 12px;
+  padding-right: 12px;
+}
 
-.card { background: var(--bg-card); border-radius: 14px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-@media (prefers-color-scheme: dark) { .card { box-shadow: 0 4px 15px rgba(0,0,0,0.4); } }
+.container {
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-.card-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+/* ── HEADER ── */
+.header-container {
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.header-container h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+.btn-volver {
+  background: var(--bg-hover);
+  color: var(--text-main);
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 11px;
+  border: 1px solid var(--border-light);
+  text-align: center;
+  display: inline-block;
+}
+#syncStatus {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+  justify-self: end;
+}
 
-/* Capital & DCA en Línea Horizontal */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.stat-box { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); border: 1px solid var(--border); padding: 10px 14px; border-radius: 10px; height: 44px; }
-.stat-box label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin: 0; }
-.stat-box input { text-align: right; font-size: 15px; width: 90px; background: transparent; border: none; outline: none; color: var(--text-main); font-weight: 700; font-family: var(--font-mono); }
-.stat-box input#dcaInput { color: var(--green); }
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+}
 
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.card-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── CAPITAL & DCA ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-light);
+  padding: 0 14px;
+  border-radius: 10px;
+  height: 48px;
+}
+.stat-box label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+/* Fix: iOS input zoom prevention — font-size must be ≥ 16px on mobile */
+.stat-box input {
+  text-align: right;
+  font-size: 16px;
+  width: 100px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  /* Prevent zoom on focus */
+  touch-action: manipulation;
+}
+.stat-box input#dcaInput { color: var(--text-main); }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
 input[type=number] { -moz-appearance: textfield; }
 
-/* Tiers y Listas de Activos */
-.tier-block { margin-bottom: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-.tier-block:last-child { margin-bottom: 0; }
-.tier-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg-hover); border-bottom: 1px solid var(--border); height: 46px; }
-.tier-header h2 { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin: 0; }
+/* ── BRÚJULA DE CARTERA ── */
+.brujula-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.brujula-type {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.brujula-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.brujula-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
 
-.asset-list { padding: 4px 12px; }
-.asset-row { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+/* Spectrum bar */
+.spectrum-wrap { margin: 10px 0 4px; }
+.spectrum-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.spectrum-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--blue), var(--green), var(--amber), var(--red));
+  position: relative;
+}
+.spectrum-cursor {
+  position: absolute;
+  top: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-main);
+  border: 2px solid var(--bg-card);
+  transform: translateX(-50%);
+  transition: left 0.4s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+.profile-pill {
+  text-align: center;
+  padding: 5px 4px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg-hover);
+  cursor: default;
+  transition: 0.2s;
+}
+.profile-pill.active {
+  border-color: currentColor;
+}
+.profile-pill .p-name { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.profile-pill .p-range { font-size: 9px; color: var(--text-muted); margin-top: 1px; }
+
+.analyzer-warn {
+  background: rgba(255,69,58,0.1);
+  border: 1px solid rgba(255,69,58,0.3);
+  color: var(--red);
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ── TIERS ── */
+.tier-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  /* color accent on both sides — set via inline style for left, right via box-shadow */
+}
+.tier-block:last-child { margin-bottom: 0; }
+
+.tier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--bg-hover);
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.tier-header h2 {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.tier-header h2 .tier-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.tier-amounts { text-align: right; }
+.tier-eur { font-size: 13px; font-weight: 600; font-family: var(--font-mono); }
+.tier-dca { font-size: 10px; font-family: var(--font-mono); margin-top: 1px; }
+
+.tier-pct-box {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg-card);
+  padding: 0 8px;
+  border-radius: 7px;
+  border: 1px solid var(--border-light);
+  height: 32px;
+}
+.tier-pct-box input {
+  width: 36px;
+  text-align: right;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  outline: none;
+  touch-action: manipulation;
+  /* Prevent iOS zoom */
+  font-size: max(16px, 14px);
+}
+.tier-pct-box span { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+/* ── ASSET ROWS ── */
+.asset-list { padding: 2px 10px; }
+
+.asset-row {
+  display: grid;
+  grid-template-columns: 62px 60px 1fr auto;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
 .asset-row:last-child { border-bottom: none; }
 
-/* Tamaños fijos optimizados para Inputs y Selects */
-.a-input, .a-select { background: var(--bg-hover); border: 1px solid var(--border-light); color: var(--text-main); font-family: var(--font-sans); font-size: 13px; height: 38px; border-radius: 6px; outline: none; transition: 0.2s; padding: 0 10px; }
+/* Inputs — font-size ≥ 16px prevents iOS zoom */
+.a-input, .a-select {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  height: 36px;
+  border-radius: 7px;
+  outline: none;
+  padding: 0 8px;
+  width: 100%;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+}
 .a-input:focus, .a-select:focus { border-color: var(--blue); }
-.a-input.mono { font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; text-align: center; }
+.a-input.mono {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
 
-.a-tck-input { width: 65px; }
-.a-pct-container { display: flex; align-items: center; gap: 2px; background: var(--bg-hover); border: 1px solid var(--border-light); border-radius: 6px; padding: 0 8px; height: 38px; }
-.a-pct-container input { width: 38px; text-align: right; background: transparent; border: none; color: var(--text-main); font-size: 13px; font-family: var(--font-mono); font-weight: 600; outline: none; }
-.a-tag-select { flex: 1; min-width: 120px; }
+.a-pct-box {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-light);
+  border-radius: 7px;
+  padding: 0 6px;
+  height: 36px;
+}
+.a-pct-box input {
+  width: 32px;
+  text-align: right;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  outline: none;
+  touch-action: manipulation;
+  font-size: max(16px, 13px);
+}
+.a-pct-box span { font-size: 10px; color: var(--text-muted); font-weight: 700; }
 
-/* Contenedor Financiero y Semáforos */
-.a-financial-container { display: flex; align-items: center; gap: 10px; justify-content: flex-end; min-width: 200px; }
-.semaforo { font-size: 9px; font-weight: 700; padding: 3px 6px; border-radius: 5px; text-transform: uppercase; white-space: nowrap; display: inline-block; }
+.a-financial {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.a-eur {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  text-align: right;
+}
+.a-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.a-dca { font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); }
+
+.semaforo {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: inline-block;
+  letter-spacing: 0.03em;
+}
 .sem-bien { background: rgba(48,209,88,0.15); color: var(--green); }
 .sem-mbien { background: rgba(10,132,255,0.15); color: var(--blue); }
 .sem-normal { background: rgba(134,134,139,0.15); color: var(--text-muted); }
 .sem-mmal { background: rgba(255,159,10,0.15); color: var(--amber); }
 .sem-mal { background: rgba(255,69,58,0.15); color: var(--red); }
-.sem-desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
-.btn-add { width: 100%; padding: 8px; background: none; border: none; color: var(--blue); font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.02em; }
-.btn-add:hover { background: rgba(10,132,255,0.05); }
-.a-del-btn { background: transparent; border: none; color: var(--text-dim); font-size: 16px; cursor: pointer; padding: 6px; transition: 0.2s; }
-.a-del-btn:hover { color: var(--red); }
+.btn-add {
+  width: 100%;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--border);
+  touch-action: manipulation;
+}
 
-/* 4. Macro & Sectors Grid Alineados */
-.grid-row-4 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px; align-items: stretch; }
-.grid-row-4 > .card { display: flex; flex-direction: column; }
-.grid-row-4 > .card > div:last-child { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.chart-container { position: relative; height: 140px; width: 100%; display: flex; justify-content: center; }
-#sectorList { display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 6px; }
+/* ── BOTTOM GRID ── */
+.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: stretch; }
 
-/* Quants */
-.q-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.q-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg-hover); border-radius: 8px; border: 1px solid var(--border); }
-.q-lbl { font-size: 12px; color: var(--text-muted); font-weight: 500; }
-.q-val { font-size: 14px; font-weight: 600; font-family: var(--font-mono); }
-.num-font { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-.analyzer-warn { background: rgba(255,69,58,0.1); border: 1px solid var(--red); color: var(--red); padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px; font-weight: 600; }
+.chart-wrap { position: relative; height: 130px; display: flex; justify-content: center; }
 
-/* Ajustes Críticos para Mobile (Layout Compacto sin distorsión) */
-@media (max-width: 600px) {
-  .container { gap: 12px; }
-  .grid-row-4 { grid-template-columns: 1fr; gap: 12px; }
-  .q-list { grid-template-columns: 1fr; gap: 8px; }
-  
-  /* Conversión controlada de las filas de activos para que mantengan proporciones estéticas */
-  .asset-row { display: grid; grid-template-columns: 65px 65px 1fr 24px; grid-template-rows: auto auto; gap: 6px; padding: 10px 0; position: relative; }
-  .a-tck-input { grid-column: 1; grid-row: 1; width: 100%; }
-  .a-pct-container { grid-column: 2; grid-row: 1; width: 100%; }
-  .a-tag-select { grid-column: 3; grid-row: 1; width: 100%; }
-  .a-del-btn { grid-column: 4; grid-row: 1; align-self: center; justify-self: center; }
-  
-  /* Segunda línea interna del activo (Valores numéricos y Semáforos comprimidos) */
-  .a-financial-container { grid-column: 1 / span 4; grid-row: 2; display: flex; justify-content: space-between; align-items: center; background: var(--bg-hover); padding: 6px 10px; border-radius: 6px; min-width: 0; width: 100%; margin-top: 2px; }
+#sectorList { display: flex; flex-direction: column; gap: 8px; }
+
+/* ── QUANTS ── */
+.q-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.q-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--bg-hover);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  gap: 6px;
+}
+.q-lbl { font-size: 11px; color: var(--text-muted); font-weight: 500; line-height: 1.3; }
+.q-val { font-size: 15px; font-weight: 600; font-family: var(--font-mono); }
+.q-right { text-align: right; flex-shrink: 0; }
+
+/* ── MOBILE ── */
+@media (max-width: 580px) {
+  .grid-2col { grid-template-columns: 1fr; }
+  .q-list { grid-template-columns: 1fr; }
+  .profiles-grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* Asset row en mobile: 2 líneas */
+  .asset-row {
+    grid-template-columns: 58px 54px 1fr;
+    grid-template-rows: auto auto;
+    padding: 8px 0;
+    gap: 5px;
+  }
+  .asset-row .a-input.mono { grid-column: 1; grid-row: 1; }
+  .asset-row .a-pct-box { grid-column: 2; grid-row: 1; }
+  .asset-row .a-select { grid-column: 3; grid-row: 1; font-size: 13px; }
+  .asset-row .a-financial {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-hover);
+    padding: 5px 10px;
+    border-radius: 6px;
+  }
+  .asset-row .a-meta { align-items: flex-start; }
+  .asset-row .a-eur { font-size: 15px; }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-  
+
+  <!-- HEADER -->
   <div class="header-container">
-    <a href="https://casencio.github.io/trading-roadmap/" class="btn-volver">VOLVER</a>
+    <a href="https://casencio.github.io/trading-roadmap/" class="btn-volver">← Volver</a>
     <h1>Wallet</h1>
-    <span id="syncStatus">Conectando...</span>
+    <div id="syncStatus">Cargando…</div>
   </div>
 
+  <!-- CAPITAL & DCA -->
   <div class="stat-grid">
     <div class="stat-box">
       <label>Capital</label>
-      <input type="number" id="capitalInput" class="num-font" value="10000" step="100">
+      <input type="number" id="capitalInput" value="10000" step="100" inputmode="decimal">
     </div>
     <div class="stat-box">
-      <label>DCA</label>
-      <input type="number" id="dcaInput" class="num-font" value="500" step="50">
+      <label>DCA / mes</label>
+      <input type="number" id="dcaInput" value="500" step="50" inputmode="decimal">
     </div>
   </div>
 
+  <!-- TIERS -->
   <div id="tiersContainer"></div>
-  
-  <div class="card">
-    <div class="card-title">BRÚJULA DE PERFIL DE CARTERA</div>
-    <div id="recap-tipology" style="font-size:22px; font-weight:800; letter-spacing:-0.02em; text-transform:uppercase; margin-bottom:4px;">—</div>
-    <div id="recap-desc" class="sem-desc">—</div>
-    <div id="recap-warn" class="analyzer-warn" style="display:none;"></div>
-  </div>
 
-  <div class="grid-row-4">
-    <div class="card">
-      <div class="card-title">MACROLOCALIZACIÓN</div>
-      <div class="chart-container"><canvas id="tierChart"></canvas></div>
-      <div id="customLegend" style="display: flex; flex-direction: column; gap: 6px; margin-top: 12px;"></div>
+  <!-- BRÚJULA -->
+  <div class="card">
+    <div class="card-title">Brújula de Cartera</div>
+    <div class="brujula-header">
+      <div class="brujula-type" id="recap-typology">—</div>
+      <div class="brujula-badge" id="recap-badge"></div>
+    </div>
+    <div class="brujula-desc" id="recap-desc">—</div>
+
+    <div class="spectrum-wrap">
+      <div class="spectrum-label-row">
+        <span>Conservadora</span>
+        <span>Moderada</span>
+        <span>Agresiva</span>
+      </div>
+      <div class="spectrum-bar">
+        <div class="spectrum-cursor" id="spectrumCursor" style="left: 50%"></div>
+      </div>
     </div>
 
+    <div class="profiles-grid" id="profilesGrid"></div>
+    <div class="analyzer-warn" id="recap-warn" style="display:none;"></div>
+  </div>
+
+  <!-- MACRO + SECTORES -->
+  <div class="grid-2col">
     <div class="card">
-      <div class="card-title">DISTRIBUCIÓN SECTORIAL</div>
-      <div><div id="sectorList"></div></div>
+      <div class="card-title">Macrolocalización</div>
+      <div class="chart-wrap"><canvas id="tierChart"></canvas></div>
+      <div id="customLegend" style="display:flex; flex-direction:column; gap:5px; margin-top:10px;"></div>
+    </div>
+    <div class="card" style="display:flex; flex-direction:column;">
+      <div class="card-title">Distribución Sectorial</div>
+      <div id="sectorList" style="flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:0;"></div>
     </div>
   </div>
 
+  <!-- QUANTS -->
   <div class="card">
-    <div class="card-title">RIESGO ESPERADO & ESTRUCTURA</div>
+    <div class="card-title">Riesgo Esperado & Estructura</div>
     <div class="q-list">
       <div class="q-item">
-        <div class="q-lbl">Volatilidad (Fluctuación)</div>
-        <div style="text-align:right"><div class="q-val" id="q-vol">—</div><div class="semaforo" id="sem-vol" style="margin-top:2px;"></div></div>
+        <div class="q-lbl">Volatilidad Anual</div>
+        <div class="q-right">
+          <div class="q-val" id="q-vol">—</div>
+          <div class="semaforo" id="sem-vol" style="margin-top:3px;"></div>
+        </div>
       </div>
       <div class="q-item">
-        <div class="q-lbl">Caída Máxima Estimada</div>
-        <div style="text-align:right"><div class="q-val" id="q-mdd">—</div><div class="semaforo" id="sem-dd" style="margin-top:2px;"></div></div>
+        <div class="q-lbl">Caída Máxima Est.</div>
+        <div class="q-right">
+          <div class="q-val" id="q-mdd">—</div>
+          <div class="semaforo" id="sem-dd" style="margin-top:3px;"></div>
+        </div>
       </div>
       <div class="q-item">
-        <div class="q-lbl">Diversificación Real</div>
-        <div style="text-align:right"><div class="q-val" id="q-cor">—</div><div class="semaforo" id="sem-cor" style="margin-top:2px;"></div></div>
+        <div class="q-lbl">Correlación Interna</div>
+        <div class="q-right">
+          <div class="q-val" id="q-cor">—</div>
+          <div class="semaforo" id="sem-cor" style="margin-top:3px;"></div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-lbl">CAGR Esperado</div>
+        <div class="q-right">
+          <div class="q-val" id="q-cagr">—</div>
+          <div class="semaforo sem-mbien" style="margin-top:3px;">Estimado</div>
+        </div>
       </div>
     </div>
   </div>
 
-</div>
+</div><!-- /container -->
 
 <script>
+// =============================================
+// SECTOR DATA
+// =============================================
 const SECTOR_DATA = {
-  "Quality (Alto ROIC / Foso)": { v: 0.18, a: 0.015, b: 0.9, c: 0.60 },
-  "Growth (Crecimiento >20%)": { v: 0.32, a: 0.025, b: 1.3, c: 0.80 },
-  "Semiconductores / Hardware": { v: 0.38, a: 0.035, b: 1.6, c: 0.85 },
-  "Software / Cloud SaaS": { v: 0.30, a: 0.025, b: 1.4, c: 0.80 },
-  "Energía / Infraestructura": { v: 0.22, a: 0.010, b: 0.8, c: 0.30 },
-  "Bitcoin / Cripto": { v: 0.65, a: 0.050, b: 2.2, c: 0.20 },
-  "Otros": { v: 0.20, a: 0.005, b: 1.0, c: 0.60 }
+  "Quality (Alto ROIC)":        { v: 0.18, a: 0.015, b: 0.90, c: 0.55 },
+  "Growth (>20% revenue)":      { v: 0.32, a: 0.025, b: 1.30, c: 0.80 },
+  "Semiconductores / Hardware": { v: 0.38, a: 0.035, b: 1.60, c: 0.85 },
+  "Software / Cloud SaaS":      { v: 0.30, a: 0.025, b: 1.40, c: 0.80 },
+  "Energía / Infraestructura":  { v: 0.22, a: 0.010, b: 0.80, c: 0.30 },
+  "Pagos / Finanzas":           { v: 0.20, a: 0.012, b: 0.85, c: 0.45 },
+  "Salud / Biotech":            { v: 0.28, a: 0.020, b: 1.10, c: 0.35 },
+  "Consumo / Retail":           { v: 0.22, a: 0.010, b: 0.95, c: 0.50 },
+  "Bitcoin / Cripto":           { v: 0.65, a: 0.050, b: 2.20, c: 0.20 },
+  "Oro / Commodities":          { v: 0.15, a: 0.005, b: 0.40, c: 0.10 },
+  "Indexado / ETF Global":      { v: 0.16, a: 0.008, b: 0.95, c: 0.70 },
+  "Especulativo / Small Cap":   { v: 0.50, a: 0.040, b: 1.80, c: 0.60 },
+  "Otros":                      { v: 0.20, a: 0.005, b: 1.00, c: 0.60 }
 };
 const SECTORS = Object.keys(SECTOR_DATA);
 
+// =============================================
+// PORTFOLIO PROFILE TYPOLOGIES
+// Based on Fidelity / Schwab / institutional standards
+// =============================================
+const TYPOLOGIES = [
+  {
+    id: "muy-conservadora",
+    label: "Muy Conservadora",
+    short: "Muy Cons.",
+    color: "#5e5ce6",
+    riskScore: [0, 15],
+    description: "Capital preservation first. Mínima exposición a activos volátiles. Adecuada para horizontes cortos o aversión extrema al riesgo.",
+    criteria: (s) => s <= 15
+  },
+  {
+    id: "conservadora",
+    label: "Conservadora",
+    short: "Conserv.",
+    color: "#0a84ff",
+    riskScore: [15, 30],
+    description: "Prioridad a la estabilidad con algo de crecimiento. Típico en perfiles cercanos a la jubilación o con baja tolerancia a caídas.",
+    criteria: (s) => s > 15 && s <= 30
+  },
+  {
+    id: "moderada",
+    label: "Moderada",
+    short: "Moderada",
+    color: "#30d158",
+    riskScore: [30, 50],
+    description: "Balance entre crecimiento y protección. Tolera caídas temporales a cambio de retornos superiores a largo plazo.",
+    criteria: (s) => s > 30 && s <= 50
+  },
+  {
+    id: "growth",
+    label: "Growth",
+    short: "Growth",
+    color: "#ff9f0a",
+    riskScore: [50, 70],
+    description: "Orientada al crecimiento con capacidad de aguantar volatilidad significativa. Perfil típico de inversor de 35-50 años con horizonte largo.",
+    criteria: (s) => s > 50 && s <= 70
+  },
+  {
+    id: "agresiva",
+    label: "Agresiva",
+    short: "Agresiva",
+    color: "#ff453a",
+    riskScore: [70, 88],
+    description: "Máximo crecimiento esperado, máxima volatilidad. Requiere alta tolerancia a caídas del 40-60% sin vender.",
+    criteria: (s) => s > 70 && s <= 88
+  },
+  {
+    id: "especulativa",
+    label: "Especulativa",
+    short: "Especul.",
+    color: "#bf5af2",
+    riskScore: [88, 100],
+    description: "Concentración extrema o activos de muy alto riesgo. Posibles retornos excepcionales o pérdidas totales. No apta para capital crítico.",
+    criteria: (s) => s > 88
+  }
+];
+
+// =============================================
+// STATE
+// =============================================
 let state = { capital: 10000, dca: 500, tiers: [] };
 let tierChartInstance = null;
+let saveTimeout = null;
+let isInitialLoad = true;
 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGqcI8Xef9xZzM7levoXR-1DsfT213kwpPThKgHewHVIJYHOnLxI4A8Do50ELKXdw1/exec';
+const CACHE_KEY = 'cartera_cache_v2';
+const TIER_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#5e5ce6'];
+
+// =============================================
+// UTILS
+// =============================================
 const fmt = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
 
 function getSem(val, thresholds) {
@@ -209,37 +714,65 @@ function getSem(val, thresholds) {
   return { s: "ÓPTIMO", c: "sem-bien" };
 }
 
-function getTierFriction(eur) {
+function getAssetSemaforo(eur) {
   if (eur <= 0) return null;
   if (eur < 50) return { t: "CRÍTICO", c: "sem-mal" };
   if (eur < 100) return { t: "SUBÓPTIMO", c: "sem-mmal" };
+  if (eur < 200) return { t: "OK", c: "sem-normal" };
   return { t: "ÓPTIMO", c: "sem-bien" };
 }
 
-function calculateQuant(globalWeights, sectorWeights) {
-  let vSum=0, aSum=0, bSum=0, cSum=0;
+// =============================================
+// CALCULATIONS
+// =============================================
+function calculateQuant(globalWeights) {
+  let vSum = 0, aSum = 0, bSum = 0, cSum = 0;
   globalWeights.forEach(a => {
-    let d = SECTOR_DATA[a.tag] || SECTOR_DATA["Otros"];
-    vSum += Math.pow(a.weight * d.v, 2); aSum += (a.weight * d.a); bSum += (a.weight * d.b); cSum += (a.weight * d.c);
+    const d = SECTOR_DATA[a.tag] || SECTOR_DATA["Otros"];
+    vSum += Math.pow(a.weight * d.v, 2);
+    aSum += a.weight * d.a;
+    bSum += a.weight * d.b;
+    cSum += a.weight * d.c;
   });
-  let vol = Math.sqrt(vSum) * 1.3, maxDD = vol * 1.7, expectedCAGR = 0.045 + (bSum * 0.05) + aSum;
-  let maxFactorPct = Math.max(...Object.values(sectorWeights || {o:0}));
-  return { vol, maxDD, corr: cSum, expectedCAGR, probBeat: 0.4 + (aSum*5), maxFactorPct };
+  const vol = Math.sqrt(vSum) * 1.3;
+  const maxDD = vol * 1.7;
+  const expectedCAGR = 0.04 + (bSum * 0.05) + aSum;
+  return { vol, maxDD, corr: cSum, expectedCAGR };
 }
 
-function getTypology(t1, t2, t3, maxFactor) {
-  if (maxFactor > 0.6) return { label: "CONCENTRACIÓN CRÍTICA", color: "var(--red)", d: "Error Retail detectado: Tu cartera depende de un solo factor (>60%). No estás diversificado." };
-  let label = "Balanceada", color = "var(--text-muted)";
-  if (t1 >= 60) { label = "Defensiva"; color = "var(--blue)"; if(t1 >= 80) label = "Muy Defensiva"; }
-  else if (t2 >= 60) { label = "Growth"; color = "var(--green)"; if(t2 >= 80) label = "Muy Agresiva"; }
-  return { label, color, d: "Estructura alineada con rangos de gestión institucional." };
+function computeRiskScore(globalWeights, sectorWeights) {
+  // Score 0-100 based on weighted volatility of portfolio
+  let vSum = 0;
+  globalWeights.forEach(a => {
+    const d = SECTOR_DATA[a.tag] || SECTOR_DATA["Otros"];
+    vSum += a.weight * d.v;
+  });
+  // Map 0-0.65 vol range to 0-100 score
+  return Math.min(100, Math.round((vSum / 0.55) * 100));
 }
 
+function getTypology(riskScore, sectorWeights) {
+  // Check concentration first
+  const maxFactor = Math.max(...Object.values(sectorWeights || { o: 0 }));
+  if (maxFactor > 0.65) {
+    return {
+      typology: TYPOLOGIES[5], // especulativa
+      warn: `Concentración crítica: un solo factor supone el ${(maxFactor * 100).toFixed(0)}% de tu cartera. No estás diversificado.`,
+      riskScore: Math.max(riskScore, 90)
+    };
+  }
+  const t = TYPOLOGIES.find(t => t.criteria(riskScore)) || TYPOLOGIES[3];
+  return { typology: t, warn: null, riskScore };
+}
+
+// =============================================
+// BALANCING
+// =============================================
 function autoBalanceTiers(cIdx, newVal) {
-  let diff = newVal - state.tiers[cIdx].pctTarget;
+  const diff = newVal - state.tiers[cIdx].pctTarget;
   state.tiers[cIdx].pctTarget = newVal;
-  let others = state.tiers.filter((_, i) => i !== cIdx);
-  let sumOthers = others.reduce((s, t) => s + t.pctTarget, 0);
+  const others = state.tiers.filter((_, i) => i !== cIdx);
+  const sumOthers = others.reduce((s, t) => s + t.pctTarget, 0);
   if (sumOthers > 0) {
     others.forEach(t => { t.pctTarget = Math.max(0, t.pctTarget - (diff * (t.pctTarget / sumOthers))); });
   } else {
@@ -248,12 +781,12 @@ function autoBalanceTiers(cIdx, newVal) {
 }
 
 function autoBalanceInternals(tIdx, changedAIdx, newVal) {
-  let t = state.tiers[tIdx];
-  if (t.assets.length <= 1) { if(t.assets.length===1) t.assets[0].pctInternal = 100; return; }
-  let diff = newVal - t.assets[changedAIdx].pctInternal;
+  const t = state.tiers[tIdx];
+  if (t.assets.length <= 1) { if (t.assets.length === 1) t.assets[0].pctInternal = 100; return; }
+  const diff = newVal - t.assets[changedAIdx].pctInternal;
   t.assets[changedAIdx].pctInternal = newVal;
-  let others = t.assets.filter((_, i) => i !== changedAIdx);
-  let sumOthers = others.reduce((s, a) => s + a.pctInternal, 0);
+  const others = t.assets.filter((_, i) => i !== changedAIdx);
+  const sumOthers = others.reduce((s, a) => s + a.pctInternal, 0);
   if (sumOthers > 0) {
     others.forEach(a => { a.pctInternal = Math.max(0, a.pctInternal - (diff * (a.pctInternal / sumOthers))); });
   } else {
@@ -261,33 +794,40 @@ function autoBalanceInternals(tIdx, changedAIdx, newVal) {
   }
 }
 
+// =============================================
+// RENDER
+// =============================================
 function render() {
   const cap = parseFloat(document.getElementById('capitalInput').value) || 0;
   const dca = parseFloat(document.getElementById('dcaInput').value) || 0;
-  state.capital = cap; state.dca = dca;
-  
+  state.capital = cap;
+  state.dca = dca;
+
   let globalWeights = [], sectorWeights = {};
   const cont = document.getElementById('tiersContainer');
   cont.innerHTML = '';
-  
+
   state.tiers.forEach((tier, tIdx) => {
     const tierEur = cap * (tier.pctTarget / 100);
     const tDca = dca * (tier.pctTarget / 100);
-    const tierFrict = getTierFriction(tierEur);
-    
-    let tier_html = `
-      <div class="tier-block" style="border-left: 4px solid ${tier.color};">
+    const color = tier.color || TIER_COLORS[tIdx % TIER_COLORS.length];
+
+    let html = `
+      <div class="tier-block" style="border-left: 3px solid ${color}; border-right: 3px solid ${color};">
         <div class="tier-header">
-          <h2><div style="width: 12px; height: 12px; border-radius: 50%; background:${tier.color}"></div>${tier.name}</h2>
-          <div style="display:flex; align-items:center; gap:12px;">
-            ${tierFrict && tier.pctTarget > 0 ? `<div class="semaforo ${tierFrict.c}">${tierFrict.t}</div>` : ''}
-            <div style="text-align:right;">
-              <div class="num-font" style="color:var(--text-main); font-size:13px; font-weight: 600;">${fmt(tierEur)}</div>
-              <div class="num-font" style="font-size:10px; color:${tier.color}">+${fmt(tDca)}/m</div>
+          <h2>
+            <div class="tier-dot" style="background:${color}"></div>
+            ${tier.name}
+          </h2>
+          <div class="tier-right">
+            <div class="tier-amounts">
+              <div class="tier-eur">${fmt(tierEur)}</div>
+              <div class="tier-dca" style="color:var(--text-muted)">+${fmt(tDca)}/m</div>
             </div>
-            <div style="display: flex; align-items: center; gap: 2px; background: var(--bg-card); padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); height:34px;">
-              <input type="number" class="num-font" value="${tier.pctTarget.toFixed(1)}" onchange="updateTier(${tIdx}, this.value)" style="width: 38px; text-align: right; background: transparent; border: none; color: var(--text-main); font-size: 14px; font-weight: 700; outline: none;">
-              <span style="font-weight: 700; color: var(--text-muted); font-size: 11px;">%</span>
+            <div class="tier-pct-box">
+              <input type="number" inputmode="decimal" value="${Math.round(tier.pctTarget)}"
+                onchange="updateTier(${tIdx}, this.value)">
+              <span>%</span>
             </div>
           </div>
         </div>
@@ -295,154 +835,286 @@ function render() {
     `;
 
     tier.assets.forEach((a, aIdx) => {
-      const aEur = tierEur * (a.pctInternal / 100), absW = (tier.pctTarget/100)*(a.pctInternal/100);
+      const aEur = tierEur * (a.pctInternal / 100);
+      const absW = (tier.pctTarget / 100) * (a.pctInternal / 100);
       globalWeights.push({ weight: absW, tag: a.tag });
       sectorWeights[a.tag] = (sectorWeights[a.tag] || 0) + absW;
-      
-      const fStatus = aEur > 0 && aEur < 100 ? (aEur < 50 ? {t:'CRÍTICO', c:'sem-mal'} : {t:'SUBÓPTIMO', c:'sem-mmal'}) : null;
-      
-      tier_html += `
+
+      const aDca = dca * absW;
+      const fStatus = getAssetSemaforo(aEur);
+
+      html += `
         <div class="asset-row">
-          <input type="text" value="${a.ticker}" onchange="updateA(${tIdx},${aIdx},'ticker',this.value)" placeholder="TCK" class="a-input mono a-tck-input">
-          
-          <div class="a-pct-container">
-            <input type="number" value="${a.pctInternal.toFixed(1)}" onchange="changeA(${tIdx},${aIdx},this.value)">
-            <span style="font-size: 11px; color: var(--text-muted); font-weight:700;">%</span>
+          <input type="text" value="${a.ticker}"
+            onchange="updateA(${tIdx},${aIdx},'ticker',this.value)"
+            placeholder="TCK" class="a-input mono" autocomplete="off" autocorrect="off" spellcheck="false">
+
+          <div class="a-pct-box">
+            <input type="number" inputmode="decimal" value="${Math.round(a.pctInternal)}"
+              onchange="changeA(${tIdx},${aIdx},this.value)">
+            <span>%</span>
           </div>
-          
-          <select onchange="updateA(${tIdx},${aIdx},'tag',this.value)" class="a-select a-tag-select">
-            ${SECTORS.map(s => `<option ${a.tag===s?'selected':''}>${s}</option>`).join('')}
+
+          <select onchange="updateA(${tIdx},${aIdx},'tag',this.value)" class="a-select">
+            ${SECTORS.map(s => `<option ${a.tag === s ? 'selected' : ''}>${s}</option>`).join('')}
           </select>
-          
-          <div class="a-financial-container">
-            <span class="num-font" style="font-size: 13px; font-weight: 600; color: var(--text-main);">${fmt(aEur)}</span>
-            <span class="num-font" style="font-size: 10px; color: var(--green);">+${fmt(dca*(tier.pctTarget/100)*(a.pctInternal/100))}/m</span>
-            ${fStatus ? `<span class="semaforo ${fStatus.c}">${fStatus.t}</span>`: '<span style="width:1px; height:1px;"></span>'}
+
+          <div class="a-financial">
+            <div class="a-meta">
+              <div class="a-dca">+${fmt(aDca)}/m</div>
+              ${fStatus ? `<span class="semaforo ${fStatus.c}">${fStatus.t}</span>` : ''}
+            </div>
+            <div class="a-eur">${fmt(aEur)}</div>
           </div>
-          
-          <button onclick="remA(${tIdx},${aIdx})" class="a-del-btn">✕</button>
         </div>
       `;
     });
-    tier_html += `<button onclick="addA(${tIdx})" class="btn-add">+ Añadir Activo</button></div></div>`;
-    cont.innerHTML += tier_html;
+
+    html += `<button onclick="addA(${tIdx})" class="btn-add" style="color:${color}">+ Añadir activo</button></div></div>`;
+    cont.innerHTML += html;
   });
 
-  const q = calculateQuant(globalWeights, sectorWeights);
-  const sV = getSem(q.vol, [0.12, 0.18, 0.25, 0.35]), sD = getSem(q.maxDD, [0.15, 0.25, 0.35, 0.45]), sC = getSem(q.corr, [0.4, 0.55, 0.7, 0.85]);
-  
-  document.getElementById('q-vol').textContent = (q.vol*100).toFixed(1)+'%'; document.getElementById('sem-vol').className = 'semaforo '+sV.c; document.getElementById('sem-vol').textContent = sV.s;
-  document.getElementById('q-mdd').textContent = '-'+(q.maxDD*100).toFixed(1)+'%'; document.getElementById('sem-dd').className = 'semaforo '+sD.c; document.getElementById('sem-dd').textContent = sD.s;
-  document.getElementById('q-cor').textContent = q.corr.toFixed(2); document.getElementById('sem-cor').className = 'semaforo '+sC.c; document.getElementById('sem-cor').textContent = sC.s;
+  // ── QUANTS ──
+  const q = calculateQuant(globalWeights);
+  const sV = getSem(q.vol, [0.12, 0.18, 0.25, 0.35]);
+  const sD = getSem(q.maxDD, [0.15, 0.25, 0.35, 0.45]);
+  const sC = getSem(q.corr, [0.4, 0.55, 0.7, 0.85]);
 
-  const t = getTypology(state.tiers[0]?state.tiers[0].pctTarget:0, state.tiers[1]?state.tiers[1].pctTarget:0, state.tiers[2]?state.tiers[2].pctTarget:0, q.maxFactorPct);
-  document.getElementById('recap-tipology').textContent = t.label; document.getElementById('recap-tipology').style.color = t.color;
-  document.getElementById('recap-desc').textContent = t.d;
-  
-  const warnEl = document.getElementById('recap-warn');
-  if(q.maxFactorPct > 0.6) {
-    warnEl.style.display = 'block'; warnEl.textContent = t.d;
-  } else { warnEl.style.display = 'none'; }
-  
-  const sList = document.getElementById('sectorList'); sList.innerHTML = '';
-  Object.entries(sectorWeights).sort((a,b)=>b[1]-a[1]).forEach(([s,w]) => {
-    if(w<0.01) return;
-    const p = (w*100).toFixed(1) + '%';
-    sList.innerHTML += `<div style="display: flex; align-items: center; gap: 8px;">
-      <div style="width: 120px; font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${s}">${s}</div>
-      <div style="flex: 1; background: var(--bg-hover); border-radius: 4px; height: 6px; overflow: hidden;">
-        <div style="width: ${p}; background: var(--blue); height: 100%; border-radius: 4px;"></div>
-      </div>
-      <div style="width: 38px; text-align: right; font-size: 11px; font-weight: 600; color: var(--text-main);">${p}</div>
+  document.getElementById('q-vol').textContent = (q.vol * 100).toFixed(1) + '%';
+  document.getElementById('sem-vol').className = 'semaforo ' + sV.c;
+  document.getElementById('sem-vol').textContent = sV.s;
+
+  document.getElementById('q-mdd').textContent = '-' + (q.maxDD * 100).toFixed(1) + '%';
+  document.getElementById('sem-dd').className = 'semaforo ' + sD.c;
+  document.getElementById('sem-dd').textContent = sD.s;
+
+  document.getElementById('q-cor').textContent = q.corr.toFixed(2);
+  document.getElementById('sem-cor').className = 'semaforo ' + sC.c;
+  document.getElementById('sem-cor').textContent = sC.s;
+
+  document.getElementById('q-cagr').textContent = (q.expectedCAGR * 100).toFixed(1) + '%';
+
+  // ── TYPOLOGY & BRÚJULA ──
+  const riskScore = computeRiskScore(globalWeights, sectorWeights);
+  const { typology, warn, riskScore: finalScore } = getTypology(riskScore, sectorWeights);
+
+  document.getElementById('recap-typology').textContent = typology.label;
+  document.getElementById('recap-typology').style.color = typology.color;
+
+  const badge = document.getElementById('recap-badge');
+  badge.textContent = `Score ${finalScore}/100`;
+  badge.style.background = typology.color + '22';
+  badge.style.color = typology.color;
+
+  document.getElementById('recap-desc').textContent = typology.description;
+
+  // Spectrum cursor
+  const cursorPct = Math.min(95, Math.max(5, finalScore));
+  document.getElementById('spectrumCursor').style.left = cursorPct + '%';
+
+  // Profile pills
+  const grid = document.getElementById('profilesGrid');
+  grid.innerHTML = TYPOLOGIES.map(t => {
+    const isActive = t.id === typology.id;
+    return `<div class="profile-pill ${isActive ? 'active' : ''}" style="${isActive ? `color:${t.color}; border-color:${t.color}; background:${t.color}18;` : ''}">
+      <div class="p-name" style="${isActive ? `color:${t.color}` : ''}">${t.short}</div>
+      <div class="p-range">${t.riskScore[0]}–${t.riskScore[1]}</div>
     </div>`;
+  }).join('');
+
+  const warnEl = document.getElementById('recap-warn');
+  if (warn) { warnEl.style.display = 'block'; warnEl.textContent = warn; }
+  else { warnEl.style.display = 'none'; }
+
+  // ── SECTOR LIST ──
+  const sList = document.getElementById('sectorList');
+  sList.innerHTML = '';
+  const sectorEntries = Object.entries(sectorWeights)
+    .sort((a, b) => b[1] - a[1])
+    .filter(([, w]) => w >= 0.005);
+
+  sectorEntries.forEach(([s, w]) => {
+    const p = Math.round(w * 100) + '%';
+    sList.innerHTML += `
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:100px; font-size:10px; color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex-shrink:0;" title="${s}">${s}</div>
+        <div style="flex:1; background:var(--bg-hover); border-radius:3px; height:5px; overflow:hidden;">
+          <div style="width:${p}; background:var(--blue); height:100%; border-radius:3px;"></div>
+        </div>
+        <div style="width:30px; text-align:right; font-size:11px; font-weight:600; flex-shrink:0;">${p}</div>
+      </div>`;
   });
 
+  // ── DONUT CHART ──
   const rootStyles = getComputedStyle(document.documentElement);
-  let cardBg = rootStyles.getPropertyValue('--bg-card').trim() || '#000000';
-
+  const cardBg = rootStyles.getPropertyValue('--bg-card').trim() || '#111';
   const ctx = document.getElementById('tierChart');
   if (tierChartInstance) tierChartInstance.destroy();
-  tierChartInstance = new Chart(ctx, { 
-    type: 'doughnut', 
-    data: { labels: state.tiers.map(t=>t.name), datasets: [{ data: state.tiers.map(t=>t.pctTarget), backgroundColor: state.tiers.map(t=>t.color), borderColor: cardBg, borderWidth: 3 }] }, 
-    options: { responsive: true, maintainAspectRatio: false, cutout: '76%', events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-  });
-
-  const legendContainer = document.getElementById('customLegend');
-  legendContainer.innerHTML = '';
-  state.tiers.forEach(t => {
-    if(t.pctTarget > 0) {
-      legendContainer.innerHTML += `<div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
-        <div style="display: flex; align-items: center; gap: 6px;"><div style="width: 10px; height: 10px; border-radius: 2px; background: ${t.color};"></div><span style="color: var(--text-muted);">${t.name}</span></div>
-        <span style="font-weight: 600; color: var(--text-main);">${t.pctTarget.toFixed(1)}%</span>
-      </div>`;
+  tierChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: state.tiers.map(t => t.name),
+      datasets: [{
+        data: state.tiers.map(t => t.pctTarget),
+        backgroundColor: state.tiers.map((t, i) => t.color || TIER_COLORS[i % TIER_COLORS.length]),
+        borderColor: cardBg,
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '76%',
+      events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } }
     }
   });
 
-  triggerAutoSave();
+  const legend = document.getElementById('customLegend');
+  legend.innerHTML = state.tiers.map((t, i) => {
+    const c = t.color || TIER_COLORS[i % TIER_COLORS.length];
+    return `<div style="display:flex; align-items:center; justify-content:space-between; font-size:11px;">
+      <div style="display:flex; align-items:center; gap:5px;">
+        <div style="width:8px; height:8px; border-radius:2px; background:${c};"></div>
+        <span style="color:var(--text-muted);">${t.name}</span>
+      </div>
+      <span style="font-weight:600;">${Math.round(t.pctTarget)}%</span>
+    </div>`;
+  }).join('');
+
 }
 
-function updateTier(t, v) { autoBalanceTiers(t, parseFloat(v)||0); render(); }
-function changeA(t, a, v) { autoBalanceInternals(t, a, parseFloat(v)||0); render(); }
-function updateA(t, a, f, v) { state.tiers[t].assets[a][f] = v; render(); }
-function addA(t) { state.tiers[t].assets.push({ ticker:"?", pctInternal:0, tag:"Otros" }); let assets=state.tiers[t].assets; assets.forEach(a=>a.pctInternal=100/assets.length); render(); }
-function remA(t, a) { state.tiers[t].assets.splice(a,1); let assets=state.tiers[t].assets; assets.forEach(as=>as.pctInternal=assets.length?100/assets.length:0); render(); }
+// =============================================
+// STATE MUTATIONS — only these trigger save
+// =============================================
+function updateTier(t, v) { autoBalanceTiers(t, parseFloat(v) || 0); render(); triggerAutoSave(); }
+function changeA(t, a, v) {
+  const val = parseFloat(v) || 0;
+  if (val === 0) {
+    // Auto-delete: remove asset and redistribute
+    state.tiers[t].assets.splice(a, 1);
+    const assets = state.tiers[t].assets;
+    if (assets.length > 0) {
+      const sum = assets.reduce((s, a) => s + a.pctInternal, 0);
+      if (sum > 0) assets.forEach(a => a.pctInternal = (a.pctInternal / sum) * 100);
+      else assets.forEach(a => a.pctInternal = 100 / assets.length);
+    }
+  } else {
+    autoBalanceInternals(t, a, val);
+  }
+  render(); triggerAutoSave();
+}
+function updateA(t, a, f, v) { state.tiers[t].assets[a][f] = f === 'ticker' ? v.toUpperCase() : v; render(); triggerAutoSave(); }
 
-// ==========================================
-// CONEXIÓN SCRIPT GOOGLE SHEETS
-// ==========================================
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGqcI8Xef9xZzM7levoXR-1DsfT213kwpPThKgHewHVIJYHOnLxI4A8Do50ELKXdw1/exec';
-let saveTimeout;
-let isInitialLoad = true;
+function addA(t) {
+  const assets = state.tiers[t].assets;
+  const existingTotal = assets.reduce((s, a) => s + a.pctInternal, 0);
+  const newShare = existingTotal / (assets.length + 1);
+  assets.forEach(a => { a.pctInternal = a.pctInternal * (1 - newShare / existingTotal); });
+  assets.push({ ticker: "?", pctInternal: newShare, tag: "Otros" });
+  render(); triggerAutoSave();
+}
 
+function remA(t, a) {
+  state.tiers[t].assets.splice(a, 1);
+  const assets = state.tiers[t].assets;
+  if (assets.length > 0) {
+    const eq = 100 / assets.length;
+    assets.forEach(a => a.pctInternal = eq);
+  }
+  render(); triggerAutoSave();
+}
+
+// =============================================
+// CACHE
+// =============================================
+function saveCache(data) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch (e) {}
+}
+
+function loadCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) { return null; }
+}
+
+function applyState(data) {
+  data.tiers.forEach((t, i) => { t.color = TIER_COLORS[i % TIER_COLORS.length]; });
+  state = data;
+  document.getElementById('capitalInput').value = state.capital;
+  document.getElementById('dcaInput').value = state.dca;
+}
+
+// =============================================
+// SYNC
+// =============================================
+function setStatus(text, color) {
+  const el = document.getElementById('syncStatus');
+  el.textContent = text;
+  el.style.color = color || 'var(--text-muted)';
+}
+
+let saveDebounce = null;
 function triggerAutoSave() {
-  if (isInitialLoad) return; 
-  clearTimeout(saveTimeout);
-  const status = document.getElementById('syncStatus');
-  if(status) { status.textContent = "Esperando..."; status.style.color = "var(--amber)"; }
-  saveTimeout = setTimeout(() => { saveToSheets(); }, 2000);
+  if (isInitialLoad) return;
+  setStatus("Editando…", "var(--amber)");
+  clearTimeout(saveDebounce);
+  saveDebounce = setTimeout(() => {
+    saveCache(state);
+    saveToSheets();
+  }, 3000); // 3s after last edit — enough to avoid over-syncing, fast enough to feel responsive
 }
 
 async function loadFromSheets() {
-  const status = document.getElementById('syncStatus');
+  // 1. Show cached data immediately
+  const cached = loadCache();
+  if (cached && cached.data && cached.data.tiers) {
+    applyState(cached.data);
+    render();
+  }
+
+  // 2. Attach listeners
+  document.getElementById('capitalInput').addEventListener('input', () => { render(); triggerAutoSave(); });
+  document.getElementById('dcaInput').addEventListener('input', () => { render(); triggerAutoSave(); });
+
+  // 3. Try to fetch fresh data
+  setStatus("Sincronizando…", "var(--text-muted)");
   try {
-    if(status) { status.textContent = "Conectando..."; status.style.color = "var(--text-muted)"; }
-    const response = await fetch(SCRIPT_URL);
+    const response = await fetch(SCRIPT_URL + '?t=' + Date.now());
     const data = await response.json();
     if (data && data.tiers) {
-      const defaultColors = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#5e5ce6'];
-      data.tiers.forEach((t, i) => { t.color = defaultColors[i % defaultColors.length]; });
-      state = data;
-      document.getElementById('capitalInput').value = state.capital;
-      document.getElementById('dcaInput').value = state.dca;
-      if(status) { status.textContent = "Sincronizado ✅"; status.style.color = "var(--green)"; }
+      applyState(data);
+      saveCache(data);
+      setStatus("Sincronizado ✓", "var(--green)");
+      render();
+    } else {
+      setStatus("Sin datos ⚠", "var(--amber)");
     }
-  } catch (error) {
-    console.error("Error al cargar:", error);
-    if(status) { status.textContent = "Modo Local ❌"; status.style.color = "var(--red)"; }
-    document.getElementById('capitalInput').value = state.capital;
-    document.getElementById('dcaInput').value = state.dca;
+  } catch (err) {
+    setStatus(cached ? "Cache local ⚠" : "Sin conexión ✕", cached ? "var(--amber)" : "var(--red)");
+  } finally {
+    setTimeout(() => { isInitialLoad = false; }, 300);
   }
-  
-  document.getElementById('capitalInput').addEventListener('input', render);
-  document.getElementById('dcaInput').addEventListener('input', render);
-  render();
-  setTimeout(() => { isInitialLoad = false; }, 500);
 }
 
 async function saveToSheets() {
-  const status = document.getElementById('syncStatus');
+  setStatus("Guardando…", "var(--blue)");
   try {
-    if(status) { status.textContent = "Guardando... ⏳"; status.style.color = "var(--blue)"; }
-    await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(state), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
-    if(status) { status.textContent = "Guardado ✅"; status.style.color = "var(--green)"; }
-  } catch (error) {
-    if(status) { status.textContent = "Error ❌"; status.style.color = "var(--red)"; }
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(state),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    });
+    setStatus("Guardado ✓", "var(--green)");
+    saveCache(state);
+  } catch (err) {
+    setStatus("Error ✕", "var(--red)");
   }
 }
 
-window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => { render(); });
+// ── Theme change re-render ──
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => render());
 
+// ── Boot ──
 loadFromSheets();
 </script>
 </body>
