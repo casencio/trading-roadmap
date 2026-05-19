@@ -1,332 +1,332 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, height=768, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sudoku Kids - iOS Modern UI</title>
+    <style>
+        /* ==========================================================================
+           1. BASE Y TIPOGRAFÍA APPLE
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-<title>Sudoku Blocks Preview</title>
+        body {
+            /* Pila tipográfica nativa de Apple. Busca SF Pro Rounded si está disponible */
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Helvetica Rounded", Arial, sans-serif;
+            background-color: #F2F2F7; /* Gris fondo de sistema iOS */
+            color: #1C1C1E;
+            padding: 40px;
+            -webkit-font-smoothing: antialiased;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        .presentation-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-<style>
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #000000;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
 
-:root{
-    --bg:#F4F7FB;
-    --card:#ffffff;
-    --text:#1F2937;
+        .section-desc {
+            font-size: 17px;
+            color: #8E8E93;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
 
-    --n1:#4A90E2;
-    --n2:#62C370;
-    --n3:#FF8A65;
-    --n4:#FFD166;
-    --n5:#A78BFA;
-    --n6:#4FD1C5;
-    --n7:#F472B6;
-    --n8:#FB923C;
-    --n9:#EF4444;
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #C6C6C8;
+            margin: 50px 0;
+        }
 
-    --shadow:0 12px 30px rgba(0,0,0,0.08);
-}
+        /* ==========================================================================
+           2. COMPONENTES DEL TABLERO (FLEX MATRIZ INDESTRUCTIBLE)
+           ========================================================================== */
+        .ipad-frame {
+            background: #FFFFFF;
+            border-radius: 32px;
+            padding: 40px;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04), 0 2px 10px rgba(0,0,0,0.02);
+            margin-bottom: 40px;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Inter,sans-serif;
-}
+        /* El contenedor del tablero. Fondo gris suave donde "encajan" las fichas */
+        .board-wrapper {
+            background-color: #E5E5EA; 
+            padding: 8px;
+            border-radius: 28px; /* Squircle */
+            width: 540px;
+            height: 540px;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column; /* Apila las filas */
+        }
 
-body{
-    background:var(--bg);
-    padding:30px;
-    color:var(--text);
-}
+        /* Fila estricta. Imposible que se desmonte */
+        .board-row {
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            flex: 1; /* Ocupa el espacio vertical disponible equitativamente */
+        }
 
-.container{
-    max-width:980px;
-    margin:0 auto;
-}
+        /* Ficha blanca nativa */
+        .cell {
+            flex: 1; /* Ocupa el espacio horizontal equitativamente */
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            margin: 4px; /* Espaciado vital. Elimina la necesidad de bordes */
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
 
-h1{
-    margin-bottom:8px;
-}
+        /* Celdas interactivas (vacías) */
+        .cell.empty {
+            background-color: #F2F2F7;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
 
-p{
-    margin-bottom:30px;
-    opacity:.6;
-}
+        /* Tipografía de los números */
+        .cell .digit {
+            font-weight: 800;
+            line-height: 1;
+            color: #1C1C1E;
+        }
 
-/* LEVEL CARD */
+        .cell .dots {
+            font-weight: 800;
+            color: #AEAEB2;
+            letter-spacing: 3px;
+            margin-top: 4px;
+        }
 
-.level{
-    background:var(--card);
-    border-radius:28px;
-    padding:22px;
-    margin-bottom:26px;
-    box-shadow:var(--shadow);
-}
+        /* ==========================================================================
+           3. COLORES DISCALCULIA (Vibrantes pero pastel, fondo completo)
+           ========================================================================== */
+        .c-1 { background-color: #FFD60A; } /* Amarillo iOS */
+        .c-2 { background-color: #32ADE6; color: #FFF;} /* Azul Cyan iOS */
+        .c-3 { background-color: #FF375F; color: #FFF;} /* Rosa iOS */
+        .c-4 { background-color: #34C759; color: #FFF;} /* Verde iOS */
+        .c-5 { background-color: #AF52DE; color: #FFF;} /* Morado iOS */
+        .c-6 { background-color: #FF9500; color: #FFF;} /* Naranja iOS */
 
-.title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-}
+        .c-1 .digit, .c-2 .digit, .c-3 .digit, .c-4 .digit, .c-5 .digit, .c-6 .digit {
+            color: inherit; /* Hereda el blanco o negro para contraste */
+        }
 
-.badge{
-    font-size:12px;
-    padding:6px 10px;
-    border-radius:999px;
-    background:#EEF2FF;
-}
+        /* ==========================================================================
+           4. LÓGICA DE AGRUPACIÓN (ESPACIO NEGATIVO)
+           En lugar de bordes negros, usamos un margen extra para separar bloques
+           ========================================================================== */
 
-/* SUDOKU BOARD */
+        /* --- NIVEL 5 & 4: 9x9 --- */
+        .grid-9x9 .cell { border-radius: 8px; margin: 2px; }
+        .grid-9x9 .cell .digit { font-size: 28px; }
+        .grid-9x9 .cell .dots { display: none; }
+        
+        /* Separadores de bloques de 3x3 usando márgenes (Espacio negativo) */
+        .grid-9x9 .board-row:nth-child(3), 
+        .grid-9x9 .board-row:nth-child(6) { margin-bottom: 6px; }
+        .grid-9x9 .cell:nth-child(3), 
+        .grid-9x9 .cell:nth-child(6) { margin-right: 6px; }
 
-.board{
-    display:grid;
-    gap:0;
-    border-radius:18px;
-    overflow:hidden;
-    border:2px solid #E5E7EB;
-}
+        /* --- NIVEL 3: 6x6 --- */
+        .grid-6x6 .cell { border-radius: 12px; margin: 3px; }
+        .grid-6x6 .cell .digit { font-size: 40px; }
+        .grid-6x6 .cell .dots { font-size: 14px; margin-top: 6px; }
+        
+        /* Cajas de 3x2 (3 ancho x 2 alto) */
+        .grid-6x6 .board-row:nth-child(2), 
+        .grid-6x6 .board-row:nth-child(4) { margin-bottom: 8px; }
+        .grid-6x6 .cell:nth-child(3) { margin-right: 8px; }
 
-/* 9x9 board */
-.board-9{
-    grid-template-columns:repeat(3,1fr);
-}
+        /* --- NIVEL 2: 4x4 --- */
+        .grid-4x4 .cell { border-radius: 16px; margin: 4px; }
+        .grid-4x4 .cell .digit { font-size: 60px; }
+        .grid-4x4 .cell .dots { font-size: 20px; margin-top: 8px; }
+        
+        /* Cajas de 2x2 */
+        .grid-4x4 .board-row:nth-child(2) { margin-bottom: 12px; }
+        .grid-4x4 .cell:nth-child(2) { margin-right: 12px; }
 
-/* 3x3 BLOCKS */
-.block{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    border:2px solid #D1D5DB;
-}
+        /* --- NIVEL 1: 3x3 --- */
+        .grid-3x3 .cell { border-radius: 20px; margin: 6px; }
+        .grid-3x3 .cell .digit { font-size: 80px; }
+        .grid-3x3 .cell .dots { font-size: 24px; margin-top: 12px; }
 
-/* CELLS */
-.cell{
-    aspect-ratio:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
 
-    font-size:28px;
-    font-weight:700;
-
-    background:white;
-
-    border:1px solid #E5E7EB;
-
-    transition:.2s;
-}
-
-/* bigger for small grids */
-.small .cell{
-    font-size:34px;
-}
-
-/* numbers colors (fixed per number → discalculia friendly) */
-.n1{ color:var(--n1); }
-.n2{ color:var(--n2); }
-.n3{ color:var(--n3); }
-.n4{ color:var(--n4); }
-.n5{ color:var(--n5); }
-.n6{ color:var(--n6); }
-.n7{ color:var(--n7); }
-.n8{ color:var(--n8); }
-.n9{ color:var(--n9); }
-
-/* EMPTY */
-.empty{
-    color:transparent;
-    background:#FAFAFA;
-}
-
-/* subtle iOS feel */
-.cell:hover{
-    background:#F3F6FF;
-}
-
-</style>
+        /* ==========================================================================
+           5. SIDEBAR MOCKUP
+           ========================================================================== */
+        .mock-sidebar {
+            flex: 1;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .badge {
+            align-self: flex-start;
+            background-color: #E5E5EA;
+            color: #8E8E93;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .instruction {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1C1C1E;
+            line-height: 1.3;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="presentation-container">
 
-<h1>Sudoku Levels — Block-Based UI</h1>
-<p>Ahora con estructura real de sudoku (bloques 3×3 visibles)</p>
+    <h1 class="section-title">iOS Modern Kids UI</h1>
+    <p class="section-desc">Layout reconstruido con Flexbox (Filas x Columnas). Adiós a los bordes de tabla de Excel. Las subcuadrículas se diferencian mediante un aumento sutil del "espacio negativo" (márgenes), técnica base de diseño de Apple para interfaces limpias.</p>
+    
+    <hr>
 
-<!-- LEVEL 1 -->
-<div class="level small">
-    <div class="title">
-        <h2>Level 1 — 3×3</h2>
-        <div class="badge">Edad 5+</div>
-    </div>
-
-    <div class="board board-3">
-
-        <div class="block">
-            <div class="cell n1">1</div>
-            <div class="cell empty">.</div>
-            <div class="cell n3">3</div>
-
-            <div class="cell empty">.</div>
-            <div class="cell n2">2</div>
-            <div class="cell empty">.</div>
-
-            <div class="cell n3">3</div>
-            <div class="cell empty">.</div>
-            <div class="cell n1">1</div>
+    <h2 class="section-title">Nivel 5: Experto (9x9)</h2>
+    <div class="ipad-frame">
+        <div class="board-wrapper grid-9x9">
+            <script>
+                // Generamos 9 filas x 9 columnas dinámicamente para el prototipo
+                for(let r=0; r<9; r++) {
+                    document.write('<div class="board-row">');
+                    for(let c=0; c<9; c++) {
+                        let i = r * 9 + c;
+                        let numClass = (i%7 === 0) ? 'c-2' : 'empty';
+                        let content = (i%7 === 0) ? '<span class="digit">2</span>' : '';
+                        document.write(`<div class="cell ${numClass}">${content}</div>`);
+                    }
+                    document.write('</div>');
+                }
+            </script>
         </div>
-
-    </div>
-</div>
-
-<!-- LEVEL 2 -->
-<div class="level small">
-    <div class="title">
-        <h2>Level 2 — 4×4</h2>
-        <div class="badge">5–6 años</div>
-    </div>
-
-    <div class="board">
-
-        <div class="block">
-            <div class="cell n1">1</div>
-            <div class="cell empty">.</div>
-            <div class="cell n2">2</div>
-            <div class="cell n4">4</div>
-
-            <div class="cell empty">.</div>
-            <div class="cell n2">2</div>
-            <div class="cell empty">.</div>
-            <div class="cell n1">1</div>
-
-            <div class="cell n4">4</div>
-            <div class="cell empty">.</div>
-            <div class="cell n3">3</div>
-            <div class="cell empty">.</div>
-
-            <div class="cell n2">2</div>
-            <div class="cell n1">1</div>
-            <div class="cell empty">.</div>
-            <div class="cell n3">3</div>
+        <div class="mock-sidebar">
+            <div class="badge">Nivel 5 • 9x9</div>
+            <h3 class="instruction">Observa cómo los bloques de 3x3 se separan sutilmente usando espacio negativo, sin líneas divisorias.</h3>
         </div>
-
-    </div>
-</div>
-
-<!-- LEVEL 3 -->
-<div class="level">
-    <div class="title">
-        <h2>Level 3 — 6×6</h2>
-        <div class="badge">7–8 años</div>
     </div>
 
-    <div class="board">
-
-        <!-- 6x6 = 2x3 blocks -->
-        <div class="block">
-            <div class="cell n1">1</div>
-            <div class="cell empty"></div>
-            <div class="cell n3">3</div>
-
-            <div class="cell n2">2</div>
-            <div class="cell n4">4</div>
-            <div class="cell empty"></div>
-
-            <div class="cell n6">6</div>
-            <div class="cell n1">1</div>
-            <div class="cell n2">2</div>
-
-            <div class="cell empty"></div>
-            <div class="cell n3">3</div>
-            <div class="cell n5">5</div>
-
-            <div class="cell n4">4</div>
-            <div class="cell empty"></div>
-            <div class="cell n6">6</div>
+    <h2 class="section-title">Nivel 4: Básico (9x9)</h2>
+    <div class="ipad-frame">
+        <div class="board-wrapper grid-9x9">
+            <script>
+                for(let r=0; r<9; r++) {
+                    document.write('<div class="board-row">');
+                    for(let c=0; c<9; c++) {
+                        let i = r * 9 + c;
+                        let numClass = (i%3 === 0) ? 'c-1' : 'empty';
+                        let content = (i%3 === 0) ? '<span class="digit">1</span>' : '';
+                        document.write(`<div class="cell ${numClass}">${content}</div>`);
+                    }
+                    document.write('</div>');
+                }
+            </script>
         </div>
-
-    </div>
-</div>
-
-<!-- LEVEL 4 -->
-<div class="level">
-    <div class="title">
-        <h2>Level 4 — 8×8</h2>
-        <div class="badge">8–10 años</div>
-    </div>
-
-    <div class="board">
-
-        <!-- 8x8 = 4 blocks -->
-        <div class="block">
-            <div class="cell n1">1</div>
-            <div class="cell n2">2</div>
-            <div class="cell empty"></div>
-
-            <div class="cell n3">3</div>
-            <div class="cell n4">4</div>
-            <div class="cell n5">5</div>
-
-            <div class="cell n6">6</div>
-            <div class="cell empty"></div>
-            <div class="cell n7">7</div>
+        <div class="mock-sidebar">
+            <div class="badge">Nivel 4 • 9x9</div>
+            <h3 class="instruction">El mismo tablero base pero con una tasa de relleno mayor para bajar la dificultad.</h3>
         </div>
-
-    </div>
-</div>
-
-<!-- LEVEL 5 -->
-<div class="level">
-    <div class="title">
-        <h2>Level 5 — 9×9 (Classic)</h2>
-        <div class="badge">10+</div>
     </div>
 
-    <div class="board board-9">
-
-        <!-- BLOCK 1 -->
-        <div class="block">
-            <div class="cell n1">1</div>
-            <div class="cell n2">2</div>
-            <div class="cell n3">3</div>
-            <div class="cell n4">4</div>
-            <div class="cell n5">5</div>
-            <div class="cell n6">6</div>
-            <div class="cell n7">7</div>
-            <div class="cell n8">8</div>
-            <div class="cell n9">9</div>
+    <h2 class="section-title">Nivel 3: Intermedio (6x6)</h2>
+    <div class="ipad-frame">
+        <div class="board-wrapper grid-6x6">
+            <script>
+                for(let r=0; r<6; r++) {
+                    document.write('<div class="board-row">');
+                    for(let c=0; c<6; c++) {
+                        let i = r * 6 + c;
+                        let isFilled = (i === 4 || i === 12 || i === 25);
+                        let numClass = isFilled ? 'c-6' : 'empty'; 
+                        let content = isFilled ? '<span class="digit">6</span><span class="dots">••••••</span>' : '';
+                        document.write(`<div class="cell ${numClass}">${content}</div>`);
+                    }
+                    document.write('</div>');
+                }
+            </script>
         </div>
-
-        <!-- BLOCK 2 -->
-        <div class="block">
-            <div class="cell n2">2</div>
-            <div class="cell n3">3</div>
-            <div class="cell empty"></div>
-            <div class="cell n5">5</div>
-            <div class="cell n6">6</div>
-            <div class="cell n7">7</div>
-            <div class="cell n8">8</div>
-            <div class="cell empty"></div>
-            <div class="cell n1">1</div>
+        <div class="mock-sidebar">
+            <div class="badge">Nivel 3 • 6x6</div>
+            <h3 class="instruction">Cajas rectangulares (3x2). La celda gana redondez y reaparecen los marcadores analógicos.</h3>
         </div>
-
-        <!-- BLOCK 3 -->
-        <div class="block">
-            <div class="cell n4">4</div>
-            <div class="cell empty"></div>
-            <div class="cell n6">6</div>
-            <div class="cell n7">7</div>
-            <div class="cell n8">8</div>
-            <div class="cell n9">9</div>
-            <div class="cell empty"></div>
-            <div class="cell n1">1</div>
-            <div class="cell n2">2</div>
-        </div>
-
     </div>
-</div>
+
+    <h2 class="section-title">Nivel 2: Iniciación (4x4)</h2>
+    <div class="ipad-frame">
+        <div class="board-wrapper grid-4x4">
+            <script>
+                for(let r=0; r<4; r++) {
+                    document.write('<div class="board-row">');
+                    for(let c=0; c<4; c++) {
+                        let i = r * 4 + c;
+                        let content = ''; let numClass = 'empty';
+                        if(i===0) { numClass='c-4'; content='<span class="digit">4</span><span class="dots">••••</span>'; }
+                        else if(i===11) { numClass='c-1'; content='<span class="digit">1</span><span class="dots">•</span>'; }
+                        document.write(`<div class="cell ${numClass}">${content}</div>`);
+                    }
+                    document.write('</div>');
+                }
+            </script>
+        </div>
+        <div class="mock-sidebar">
+            <div class="badge">Nivel 2 • 4x4</div>
+            <h3 class="instruction">Fichas masivas tipo burbuja. Separación central exacta para dividir en bloques de 2x2.</h3>
+        </div>
+    </div>
+
+    <h2 class="section-title">Nivel 1: Primeros Pasos (3x3)</h2>
+    <div class="ipad-frame">
+        <div class="board-wrapper grid-3x3">
+            <script>
+                for(let r=0; r<3; r++) {
+                    document.write('<div class="board-row">');
+                    for(let c=0; c<3; c++) {
+                        let i = r * 3 + c;
+                        let content = ''; let numClass = 'empty';
+                        if(i===2) { numClass='c-3'; content='<span class="digit">3</span><span class="dots">•••</span>'; }
+                        else if(i===6) { numClass='c-2'; content='<span class="digit">2</span><span class="dots">••</span>'; }
+                        document.write(`<div class="cell ${numClass}">${content}</div>`);
+                    }
+                    document.write('</div>');
+                }
+            </script>
+        </div>
+        <div class="mock-sidebar">
+            <div class="badge">Nivel 1 • 3x3</div>
+            <h3 class="instruction">Layout perfecto. Sin saltos de línea extraños. Máxima claridad visual para entender las mecánicas base.</h3>
+        </div>
+    </div>
 
 </div>
 
