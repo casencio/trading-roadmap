@@ -253,6 +253,36 @@ input[type=number] { -moz-appearance: textfield; }
 .profile-pill .p-name { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
 .profile-pill .p-range { font-size: 9px; color: var(--text-muted); margin-top: 1px; }
 
+/* ── DRAG & DROP ── */
+.asset-row.dragging { opacity: 0.35; background: var(--bg-hover); }
+.tier-block.drag-target { box-shadow: 0 0 0 2px var(--blue); border-color: var(--blue); }
+.drag-handle {
+  cursor: grab;
+  color: var(--text-dim);
+  font-size: 13px;
+  padding: 0 2px;
+  user-select: none;
+  touch-action: none;
+  flex-shrink: 0;
+}
+.drag-handle:active { cursor: grabbing; }
+
+/* ── PERF BADGE ── */
+.perf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  padding: 2px 6px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.perf-up   { background: rgba(48,209,88,0.12);  color: var(--green); }
+.perf-down { background: rgba(255,69,58,0.12);  color: var(--red);   }
+.perf-flat { background: var(--bg-hover);        color: var(--text-muted); }
+
 .analyzer-warn {
   background: rgba(255,69,58,0.1);
   border: 1px solid rgba(255,69,58,0.3);
@@ -340,11 +370,12 @@ input[type=number] { -moz-appearance: textfield; }
 
 .asset-row {
   display: grid;
-  grid-template-columns: 62px 60px 1fr auto;
+  grid-template-columns: 18px 62px 60px 1fr auto;
   align-items: center;
   gap: 6px;
   padding: 7px 0;
   border-bottom: 1px solid var(--border);
+  cursor: default;
 }
 .asset-row:last-child { border-bottom: none; }
 
@@ -363,6 +394,11 @@ input[type=number] { -moz-appearance: textfield; }
   touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
+}
+.a-select {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 0 4px;
 }
 .a-input:focus, .a-select:focus { border-color: var(--blue); }
 .a-input.mono {
@@ -404,7 +440,13 @@ input[type=number] { -moz-appearance: textfield; }
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 10px;
+}
+.a-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 }
 .a-eur {
   font-size: 16px;
@@ -412,7 +454,7 @@ input[type=number] { -moz-appearance: textfield; }
   font-family: var(--font-mono);
   color: var(--text-main);
   letter-spacing: -0.02em;
-  text-align: right;
+  white-space: nowrap;
 }
 .a-meta {
   display: flex;
@@ -484,16 +526,17 @@ input[type=number] { -moz-appearance: textfield; }
 
   /* Asset row en mobile: 2 líneas */
   .asset-row {
-    grid-template-columns: 58px 54px 1fr;
+    grid-template-columns: 18px 56px 52px 1fr;
     grid-template-rows: auto auto;
     padding: 8px 0;
     gap: 5px;
   }
-  .asset-row .a-input.mono { grid-column: 1; grid-row: 1; }
-  .asset-row .a-pct-box { grid-column: 2; grid-row: 1; }
-  .asset-row .a-select { grid-column: 3; grid-row: 1; font-size: 13px; }
+  .asset-row .drag-handle { grid-column: 1; grid-row: 1; }
+  .asset-row .a-input.mono { grid-column: 2; grid-row: 1; }
+  .asset-row .a-pct-box { grid-column: 3; grid-row: 1; }
+  .asset-row .a-select { grid-column: 4; grid-row: 1; font-size: 13px; }
   .asset-row .a-financial {
-    grid-column: 1 / span 3;
+    grid-column: 1 / span 4;
     grid-row: 2;
     flex-direction: row;
     justify-content: space-between;
@@ -503,6 +546,7 @@ input[type=number] { -moz-appearance: textfield; }
     border-radius: 6px;
   }
   .asset-row .a-meta { align-items: flex-start; }
+  .asset-row .a-right { flex-direction: row; align-items: center; gap: 6px; }
   .asset-row .a-eur { font-size: 15px; }
 }
 </style>
@@ -697,7 +741,7 @@ let tierChartInstance = null;
 let saveTimeout = null;
 let isInitialLoad = true;
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGqcI8Xef9xZzM7levoXR-1DsfT213kwpPThKgHewHVIJYHOnLxI4A8Do50ELKXdw1/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzxlj_Inxx7hDGp6FTSZwRNTmbfOPw7jFDPseim7hcpBIuyJ1wCeQEuvKOFyd_3iD6_tA/exec';
 const CACHE_KEY = 'cartera_cache_v2';
 const TIER_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#5e5ce6'];
 
@@ -813,7 +857,7 @@ function render() {
     const color = tier.color || TIER_COLORS[tIdx % TIER_COLORS.length];
 
     let html = `
-      <div class="tier-block" style="border-left: 3px solid ${color}; border-right: 3px solid ${color};">
+      <div class="tier-block" data-tier-idx="${tIdx}" style="border-left: 3px solid ${color}; border-right: 3px solid ${color};">
         <div class="tier-header">
           <h2>
             <div class="tier-dot" style="background:${color}"></div>
@@ -834,7 +878,13 @@ function render() {
         <div class="asset-list">
     `;
 
-    tier.assets.forEach((a, aIdx) => {
+    // Sort assets by weight descending for display
+    const sortedAssets = [...tier.assets]
+      .map((a, i) => ({ ...a, _origIdx: i }))
+      .sort((a, b) => b.pctInternal - a.pctInternal);
+
+    sortedAssets.forEach((a, _si) => {
+      const aIdx = a._origIdx; // keep original index for mutations
       const aEur = tierEur * (a.pctInternal / 100);
       const absW = (tier.pctTarget / 100) * (a.pctInternal / 100);
       globalWeights.push({ weight: absW, tag: a.tag });
@@ -843,8 +893,21 @@ function render() {
       const aDca = dca * absW;
       const fStatus = getAssetSemaforo(aEur);
 
+      const perf = a.perf != null ? a.perf : null;
+      let perfHtml = '';
+      if (perf !== null && perf !== undefined) {
+        const pct = Math.round(perf * 100);
+        if (perf > 0.005)       perfHtml = `<span class="perf-badge perf-up">▲ ${pct}%</span>`;
+        else if (perf < -0.005) perfHtml = `<span class="perf-badge perf-down">▼ ${Math.abs(pct)}%</span>`;
+        else                    perfHtml = `<span class="perf-badge perf-flat">—</span>`;
+      }
+
       html += `
-        <div class="asset-row">
+        <div class="asset-row"
+          draggable="true"
+          data-tier="${tIdx}"
+          data-asset="${aIdx}">
+          <span class="drag-handle" title="Arrastrar">⠿</span>
           <input type="text" value="${a.ticker}"
             onchange="updateA(${tIdx},${aIdx},'ticker',this.value)"
             placeholder="TCK" class="a-input mono" autocomplete="off" autocorrect="off" spellcheck="false">
@@ -864,7 +927,10 @@ function render() {
               <div class="a-dca">+${fmt(aDca)}/m</div>
               ${fStatus ? `<span class="semaforo ${fStatus.c}">${fStatus.t}</span>` : ''}
             </div>
-            <div class="a-eur">${fmt(aEur)}</div>
+            <div class="a-right">
+              ${perfHtml}
+              <div class="a-eur">${fmt(aEur)}</div>
+            </div>
           </div>
         </div>
       `;
@@ -873,6 +939,9 @@ function render() {
     html += `<button onclick="addA(${tIdx})" class="btn-add" style="color:${color}">+ Añadir activo</button></div></div>`;
     cont.innerHTML += html;
   });
+
+  // Init drag & drop after DOM is updated
+  initDrag();
 
   // ── QUANTS ──
   const q = calculateQuant(globalWeights);
@@ -1008,7 +1077,7 @@ function addA(t) {
   const existingTotal = assets.reduce((s, a) => s + a.pctInternal, 0);
   const newShare = existingTotal / (assets.length + 1);
   assets.forEach(a => { a.pctInternal = a.pctInternal * (1 - newShare / existingTotal); });
-  assets.push({ ticker: "?", pctInternal: newShare, tag: "Otros" });
+  assets.push({ ticker: "?", pctInternal: newShare, tag: "Otros", perf: null, entryPrice: null });
   render(); triggerAutoSave();
 }
 
@@ -1019,6 +1088,106 @@ function remA(t, a) {
     const eq = 100 / assets.length;
     assets.forEach(a => a.pctInternal = eq);
   }
+  render(); triggerAutoSave();
+}
+
+// =============================================
+// DRAG & DROP ENGINE
+// =============================================
+let drag = { tIdx: null, aIdx: null, el: null };
+
+function initDrag() {
+  const rows = document.querySelectorAll('.asset-row[draggable]');
+  const tierBlocks = document.querySelectorAll('.tier-block');
+
+  rows.forEach(row => {
+    // Desktop
+    row.addEventListener('dragstart', e => {
+      drag.tIdx = +row.dataset.tier;
+      drag.aIdx = +row.dataset.asset;
+      drag.el = row;
+      setTimeout(() => row.classList.add('dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('dragging');
+      document.querySelectorAll('.drag-target').forEach(el => el.classList.remove('drag-target'));
+    });
+
+    // Touch
+    const handle = row.querySelector('.drag-handle');
+    if (!handle) return;
+    handle.addEventListener('touchstart', e => {
+      drag.tIdx = +row.dataset.tier;
+      drag.aIdx = +row.dataset.asset;
+      drag.el = row;
+      row.classList.add('dragging');
+    }, { passive: true });
+    handle.addEventListener('touchend', e => {
+      row.classList.remove('dragging');
+      const touch = e.changedTouches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      const destBlock = target?.closest('.tier-block');
+      document.querySelectorAll('.drag-target').forEach(el => el.classList.remove('drag-target'));
+      if (destBlock) {
+        const destTIdx = +destBlock.dataset.tierIdx;
+        if (!isNaN(destTIdx)) dropAsset(destTIdx);
+      }
+    }, { passive: true });
+    handle.addEventListener('touchmove', e => {
+      const touch = e.touches[0];
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      const block = el?.closest('.tier-block');
+      document.querySelectorAll('.drag-target').forEach(el => el.classList.remove('drag-target'));
+      if (block) block.classList.add('drag-target');
+    }, { passive: true });
+  });
+
+  // Desktop drop targets — tier blocks
+  tierBlocks.forEach(block => {
+    block.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('.drag-target').forEach(el => el.classList.remove('drag-target'));
+      block.classList.add('drag-target');
+    });
+    block.addEventListener('dragleave', e => {
+      if (!block.contains(e.relatedTarget)) block.classList.remove('drag-target');
+    });
+    block.addEventListener('drop', e => {
+      e.preventDefault();
+      block.classList.remove('drag-target');
+      const destTIdx = +block.dataset.tierIdx;
+      if (!isNaN(destTIdx)) dropAsset(destTIdx);
+    });
+  });
+}
+
+function dropAsset(destTIdx) {
+  const srcTIdx = drag.tIdx;
+  const srcAIdx = drag.aIdx;
+  if (srcTIdx === null || destTIdx === srcTIdx) { drag = { tIdx: null, aIdx: null, el: null }; return; }
+
+  const srcTier = state.tiers[srcTIdx];
+  const destTier = state.tiers[destTIdx];
+  const asset = { ...srcTier.assets[srcAIdx] };
+
+  // 1. Remove from source (same as changeA to 0)
+  srcTier.assets.splice(srcAIdx, 1);
+  if (srcTier.assets.length > 0) {
+    const sum = srcTier.assets.reduce((s, a) => s + a.pctInternal, 0);
+    srcTier.assets.forEach(a => a.pctInternal = sum > 0 ? (a.pctInternal / sum) * 100 : 100 / srcTier.assets.length);
+  }
+
+  // 2. Add to dest (same as addA logic)
+  const existing = destTier.assets;
+  const existingTotal = existing.reduce((s, a) => s + a.pctInternal, 0);
+  const newShare = existingTotal / (existing.length + 1);
+  existing.forEach(a => { a.pctInternal = a.pctInternal * (1 - newShare / (existingTotal || 1)); });
+  asset.pctInternal = newShare || 100;
+  existing.push(asset);
+
+  drag = { tIdx: null, aIdx: null, el: null };
   render(); triggerAutoSave();
 }
 
@@ -1038,7 +1207,12 @@ function loadCache() {
 }
 
 function applyState(data) {
-  data.tiers.forEach((t, i) => { t.color = TIER_COLORS[i % TIER_COLORS.length]; });
+  data.tiers.forEach((t, i) => {
+    t.color = TIER_COLORS[i % TIER_COLORS.length];
+    t.assets.forEach(a => {
+      if (a.perf === undefined) a.perf = null;
+    });
+  });
   state = data;
   document.getElementById('capitalInput').value = state.capital;
   document.getElementById('dcaInput').value = state.dca;
@@ -1117,5 +1291,145 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', ()
 // ── Boot ──
 loadFromSheets();
 </script>
+
+<!--
+=== APPS SCRIPT ACTUALIZADO (copiar en Google Apps Script) ===
+
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Cartera");
+  if (!sheet) return ContentService.createTextOutput(JSON.stringify({ error: "No existe la pestaña Cartera" })).setMimeType(ContentService.MimeType.JSON);
+
+  const capital = parseFloat(sheet.getRange("B1").getValue()) || 0;
+  const dca     = parseFloat(sheet.getRange("D1").getValue()) || 0;
+  let state = { capital, dca, tiers: [] };
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow >= 4) {
+    const rows = sheet.getRange(4, 1, lastRow - 3, 11).getValues();
+    let tiersMap = {};
+    rows.forEach(row => {
+      const tierId = row[0];
+      if (!tierId) return;
+      if (!tiersMap[tierId]) {
+        tiersMap[tierId] = { id: tierId, name: row[1], pctTarget: parseFloat(row[2]) || 0, assets: [] };
+        state.tiers.push(tiersMap[tierId]);
+      }
+      if (row[4] && row[4].toString().trim() !== "") {
+        const perf = row[10] !== "" && row[10] !== null ? parseFloat(row[10]) : null;
+        tiersMap[tierId].assets.push({
+          ticker:     row[4],
+          pctInternal: parseFloat(row[5]) || 0,
+          tag:        row[7] || "Otros",
+          entryPrice: parseFloat(row[8]) || null,
+          perf:       isNaN(perf) ? null : perf
+        });
+      }
+    });
+  }
+  return ContentService.createTextOutput(JSON.stringify(state)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    const state = JSON.parse(e.postData.contents);
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Cartera");
+    if (!sheet) throw new Error("No existe la pestaña Cartera");
+
+    sheet.getRange("B1").setValue(state.capital);
+    sheet.getRange("D1").setValue(state.dca);
+
+    // Read existing rows (A–K) to preserve I, J, K for known tickers
+    const lastRow = sheet.getLastRow();
+    let existing = {}; // ticker -> { entryPrice, jFormula, kFormula }
+    if (lastRow >= 4) {
+      const existingData    = sheet.getRange(4, 1, lastRow - 3, 9).getValues();
+      const existingFormulas = sheet.getRange(4, 1, lastRow - 3, 11).getFormulas();
+      existingData.forEach((row, i) => {
+        const ticker = (row[4] || "").toString().trim();
+        if (ticker) {
+          existing[ticker] = {
+            entryPrice: row[8] || null,
+            jFormula:   existingFormulas[i][9]  || null, // col J (index 9)
+            kFormula:   existingFormulas[i][10] || null  // col K (index 10)
+          };
+        }
+      });
+    }
+
+    // Clear A–K from row 4 down
+    if (lastRow >= 4) {
+      sheet.getRange(4, 1, lastRow - 3, 11).clearContent();
+    }
+
+    // Build new rows
+    let newRows = [];
+    if (state.tiers && state.tiers.length > 0) {
+      state.tiers.forEach(tier => {
+        const tierCapital = state.capital * (tier.pctTarget / 100);
+        if (tier.assets && tier.assets.length > 0) {
+          tier.assets.forEach(asset => {
+            const assetCapital = tierCapital * (asset.pctInternal / 100);
+            const ticker = (asset.ticker || "").trim();
+            newRows.push([
+              tier.id, tier.name, tier.pctTarget, tierCapital,
+              ticker, asset.pctInternal, assetCapital, asset.tag || "Otros",
+              "", "", "" // I, J, K — handled separately below
+            ]);
+          });
+        } else {
+          newRows.push([tier.id, tier.name, tier.pctTarget, tierCapital, "", 0, 0, "", "", "", ""]);
+        }
+      });
+    }
+
+    if (newRows.length > 0) {
+      // Write A–H first
+      sheet.getRange(4, 1, newRows.length, 8).setValues(newRows.map(r => r.slice(0, 8)));
+      SpreadsheetApp.flush();
+
+      // Now handle I, J, K per row
+      newRows.forEach((row, i) => {
+        const ticker  = (row[4] || "").toString().trim();
+        const rowNum  = 4 + i;
+        const colI    = sheet.getRange(rowNum, 9);
+        const colJ    = sheet.getRange(rowNum, 10);
+        const colK    = sheet.getRange(rowNum, 11);
+
+        if (!ticker || ticker === "?") return;
+
+        const prev = existing[ticker];
+
+        if (prev && prev.entryPrice) {
+          // Ticker known — restore I as static value, J and K as original formulas
+          colI.setValue(prev.entryPrice);
+          if (prev.jFormula) colJ.setFormula(prev.jFormula);
+          if (prev.kFormula) colK.setFormula(prev.kFormula);
+        } else {
+          // New ticker — get entry price: evaluate GOOGLEFINANCE once, write as static value in I
+          const jFormula = `=IFERROR(IF(GOOGLEFINANCE(E${rowNum};"currency")="GBX";GOOGLEFINANCE(E${rowNum};"price")/100;GOOGLEFINANCE(E${rowNum};"price"));"")`;
+          colJ.setFormula(jFormula);
+          SpreadsheetApp.flush(); // force evaluation
+          const currentPrice = colJ.getValue();
+          colJ.clearContent();   // remove temp formula from J
+
+          if (currentPrice && !isNaN(currentPrice) && currentPrice > 0) {
+            colI.setValue(currentPrice); // freeze entry price in I
+          }
+
+          // Now write permanent J and K formulas
+          colJ.setFormula(jFormula);
+          colK.setFormula(`=IFERROR((J${rowNum}-I${rowNum})/I${rowNum};"")`);
+        }
+      });
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({ status: 'success' })).setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+=== FIN APPS SCRIPT ===
+-->
 </body>
 </html>
