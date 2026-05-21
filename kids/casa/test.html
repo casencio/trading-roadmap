@@ -81,7 +81,7 @@ body::before{
 .cards-row .profile-card:last-child{margin-right:0;}
 .profile-card{
   -webkit-box-flex:1;-ms-flex:1;flex:1;
-  border-radius:var(--r-lg);padding:22px 16px 18px;
+  border-radius:var(--r-lg);padding:18px 12px 16px;
   box-shadow:var(--sh-lg);position:relative;overflow:hidden;
   -webkit-transform:translateZ(0);text-align:center;
   display:-webkit-box;display:-ms-flexbox;display:flex;
@@ -91,7 +91,7 @@ body::before{
 }
 .profile-card.olivia{background:linear-gradient(145deg,var(--o-soft) 0%,#A8EDE9 100%);}
 .profile-card.gala  {background:linear-gradient(145deg,var(--g-soft) 0%,#FFB3CE 100%);}
-.card-avatar{font-size:64px;line-height:1;margin-bottom:10px;display:block;-webkit-text-size-adjust:none;text-size-adjust:none;}
+.card-avatar{font-size:64px;line-height:1;margin-bottom:10px;display:block;-webkit-text-size-adjust:100%;text-size-adjust:100%;width:100%;}
 .card-name{font-family:'Pacifico',cursive;font-size:2rem;line-height:1.1;margin-bottom:12px;}
 .profile-card.olivia .card-name{color:var(--o-dark);}
 .profile-card.gala   .card-name{color:var(--g-dark);}
@@ -245,12 +245,12 @@ body::before{
 .admin-sub{font-size:.7rem;font-weight:800;color:var(--muted);margin-top:3px;}
 .back-btn{
   background:var(--white);border:none;border-radius:50%;
-  width:52px;height:52px;font-size:22px;cursor:pointer;
+  width:52px;height:52px;font-size:26px;cursor:pointer;
   box-shadow:var(--sh);
   display:-webkit-box;display:-ms-flexbox;display:flex;
   -webkit-box-align:center;-ms-flex-align:center;align-items:center;
   -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
-  -ms-flex-negative:0;flex-shrink:0;line-height:1;-webkit-appearance:none;
+  -ms-flex-negative:0;flex-shrink:0;line-height:0;-webkit-appearance:none;padding:0;
 }
 .back-btn:active{opacity:.7;}
 
@@ -421,6 +421,41 @@ body::before{
   .card-pts{font-size:1.6rem;}
   .reward-name{font-size:.92rem;}
 }
+
+/* Emoji size fix para iOS antiguo */
+.hti-ico, .badge-ico, .castigo-tile-ico, .reward-ico, 
+.card-avatar, .sec-icon, .nina-panel-avatar {
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+/* Forzar tamaño en card avatars */
+.card-avatar { font-size: 56px !important; }
+/* Emojis en secciones */
+.sec-icon { font-size: 20px; }
+
+/* Fix emoji scaling iOS Safari - flex context breaks font-size on emoji */
+.card-avatar {
+  display: -webkit-box;
+  display: -ms-flexbox;  
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  font-size: 64px;
+  line-height: 80px;
+  margin-bottom: 10px;
+  -webkit-text-size-adjust: 100%;
+}
+/* Back button arrow fix */
+.back-btn {
+  font-size: 28px;
+  padding-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -489,7 +524,7 @@ body::before{
   <div class="cards-row">
     <div class="profile-card olivia">
       <div class="pending-badge hidden" id="pend-olivia">0</div>
-      <div class="card-avatar">&#128049;</div>
+      <div class="card-avatar"><span style="font-size:64px;line-height:1;display:inline-block;">&#128049;</span></div>
       <div class="card-name">Olivia</div>
       <div class="card-pts">&#11088; <span id="h-o-pts">0</span></div>
       <div class="card-pts-label">estrellas</div>
@@ -498,7 +533,7 @@ body::before{
     </div>
     <div class="profile-card gala">
       <div class="pending-badge hidden" id="pend-gala">0</div>
-      <div class="card-avatar">&#129412;</div>
+      <div class="card-avatar"><span style="font-size:64px;line-height:1;display:inline-block;">&#129412;</span></div>
       <div class="card-name">Gala</div>
       <div class="card-pts">&#11088; <span id="h-g-pts">0</span></div>
       <div class="card-pts-label">estrellas</div>
@@ -534,7 +569,7 @@ body::before{
   </div>
 
   <!-- PUNTOS DE CONTROL (solo visual) -->
-  <div class="sec"><span class="sec-icon">&#128204;</span>Puntos de control</div>
+  <div class="sec"><span class="sec-icon">&#128205;</span>Puntos de control</div>
   <div class="castigos-section">
     <div class="castigos-col">
       <div class="castigos-col-hdr olivia">&#128049; Olivia</div>
@@ -619,11 +654,11 @@ body::before{
 
   <div class="sec"><span class="sec-icon">&#128260;</span>Resetear</div>
   <div class="adm-row">
-    <button class="adm-btn-full danger" onclick="resetDay()">&#128260; Resetear tareas del dia</button>
+    <button class="adm-btn-full danger" onclick="resetDay()">&#8635; Resetear tareas del dia</button>
     <button class="adm-btn-full danger" onclick="resetAll()" style="background:#FFCDD2;font-size:.78rem;">&#9888; Borrar TODO</button>
   </div>
 
-  <div class="sec"><span class="sec-icon">&#128202;</span>Estado del sistema</div>
+  <div class="sec"><span class="sec-icon">&#128200;</span>Estado del sistema</div>
   <div class="adm-status" id="adminStatus"></div>
 
 </div>
@@ -644,9 +679,9 @@ var TASKS_OLIVIA = [
   { id:'o-habita',    emoji:'&#9718;',  name:'Recoger habitacion',  pts:10, days:[] },
   { id:'o-mochila',   emoji:'&#9675;',  name:'Mochila preparada',   pts:5,  days:[1,2,3,4,5] },
   { id:'o-deberes',   emoji:'&#9998;',  name:'Deberes del cole',    pts:20, days:[1,2,3,4,5] },
-  { id:'o-mates',     emoji:'&#8734;',  name:'Mates + Sudoku',      pts:0,  days:[1,2,3,4,5], cookie:true },
-  { id:'o-ducha-r',   emoji:'&#9926;',  name:'Ducha rapida',        pts:10, days:[2,4] },
-  { id:'o-ducha-c',   emoji:'&#9926;',  name:'Ducha completa',      pts:10, days:[0] },
+  { id:'o-mates',     emoji:'&#8734;',  name:'Practica mates extra',      pts:0,  days:[1,2,3,4,5], cookie:true },
+  { id:'o-ducha-r',   emoji:'&#128166;',  name:'Ducha rapida',        pts:10, days:[2,4] },
+  { id:'o-ducha-c',   emoji:'&#128166;',  name:'Ducha completa',      pts:10, days:[0] },
   { id:'o-mesa',      emoji:'&#9749;',  name:'Poner / quitar mesa', pts:5,  days:[] }
 ];
 
@@ -656,20 +691,20 @@ var TASKS_GALA = [
   { id:'g-habita',    emoji:'&#9718;',  name:'Recoger juguetes',    pts:10, days:[] },
   { id:'g-mochila',   emoji:'&#9675;',  name:'Mochila preparada',   pts:5,  days:[1,2,3,4,5] },
   { id:'g-tarea',     emoji:'&#9998;',  name:'Tarea del cole',      pts:15, days:[1,2,3,4,5] },
-  { id:'g-mates',     emoji:'&#8734;',  name:'Mates + Sudoku',      pts:0,  days:[1,2,3,4,5], cookie:true },
-  { id:'g-ducha-r',   emoji:'&#9926;',  name:'Ducha rapida',        pts:10, days:[2,4] },
-  { id:'g-ducha-c',   emoji:'&#9926;',  name:'Ducha completa',      pts:10, days:[0] },
+  { id:'g-mates',     emoji:'&#8734;',  name:'Practica mates extra',      pts:0,  days:[1,2,3,4,5], cookie:true },
+  { id:'g-ducha-r',   emoji:'&#128166;',  name:'Ducha rapida',        pts:10, days:[2,4] },
+  { id:'g-ducha-c',   emoji:'&#128166;',  name:'Ducha completa',      pts:10, days:[0] },
   { id:'g-mesa',      emoji:'&#9749;',  name:'Poner / quitar mesa', pts:5,  days:[] }
 ];
 
 // PREMIOS: ico = entidad HTML, name = texto, cost = estrellas
 var REWARDS = [
-  { ico:'&#128717;', name:'Comprar una cosita',   cost:150 },
-  { ico:'&#127905;', name:'Salida especial',       cost:300 },
-  { ico:'&#127902;', name:'Peli el finde',         cost:50  },
-  { ico:'&#127846;', name:'Un helado',             cost:80  },
-  { ico:'&#127918;', name:'Tiempo extra tablet',   cost:40  },
-  { ico:'&#127829;', name:'Elegir la cena',        cost:60  }
+  { ico:'&#127918;', name:'Tiempo extra tablet',   cost:50   },
+  { ico:'&#127829;', name:'Elegir la cena',        cost:80   },
+  { ico:'&#127909;', name:'Peli el finde',         cost:120  },
+  { ico:'&#127846;', name:'Un helado',             cost:180  },
+  { ico:'&#127873;', name:'Comprar una cosita',    cost:400  },
+  { ico:'&#9733;',   name:'Salida especial',       cost:800  }
 ];
 
 // LOGROS: ico = entidad HTML o texto corto, lbl = etiqueta (usa \n para salto)
