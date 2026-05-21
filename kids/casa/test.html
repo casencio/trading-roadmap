@@ -245,13 +245,15 @@ body::before{
 .admin-sub{font-size:.7rem;font-weight:800;color:var(--muted);margin-top:3px;}
 .back-btn{
   background:var(--white);border:none;border-radius:50%;
-  width:52px;height:52px;font-size:26px;cursor:pointer;
+  width:54px;height:54px;cursor:pointer;
   box-shadow:var(--sh);
   display:-webkit-box;display:-ms-flexbox;display:flex;
   -webkit-box-align:center;-ms-flex-align:center;align-items:center;
   -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
   -ms-flex-negative:0;flex-shrink:0;line-height:0;-webkit-appearance:none;padding:0;
+  color:#6C63FF;
 }
+.back-btn svg{display:block;margin:auto;}
 .back-btn:active{opacity:.7;}
 
 /* Pendientes confirm */
@@ -607,7 +609,7 @@ body::before{
 <div class="page" id="pg-admin">
 <div class="wrap">
   <div class="admin-header">
-    <button class="back-btn" onclick="goHome()">&#8592;</button>
+    <button class="back-btn" onclick="goHome()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
     <div>
       <div class="admin-title">Ajustes</div>
       <div class="admin-sub">Gestiona tareas y estrellas</div>
@@ -715,9 +717,9 @@ var TASKS_GALA = [
 // PREMIOS: ico = entidad HTML, name = texto, cost = estrellas
 var REWARDS = [
   { ico:'&#127918;', name:'Tiempo extra tablet',   cost:50   },
-    { ico:'&#127909;', name:'Peli el finde',         cost:80  },
-  { ico:'&#127829;', name:'Elegir la cena',        cost:200   },
+  { ico:'&#127909;', name:'Peli el finde',         cost:80   },
   { ico:'&#127846;', name:'Un helado',             cost:120  },
+  { ico:'&#127829;', name:'Elegir la cena',        cost:200  },
   { ico:'&#127873;', name:'Comprar una cosita',    cost:400  },
   { ico:'&#9733;',   name:'Salida especial',       cost:800  }
 ];
