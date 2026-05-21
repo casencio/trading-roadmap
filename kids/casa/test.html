@@ -425,8 +425,8 @@ body::before{
 /* Emoji size fix para iOS antiguo */
 .hti-ico, .badge-ico, .castigo-tile-ico, .reward-ico, 
 .card-avatar, .sec-icon, .nina-panel-avatar {
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 /* Forzar tamaño en card avatars */
 .card-avatar { font-size: 56px !important; }
@@ -455,6 +455,12 @@ body::before{
 .back-btn {
   font-size: 28px;
   padding-bottom: 2px;
+}
+
+/* Fix emojis en Safari/WebKit antiguo con Google Fonts activas */
+.hti-ico, .badge-ico, .castigo-tile-ico, .reward-ico,
+.card-avatar span, .sec-icon, .nina-panel-avatar {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
 }
 </style>
 </head>
