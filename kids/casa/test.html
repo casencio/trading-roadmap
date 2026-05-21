@@ -422,45 +422,54 @@ body::before{
   .reward-name{font-size:.92rem;}
 }
 
-/* Emoji size fix para iOS antiguo */
-.hti-ico, .badge-ico, .castigo-tile-ico, .reward-ico, 
-.card-avatar, .sec-icon, .nina-panel-avatar {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+
 /* Forzar tamaño en card avatars */
 .card-avatar { font-size: 56px !important; }
 /* Emojis en secciones */
 .sec-icon { font-size: 20px; }
 
-/* Fix emoji scaling iOS Safari - flex context breaks font-size on emoji */
-.card-avatar {
-  display: -webkit-box;
-  display: -ms-flexbox;  
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 100%;
-  height: 80px;
-  font-size: 64px;
-  line-height: 80px;
-  margin-bottom: 10px;
-  -webkit-text-size-adjust: 100%;
-}
+
 /* Back button arrow fix */
 .back-btn {
   font-size: 28px;
   padding-bottom: 2px;
 }
 
-/* Fix emojis en Safari/WebKit antiguo con Google Fonts activas */
-.hti-ico, .badge-ico, .castigo-tile-ico, .reward-ico,
-.card-avatar span, .sec-icon, .nina-panel-avatar {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+
+
+/* EMOJI FIX iPad 1 / WebKit antiguo: emojis son 16px fijos, usamos transform */
+.card-avatar span,
+.sec-icon,
+.hti-ico,
+.badge-ico,
+.castigo-tile-ico,
+.reward-ico,
+.nina-panel-avatar {
+  display: inline-block !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+}
+/* Avatares grandes: 16px * 4 = 64px */
+.card-avatar span {
+  -webkit-transform: scale(4);
+  transform: scale(4);
+  margin: 24px 0;
+}
+/* Emojis de secciones y badges: 16px * 1.7 = ~27px */
+.sec-icon,
+.nina-panel-avatar,
+.badge-ico,
+.castigo-tile-ico {
+  -webkit-transform: scale(1.7);
+  transform: scale(1.7);
+}
+/* Emojis de tareas y premios: 16px * 2.2 = ~35px */
+.hti-ico,
+.reward-ico {
+  -webkit-transform: scale(2.2);
+  transform: scale(2.2);
 }
 </style>
 </head>
@@ -530,7 +539,7 @@ body::before{
   <div class="cards-row">
     <div class="profile-card olivia">
       <div class="pending-badge hidden" id="pend-olivia">0</div>
-      <div class="card-avatar"><span style="font-size:64px;line-height:1;display:inline-block;">&#128049;</span></div>
+      <div class="card-avatar"><span>&#128049;</span></div>
       <div class="card-name">Olivia</div>
       <div class="card-pts">&#11088; <span id="h-o-pts">0</span></div>
       <div class="card-pts-label">estrellas</div>
@@ -539,7 +548,7 @@ body::before{
     </div>
     <div class="profile-card gala">
       <div class="pending-badge hidden" id="pend-gala">0</div>
-      <div class="card-avatar"><span style="font-size:64px;line-height:1;display:inline-block;">&#129412;</span></div>
+      <div class="card-avatar"><span>&#129412;</span></div>
       <div class="card-name">Gala</div>
       <div class="card-pts">&#11088; <span id="h-g-pts">0</span></div>
       <div class="card-pts-label">estrellas</div>
