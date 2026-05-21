@@ -978,7 +978,6 @@ function renderAdmCastigos(who,cid){
 function renderPendingList(){
   var c=document.getElementById('pendingList'); if(!c) return; c.innerHTML='';
   var found=false;
-  // Tareas pendientes de confirmar
   var pairs=[{who:'olivia',tasks:TASKS_OLIVIA},{who:'gala',tasks:TASKS_GALA}];
   pairs.forEach(function(p){
     var today=tasksForDay(p.tasks,todayDow());
@@ -987,13 +986,19 @@ function renderPendingList(){
       found=true;
       var div=document.createElement('div'); div.className='confirm-card';
       var wl=p.who==='olivia'?'&#128049; Olivia':'&#129412; Gala';
-      div.innerHTML=
-        '<div class="confirm-info"><div class="confirm-who '+p.who+'">'+wl+'</div>'+
+      var yesBtn=document.createElement('button');
+      yesBtn.className='conf-yes'; yesBtn.textContent='OK';
+      (function(tid,twho,tpts){ yesBtn.addEventListener('click',function(){ confirmTask(tid,twho,tpts); }); })(t.id,p.who,t.pts);
+      var noBtn=document.createElement('button');
+      noBtn.className='conf-no'; noBtn.textContent='No';
+      (function(tid){ noBtn.addEventListener('click',function(){ rejectTask(tid); }); })(t.id);
+      var info=document.createElement('div'); info.className='confirm-info';
+      info.innerHTML='<div class="confirm-who '+p.who+'">'+wl+'</div>'+
         '<div class="confirm-task">'+t.emoji+' '+t.name+'</div>'+
-        '<div class="confirm-pts">+'+t.pts+' estrellas si confirmas</div></div>'+
-        '<div class="confirm-btns">'+
-        '<button class="conf-yes" onclick="confirmTask(''+t.id+'',''+p.who+'','+t.pts+')">OK</button>'+
-        '<button class="conf-no" onclick="rejectTask(''+t.id+'')">No</button></div>';
+        '<div class="confirm-pts">+'+t.pts+' estrellas si confirmas</div>';
+      var btns=document.createElement('div'); btns.className='confirm-btns';
+      btns.appendChild(yesBtn); btns.appendChild(noBtn);
+      div.appendChild(info); div.appendChild(btns);
       c.appendChild(div);
     });
   });
@@ -1003,16 +1008,33 @@ function renderPendingList(){
     found=true;
     var div=document.createElement('div'); div.className='confirm-card premio';
     var wl=pr.who==='olivia'?'&#128049; Olivia':'&#129412; Gala';
-    div.innerHTML=
-      '<div class="confirm-info"><div class="confirm-who '+pr.who+'">'+wl+' quiere canjear</div>'+
+    var yesBtn=document.createElement('button');
+    yesBtn.className='conf-yes'; yesBtn.textContent='OK';
+    (function(idx){ yesBtn.addEventListener('click',function(){ approveReward(idx); }); })(i);
+    var noBtn=document.createElement('button');
+    noBtn.className='conf-no'; noBtn.textContent='No';
+    (function(idx){ noBtn.addEventListener('click',function(){ rejectReward(idx); }); })(i);
+    var info=document.createElement('div'); info.className='confirm-info';
+    info.innerHTML='<div class="confirm-who '+pr.who+'">'+wl+' quiere canjear</div>'+
       '<div class="confirm-task">'+pr.ico+' '+pr.name+'</div>'+
-      '<div class="confirm-pts premio">-'+pr.cost+' estrellas</div></div>'+
-      '<div class="confirm-btns">'+
-      '<button class="conf-yes" onclick="approveReward('+i+')">OK</button>'+
-      '<button class="conf-no" onclick="rejectReward('+i+')">No</button></div>';
+      '<div class="confirm-pts premio">-'+pr.cost+' estrellas</div>';
+    var btns=document.createElement('div'); btns.className='confirm-btns';
+    btns.appendChild(yesBtn); btns.appendChild(noBtn);
+    div.appendChild(info); div.appendChild(btns);
     c.appendChild(div);
   });
   if(!found) c.innerHTML='<div class="no-pending"><div class="big">&#127881;</div>Todo confirmado</div>';
+}
+
+function renderAdmCastigos(who,cid){
+  var c=document.getElementById(cid); if(!c) return; c.innerHTML='';
+  CASTIGOS.forEach(function(cas){
+    var btn=document.createElement('button');
+    btn.className='adm-btn castigo';
+    btn.innerHTML='<span class="c-ico">'+cas.ico+'</span>'+cas.name+'<br><span style="font-size:.6rem;color:var(--bad);">-'+cas.pts+'&#11088;</span>';
+    (function(cas2,w){ btn.addEventListener('click',function(){ applyCastigo(cas2,w); }); })(cas,who);
+    c.appendChild(btn);
+  });
 }
 
 function renderAdminStatus(){
