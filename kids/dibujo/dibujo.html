@@ -6,9 +6,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Dibujar</title>
+<script>var _V='20250528a';if(sessionStorage.getItem('dv')!==_V){sessionStorage.setItem('dv',_V);window.location.reload(true);}</script>
 <style>
 *{margin:0;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:1024px;height:768px;overflow:hidden;background:#f0ece4;font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;}
+
+/* Forzar landscape — rotar toda la UI si el dispositivo está en portrait */
+@media (orientation:portrait){
+  body{
+    width:768px;height:1024px;
+    -webkit-transform-origin:0 0;
+    -webkit-transform:rotate(90deg) translateY(-768px);
+    transform-origin:0 0;
+    transform:rotate(90deg) translateY(-768px);
+  }
+}
 
 #app{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -79,9 +91,15 @@ html,body{width:1024px;height:768px;overflow:hidden;background:#f0ece4;font-fami
   -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   -webkit-flex-shrink:0;flex-shrink:0;
+  line-height:0;
 }
 .sz-btn.active{background:#333;border-color:#111;}
-.sz-dot{-webkit-border-radius:50%;border-radius:50%;background:#888;display:block;}
+.sz-dot{
+  -webkit-border-radius:50%;border-radius:50%;
+  background:#888;
+  display:inline-block;
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
 .sz-btn.active .sz-dot{background:#fff;}
 
 /* Action buttons */
@@ -90,8 +108,11 @@ html,body{width:1024px;height:768px;overflow:hidden;background:#f0ece4;font-fami
   -webkit-border-radius:24px;border-radius:24px;
   border:2px solid #d0c8bc;background:#f0ece4;
   cursor:pointer;-webkit-appearance:none;outline:none;
-  padding:0 18px;font-size:16px;
+  padding:0 18px;font-size:15px;
   font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
   color:#555;white-space:nowrap;
   -webkit-box-flex:1;-webkit-flex:1;flex:1;
 }
