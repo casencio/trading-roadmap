@@ -2,60 +2,409 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=1024,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Dibujar</title>
+<title>Dibujar v29</title>
 <style>
 *{margin:0;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overflow:hidden;background:#f0ece4;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;}
-#app{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;height:100%;overflow:hidden;}
-#canvas-wrap{-webkit-box-flex:1;-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;background:#f0ece4;overflow:hidden;}
-#drawing-canvas{background:#fff;display:block;-webkit-touch-callout:none;touch-action:none;border:2px solid #ddd;}
-#toolbar{background:#fff;border-top:2px solid #ddd;padding:7px 6px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;gap:6px;-webkit-flex-shrink:0;flex-shrink:0;}
-.row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;gap:5px;}
-.c-dot{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;-webkit-appearance:none;outline:none;flex-shrink:0;position:relative;display:inline-block;}
-.c-dot.active::after{content:'';position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;border-radius:50%;border:3px solid #222;}
-.sz-btn{width:44px;height:44px;border-radius:50%;background:#f0ece4;border:2px solid #d0c8bc;cursor:pointer;-webkit-appearance:none;outline:none;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;flex-shrink:0;}
-.sz-btn.active{background:#222;border-color:#000;}
-.sz-dot{border-radius:50%;background:#888;display:block;}
-.sz-btn.active .sz-dot{background:#fff;}
-.act-btn{height:42px;border-radius:21px;border:2px solid #d0c8bc;background:#f0ece4;cursor:pointer;-webkit-appearance:none;outline:none;padding:0 13px;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#444;white-space:nowrap;-webkit-box-flex:1;flex:1;max-width:84px;}
-.act-btn:active{background:#ddd;}
-#eraser-btn.active{background:#ffeb99;border-color:#ccaa00;color:#665500;}
-#save-btn{background:#d4f0d4;border-color:#88bb88;color:#224422;}
-.sep{width:1px;height:30px;background:#ddd;flex-shrink:0;}
-#picker-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:200;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;}
-#picker-overlay.open{display:-webkit-box;display:flex;}
-#picker-box{background:#fff;border-radius:16px;padding:16px;text-align:center;width:260px;}
-#picker-box canvas{display:block;margin:0 auto;border-radius:50%;cursor:crosshair;-webkit-touch-callout:none;touch-action:none;}
-#picker-preview-row{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;gap:12px;margin-top:12px;}
-#picker-preview{width:44px;height:44px;border-radius:50%;border:3px solid #ddd;display:inline-block;}
-#picker-ok{height:40px;border-radius:20px;border:2px solid #88bb88;background:#d4f0d4;color:#224422;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;padding:0 24px;cursor:pointer;-webkit-appearance:none;}
-#picker-cancel{height:40px;border-radius:20px;border:2px solid #d0c8bc;background:#f0ece4;color:#555;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;padding:0 16px;cursor:pointer;-webkit-appearance:none;}
-#confirm-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;}
-#confirm-overlay.open{display:-webkit-box;display:flex;}
-#confirm-box{background:#fff;border-radius:16px;padding:24px 20px;max-width:240px;width:85%;text-align:center;}
-#confirm-box p{font-size:15px;color:#444;margin-bottom:18px;line-height:1.4;}
-.confirm-btns{display:-webkit-box;display:flex;gap:10px;-webkit-box-pack:center;justify-content:center;}
-.confirm-btns button{border-radius:20px;border:2px solid;padding:8px 18px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;cursor:pointer;-webkit-appearance:none;}
-#confirm-yes{background:#ffe0e0;border-color:#cc6666;color:#883333;}
-#confirm-no{background:#f0ece4;border-color:#d0c8bc;color:#555;}
-#save-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:200;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;}
-#save-overlay.open{display:-webkit-box;display:flex;}
-#save-box{background:#fff;border-radius:16px;padding:20px;max-width:280px;width:88%;text-align:center;}
-#save-box img{max-width:100%;border-radius:8px;border:1px solid #ddd;margin-bottom:12px;}
-#save-box p{font-size:14px;color:#555;line-height:1.5;margin-bottom:14px;}
-#save-box button{background:#f0ece4;border:2px solid #d0c8bc;border-radius:20px;padding:8px 24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:#444;cursor:pointer;-webkit-appearance:none;}
+
+html,body{
+  width:1024px;height:768px;
+  overflow:hidden;
+  background:#e8e0d4;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+/* Forzar landscape — rotar si portrait */
+@media (orientation:portrait){
+  body{
+    width:768px;height:1024px;
+    -webkit-transform-origin:0 0;
+    -webkit-transform:rotate(90deg) translateY(-768px);
+    transform-origin:0 0;
+    transform:rotate(90deg) translateY(-768px);
+  }
+}
+
+/* ── APP SHELL ── */
+#app{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  width:1024px;height:768px;overflow:hidden;
+}
+
+/* ── ÁREA CANVAS ── */
+#canvas-wrap{
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  background:-webkit-linear-gradient(top,#ddd8cc,#e8e0d4);
+  background:linear-gradient(to bottom,#ddd8cc,#e8e0d4);
+  overflow:hidden;
+  /* Margen homogéneo arriba (status bar) y abajo (separación toolbar) */
+  padding-top:44px;
+  padding-bottom:44px;
+}
+
+#drawing-canvas{
+  background:#fffef8;
+  display:block;
+  -webkit-touch-callout:none;
+  -webkit-border-radius:6px;border-radius:6px;
+  -webkit-box-shadow:
+    0 4px 0 rgba(0,0,0,0.18),
+    0 6px 18px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow:
+    0 4px 0 rgba(0,0,0,0.18),
+    0 6px 18px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* ── TOOLBAR ── */
+#toolbar{
+  -webkit-flex-shrink:0;flex-shrink:0;
+  width:1024px;
+  padding:10px 16px 12px 16px;
+  background:-webkit-linear-gradient(top,#f5f0e8,#ede6da);
+  background:linear-gradient(to bottom,#f5f0e8,#ede6da);
+  border-top:1px solid #c8bfb0;
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+/* Filas */
+.row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;
+  width:100%;
+}
+.row-colors{ margin-bottom:10px; }
+
+/* ── DOTS DE COLOR ── */
+.c-dot{
+  width:42px;height:42px;
+  -webkit-border-radius:50%;border-radius:50%;
+  border:3px solid rgba(0,0,0,0.0);
+  cursor:pointer;-webkit-appearance:none;outline:none;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  position:relative;
+  display:inline-block;
+  -webkit-box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.55),
+    inset 0 -2px 0 rgba(0,0,0,0.18),
+    0 3px 6px rgba(0,0,0,0.28),
+    0 1px 2px rgba(0,0,0,0.18);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.55),
+    inset 0 -2px 0 rgba(0,0,0,0.18),
+    0 3px 6px rgba(0,0,0,0.28),
+    0 1px 2px rgba(0,0,0,0.18);
+}
+.c-dot.active{
+  border-color:#fff;
+  -webkit-box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.55),
+    inset 0 -2px 0 rgba(0,0,0,0.18),
+    0 0 0 3px #444,
+    0 4px 8px rgba(0,0,0,0.35);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.55),
+    inset 0 -2px 0 rgba(0,0,0,0.18),
+    0 0 0 3px #444,
+    0 4px 8px rgba(0,0,0,0.35);
+}
+
+/* ── BOTONES DE GROSOR ── */
+.sz-btn{
+  width:52px;height:52px;
+  -webkit-border-radius:50%;border-radius:50%;
+  cursor:pointer;-webkit-appearance:none;outline:none;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  position:relative;
+  background:-webkit-linear-gradient(top,#f0ebe0,#d8d0c4);
+  background:linear-gradient(to bottom,#f0ebe0,#d8d0c4);
+  border:1px solid #b8b0a4;
+  -webkit-box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.1),
+    0 3px 5px rgba(0,0,0,0.22),
+    0 1px 2px rgba(0,0,0,0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.1),
+    0 3px 5px rgba(0,0,0,0.22),
+    0 1px 2px rgba(0,0,0,0.15);
+}
+.sz-btn.active{
+  background:-webkit-linear-gradient(top,#555,#333);
+  background:linear-gradient(to bottom,#555,#333);
+  border-color:#111;
+  -webkit-box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 2px 4px rgba(0,0,0,0.4),
+    0 1px 2px rgba(0,0,0,0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 2px 4px rgba(0,0,0,0.4),
+    0 1px 2px rgba(0,0,0,0.3);
+}
+.sz-dot{
+  position:absolute;
+  top:50%;left:50%;
+  -webkit-border-radius:50%;border-radius:50%;
+  background:#777;
+  display:block;
+}
+.sz-btn.active .sz-dot{ background:#fff; }
+
+/* ── SEPARADOR ── */
+.sep{
+  width:1px;height:44px;
+  background:-webkit-linear-gradient(top,transparent,#bbb,transparent);
+  background:linear-gradient(to bottom,transparent,#bbb,transparent);
+  -webkit-flex-shrink:0;flex-shrink:0;
+  margin:0 14px;
+}
+
+/* ── BOTONES DE ACCIÓN ── */
+.act-btn{
+  height:52px;
+  line-height:52px;
+  text-align:center;
+  -webkit-border-radius:26px;border-radius:26px;
+  cursor:pointer;-webkit-appearance:none;outline:none;
+  padding:0 10px;
+  font-size:16px;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  white-space:nowrap;
+  -webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
+  width:128px;
+  border-width:1px;
+  border-style:solid;
+  -webkit-box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    inset 0 -2px 0 rgba(0,0,0,0.12),
+    0 3px 5px rgba(0,0,0,0.2),
+    0 1px 2px rgba(0,0,0,0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    inset 0 -2px 0 rgba(0,0,0,0.12),
+    0 3px 5px rgba(0,0,0,0.2),
+    0 1px 2px rgba(0,0,0,0.15);
+}
+.act-btn:active{
+  -webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,0.25),0 1px 1px rgba(0,0,0,0.1);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.25),0 1px 1px rgba(0,0,0,0.1);
+}
+
+#eraser-btn{
+  background:-webkit-linear-gradient(top,#fff9e0,#ffe878);
+  background:linear-gradient(to bottom,#fff9e0,#ffe878);
+  border-color:#c8a800;color:#5a4800;
+}
+#eraser-btn.active{
+  background:-webkit-linear-gradient(top,#ffe020,#cc9a00);
+  background:linear-gradient(to bottom,#ffe020,#cc9a00);
+  border-color:#aa7800;color:#fff;
+}
+#undo-btn{
+  background:-webkit-linear-gradient(top,#e8eeff,#b8c8f8);
+  background:linear-gradient(to bottom,#e8eeff,#b8c8f8);
+  border-color:#6680cc;color:#223388;
+}
+#clear-btn{
+  background:-webkit-linear-gradient(top,#ffe8e8,#f8b0b0);
+  background:linear-gradient(to bottom,#ffe8e8,#f8b0b0);
+  border-color:#cc5555;color:#881111;
+}
+#save-btn{
+  background:-webkit-linear-gradient(top,#e8ffe8,#88e888);
+  background:linear-gradient(to bottom,#e8ffe8,#88e888);
+  border-color:#44aa44;color:#115511;
+}
+
+/* ── OVERLAYS ── */
+#picker-overlay,
+#confirm-overlay,
+#save-overlay{
+  display:none;
+  position:absolute;
+  top:0;left:0;
+  width:1024px;height:768px;
+  background:rgba(0,0,0,0.6);
+  z-index:200;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+}
+#picker-overlay.open,
+#confirm-overlay.open,
+#save-overlay.open{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+}
+
+/* ── PICKER BOX ── */
+#picker-box{
+  background:-webkit-linear-gradient(top,#fff,#f0ece4);
+  background:linear-gradient(to bottom,#fff,#f0ece4);
+  -webkit-border-radius:22px;border-radius:22px;
+  padding:22px 20px;text-align:center;width:360px;
+  border:1px solid #ccc;
+  -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+}
+#wheel-canvas{
+  display:block;margin:0 auto;
+  -webkit-border-radius:50%;border-radius:50%;
+  cursor:crosshair;-webkit-touch-callout:none;
+  -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.3);
+  box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+#picker-preview-row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  margin-top:16px;
+}
+#picker-preview-row > * + *{ margin-left:12px; }
+#picker-preview{
+  width:50px;height:50px;
+  min-width:50px;min-height:50px;
+  -webkit-border-radius:50%;border-radius:50%;
+  border:3px solid #fff;
+  display:inline-block;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  -webkit-box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+#picker-ok,#picker-cancel{
+  height:46px;-webkit-border-radius:23px;border-radius:23px;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:15px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.03em;
+  cursor:pointer;-webkit-appearance:none;
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
+}
+#picker-ok{
+  padding:0 24px;
+  background:-webkit-linear-gradient(top,#e8ffe8,#88e888);
+  background:linear-gradient(to bottom,#e8ffe8,#88e888);
+  border:1px solid #44aa44;color:#115511;
+}
+#picker-cancel{
+  padding:0 18px;
+  background:-webkit-linear-gradient(top,#f5f0e8,#e0d8cc);
+  background:linear-gradient(to bottom,#f5f0e8,#e0d8cc);
+  border:1px solid #b8b0a4;color:#555;
+}
+
+/* ── CONFIRM BOX ── */
+#confirm-box{
+  background:-webkit-linear-gradient(top,#fff,#f0ece4);
+  background:linear-gradient(to bottom,#fff,#f0ece4);
+  -webkit-border-radius:22px;border-radius:22px;
+  padding:30px 28px;max-width:300px;width:85%;text-align:center;
+  border:1px solid #ccc;
+  -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+}
+/* Texto del confirm en minúsculas normal */
+#confirm-box p{
+  font-size:20px;font-weight:bold;color:#444;line-height:1.4;
+}
+.confirm-btns{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  margin-top:22px;
+}
+.confirm-btns > * + *{ margin-left:14px; }
+/* Botones del confirm en MAYÚSCULAS */
+.confirm-btns button{
+  -webkit-border-radius:24px;border-radius:24px;
+  padding:0 26px;
+  height:52px;
+  line-height:52px;
+  text-align:center;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:17px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.02em;
+  cursor:pointer;-webkit-appearance:none;
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 6px rgba(0,0,0,0.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 6px rgba(0,0,0,0.22);
+}
+#confirm-yes{
+  background:-webkit-linear-gradient(top,#ffe8e8,#f89898);
+  background:linear-gradient(to bottom,#ffe8e8,#f89898);
+  border:1px solid #cc5555;color:#881111;
+}
+#confirm-no{
+  background:-webkit-linear-gradient(top,#f5f0e8,#e0d8cc);
+  background:linear-gradient(to bottom,#f5f0e8,#e0d8cc);
+  border:1px solid #b8b0a4;color:#555;
+}
+
+/* ── SAVE BOX ── */
+#save-box{
+  background:-webkit-linear-gradient(top,#fff,#f0ece4);
+  background:linear-gradient(to bottom,#fff,#f0ece4);
+  -webkit-border-radius:22px;border-radius:22px;
+  padding:30px 28px;max-width:340px;width:88%;text-align:center;
+  border:1px solid #ccc;
+  -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+}
+#save-box p{
+  font-size:18px;font-weight:bold;color:#444;
+  line-height:1.5;margin-bottom:22px;
+}
+#save-open-btn{
+  display:block;width:100%;
+  height:56px;line-height:56px;text-align:center;
+  -webkit-border-radius:28px;border-radius:28px;
+  background:-webkit-linear-gradient(top,#e8ffe8,#88e888);
+  background:linear-gradient(to bottom,#e8ffe8,#88e888);
+  border:1px solid #44aa44;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:18px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.02em;
+  color:#115511;cursor:pointer;-webkit-appearance:none;
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 4px 8px rgba(0,0,0,0.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 4px 8px rgba(0,0,0,0.22);
+  margin-bottom:12px;
+}
+#close-save{
+  background:-webkit-linear-gradient(top,#f5f0e8,#e0d8cc);
+  background:linear-gradient(to bottom,#f5f0e8,#e0d8cc);
+  border:1px solid #b8b0a4;
+  -webkit-border-radius:24px;border-radius:24px;
+  padding:0 32px;
+  height:48px;line-height:48px;text-align:center;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:16px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.03em;
+  color:#444;cursor:pointer;-webkit-appearance:none;
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
+}
 </style>
 </head>
 <body>
 <div id="app">
+
   <div id="canvas-wrap">
     <canvas id="drawing-canvas"></canvas>
   </div>
+
   <div id="toolbar">
-    <div class="row">
+    <!-- Fila 1: colores -->
+    <div class="row row-colors">
       <button class="c-dot active" style="background:#111111" data-color="#111111"></button>
       <button class="c-dot" style="background:#555555" data-color="#555555"></button>
       <button class="c-dot" style="background:#e74c3c" data-color="#e74c3c"></button>
@@ -70,33 +419,46 @@ html,body{height:100%;overflow:hidden;background:#f0ece4;font-family:'Helvetica 
       <button class="c-dot" style="background:#5dade2" data-color="#5dade2"></button>
       <button class="c-dot" style="background:#8e44ad" data-color="#8e44ad"></button>
       <button class="c-dot" style="background:#e91e8c" data-color="#e91e8c"></button>
-      <button class="c-dot" style="background:#ffffff;border-color:#bbb;" data-color="#ffffff"></button>
+      <button class="c-dot" style="background:#ffffff;border-color:rgba(0,0,0,0.15);" data-color="#ffffff"></button>
       <button class="c-dot" id="custom-dot" style="background:#aaaaaa;" data-color="#aaaaaa">
-        <svg width="14" height="14" viewBox="0 0 16 16" style="position:absolute;top:50%;left:50%;margin:-7px 0 0 -7px;pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
-          <line x1="8" y1="4" x2="8" y2="12" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="4" y1="8" x2="12" y2="8" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+        <svg width="16" height="16" viewBox="0 0 16 16" style="position:absolute;top:50%;left:50%;margin:-8px 0 0 -8px;pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="1.5"/>
+          <line x1="8" y1="4" x2="8" y2="12" stroke="rgba(255,255,255,0.95)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="4" y1="8" x2="12" y2="8" stroke="rgba(255,255,255,0.95)" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
-    <div class="row">
-      <button class="sz-btn active" data-size="3"><span class="sz-dot" style="width:4px;height:4px;"></span></button>
-      <button class="sz-btn" data-size="8"><span class="sz-dot" style="width:9px;height:9px;"></span></button>
-      <button class="sz-btn" data-size="16"><span class="sz-dot" style="width:17px;height:17px;"></span></button>
-      <button class="sz-btn" data-size="28"><span class="sz-dot" style="width:28px;height:28px;"></span></button>
-      <button class="sz-btn" data-size="44"><span class="sz-dot" style="width:40px;height:40px;"></span></button>
+    <!-- Fila 2: tamaños + acciones -->
+    <div class="row row-actions">
+      <button class="sz-btn active" data-size="3">
+        <span class="sz-dot" style="width:4px;height:4px;margin-left:-2px;margin-top:-2px;"></span>
+      </button>
+      <button class="sz-btn" data-size="8" style="margin-left:10px;">
+        <span class="sz-dot" style="width:10px;height:10px;margin-left:-5px;margin-top:-5px;"></span>
+      </button>
+      <button class="sz-btn" data-size="16" style="margin-left:10px;">
+        <span class="sz-dot" style="width:18px;height:18px;margin-left:-9px;margin-top:-9px;"></span>
+      </button>
+      <button class="sz-btn" data-size="28" style="margin-left:10px;">
+        <span class="sz-dot" style="width:28px;height:28px;margin-left:-14px;margin-top:-14px;"></span>
+      </button>
+      <button class="sz-btn" data-size="44" style="margin-left:10px;">
+        <span class="sz-dot" style="width:40px;height:40px;margin-left:-20px;margin-top:-20px;"></span>
+      </button>
       <div class="sep"></div>
       <button class="act-btn" id="eraser-btn">Borrar</button>
-      <button class="act-btn" id="undo-btn">Undo</button>
-      <button class="act-btn" id="clear-btn">Nuevo</button>
-      <button class="act-btn" id="save-btn">Guardar</button>
+      <button class="act-btn" id="undo-btn" style="margin-left:10px;">Deshacer</button>
+      <button class="act-btn" id="clear-btn" style="margin-left:10px;">Nuevo</button>
+      <button class="act-btn" id="save-btn" style="margin-left:10px;">Guardar</button>
     </div>
   </div>
+
 </div>
 
+<!-- Overlays -->
 <div id="picker-overlay">
   <div id="picker-box">
-    <canvas id="wheel-canvas" width="200" height="200"></canvas>
+    <canvas id="wheel-canvas" width="220" height="220"></canvas>
     <div id="picker-preview-row">
       <div id="picker-preview"></div>
       <button id="picker-ok">Usar</button>
@@ -117,185 +479,288 @@ html,body{height:100%;overflow:hidden;background:#f0ece4;font-family:'Helvetica 
 
 <div id="save-overlay">
   <div id="save-box">
-    <img id="preview-img" src="" alt="Tu dibujo"/>
-    <p>Manten presionado la imagen<br>y elige <strong>Guardar imagen</strong></p>
-    <button id="close-save">Cerrar</button>
+    <p>Para guardar el dibujo,<br>abrelo en Safari y manten<br>presionado la imagen</p>
+    <button id="save-open-btn">Abrir en Safari</button>
+    <button id="close-save">Cancelar</button>
   </div>
 </div>
 
 <script>
-var canvas=document.getElementById('drawing-canvas');
-var ctx=canvas.getContext('2d');
-var wrap=document.getElementById('canvas-wrap');
-var state={drawing:false,color:'#111111',size:3,eraser:false,lastX:0,lastY:0};
-var history=[]; var MAX_HIST=8;
-var pickedColor='#aaaaaa';
+var canvas   = document.getElementById('drawing-canvas');
+var ctx      = canvas.getContext('2d');
+var wrap     = document.getElementById('canvas-wrap');
+var state    = { drawing:false, color:'#111111', size:3, eraser:false, lastX:0, lastY:0 };
+var history  = [];
+var MAX_HIST = 5;
+var pickedColor = '#aaaaaa';
+var wheelDrawn  = false;
+var WR = 110;
 
-function saveHist(){
-  if(history.length>=MAX_HIST) history.shift();
-  try{ history.push(ctx.getImageData(0,0,canvas.width,canvas.height)); }catch(e){}
+function initCanvas() {
+  var toolbarH = document.getElementById('toolbar').offsetHeight || 120;
+  var availH = 768 - toolbarH;
+  var cw, ch;
+  if (1024 / availH > 4/3) { ch = availH - 16; cw = Math.floor(ch * (4/3)); }
+  else                      { cw = 1024 - 16;  ch = Math.floor(cw / (4/3)); }
+  canvas.width  = cw;
+  canvas.height = ch;
+  ctx.fillStyle = '#fffef8';
+  ctx.fillRect(0, 0, cw, ch);
+  ctx.lineCap  = 'round';
+  ctx.lineJoin = 'round';
 }
-function initCanvas(){
-  var w=wrap.clientWidth||window.innerWidth;
-  var h=wrap.clientHeight||(window.innerHeight-110);
-  var cw,ch;
-  if(w/h>4/3){ ch=h-16; cw=Math.floor(ch*(4/3)); }
-  else{ cw=w-16; ch=Math.floor(cw/(4/3)); }
-  canvas.width=cw; canvas.height=ch;
-  ctx.fillStyle='#fff'; ctx.fillRect(0,0,cw,ch);
-  ctx.lineCap='round'; ctx.lineJoin='round';
-}
-function getPos(e){
-  var rect=canvas.getBoundingClientRect(); var cx,cy;
-  if(e.touches&&e.touches.length>0){ cx=e.touches[0].clientX; cy=e.touches[0].clientY; }
-  else if(e.changedTouches&&e.changedTouches.length>0){ cx=e.changedTouches[0].clientX; cy=e.changedTouches[0].clientY; }
-  else{ cx=e.clientX; cy=e.clientY; }
-  return{ x:(cx-rect.left)*(canvas.width/rect.width), y:(cy-rect.top)*(canvas.height/rect.height) };
-}
-function drawColor(){ return state.eraser?'#fff':state.color; }
-function drawSize(){ return state.eraser?state.size*2.5:state.size; }
-function startDraw(e){
-  e.preventDefault(); state.drawing=true; saveHist();
-  var p=getPos(e); state.lastX=p.x; state.lastY=p.y;
-  ctx.beginPath(); ctx.arc(p.x,p.y,drawSize()/2,0,Math.PI*2);
-  ctx.fillStyle=drawColor(); ctx.fill();
-}
-function doDraw(e){
-  e.preventDefault(); if(!state.drawing) return;
-  var p=getPos(e);
-  ctx.beginPath(); ctx.moveTo(state.lastX,state.lastY); ctx.lineTo(p.x,p.y);
-  ctx.strokeStyle=drawColor(); ctx.lineWidth=drawSize();
-  ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
-  state.lastX=p.x; state.lastY=p.y;
-}
-function endDraw(e){ if(e) e.preventDefault(); state.drawing=false; }
-canvas.addEventListener('touchstart',startDraw,false);
-canvas.addEventListener('touchmove',doDraw,false);
-canvas.addEventListener('touchend',endDraw,false);
-canvas.addEventListener('touchcancel',endDraw,false);
-canvas.addEventListener('mousedown',startDraw,false);
-canvas.addEventListener('mousemove',doDraw,false);
-canvas.addEventListener('mouseup',endDraw,false);
-canvas.addEventListener('mouseleave',endDraw,false);
-document.body.addEventListener('touchmove',function(e){ e.preventDefault(); },false);
 
-var cdots=document.querySelectorAll('.c-dot');
-function selectColorDot(btn){
-  for(var j=0;j<cdots.length;j++) cdots[j].classList.remove('active');
+function saveHist() {
+  if (history.length >= MAX_HIST) history.shift();
+  try { history.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); } catch(e) {}
+}
+
+function getPos(e) {
+  var rect = canvas.getBoundingClientRect();
+  var cx, cy;
+  if (e.touches && e.touches.length > 0) {
+    cx = e.touches[0].clientX; cy = e.touches[0].clientY;
+  } else if (e.changedTouches && e.changedTouches.length > 0) {
+    cx = e.changedTouches[0].clientX; cy = e.changedTouches[0].clientY;
+  } else {
+    cx = e.clientX; cy = e.clientY;
+  }
+  return {
+    x: (cx - rect.left) * (canvas.width  / rect.width),
+    y: (cy - rect.top)  * (canvas.height / rect.height)
+  };
+}
+
+function drawColor() { return state.eraser ? '#fffef8' : state.color; }
+function drawSize()  { return state.eraser ? state.size * 2.5 : state.size; }
+
+function startDraw(e) {
+  e.preventDefault();
+  state.drawing = true;
+  saveHist();
+  var p = getPos(e);
+  state.lastX = p.x; state.lastY = p.y;
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, drawSize() / 2, 0, Math.PI * 2);
+  ctx.fillStyle = drawColor();
+  ctx.fill();
+}
+function doDraw(e) {
+  e.preventDefault();
+  if (!state.drawing) return;
+  var p = getPos(e);
+  ctx.beginPath();
+  ctx.moveTo(state.lastX, state.lastY);
+  ctx.lineTo(p.x, p.y);
+  ctx.strokeStyle = drawColor();
+  ctx.lineWidth   = drawSize();
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+  ctx.stroke();
+  state.lastX = p.x; state.lastY = p.y;
+}
+function endDraw(e) { if (e) e.preventDefault(); state.drawing = false; }
+
+canvas.addEventListener('touchstart',  startDraw, false);
+canvas.addEventListener('touchmove',   doDraw,    false);
+canvas.addEventListener('touchend',    endDraw,   false);
+canvas.addEventListener('touchcancel', endDraw,   false);
+canvas.addEventListener('mousedown',   startDraw, false);
+canvas.addEventListener('mousemove',   doDraw,    false);
+canvas.addEventListener('mouseup',     endDraw,   false);
+canvas.addEventListener('mouseleave',  endDraw,   false);
+
+// Bloquear scroll del body (igual que versión original)
+document.body.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+
+
+function touchBtn(id, handler) {
+  var el = document.getElementById(id);
+  el.addEventListener('touchend', function(e) { e.preventDefault(); handler(); }, false);
+  el.addEventListener('click', handler, false);
+}
+
+var cdots = document.querySelectorAll('.c-dot');
+
+function selectColorDot(btn) {
+  var j;
+  for (j = 0; j < cdots.length; j++) cdots[j].classList.remove('active');
   btn.classList.add('active');
-  state.color=btn.getAttribute('data-color');
-  state.eraser=false;
+  state.color  = btn.getAttribute('data-color');
+  state.eraser = false;
   document.getElementById('eraser-btn').classList.remove('active');
 }
-for(var i=0;i<cdots.length;i++){
-  (function(btn){
-    if(btn.id==='custom-dot') return;
-    btn.addEventListener('click',function(){ selectColorDot(btn); });
+
+var i;
+for (i = 0; i < cdots.length; i++) {
+  (function(btn) {
+    if (btn.id === 'custom-dot') return;
+    btn.addEventListener('touchend', function(e) { e.preventDefault(); selectColorDot(btn); }, false);
+    btn.addEventListener('click', function() { selectColorDot(btn); }, false);
   })(cdots[i]);
 }
-var sbtns=document.querySelectorAll('.sz-btn');
-for(var k=0;k<sbtns.length;k++){
-  (function(btn){
-    btn.addEventListener('click',function(){
-      for(var m=0;m<sbtns.length;m++) sbtns[m].classList.remove('active');
+
+var sbtns = document.querySelectorAll('.sz-btn');
+var k;
+for (k = 0; k < sbtns.length; k++) {
+  (function(btn) {
+    function pickSize() {
+      var m;
+      for (m = 0; m < sbtns.length; m++) sbtns[m].classList.remove('active');
       btn.classList.add('active');
-      state.size=parseInt(btn.getAttribute('data-size'));
-    });
+      state.size = parseInt(btn.getAttribute('data-size'), 10);
+    }
+    btn.addEventListener('touchend', function(e) { e.preventDefault(); pickSize(); }, false);
+    btn.addEventListener('click', pickSize, false);
   })(sbtns[k]);
 }
-document.getElementById('eraser-btn').addEventListener('click',function(){
-  state.eraser=!state.eraser;
-  if(state.eraser) this.classList.add('active'); else this.classList.remove('active');
-},false);
-document.getElementById('undo-btn').addEventListener('click',function(){
-  if(history.length===0) return;
-  try{ ctx.putImageData(history.pop(),0,0); }catch(e){}
-},false);
-document.getElementById('clear-btn').addEventListener('click',function(){
-  document.getElementById('confirm-overlay').className='open';
-},false);
-document.getElementById('confirm-yes').addEventListener('click',function(){
-  saveHist(); ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-  document.getElementById('confirm-overlay').className='';
-},false);
-document.getElementById('confirm-no').addEventListener('click',function(){
-  document.getElementById('confirm-overlay').className='';
-},false);
-document.getElementById('save-btn').addEventListener('click',function(){
-  try{
-    var url=canvas.toDataURL('image/jpeg',0.85);
-    document.getElementById('preview-img').src=url;
-    document.getElementById('save-overlay').className='open';
-  }catch(e){ alert('No se pudo generar la imagen.'); }
-},false);
-document.getElementById('close-save').addEventListener('click',function(){
-  document.getElementById('save-overlay').className='';
-  document.getElementById('preview-img').src='';
-},false);
-document.getElementById('save-overlay').addEventListener('click',function(e){
-  if(e.target===this){ this.className=''; document.getElementById('preview-img').src=''; }
-},false);
 
-var wheelCanvas=document.getElementById('wheel-canvas');
-var wctx=wheelCanvas.getContext('2d');
-var WR=100;
-function drawWheel(){
-  var cx=WR,cy=WR;
-  for(var angle=0;angle<360;angle+=1){
-    var grad=wctx.createRadialGradient(cx,cy,0,cx,cy,WR);
-    grad.addColorStop(0,'#ffffff');
-    grad.addColorStop(1,'hsl('+angle+',100%,50%)');
-    wctx.beginPath(); wctx.moveTo(cx,cy);
-    wctx.arc(cx,cy,WR,(angle-1)*Math.PI/180,(angle+1)*Math.PI/180);
-    wctx.closePath(); wctx.fillStyle=grad; wctx.fill();
+touchBtn('eraser-btn', function() {
+  state.eraser = !state.eraser;
+  var eb = document.getElementById('eraser-btn');
+  if (state.eraser) eb.classList.add('active'); else eb.classList.remove('active');
+});
+
+touchBtn('undo-btn', function() {
+  if (history.length === 0) return;
+  try { ctx.putImageData(history.pop(), 0, 0); } catch(e) {}
+});
+
+touchBtn('clear-btn', function() {
+  document.getElementById('confirm-overlay').className = 'open';
+});
+
+touchBtn('confirm-yes', function() {
+  saveHist();
+  ctx.fillStyle = '#fffef8';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  document.getElementById('confirm-overlay').className = '';
+});
+
+touchBtn('confirm-no', function() {
+  document.getElementById('confirm-overlay').className = '';
+});
+
+touchBtn('save-btn', function() {
+  try {
+    var url = canvas.toDataURL('image/jpeg', 0.85);
+    document.getElementById('save-overlay').className = 'open';
+    // Guardar URL para el botón abrir
+    document.getElementById('save-open-btn')._url = url;
+  } catch(e) { alert('No se pudo generar la imagen.'); }
+});
+
+touchBtn('save-open-btn', function() {
+  var url = document.getElementById('save-open-btn')._url;
+  if (url) { window.open(url); }
+});
+
+touchBtn('close-save', function() {
+  document.getElementById('save-overlay').className = '';
+});
+
+document.getElementById('save-overlay').addEventListener('click', function(e) {
+  if (e.target === this) { this.className = ''; }
+}, false);
+
+var wheelCanvas = document.getElementById('wheel-canvas');
+var wctx        = wheelCanvas.getContext('2d');
+
+function drawWheel() {
+  if (wheelDrawn) return;
+  wheelDrawn = true;
+  var cx = WR, cy = WR;
+  var angle;
+  for (angle = 0; angle < 360; angle += 1) {
+    var grad = wctx.createRadialGradient(cx, cy, 0, cx, cy, WR);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(1, 'hsl(' + angle + ',100%,50%)');
+    wctx.beginPath();
+    wctx.moveTo(cx, cy);
+    wctx.arc(cx, cy, WR, (angle - 1) * Math.PI / 180, (angle + 1) * Math.PI / 180);
+    wctx.closePath();
+    wctx.fillStyle = grad;
+    wctx.fill();
   }
-  wctx.beginPath(); wctx.arc(cx,cy,12,0,Math.PI*2);
-  wctx.fillStyle='#111'; wctx.fill();
-  var dg=wctx.createRadialGradient(cx,cy,WR*0.82,cx,cy,WR);
-  dg.addColorStop(0,'rgba(0,0,0,0)'); dg.addColorStop(1,'rgba(0,0,0,0.35)');
-  wctx.beginPath(); wctx.arc(cx,cy,WR,0,Math.PI*2);
-  wctx.fillStyle=dg; wctx.fill();
+  wctx.beginPath();
+  wctx.arc(cx, cy, 14, 0, Math.PI * 2);
+  wctx.fillStyle = '#111';
+  wctx.fill();
+  var dg = wctx.createRadialGradient(cx, cy, WR * 0.8, cx, cy, WR);
+  dg.addColorStop(0, 'rgba(0,0,0,0)');
+  dg.addColorStop(1, 'rgba(0,0,0,0.3)');
+  wctx.beginPath();
+  wctx.arc(cx, cy, WR, 0, Math.PI * 2);
+  wctx.fillStyle = dg;
+  wctx.fill();
 }
-function getWheelColor(x,y){
-  try{ var d=wctx.getImageData(x,y,1,1).data; return 'rgb('+d[0]+','+d[1]+','+d[2]+')'; }
-  catch(e){ return '#888'; }
+
+function getWheelColor(x, y) {
+  try {
+    var d = wctx.getImageData(x, y, 1, 1).data;
+    return 'rgb(' + d[0] + ',' + d[1] + ',' + d[2] + ')';
+  } catch(e) { return '#888'; }
 }
-function rgbToHex(rgb){
-  var m=rgb.match(/\d+/g); if(!m) return '#888888';
-  return '#'+('0'+parseInt(m[0]).toString(16)).slice(-2)+
-              ('0'+parseInt(m[1]).toString(16)).slice(-2)+
-              ('0'+parseInt(m[2]).toString(16)).slice(-2);
+
+function rgbToHex(rgb) {
+  var m = rgb.match(/\d+/g);
+  if (!m) return '#888888';
+  return '#' +
+    ('0' + parseInt(m[0], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(m[1], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(m[2], 10).toString(16)).slice(-2);
 }
-function wheelPick(e){
+
+function wheelPick(e) {
   e.preventDefault();
-  var rect=wheelCanvas.getBoundingClientRect(); var cx,cy;
-  if(e.touches&&e.touches.length>0){ cx=e.touches[0].clientX; cy=e.touches[0].clientY; }
-  else{ cx=e.clientX; cy=e.clientY; }
-  var x=Math.round((cx-rect.left)*(wheelCanvas.width/rect.width));
-  var y=Math.round((cy-rect.top)*(wheelCanvas.height/rect.height));
-  var dx=x-WR,dy=y-WR;
-  if(dx*dx+dy*dy>WR*WR) return;
-  pickedColor=rgbToHex(getWheelColor(x,y));
-  document.getElementById('picker-preview').style.background=pickedColor;
+  var rect = wheelCanvas.getBoundingClientRect();
+  var cx, cy;
+  if (e.touches && e.touches.length > 0) {
+    cx = e.touches[0].clientX; cy = e.touches[0].clientY;
+  } else {
+    cx = e.clientX; cy = e.clientY;
+  }
+  var x = Math.round((cx - rect.left) * (wheelCanvas.width  / rect.width));
+  var y = Math.round((cy - rect.top)  * (wheelCanvas.height / rect.height));
+  var dx = x - WR, dy = y - WR;
+  if (dx * dx + dy * dy > WR * WR) return;
+  pickedColor = rgbToHex(getWheelColor(x, y));
+  document.getElementById('picker-preview').style.background = pickedColor;
 }
-wheelCanvas.addEventListener('touchstart',wheelPick,false);
-wheelCanvas.addEventListener('touchmove',wheelPick,false);
-wheelCanvas.addEventListener('mousedown',wheelPick,false);
-wheelCanvas.addEventListener('mousemove',function(e){ if(e.buttons>0) wheelPick(e); },false);
-document.getElementById('custom-dot').addEventListener('click',function(){
-  pickedColor=this.getAttribute('data-color');
-  document.getElementById('picker-preview').style.background=pickedColor;
-  document.getElementById('picker-overlay').className='open';
+
+wheelCanvas.addEventListener('touchstart', wheelPick, false);
+wheelCanvas.addEventListener('touchmove',  wheelPick, false);
+wheelCanvas.addEventListener('mousedown',  wheelPick, false);
+wheelCanvas.addEventListener('mousemove', function(e) { if (e.buttons > 0) wheelPick(e); }, false);
+
+var customDot = document.getElementById('custom-dot');
+customDot.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  pickedColor = this.getAttribute('data-color');
+  document.getElementById('picker-preview').style.background = pickedColor;
+  document.getElementById('picker-overlay').className = 'open';
   drawWheel();
-},false);
-document.getElementById('picker-ok').addEventListener('click',function(){
-  var dot=document.getElementById('custom-dot');
-  dot.style.background=pickedColor; dot.setAttribute('data-color',pickedColor);
-  selectColorDot(dot); document.getElementById('picker-overlay').className='';
-},false);
-document.getElementById('picker-cancel').addEventListener('click',function(){
-  document.getElementById('picker-overlay').className='';
-},false);
+}, false);
+customDot.addEventListener('click', function() {
+  pickedColor = this.getAttribute('data-color');
+  document.getElementById('picker-preview').style.background = pickedColor;
+  document.getElementById('picker-overlay').className = 'open';
+  drawWheel();
+}, false);
+
+touchBtn('picker-ok', function() {
+  var dot = document.getElementById('custom-dot');
+  dot.style.background = pickedColor;
+  dot.setAttribute('data-color', pickedColor);
+  selectColorDot(dot);
+  document.getElementById('picker-overlay').className = '';
+});
+
+touchBtn('picker-cancel', function() {
+  document.getElementById('picker-overlay').className = '';
+});
+
+setTimeout(function() { drawWheel(); }, 500);
 
 initCanvas();
 </script>
