@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1024,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Dibujar</title>
+<style>
+*{margin:0;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:1024px;height:768px;overflow:hidden;background:#f0ece4;font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;}
+
+#app{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  width:1024px;height:768px;overflow:hidden;
+}
+
+#canvas-wrap{
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  background:#f0ece4;overflow:hidden;
+}
+
+#drawing-canvas{
+  background:#fff;display:block;
+  -webkit-touch-callout:none;
+  -webkit-box-shadow:0 2px 12px rgba(0,0,0,0.15);
+  box-shadow:0 2px 12px rgba(0,0,0,0.15);
+  -webkit-border-radius:4px;border-radius:4px;
+}
+
+/* ── TOOLBAR ── */
+#toolbar{
+  background:#fff;
+  border-top:2px solid #ddd;
+  padding:8px 12px 10px 12px;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  width:1024px;
+}
+
+.row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;
+  width:100%;
+}
+
+.row-colors{ margin-bottom:8px; }
+
+/* Color dots */
+.c-dot{
+  width:38px;height:38px;
+  -webkit-border-radius:50%;border-radius:50%;
+  border:3px solid transparent;
+  cursor:pointer;-webkit-appearance:none;outline:none;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  position:relative;display:inline-block;
+  -webkit-box-shadow:0 1px 3px rgba(0,0,0,0.2);
+  box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.c-dot.active{border-color:#222;}
+.c-dot.active::after{
+  content:'';position:absolute;
+  top:-5px;left:-5px;right:-5px;bottom:-5px;
+  -webkit-border-radius:50%;border-radius:50%;
+  border:3px solid #222;
+}
+
+/* Size buttons */
+.sz-btn{
+  width:48px;height:48px;
+  -webkit-border-radius:50%;border-radius:50%;
+  background:#f0ece4;border:2px solid #d0c8bc;
+  cursor:pointer;-webkit-appearance:none;outline:none;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
+.sz-btn.active{background:#333;border-color:#111;}
+.sz-dot{-webkit-border-radius:50%;border-radius:50%;background:#888;display:block;}
+.sz-btn.active .sz-dot{background:#fff;}
+
+/* Action buttons */
+.act-btn{
+  height:48px;
+  -webkit-border-radius:24px;border-radius:24px;
+  border:2px solid #d0c8bc;background:#f0ece4;
+  cursor:pointer;-webkit-appearance:none;outline:none;
+  padding:0 18px;font-size:16px;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  color:#555;white-space:nowrap;
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;
+}
+.act-btn:active{background:#e0dcd4;}
+
+#eraser-btn.active{background:#fff9cc;border-color:#ccaa00;color:#665500;}
+#save-btn{background:#d4f0d4;border-color:#88bb88;color:#224422;}
+#undo-btn{background:#e8e8f8;border-color:#9999cc;color:#333366;}
+#clear-btn{background:#fde8e8;border-color:#cc8888;color:#883333;}
+
+.sep{width:1px;height:36px;background:#ddd;-webkit-flex-shrink:0;flex-shrink:0;}
+
+/* ── OVERLAYS — position:absolute, no fixed ── */
+#picker-overlay,
+#confirm-overlay,
+#save-overlay{
+  display:none;
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  width:1024px;height:768px;
+  background:rgba(0,0,0,0.55);
+  z-index:200;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+}
+#picker-overlay.open,
+#confirm-overlay.open,
+#save-overlay.open{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+}
+
+/* Picker */
+#picker-box{
+  background:#fff;-webkit-border-radius:20px;border-radius:20px;
+  padding:20px;text-align:center;width:280px;
+  -webkit-box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+#wheel-canvas{display:block;margin:0 auto;-webkit-border-radius:50%;border-radius:50%;cursor:crosshair;-webkit-touch-callout:none;}
+#picker-preview-row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-flex-align:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  margin-top:14px;
+}
+#picker-preview-row > * + *{ margin-left:12px; }
+#picker-preview{
+  width:48px;height:48px;
+  -webkit-border-radius:50%;border-radius:50%;
+  border:3px solid #ddd;display:inline-block;
+  -webkit-box-shadow:0 1px 4px rgba(0,0,0,0.2);
+  box-shadow:0 1px 4px rgba(0,0,0,0.2);
+}
+#picker-ok{
+  height:44px;-webkit-border-radius:22px;border-radius:22px;
+  border:2px solid #88bb88;background:#d4f0d4;color:#224422;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:16px;padding:0 24px;cursor:pointer;-webkit-appearance:none;
+}
+#picker-cancel{
+  height:44px;-webkit-border-radius:22px;border-radius:22px;
+  border:2px solid #d0c8bc;background:#f0ece4;color:#555;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:16px;padding:0 18px;cursor:pointer;-webkit-appearance:none;
+}
+
+/* Confirm */
+#confirm-box{
+  background:#fff;-webkit-border-radius:20px;border-radius:20px;
+  padding:28px 24px;max-width:260px;width:85%;text-align:center;
+  -webkit-box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+#confirm-box p{font-size:18px;color:#444;line-height:1.5;}
+.confirm-btns{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  margin-top:20px;
+}
+.confirm-btns > * + *{ margin-left:12px; }
+.confirm-btns button{
+  -webkit-border-radius:22px;border-radius:22px;
+  border:2px solid;padding:10px 22px;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:16px;cursor:pointer;-webkit-appearance:none;
+}
+#confirm-yes{background:#ffe0e0;border-color:#cc6666;color:#883333;}
+#confirm-no{background:#f0ece4;border-color:#d0c8bc;color:#555;}
+
+/* Save */
+#save-box{
+  background:#fff;-webkit-border-radius:20px;border-radius:20px;
+  padding:20px;max-width:320px;width:88%;text-align:center;
+  -webkit-box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+#save-box img{
+  max-width:100%;-webkit-border-radius:8px;border-radius:8px;
+  border:1px solid #ddd;display:block;margin:0 auto 14px auto;
+}
+#save-box p{font-size:15px;color:#555;line-height:1.5;margin-bottom:16px;}
+#save-box button{
+  background:#f0ece4;border:2px solid #d0c8bc;
+  -webkit-border-radius:22px;border-radius:22px;
+  padding:10px 28px;
+  font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:16px;color:#444;cursor:pointer;-webkit-appearance:none;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="canvas-wrap">
+    <canvas id="drawing-canvas"></canvas>
+  </div>
+
+  <div id="toolbar">
+    <!-- Fila 1: colores -->
+    <div class="row row-colors">
+      <button class="c-dot active" style="background:#111111" data-color="#111111"></button>
+      <button class="c-dot" style="background:#555555" data-color="#555555"></button>
+      <button class="c-dot" style="background:#e74c3c" data-color="#e74c3c"></button>
+      <button class="c-dot" style="background:#c0392b" data-color="#c0392b"></button>
+      <button class="c-dot" style="background:#e67e22" data-color="#e67e22"></button>
+      <button class="c-dot" style="background:#f39c12" data-color="#f39c12"></button>
+      <button class="c-dot" style="background:#f1c40f" data-color="#f1c40f"></button>
+      <button class="c-dot" style="background:#d4ac0d" data-color="#d4ac0d"></button>
+      <button class="c-dot" style="background:#27ae60" data-color="#27ae60"></button>
+      <button class="c-dot" style="background:#1abc9c" data-color="#1abc9c"></button>
+      <button class="c-dot" style="background:#2980b9" data-color="#2980b9"></button>
+      <button class="c-dot" style="background:#5dade2" data-color="#5dade2"></button>
+      <button class="c-dot" style="background:#8e44ad" data-color="#8e44ad"></button>
+      <button class="c-dot" style="background:#e91e8c" data-color="#e91e8c"></button>
+      <button class="c-dot" style="background:#ffffff;border-color:#bbb;" data-color="#ffffff"></button>
+      <button class="c-dot" id="custom-dot" style="background:#aaaaaa;" data-color="#aaaaaa">
+        <svg width="16" height="16" viewBox="0 0 16 16" style="position:absolute;top:50%;left:50%;margin:-8px 0 0 -8px;pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <line x1="8" y1="4" x2="8" y2="12" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="4" y1="8" x2="12" y2="8" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <!-- Fila 2: tamaños + acciones -->
+    <div class="row row-actions">
+      <button class="sz-btn active" data-size="3"><span class="sz-dot" style="width:4px;height:4px;"></span></button>
+      <button class="sz-btn" data-size="8"><span class="sz-dot" style="width:9px;height:9px;"></span></button>
+      <button class="sz-btn" data-size="16"><span class="sz-dot" style="width:17px;height:17px;"></span></button>
+      <button class="sz-btn" data-size="28"><span class="sz-dot" style="width:26px;height:26px;"></span></button>
+      <button class="sz-btn" data-size="44"><span class="sz-dot" style="width:38px;height:38px;"></span></button>
+      <div class="sep"></div>
+      <button class="act-btn" id="eraser-btn">Borrar</button>
+      <button class="act-btn" id="undo-btn">Undo</button>
+      <button class="act-btn" id="clear-btn">Nuevo</button>
+      <button class="act-btn" id="save-btn">Guardar</button>
+    </div>
+  </div>
+
+</div><!-- #app -->
+
+<!-- Overlays (fuera de #app para z-index limpio, pero dentro de body) -->
+<div id="picker-overlay">
+  <div id="picker-box">
+    <canvas id="wheel-canvas" width="220" height="220"></canvas>
+    <div id="picker-preview-row">
+      <div id="picker-preview"></div>
+      <button id="picker-ok">Usar</button>
+      <button id="picker-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirm-overlay">
+  <div id="confirm-box">
+    <p>Borrar el dibujo<br>y empezar de nuevo?</p>
+    <div class="confirm-btns">
+      <button id="confirm-yes">Borrar</button>
+      <button id="confirm-no">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="save-overlay">
+  <div id="save-box">
+    <img id="preview-img" src="" alt="Tu dibujo"/>
+    <p>Manten presionado la imagen<br>y elige <strong>Guardar imagen</strong></p>
+    <button id="close-save">Cerrar</button>
+  </div>
+</div>
+
+<script>
+// ── Estado global ──────────────────────────────────────────────
+var canvas   = document.getElementById('drawing-canvas');
+var ctx      = canvas.getContext('2d');
+var wrap     = document.getElementById('canvas-wrap');
+var state    = { drawing:false, color:'#111111', size:3, eraser:false, lastX:0, lastY:0 };
+var history  = [];
+var MAX_HIST = 5;
+var pickedColor = '#aaaaaa';
+var wheelDrawn  = false;
+var WR = 110; // radio rueda de color
+
+// ── Canvas principal ───────────────────────────────────────────
+function initCanvas() {
+  var w = 1024;
+  var toolbarH = document.getElementById('toolbar').offsetHeight || 116;
+  var h = 768 - toolbarH;
+  var cw, ch;
+  if (w / h > 4/3) { ch = h - 16; cw = Math.floor(ch * (4/3)); }
+  else              { cw = w - 16; ch = Math.floor(cw / (4/3)); }
+  canvas.width  = cw;
+  canvas.height = ch;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, cw, ch);
+  ctx.lineCap  = 'round';
+  ctx.lineJoin = 'round';
+}
+
+function saveHist() {
+  if (history.length >= MAX_HIST) history.shift();
+  try { history.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); } catch(e) {}
+}
+
+function getPos(e) {
+  var rect = canvas.getBoundingClientRect();
+  var cx, cy;
+  if (e.touches && e.touches.length > 0) {
+    cx = e.touches[0].clientX; cy = e.touches[0].clientY;
+  } else if (e.changedTouches && e.changedTouches.length > 0) {
+    cx = e.changedTouches[0].clientX; cy = e.changedTouches[0].clientY;
+  } else {
+    cx = e.clientX; cy = e.clientY;
+  }
+  return {
+    x: (cx - rect.left) * (canvas.width  / rect.width),
+    y: (cy - rect.top)  * (canvas.height / rect.height)
+  };
+}
+
+function drawColor() { return state.eraser ? '#fff' : state.color; }
+function drawSize()  { return state.eraser ? state.size * 2.5 : state.size; }
+
+function startDraw(e) {
+  e.preventDefault();
+  state.drawing = true;
+  saveHist();
+  var p = getPos(e);
+  state.lastX = p.x; state.lastY = p.y;
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, drawSize() / 2, 0, Math.PI * 2);
+  ctx.fillStyle = drawColor();
+  ctx.fill();
+}
+function doDraw(e) {
+  e.preventDefault();
+  if (!state.drawing) return;
+  var p = getPos(e);
+  ctx.beginPath();
+  ctx.moveTo(state.lastX, state.lastY);
+  ctx.lineTo(p.x, p.y);
+  ctx.strokeStyle = drawColor();
+  ctx.lineWidth   = drawSize();
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+  ctx.stroke();
+  state.lastX = p.x; state.lastY = p.y;
+}
+function endDraw(e) { if (e) e.preventDefault(); state.drawing = false; }
+
+canvas.addEventListener('touchstart',  startDraw, false);
+canvas.addEventListener('touchmove',   doDraw,    false);
+canvas.addEventListener('touchend',    endDraw,   false);
+canvas.addEventListener('touchcancel', endDraw,   false);
+canvas.addEventListener('mousedown',   startDraw, false);
+canvas.addEventListener('mousemove',   doDraw,    false);
+canvas.addEventListener('mouseup',     endDraw,   false);
+canvas.addEventListener('mouseleave',  endDraw,   false);
+
+// Bloquear scroll del body
+document.body.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+
+// ── Helper: botón táctil sin delay 300ms ───────────────────────
+function touchBtn(id, handler) {
+  var el = document.getElementById(id);
+  el.addEventListener('touchend', function(e) { e.preventDefault(); handler(); }, false);
+  el.addEventListener('click', handler, false);
+}
+
+// ── Dots de color ─────────────────────────────────────────────
+var cdots = document.querySelectorAll('.c-dot');
+
+function selectColorDot(btn) {
+  var j;
+  for (j = 0; j < cdots.length; j++) cdots[j].classList.remove('active');
+  btn.classList.add('active');
+  state.color  = btn.getAttribute('data-color');
+  state.eraser = false;
+  document.getElementById('eraser-btn').classList.remove('active');
+}
+
+var i;
+for (i = 0; i < cdots.length; i++) {
+  (function(btn) {
+    if (btn.id === 'custom-dot') return;
+    btn.addEventListener('touchend', function(e) { e.preventDefault(); selectColorDot(btn); }, false);
+    btn.addEventListener('click', function() { selectColorDot(btn); }, false);
+  })(cdots[i]);
+}
+
+// ── Dots de tamaño ────────────────────────────────────────────
+var sbtns = document.querySelectorAll('.sz-btn');
+var k;
+for (k = 0; k < sbtns.length; k++) {
+  (function(btn) {
+    function pickSize() {
+      var m;
+      for (m = 0; m < sbtns.length; m++) sbtns[m].classList.remove('active');
+      btn.classList.add('active');
+      state.size = parseInt(btn.getAttribute('data-size'), 10);
+    }
+    btn.addEventListener('touchend', function(e) { e.preventDefault(); pickSize(); }, false);
+    btn.addEventListener('click', pickSize, false);
+  })(sbtns[k]);
+}
+
+// ── Botones de acción ─────────────────────────────────────────
+touchBtn('eraser-btn', function() {
+  state.eraser = !state.eraser;
+  var eb = document.getElementById('eraser-btn');
+  if (state.eraser) eb.classList.add('active'); else eb.classList.remove('active');
+});
+
+touchBtn('undo-btn', function() {
+  if (history.length === 0) return;
+  try { ctx.putImageData(history.pop(), 0, 0); } catch(e) {}
+});
+
+touchBtn('clear-btn', function() {
+  document.getElementById('confirm-overlay').className = 'open';
+});
+
+touchBtn('confirm-yes', function() {
+  saveHist();
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  document.getElementById('confirm-overlay').className = '';
+});
+
+touchBtn('confirm-no', function() {
+  document.getElementById('confirm-overlay').className = '';
+});
+
+touchBtn('save-btn', function() {
+  try {
+    var url = canvas.toDataURL('image/jpeg', 0.85);
+    document.getElementById('preview-img').src = url;
+    document.getElementById('save-overlay').className = 'open';
+  } catch(e) { alert('No se pudo generar la imagen.'); }
+});
+
+touchBtn('close-save', function() {
+  document.getElementById('save-overlay').className = '';
+  document.getElementById('preview-img').src = '';
+});
+
+document.getElementById('save-overlay').addEventListener('touchend', function(e) {
+  if (e.target === this) {
+    e.preventDefault();
+    this.className = '';
+    document.getElementById('preview-img').src = '';
+  }
+}, false);
+document.getElementById('save-overlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    this.className = '';
+    document.getElementById('preview-img').src = '';
+  }
+}, false);
+
+// ── Rueda de color ────────────────────────────────────────────
+var wheelCanvas = document.getElementById('wheel-canvas');
+var wctx        = wheelCanvas.getContext('2d');
+
+function drawWheel() {
+  if (wheelDrawn) return;
+  wheelDrawn = true;
+  var cx = WR, cy = WR;
+  var angle;
+  for (angle = 0; angle < 360; angle += 1) {
+    var grad = wctx.createRadialGradient(cx, cy, 0, cx, cy, WR);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(1, 'hsl(' + angle + ',100%,50%)');
+    wctx.beginPath();
+    wctx.moveTo(cx, cy);
+    wctx.arc(cx, cy, WR, (angle - 1) * Math.PI / 180, (angle + 1) * Math.PI / 180);
+    wctx.closePath();
+    wctx.fillStyle = grad;
+    wctx.fill();
+  }
+  // Centro oscuro
+  wctx.beginPath();
+  wctx.arc(cx, cy, 14, 0, Math.PI * 2);
+  wctx.fillStyle = '#111';
+  wctx.fill();
+  // Viñeta exterior
+  var dg = wctx.createRadialGradient(cx, cy, WR * 0.8, cx, cy, WR);
+  dg.addColorStop(0, 'rgba(0,0,0,0)');
+  dg.addColorStop(1, 'rgba(0,0,0,0.3)');
+  wctx.beginPath();
+  wctx.arc(cx, cy, WR, 0, Math.PI * 2);
+  wctx.fillStyle = dg;
+  wctx.fill();
+}
+
+function getWheelColor(x, y) {
+  try {
+    var d = wctx.getImageData(x, y, 1, 1).data;
+    return 'rgb(' + d[0] + ',' + d[1] + ',' + d[2] + ')';
+  } catch(e) { return '#888'; }
+}
+
+function rgbToHex(rgb) {
+  var m = rgb.match(/\d+/g);
+  if (!m) return '#888888';
+  return '#' +
+    ('0' + parseInt(m[0], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(m[1], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(m[2], 10).toString(16)).slice(-2);
+}
+
+function wheelPick(e) {
+  e.preventDefault();
+  var rect = wheelCanvas.getBoundingClientRect();
+  var cx, cy;
+  if (e.touches && e.touches.length > 0) {
+    cx = e.touches[0].clientX; cy = e.touches[0].clientY;
+  } else {
+    cx = e.clientX; cy = e.clientY;
+  }
+  var x = Math.round((cx - rect.left) * (wheelCanvas.width  / rect.width));
+  var y = Math.round((cy - rect.top)  * (wheelCanvas.height / rect.height));
+  var dx = x - WR, dy = y - WR;
+  if (dx * dx + dy * dy > WR * WR) return;
+  pickedColor = rgbToHex(getWheelColor(x, y));
+  document.getElementById('picker-preview').style.background = pickedColor;
+}
+
+wheelCanvas.addEventListener('touchstart', wheelPick, false);
+wheelCanvas.addEventListener('touchmove',  wheelPick, false);
+wheelCanvas.addEventListener('mousedown',  wheelPick, false);
+wheelCanvas.addEventListener('mousemove', function(e) { if (e.buttons > 0) wheelPick(e); }, false);
+
+var customDot = document.getElementById('custom-dot');
+customDot.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  pickedColor = this.getAttribute('data-color');
+  document.getElementById('picker-preview').style.background = pickedColor;
+  document.getElementById('picker-overlay').className = 'open';
+  drawWheel();
+}, false);
+customDot.addEventListener('click', function() {
+  pickedColor = this.getAttribute('data-color');
+  document.getElementById('picker-preview').style.background = pickedColor;
+  document.getElementById('picker-overlay').className = 'open';
+  drawWheel();
+}, false);
+
+touchBtn('picker-ok', function() {
+  var dot = document.getElementById('custom-dot');
+  dot.style.background = pickedColor;
+  dot.setAttribute('data-color', pickedColor);
+  selectColorDot(dot);
+  document.getElementById('picker-overlay').className = '';
+});
+
+touchBtn('picker-cancel', function() {
+  document.getElementById('picker-overlay').className = '';
+});
+
+// ── Dibujar la rueda una vez al cargar (fuera de la vista) ─────
+// Se llama aquí para que el primer tap no tenga lag
+setTimeout(function() { drawWheel(); }, 400);
+
+// ── Init ───────────────────────────────────────────────────────
+initCanvas();
+</script>
+</body>
+</html>
