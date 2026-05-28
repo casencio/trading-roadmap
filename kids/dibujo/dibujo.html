@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Dibujar</title>
-<script>var _V='20250528c';if(sessionStorage.getItem('dv')!==_V){sessionStorage.setItem('dv',_V);window.location.reload(true);}</script>
+<script>if(window.location.href.indexOf('?v=')===-1){sessionStorage.setItem('loaded','1');window.location.href=window.location.href.split('?')[0]+'?v='+Date.now();}else{sessionStorage.setItem('loaded','1');}</script>
 <style>
 *{margin:0;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
@@ -33,7 +33,6 @@ html,body{
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
   width:1024px;height:768px;overflow:hidden;
-  padding-top:20px;
 }
 
 /* ── ÁREA CANVAS ── */
@@ -45,6 +44,8 @@ html,body{
   background:-webkit-linear-gradient(top,#ddd8cc,#e8e0d4);
   background:linear-gradient(to bottom,#ddd8cc,#e8e0d4);
   overflow:hidden;
+  /* Margen seguridad status bar — sin barra negra */
+  padding-top:22px;
 }
 
 #drawing-canvas{
@@ -179,14 +180,15 @@ html,body{
   height:52px;
   -webkit-border-radius:26px;border-radius:26px;
   cursor:pointer;-webkit-appearance:none;outline:none;
-  padding:0 0;
-  font-size:17px;
+  padding:0 12px;
+  font-size:16px;
   font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
   font-weight:bold;
   text-transform:uppercase;
-  letter-spacing:0.03em;
+  letter-spacing:0.02em;
   white-space:nowrap;
   -webkit-box-flex:1;-webkit-flex:1;flex:1;
+  max-width:170px;
   border-width:1px;
   border-style:solid;
   -webkit-box-shadow:
@@ -232,13 +234,7 @@ html,body{
   border-color:#44aa44;color:#115511;
 }
 
-/* Margen entre botones de acción */
-#undo-btn{ margin-left:12px; }
-#clear-btn{ margin-left:12px; }
-#save-btn{ margin-left:12px; }
-
-/* Margen entre botones de grosor */
-.sz-btn + .sz-btn{ margin-left:10px; }
+/* Margen entre botones — ahora inline en HTML para compatibilidad Safari iOS 5 */
 
 /* ── OVERLAYS ── */
 #picker-overlay,
@@ -362,6 +358,7 @@ html,body{
   -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
   box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
   -webkit-user-select:none;user-select:none;
+  position:relative;
 }
 #save-box img{
   max-width:100%;-webkit-border-radius:10px;border-radius:10px;
@@ -370,8 +367,17 @@ html,body{
   box-shadow:0 3px 10px rgba(0,0,0,0.2);
   -webkit-touch-callout:default;
   -webkit-user-select:none;
+  position:relative;z-index:10;
 }
-#save-box p{font-size:15px;font-weight:bold;color:#555;line-height:1.5;margin-bottom:16px;pointer-events:none;}
+#save-box p{
+  font-size:16px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.03em;
+  color:#888;line-height:1.5;margin-bottom:16px;
+  pointer-events:none;
+  position:relative;z-index:1;
+  /* Sombra suave texto iOS */
+  text-shadow:0 1px 0 rgba(255,255,255,0.8);
+}
 #save-box button{
   background:-webkit-linear-gradient(top,#f5f0e8,#e0d8cc);
   background:linear-gradient(to bottom,#f5f0e8,#e0d8cc);
@@ -379,9 +385,12 @@ html,body{
   -webkit-border-radius:24px;border-radius:24px;
   padding:12px 32px;
   font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
-  font-size:16px;font-weight:bold;color:#444;cursor:pointer;-webkit-appearance:none;
+  font-size:17px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.03em;
+  color:#444;cursor:pointer;-webkit-appearance:none;
   -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
+  position:relative;z-index:1;
 }
 </style>
 </head>
@@ -423,23 +432,23 @@ html,body{
       <button class="sz-btn active" data-size="3">
         <span class="sz-dot" style="width:4px;height:4px;margin-left:-2px;margin-top:-2px;"></span>
       </button>
-      <button class="sz-btn" data-size="8">
+      <button class="sz-btn" data-size="8" style="margin-left:10px;">
         <span class="sz-dot" style="width:10px;height:10px;margin-left:-5px;margin-top:-5px;"></span>
       </button>
-      <button class="sz-btn" data-size="16">
+      <button class="sz-btn" data-size="16" style="margin-left:10px;">
         <span class="sz-dot" style="width:18px;height:18px;margin-left:-9px;margin-top:-9px;"></span>
       </button>
-      <button class="sz-btn" data-size="28">
+      <button class="sz-btn" data-size="28" style="margin-left:10px;">
         <span class="sz-dot" style="width:28px;height:28px;margin-left:-14px;margin-top:-14px;"></span>
       </button>
-      <button class="sz-btn" data-size="44">
+      <button class="sz-btn" data-size="44" style="margin-left:10px;">
         <span class="sz-dot" style="width:40px;height:40px;margin-left:-20px;margin-top:-20px;"></span>
       </button>
       <div class="sep"></div>
       <button class="act-btn" id="eraser-btn">Borrar</button>
-      <button class="act-btn" id="undo-btn">Deshacer</button>
-      <button class="act-btn" id="clear-btn">Nuevo</button>
-      <button class="act-btn" id="save-btn">Guardar</button>
+      <button class="act-btn" id="undo-btn" style="margin-left:10px;">Deshacer</button>
+      <button class="act-btn" id="clear-btn" style="margin-left:10px;">Nuevo</button>
+      <button class="act-btn" id="save-btn" style="margin-left:10px;">Guardar</button>
     </div>
   </div>
 
