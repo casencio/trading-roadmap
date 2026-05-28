@@ -44,8 +44,9 @@ html,body{
   background:-webkit-linear-gradient(top,#ddd8cc,#e8e0d4);
   background:linear-gradient(to bottom,#ddd8cc,#e8e0d4);
   overflow:hidden;
-  padding-top:32px;
-  padding-bottom:10px;
+  /* Margen homogéneo arriba (status bar) y abajo (separación toolbar) */
+  padding-top:28px;
+  padding-bottom:28px;
 }
 
 #drawing-canvas{
@@ -93,7 +94,6 @@ html,body{
   -webkit-flex-shrink:0;flex-shrink:0;
   position:relative;
   display:inline-block;
-  /* Relieve: highlight arriba + sombra abajo */
   -webkit-box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.55),
     inset 0 -2px 0 rgba(0,0,0,0.18),
@@ -105,7 +105,6 @@ html,body{
     0 3px 6px rgba(0,0,0,0.28),
     0 1px 2px rgba(0,0,0,0.18);
 }
-/* Anillo selección */
 .c-dot.active{
   border-color:#fff;
   -webkit-box-shadow:
@@ -126,9 +125,7 @@ html,body{
   -webkit-border-radius:50%;border-radius:50%;
   cursor:pointer;-webkit-appearance:none;outline:none;
   -webkit-flex-shrink:0;flex-shrink:0;
-  /* Posición relativa para el dot absoluto */
   position:relative;
-  /* Relieve igual que los color dots */
   background:-webkit-linear-gradient(top,#f0ebe0,#d8d0c4);
   background:linear-gradient(to bottom,#f0ebe0,#d8d0c4);
   border:1px solid #b8b0a4;
@@ -156,7 +153,6 @@ html,body{
     inset 0 2px 4px rgba(0,0,0,0.4),
     0 1px 2px rgba(0,0,0,0.3);
 }
-/* Dot centrado con position:absolute — sin flex en Safari antiguo */
 .sz-dot{
   position:absolute;
   top:50%;left:50%;
@@ -207,7 +203,6 @@ html,body{
   box-shadow:inset 0 2px 4px rgba(0,0,0,0.25),0 1px 1px rgba(0,0,0,0.1);
 }
 
-/* Colores individuales de cada botón */
 #eraser-btn{
   background:-webkit-linear-gradient(top,#fff9e0,#ffe878);
   background:linear-gradient(to bottom,#fff9e0,#ffe878);
@@ -233,8 +228,6 @@ html,body{
   background:linear-gradient(to bottom,#e8ffe8,#88e888);
   border-color:#44aa44;color:#115511;
 }
-
-/* Margen entre botones — ahora inline en HTML para compatibilidad Safari iOS 5 */
 
 /* ── OVERLAYS ── */
 #picker-overlay,
@@ -316,23 +309,28 @@ html,body{
   background:-webkit-linear-gradient(top,#fff,#f0ece4);
   background:linear-gradient(to bottom,#fff,#f0ece4);
   -webkit-border-radius:22px;border-radius:22px;
-  padding:30px 28px;max-width:280px;width:85%;text-align:center;
+  padding:30px 28px;max-width:300px;width:85%;text-align:center;
   border:1px solid #ccc;
   -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
   box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
 }
-#confirm-box p{font-size:20px;font-weight:bold;color:#444;line-height:1.4;}
+/* Texto del confirm en minúsculas normal */
+#confirm-box p{
+  font-size:20px;font-weight:bold;color:#444;line-height:1.4;
+}
 .confirm-btns{
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   margin-top:22px;
 }
 .confirm-btns > * + *{ margin-left:14px; }
+/* Botones del confirm en MAYÚSCULAS */
 .confirm-btns button{
   -webkit-border-radius:24px;border-radius:24px;
   padding:12px 26px;
   font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
   font-size:17px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.02em;
   cursor:pointer;-webkit-appearance:none;
   -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 6px rgba(0,0,0,0.22);
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 6px rgba(0,0,0,0.22);
@@ -357,23 +355,24 @@ html,body{
   border:1px solid #ccc;
   -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
   box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
-  -webkit-user-select:none;user-select:none;
 }
+/* Imagen al tope — sin nada que interfiera el long-press */
 #save-box img{
-  max-width:100%;-webkit-border-radius:10px;border-radius:10px;
-  border:2px solid #ddd;display:block;margin:0 auto 14px auto;
+  max-width:100%;
+  -webkit-border-radius:10px;border-radius:10px;
+  border:2px solid #ddd;
+  display:block;
+  margin:0 auto 16px auto;
   -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.2);
   box-shadow:0 3px 10px rgba(0,0,0,0.2);
-  /* Permitir long-press para guardar */
   -webkit-touch-callout:default;
-  -webkit-user-select:none;
 }
+/* Texto instrucción en minúsculas */
 #save-box p{
-  font-size:14px;font-weight:bold;
-  color:#999;line-height:1.5;margin-bottom:16px;
-  pointer-events:none;
-  text-shadow:0 1px 0 rgba(255,255,255,0.8);
+  font-size:14px;color:#999;
+  line-height:1.5;margin-bottom:16px;
 }
+/* Botón cerrar en MAYÚSCULAS */
 #save-box button{
   background:-webkit-linear-gradient(top,#f5f0e8,#e0d8cc);
   background:linear-gradient(to bottom,#f5f0e8,#e0d8cc);
@@ -480,7 +479,6 @@ html,body{
 </div>
 
 <script>
-// ── Estado global ──────────────────────────────────────────────
 var canvas   = document.getElementById('drawing-canvas');
 var ctx      = canvas.getContext('2d');
 var wrap     = document.getElementById('canvas-wrap');
@@ -491,7 +489,6 @@ var pickedColor = '#aaaaaa';
 var wheelDrawn  = false;
 var WR = 110;
 
-// ── Canvas principal ───────────────────────────────────────────
 function initCanvas() {
   var toolbarH = document.getElementById('toolbar').offsetHeight || 120;
   var availH = 768 - toolbarH;
@@ -568,14 +565,12 @@ canvas.addEventListener('mouseleave',  endDraw,   false);
 
 document.body.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 
-// ── Helper touchend sin delay 300ms ───────────────────────────
 function touchBtn(id, handler) {
   var el = document.getElementById(id);
   el.addEventListener('touchend', function(e) { e.preventDefault(); handler(); }, false);
   el.addEventListener('click', handler, false);
 }
 
-// ── Dots de color ─────────────────────────────────────────────
 var cdots = document.querySelectorAll('.c-dot');
 
 function selectColorDot(btn) {
@@ -596,7 +591,6 @@ for (i = 0; i < cdots.length; i++) {
   })(cdots[i]);
 }
 
-// ── Dots de grosor ────────────────────────────────────────────
 var sbtns = document.querySelectorAll('.sz-btn');
 var k;
 for (k = 0; k < sbtns.length; k++) {
@@ -612,7 +606,6 @@ for (k = 0; k < sbtns.length; k++) {
   })(sbtns[k]);
 }
 
-// ── Botones de acción ─────────────────────────────────────────
 touchBtn('eraser-btn', function() {
   state.eraser = !state.eraser;
   var eb = document.getElementById('eraser-btn');
@@ -652,8 +645,7 @@ touchBtn('close-save', function() {
   document.getElementById('preview-img').src = '';
 });
 
-// Cerrar overlay al tocar el fondo oscuro — pero SOLO si es tap rápido,
-// no long-press (que es el gesto para guardar la imagen)
+// Cerrar overlay fondo oscuro solo con tap rápido — long-press libre para guardar imagen
 var saveOverlay = document.getElementById('save-overlay');
 var saveTouchStart = 0;
 saveOverlay.addEventListener('touchstart', function(e) {
@@ -667,8 +659,6 @@ saveOverlay.addEventListener('touchend', function(e) {
       this.className = '';
       document.getElementById('preview-img').src = '';
     }
-    // Si dur >= 350ms fue long-press — no hacer nada, dejar que Safari
-    // muestre su menú contextual sobre la imagen
   }
 }, false);
 saveOverlay.addEventListener('click', function(e) {
@@ -678,7 +668,6 @@ saveOverlay.addEventListener('click', function(e) {
   }
 }, false);
 
-// ── Rueda de color ────────────────────────────────────────────
 var wheelCanvas = document.getElementById('wheel-canvas');
 var wctx        = wheelCanvas.getContext('2d');
 
@@ -776,10 +765,8 @@ touchBtn('picker-cancel', function() {
   document.getElementById('picker-overlay').className = '';
 });
 
-// Pre-render rueda al cargar para evitar lag primer uso
 setTimeout(function() { drawWheel(); }, 500);
 
-// ── Init ───────────────────────────────────────────────────────
 initCanvas();
 </script>
 </body>
