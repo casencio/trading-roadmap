@@ -568,9 +568,9 @@ canvas.addEventListener('mousemove',   doDraw,    false);
 canvas.addEventListener('mouseup',     endDraw,   false);
 canvas.addEventListener('mouseleave',  endDraw,   false);
 
-// Bloquear scroll solo en canvas y toolbar, NO globalmente
-// (el listener global de touchmove impide el menú contextual de Safari)
-canvas.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+// Bloquear scroll del body (igual que versión original)
+document.body.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+
 
 function touchBtn(id, handler) {
   var el = document.getElementById(id);
@@ -652,23 +652,8 @@ touchBtn('close-save', function() {
   document.getElementById('preview-img').src = '';
 });
 
-// Cerrar overlay fondo oscuro solo con tap rápido — long-press libre para guardar imagen
-var saveOverlay = document.getElementById('save-overlay');
-var saveTouchStart = 0;
-saveOverlay.addEventListener('touchstart', function(e) {
-  if (e.target === this) { saveTouchStart = Date.now(); }
-}, false);
-saveOverlay.addEventListener('touchend', function(e) {
-  if (e.target === this) {
-    var dur = Date.now() - saveTouchStart;
-    if (dur < 350) {
-      e.preventDefault();
-      this.className = '';
-      document.getElementById('preview-img').src = '';
-    }
-  }
-}, false);
-saveOverlay.addEventListener('click', function(e) {
+// Solo click para cerrar el fondo — sin touchstart/touchend que interfieran con el long-press
+document.getElementById('save-overlay').addEventListener('click', function(e) {
   if (e.target === this) {
     this.className = '';
     document.getElementById('preview-img').src = '';
