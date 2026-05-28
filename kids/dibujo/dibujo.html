@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=1024,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Dibujar</title>
-<script>var _V='20250528b';if(sessionStorage.getItem('dv')!==_V){sessionStorage.setItem('dv',_V);window.location.reload(true);}</script>
+<script>var _V='20250528c';if(sessionStorage.getItem('dv')!==_V){sessionStorage.setItem('dv',_V);window.location.reload(true);}</script>
 <style>
 *{margin:0;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
@@ -33,6 +33,7 @@ html,body{
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
   width:1024px;height:768px;overflow:hidden;
+  padding-top:20px;
 }
 
 /* ── ÁREA CANVAS ── */
@@ -170,7 +171,7 @@ html,body{
   background:-webkit-linear-gradient(top,transparent,#bbb,transparent);
   background:linear-gradient(to bottom,transparent,#bbb,transparent);
   -webkit-flex-shrink:0;flex-shrink:0;
-  margin:0 6px;
+  margin:0 14px;
 }
 
 /* ── BOTONES DE ACCIÓN ── */
@@ -179,14 +180,13 @@ html,body{
   -webkit-border-radius:26px;border-radius:26px;
   cursor:pointer;-webkit-appearance:none;outline:none;
   padding:0 0;
-  font-size:15px;
+  font-size:17px;
   font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
   font-weight:bold;
   text-transform:uppercase;
   letter-spacing:0.03em;
   white-space:nowrap;
   -webkit-box-flex:1;-webkit-flex:1;flex:1;
-  /* Relieve estilo iOS botón */
   border-width:1px;
   border-style:solid;
   -webkit-box-shadow:
@@ -233,9 +233,12 @@ html,body{
 }
 
 /* Margen entre botones de acción */
-#undo-btn{ margin-left:8px; }
-#clear-btn{ margin-left:8px; }
-#save-btn{ margin-left:8px; }
+#undo-btn{ margin-left:12px; }
+#clear-btn{ margin-left:12px; }
+#save-btn{ margin-left:12px; }
+
+/* Margen entre botones de grosor */
+.sz-btn + .sz-btn{ margin-left:10px; }
 
 /* ── OVERLAYS ── */
 #picker-overlay,
@@ -282,15 +285,19 @@ html,body{
 #picker-preview-row > * + *{ margin-left:12px; }
 #picker-preview{
   width:50px;height:50px;
+  min-width:50px;min-height:50px;
   -webkit-border-radius:50%;border-radius:50%;
-  border:3px solid #fff;display:inline-block;
+  border:3px solid #fff;
+  display:inline-block;
+  -webkit-flex-shrink:0;flex-shrink:0;
   -webkit-box-shadow:0 2px 6px rgba(0,0,0,0.3);
   box-shadow:0 2px 6px rgba(0,0,0,0.3);
 }
 #picker-ok,#picker-cancel{
   height:46px;-webkit-border-radius:23px;border-radius:23px;
   font-family:'Chalkboard SE','Marker Felt','Helvetica Neue',Helvetica,Arial,sans-serif;
-  font-size:16px;font-weight:bold;
+  font-size:15px;font-weight:bold;
+  text-transform:uppercase;letter-spacing:0.03em;
   cursor:pointer;-webkit-appearance:none;
   -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 3px 5px rgba(0,0,0,0.2);
@@ -354,14 +361,17 @@ html,body{
   border:1px solid #ccc;
   -webkit-box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
   box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9);
+  -webkit-user-select:none;user-select:none;
 }
 #save-box img{
   max-width:100%;-webkit-border-radius:10px;border-radius:10px;
   border:2px solid #ddd;display:block;margin:0 auto 14px auto;
   -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.2);
   box-shadow:0 3px 10px rgba(0,0,0,0.2);
+  -webkit-touch-callout:default;
+  -webkit-user-select:none;
 }
-#save-box p{font-size:15px;font-weight:bold;color:#555;line-height:1.5;margin-bottom:16px;}
+#save-box p{font-size:15px;font-weight:bold;color:#555;line-height:1.5;margin-bottom:16px;pointer-events:none;}
 #save-box button{
   background:-webkit-linear-gradient(top,#f5f0e8,#e0d8cc);
   background:linear-gradient(to bottom,#f5f0e8,#e0d8cc);
@@ -638,14 +648,26 @@ touchBtn('close-save', function() {
   document.getElementById('preview-img').src = '';
 });
 
-document.getElementById('save-overlay').addEventListener('touchend', function(e) {
+// Cerrar overlay al tocar el fondo oscuro — pero SOLO si es tap rápido,
+// no long-press (que es el gesto para guardar la imagen)
+var saveOverlay = document.getElementById('save-overlay');
+var saveTouchStart = 0;
+saveOverlay.addEventListener('touchstart', function(e) {
+  if (e.target === this) { saveTouchStart = Date.now(); }
+}, false);
+saveOverlay.addEventListener('touchend', function(e) {
   if (e.target === this) {
-    e.preventDefault();
-    this.className = '';
-    document.getElementById('preview-img').src = '';
+    var dur = Date.now() - saveTouchStart;
+    if (dur < 350) {
+      e.preventDefault();
+      this.className = '';
+      document.getElementById('preview-img').src = '';
+    }
+    // Si dur >= 350ms fue long-press — no hacer nada, dejar que Safari
+    // muestre su menú contextual sobre la imagen
   }
 }, false);
-document.getElementById('save-overlay').addEventListener('click', function(e) {
+saveOverlay.addEventListener('click', function(e) {
   if (e.target === this) {
     this.className = '';
     document.getElementById('preview-img').src = '';
