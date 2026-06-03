@@ -30,6 +30,9 @@
             --purple: #bf5af2; 
             --teal: #00c7be; 
             --gray: #86868b;
+            /* Tonos suaves (menos saturados) para los KPI de P&L */
+            --pnl-pos: #5cb27e;
+            --pnl-neg: #cf6f66;
             
             --font-display: 'Outfit', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
@@ -64,6 +67,8 @@
                 --purple: #af52de; 
                 --teal: #5856d6; 
                 --gray: #a1a1a6; /* Gris más claro para Light Mode */
+                --pnl-pos: #3f9a62;
+                --pnl-neg: #c75f56;
             }
         }
 
@@ -121,25 +126,20 @@
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: var(--space-lg); margin-bottom: var(--gap); }
         .card-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: var(--space-md); letter-spacing: 0.08em; }
 
-        /* ===== HERO GRID (1 fila plana, 5 fracciones) ===== */
+        /* ===== HERO GRID (Patrimonio grande + 2 KPIs) ===== */
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 2fr;
+            grid-template-columns: 2fr 1fr 1fr;
             gap: var(--gap);
             margin-bottom: var(--gap);
         }
-        .hero-main, .hero-growth, .kpi-box {
+        .hero-main, .kpi-box {
             padding: var(--space-md);
             margin-bottom: 0;
             min-width: 0;
         }
         .hero-main {
             background: var(--hero-bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .hero-growth {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -163,20 +163,13 @@
             color: transparent;
         }
         
-        /* Caja Crecimiento unificada */
-        .hero-growth h2 { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-sm); }
-        .growth-rows { display: flex; flex-direction: row; gap: var(--space-sm); }
-        .growth-item { display: flex; flex-direction: column; gap: var(--space-xs); flex: 1; min-width: 0; }
-        .growth-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
-        .growth-value { font-size: 15px; font-family: var(--font-mono); font-weight: 600; line-height: 1.3; }
-        .growth-value.positive { color: var(--green); }
-        .growth-value.negative { color: var(--red); }
+        /* ===== KPI BOXES ===== */
         
         .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-sm); font-weight: 600; }
-        .kpi-val { font-size: 20px; font-family: var(--font-mono); font-weight: 600; }
-        .kpi-val.positive { color: var(--green); }
-        .kpi-val.negative { color: var(--red); }
-        .kpi-val.neutral { color: var(--main); }
+        .kpi-val { font-size: 30px; font-family: var(--font-mono); font-weight: 700; letter-spacing: -0.01em; line-height: 1; }
+        .kpi-val.positive { color: var(--pnl-pos); }
+        .kpi-val.negative { color: var(--pnl-neg); }
+        .kpi-val.neutral { color: var(--muted); }
 
         /* ===== CHARTS & TABLES ===== */
         .canvas-container { position: relative; height: 280px; width: 100%; }
@@ -195,7 +188,7 @@
         .viz-grid .card { margin-bottom: 0; }
 
         /* ===== TRACKER ALINEACIÓN ===== */
-        .tracker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); }
+        .tracker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
         .tracker-item { background: var(--bg-alt); border: 1px solid var(--border); border-radius: 4px; padding: var(--space-md); }
         .tracker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); }
         .tracker-name { font-size: 11px; font-weight: 600; text-transform: uppercase; }
@@ -204,15 +197,31 @@
         .tracker-fill { height: 100%; border-radius: 3px; position: absolute; left: 0; top: 0; }
         .tracker-target { font-size: 10px; color: var(--muted); display: flex; justify-content: space-between; font-weight: 500; }
 
+        /* ===== EVOLUCIÓN POR ACTIVO (toggle + leyenda) ===== */
+        .card-title-row { display: flex; justify-content: space-between; align-items: center; }
+        .chart-toggle { display: flex; gap: 4px; }
+        .toggle-btn {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            line-height: 1.2;
+        }
+        .toggle-btn.active { background: var(--main); color: var(--bg); border-color: var(--main); }
+        .chart-legend { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-md); }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
         /* ===== RESPONSIVE ARCHITECTURE ===== */
         @media (max-width: 1024px) {
-            /* Tablet: 2 filas. Patrimonio+Crecimiento arriba, Capital+Liquidez abajo */
-            .hero-grid { grid-template-columns: 1fr 2fr; grid-template-rows: auto auto; }
-            .hero-main { grid-column: 1; grid-row: 1; }
-            .hero-growth { grid-column: 2; grid-row: 1; }
-            .hero-grid > .kpi-box:nth-child(2) { grid-column: 1; grid-row: 2; }
-            .hero-grid > .kpi-box:nth-child(3) { grid-column: 2; grid-row: 2; }
-            .tracker-grid { grid-template-columns: repeat(3, 1fr); }
+            .hero-grid { grid-template-columns: 1.8fr 1fr 1fr; }
+            .tracker-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -221,15 +230,15 @@
             .nav-pills { width: 100%; flex-wrap: wrap; }
             .nav-link { flex: 1; text-align: center; font-size: 11px; padding: var(--space-sm); }
 
-            /* Mobile: Patrimonio izda (2 filas, más ancho), Capital arriba dcha, Liquidez abajo dcha. Crecimiento debajo 100% */
-            .hero-grid { 
-                grid-template-columns: 1.4fr 1fr; 
-                grid-template-rows: auto auto auto;
+            /* Mobile: Patrimonio a la izquierda (alto), P&L € arriba-dcha y P&L % abajo-dcha */
+            .hero-grid {
+                grid-template-columns: 1.4fr 1fr;
+                grid-template-rows: auto auto;
                 gap: var(--gap);
             }
-            .hero-main { 
-                grid-column: 1; 
-                grid-row: 1 / span 2; 
+            .hero-main {
+                grid-column: 1;
+                grid-row: 1 / span 2;
                 padding: var(--space-md);
                 justify-content: flex-start;
             }
@@ -239,29 +248,13 @@
                 align-items: center;
                 justify-content: center;
             }
-            .hero-growth { 
-                grid-column: 1 / -1; 
-                grid-row: 3; 
-                padding: var(--space-md);
-            }
-            .hero-grid > .kpi-box:nth-child(2) { 
-                grid-column: 2; 
-                grid-row: 1; 
-                padding: var(--space-sm) var(--space-md);
-            }
-            .hero-grid > .kpi-box:nth-child(3) { 
-                grid-column: 2; 
-                grid-row: 2; 
-                padding: var(--space-sm) var(--space-md);
-            }
-            /* Quitar palabras "Capital" y "Fondo" en mobile */
-            .lbl-full { display: none; }
+            .hero-grid > .kpi-box:nth-child(2) { grid-column: 2; grid-row: 1; padding: var(--space-sm) var(--space-md); }
+            .hero-grid > .kpi-box:nth-child(3) { grid-column: 2; grid-row: 2; padding: var(--space-sm) var(--space-md); }
             .kpi-label { margin-bottom: var(--space-xs); }
-            
-            .growth-rows { flex-direction: row; gap: var(--space-md); }
+
             .hero-value { font-size: 36px; }
             .kpi-val { font-size: 18px; }
-            
+
             .viz-grid { grid-template-columns: 1fr; }
             .tracker-grid { grid-template-columns: 1fr; }
             .col-hide-mobile { display: none; }
@@ -293,25 +286,12 @@
             <div class="hero-value" id="k-tot">--</div>
         </div>
         <div class="card kpi-box">
-            <div class="kpi-label"><span class="lbl-full">Capital </span>Invertido</div>
-            <div class="kpi-val" id="k-inv">--</div>
+            <div class="kpi-label">P&amp;L &euro;</div>
+            <div class="kpi-val" id="k-pnl-eur">--</div>
         </div>
         <div class="card kpi-box">
-            <div class="kpi-label"><span class="lbl-full">Fondo </span>Liquidez</div>
-            <div class="kpi-val" id="k-liq">--</div>
-        </div>
-        <div class="card hero-growth">
-            <h2>Crecimiento</h2>
-            <div class="growth-rows">
-                <div class="growth-item">
-                    <span class="growth-label">Mes</span>
-                    <span class="growth-value" id="delta-month">--</span>
-                </div>
-                <div class="growth-item">
-                    <span class="growth-label">Año</span>
-                    <span class="growth-value" id="delta-year">--</span>
-                </div>
-            </div>
+            <div class="kpi-label">P&amp;L %</div>
+            <div class="kpi-val" id="k-pnl-pct">--</div>
         </div>
     </div>
 
@@ -340,13 +320,29 @@
         </table>
     </div>
 
+    <div class="card">
+        <div class="card-title card-title-row">
+            <span>Evolución por Activo</span>
+            <div class="chart-toggle" id="evo-toggle">
+                <button class="toggle-btn active" data-mode="abs" type="button">€</button>
+                <button class="toggle-btn" data-mode="pct" type="button">%</button>
+            </div>
+        </div>
+        <div class="chart-legend" id="assets-legend"></div>
+        <div class="scroll-wrapper" id="chartScrollAssets">
+            <div class="chart-container-dynamic" id="chartContainerAssets">
+                <canvas id="c-line-assets"></canvas>
+            </div>
+        </div>
+    </div>
+
     <div class="viz-grid">
         <div class="card">
             <div class="card-title">Distribución</div>
             <div class="canvas-container"><canvas id="c-donut"></canvas></div>
         </div>
         <div class="card">
-            <div class="card-title">Rendimiento Actual</div>
+            <div class="card-title">Rendimiento</div>
             <div class="canvas-bar"><canvas id="c-bar"></canvas></div>
         </div>
     </div>
@@ -369,15 +365,16 @@
 </footer>
 
 <script>
-    const URL_APP = "https://script.google.com/macros/s/AKfycbzQWAa8b7D3NU9nSN9puh5_6K0W2dEFCZXJIwJ74HWW7EeMvy07mh5HagfcCIlpXFUojw/exec";
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzTm3AzkRmWxyY_USwkw9UC7QMnhb_WVzLYPSU3ZXsJzH6fmPlhsgYW0M5yKDNXdZKZtg/exec";
     
+    // Objetivos del núcleo DCA. Base 60/20/10/5/5(Trade); quitado Trade y rebalanceado
+    // proporcionalmente al 100% (método del mayor resto). Cambia solo estos números si quieres.
     const CONFIG = {
         Liquidez:  { label: 'Fondo de Liquidez', target: 0 },
-        Indexados: { label: 'Gestión Pasiva', target: 60 },
-        Acciones:  { label: 'Renta Variable', target: 20 },
-        Oro:       { label: 'Metales Preciosos', target: 10 },
-        Crypto:    { label: 'Criptoactivos', target: 5 },
-        Trading:   { label: 'Estrategia de Corto', target: 5 }
+        Indexados: { label: 'Núcleo', target: 63 },
+        Acciones:  { label: 'Inversiones', target: 21 },
+        Oro:       { label: 'Refugio', target: 11 },
+        Crypto:    { label: 'Independencia', target: 5 }
     };
 
     // Obtenemos los colores calculados por CSS en tiempo real
@@ -392,7 +389,20 @@
     };
 
     let rawData = [];
-    let charts = { donut: null, bar: null, line: null };
+    let evoMode = 'abs'; // 'abs' = € absoluto · 'pct' = crecimiento % base 100
+    let charts = { donut: null, bar: null, line: null, lineAssets: null };
+
+    // Red de seguridad: detecta si los rendimientos vienen como fracción (0,091) o entero (9,1).
+    // Si el máximo |rend| de todo el histórico es <= 1.5, son fracciones -> escala x100.
+    function detectRendScale(data) {
+        const assets = ['Indexados', 'Acciones', 'Oro', 'Crypto'];
+        let maxAbs = 0;
+        data.forEach(row => assets.forEach(a => {
+            const r = Math.abs(parseFloat(row[a + '_Rend']) || 0);
+            if (r > maxAbs) maxAbs = r;
+        }));
+        return (maxAbs > 0 && maxAbs <= 1.5) ? 100 : 1;
+    }
 
     // Escucha de cambio de tema (Dark/Light) en tiempo real
     window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
@@ -401,7 +411,7 @@
 
     async function init() {
         const status = document.getElementById("status-text");
-        const cached = localStorage.getItem('finanzas_cache_v9');
+        const cached = localStorage.getItem('finanzas_cache_v10');
         if (cached) { rawData = JSON.parse(cached); render(rawData); }
 
         try {
@@ -409,7 +419,7 @@
             const data = await res.json();
             if(data && data.length > 0) {
                 rawData = data;
-                localStorage.setItem('finanzas_cache_v9', JSON.stringify(data));
+                localStorage.setItem('finanzas_cache_v10', JSON.stringify(data));
                 render(data);
                 status.innerText = `Cierre actual: ${fmtDate(data[data.length-1].Mes)}`;
             }
@@ -418,41 +428,26 @@
 
     function render(data) {
         const curr = data[data.length - 1];
-        const assets = ['Indexados', 'Acciones', 'Oro', 'Crypto', 'Trading'];
+        const assets = ['Indexados', 'Acciones', 'Oro', 'Crypto'];
+        const rendScale = detectRendScale(data);
         
         let invT = 0; assets.forEach(a => invT += parseFloat(curr[a + '_Cap']) || 0);
         const liq = parseFloat(curr.Liquidez) || 0;
         const total = liq + invT;
 
-        let totalPrev = 0; if (data.length > 1) {
-            const prev = data[data.length - 2];
-            let invP = 0; assets.forEach(a => invP += parseFloat(prev[a+'_Cap'])||0);
-            totalPrev = (parseFloat(prev.Liquidez)||0) + invP;
-        }
-        let totalYear = 0; if (data.length > 12) {
-            const yAgo = data[data.length - 13];
-            let invY = 0; assets.forEach(a => invY += parseFloat(yAgo[a+'_Cap'])||0);
-            totalYear = (parseFloat(yAgo.Liquidez)||0) + invY;
-        }
+        // P&L totales actuales (último mes) desde el JSON: PnL_Eur (col N) y PnL_Pct (col O)
+        const pnlEur = parseFloat(curr.PnL_Eur) || 0;
+        const pnlPct = (parseFloat(curr.PnL_Pct) || 0) * rendScale;
 
         document.getElementById('k-tot').innerText = fmtMoney(total);
-        document.getElementById('k-inv').innerText = fmtMoney(invT);
-        document.getElementById('k-liq').innerText = fmtMoney(liq);
 
-        const mEl = document.getElementById('delta-month');
-        if (totalPrev > 0) {
-            const dM = total - totalPrev;
-            const pM = ((total / totalPrev) - 1) * 100;
-            mEl.innerText = `${pM >= 0 ? '+' : ''}${pM.toFixed(1)}% (${dM >= 0 ? '+' : ''}${fmtMoney(dM)})`;
-            mEl.className = `growth-value ${dM >= 0 ? 'positive' : 'negative'}`;
-        }
-        const yEl = document.getElementById('delta-year');
-        if (totalYear > 0) {
-            const dY = total - totalYear;
-            const pY = ((total / totalYear) - 1) * 100;
-            yEl.innerText = `${pY >= 0 ? '+' : ''}${pY.toFixed(1)}% (${dY >= 0 ? '+' : ''}${fmtMoney(dY)})`;
-            yEl.className = `growth-value ${dY >= 0 ? 'positive' : 'negative'}`;
-        }
+        const eurEl = document.getElementById('k-pnl-eur');
+        eurEl.innerText = `${pnlEur >= 0 ? '+' : ''}${fmtMoney(pnlEur)}`;
+        eurEl.className = `kpi-val ${pnlEur > 0 ? 'positive' : pnlEur < 0 ? 'negative' : 'neutral'}`;
+
+        const pctEl = document.getElementById('k-pnl-pct');
+        pctEl.innerText = `${pnlPct >= 0 ? '+' : ''}${fmtPct(pnlPct)}`;
+        pctEl.className = `kpi-val ${pnlPct > 0 ? 'positive' : pnlPct < 0 ? 'negative' : 'neutral'}`;
 
         const tbody = document.getElementById('t-body');
         tbody.innerHTML = `<tr>
@@ -464,7 +459,7 @@
 
         assets.forEach(a => {
             const cap = parseFloat(curr[a+'_Cap']) || 0;
-            const rend = parseFloat(curr[a+'_Rend']) || 0;
+            const rend = (parseFloat(curr[a+'_Rend']) || 0) * rendScale;
             const pct = invT > 0 ? (cap/invT)*100 : 0;
             const color = getVar(`--${a.toLowerCase() === 'indexados' ? 'blue' : a.toLowerCase() === 'acciones' ? 'purple' : a.toLowerCase() === 'oro' ? 'orange' : a.toLowerCase() === 'crypto' ? 'green' : 'teal'}`);
             
@@ -501,10 +496,10 @@
             </div>`;
         }).join('');
 
-        draw(data, curr, assets, invT, total, liq);
+        draw(data, curr, assets, invT, total, liq, rendScale);
     }
 
-    function draw(all, curr, assets, invT, total, liq) {
+    function draw(all, curr, assets, invT, total, liq, rendScale) {
         Chart.register(ChartDataLabels);
         const fM = { family: "'JetBrains Mono'", size: 10, weight: 500 };
         const textMain = getVar('--main');
@@ -553,6 +548,8 @@
         });
         const scroll = document.getElementById('chartScroll'); scroll.scrollLeft = scroll.scrollWidth;
 
+        drawAssetsEvolution(all);
+
         if(charts.donut) charts.donut.destroy();
         const donutLabels = ['Liquidez', ...assets];
         const donutData = [liq, ...assets.map(a => parseFloat(curr[a+'_Cap'])||0)];
@@ -578,28 +575,45 @@
         });
 
         if(charts.bar) charts.bar.destroy();
-        const rs = assets.map(a => parseFloat(curr[a+'_Rend'])||0);
+        // Media del rendimiento de cada activo SOLO sobre los meses en que estuvo invertido (cap>0).
+        const avgRend = (a) => {
+            let sum = 0, n = 0;
+            all.forEach(d => {
+                if ((parseFloat(d[a+'_Cap'])||0) > 0) { sum += (parseFloat(d[a+'_Rend'])||0); n++; }
+            });
+            return n > 0 ? +(((sum/n) * rendScale).toFixed(2)) : 0;
+        };
+        // Media del P&L % total (col O) sobre todos los meses con cartera (Total_In>0).
+        const avgTotal = () => {
+            let sum = 0, n = 0;
+            all.forEach(d => {
+                if ((parseFloat(d.Total_In)||0) > 0) { sum += (parseFloat(d.PnL_Pct)||0); n++; }
+            });
+            return n > 0 ? +(((sum/n) * rendScale).toFixed(2)) : 0;
+        };
+        const barLabels = [...assets, 'Total'];
+        const rs = [...assets.map(avgRend), avgTotal()];
         charts.bar = new Chart(document.getElementById('c-bar'), {
             type: 'bar', 
             data: { 
-                labels: assets, 
+                labels: barLabels, 
                 datasets: [{ 
                     data: rs, 
                     backgroundColor: rs.map(r => r >= 0 ? getVar('--green') : getVar('--red')), 
                     borderRadius: 4,
                     categoryPercentage: 1,
-                    barPercentage: 0.55
+                    barPercentage: 0.62
                 }]
             },
             options: { 
                 indexAxis: 'y', responsive: true, maintainAspectRatio: false, events: [],
-                layout: { padding: { left: 0, right: 40, top: 8, bottom: 8 } },
+                layout: { padding: { left: 0, right: 44, top: 6, bottom: 6 } },
                 plugins: { 
                     legend: { display: false }, 
                     datalabels: { 
                         anchor: 'end', align: 'right', 
                         color: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? getVar('--green') : getVar('--red'), 
-                        formatter: v => v+'%', font: fM 
+                        formatter: v => (v>0?'+':'')+v+'%', font: fM 
                     }
                 },
                 scales: { 
@@ -609,6 +623,79 @@
             }
         });
     }
+    function drawAssetsEvolution(all) {
+        Chart.register(ChartDataLabels);
+        const mode = evoMode; // congelamos el modo de este render (evita lecturas diferidas)
+        const fM = { family: "'JetBrains Mono'", size: 10, weight: 500 };
+        const textMuted = getVar('--muted');
+        const gridLine = getVar('--grid-color');
+
+        // Núcleo DCA: todo menos Trading. Cada activo conoce su capital (€) y su rendimiento (%).
+        const rendScale = detectRendScale(all);
+        const core = [
+            { key: 'Liquidez',  cap: d => parseFloat(d.Liquidez)||0,      rend: () => 0,                              color: getVar('--gray')   },
+            { key: 'Indexados', cap: d => parseFloat(d.Indexados_Cap)||0, rend: d => parseFloat(d.Indexados_Rend)||0, color: getVar('--blue')   },
+            { key: 'Acciones',  cap: d => parseFloat(d.Acciones_Cap)||0,  rend: d => parseFloat(d.Acciones_Rend)||0,  color: getVar('--purple') },
+            { key: 'Oro',       cap: d => parseFloat(d.Oro_Cap)||0,       rend: d => parseFloat(d.Oro_Rend)||0,       color: getVar('--orange') },
+            { key: 'Crypto',    cap: d => parseFloat(d.Crypto_Cap)||0,    rend: d => parseFloat(d.Crypto_Rend)||0,    color: getVar('--green')  }
+        ];
+
+        // Leyenda HTML estática (no scrollea con la gráfica, se reconstruye por tema)
+        document.getElementById('assets-legend').innerHTML = core.map(s =>
+            `<span class="legend-item"><span class="legend-dot" style="background:${s.color}"></span>${s.key}</span>`
+        ).join('');
+
+        const datasets = core.map(s => {
+            let vals;
+            if (mode === 'pct') {
+                // % = rendimiento real del activo cada mes (solo cuando hay posición; antes arrastraba el DCA)
+                vals = all.map(d => s.cap(d) > 0 ? +((s.rend(d) * rendScale).toFixed(2)) : null);
+            } else {
+                // € = capital absoluto
+                vals = all.map(s.cap);
+            }
+            return {
+                label: s.key, data: vals,
+                borderColor: s.color, backgroundColor: s.color,
+                borderWidth: 1.5, fill: false, tension: 0.4,
+                pointRadius: 2, pointBackgroundColor: s.color, spanGaps: true
+            };
+        });
+
+        if (charts.lineAssets) charts.lineAssets.destroy();
+        const container = document.getElementById('chartContainerAssets');
+        if (container) container.style.width = Math.max(100, all.length * 15) + '%';
+
+        charts.lineAssets = new Chart(document.getElementById('c-line-assets'), {
+            type: 'line',
+            data: { labels: all.map(d => fmtDate(d.Mes)), datasets },
+            options: {
+                responsive: true, maintainAspectRatio: false, events: [],
+                plugins: {
+                    legend: { display: false },
+                    datalabels: { display: false }
+                },
+                scales: {
+                    y: {
+                        position: 'right', grid: { color: gridLine },
+                        ticks: { color: textMuted, font: fM,
+                            callback: v => mode === 'pct' ? v + '%' : v / 1000 + 'k' }
+                    },
+                    x: { grid: { display: false }, ticks: { color: textMuted, font: fM } }
+                }
+            }
+        });
+        const sc = document.getElementById('chartScrollAssets'); sc.scrollLeft = sc.scrollWidth;
+    }
+
+    document.querySelectorAll('#evo-toggle .toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            evoMode = btn.dataset.mode;
+            document.querySelectorAll('#evo-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b === btn));
+            if (rawData.length > 0) drawAssetsEvolution(rawData);
+        });
+    });
+
     init();
 </script>
 </body>
