@@ -575,19 +575,23 @@
         });
 
         if(charts.bar) charts.bar.destroy();
-        // Media del rendimiento de cada activo SOLO sobre los meses en que estuvo invertido (cap>0).
+        // Media del rendimiento por activo SOLO sobre meses con dato real:
+        // invertido (cap>0), valor numérico presente y distinto de 0 (ignora ceros y celdas vacías).
         const avgRend = (a) => {
             let sum = 0, n = 0;
             all.forEach(d => {
-                if ((parseFloat(d[a+'_Cap'])||0) > 0) { sum += (parseFloat(d[a+'_Rend'])||0); n++; }
+                const cap = parseFloat(d[a+'_Cap']) || 0;
+                const r = parseFloat(d[a+'_Rend']);
+                if (cap > 0 && Number.isFinite(r) && r !== 0) { sum += r; n++; }
             });
             return n > 0 ? +(((sum/n) * rendScale).toFixed(2)) : 0;
         };
-        // Media del P&L % total (col O) sobre todos los meses con cartera (Total_In>0).
+        // Media del P&L % total (col O) sobre meses con dato real (numérico y != 0).
         const avgTotal = () => {
             let sum = 0, n = 0;
             all.forEach(d => {
-                if ((parseFloat(d.Total_In)||0) > 0) { sum += (parseFloat(d.PnL_Pct)||0); n++; }
+                const r = parseFloat(d.PnL_Pct);
+                if (Number.isFinite(r) && r !== 0) { sum += r; n++; }
             });
             return n > 0 ? +(((sum/n) * rendScale).toFixed(2)) : 0;
         };
