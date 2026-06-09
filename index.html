@@ -166,7 +166,7 @@
         /* ===== KPI BOXES ===== */
         
         .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-sm); font-weight: 600; }
-        .kpi-val { font-size: 30px; font-family: var(--font-mono); font-weight: 700; letter-spacing: -0.01em; line-height: 1; }
+        .kpi-val { font-size: 38px; font-family: var(--font-mono); font-weight: 700; letter-spacing: -0.01em; line-height: 1; }
         .kpi-val.positive { color: var(--pnl-pos); }
         .kpi-val.negative { color: var(--pnl-neg); }
         .kpi-val.neutral { color: var(--muted); }
@@ -252,8 +252,11 @@
             .hero-grid > .kpi-box:nth-child(3) { grid-column: 2; grid-row: 2; padding: var(--space-sm) var(--space-md); }
             .kpi-label { margin-bottom: var(--space-xs); }
 
-            .hero-value { font-size: 36px; }
-            .kpi-val { font-size: 18px; }
+            /* P&L centrados (vertical + horizontal) como el Patrimonio */
+            .kpi-box .kpi-val { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+
+            .hero-value { font-size: 44px; }   /* Patrimonio crece para llenar el hueco vertical */
+            .kpi-val { font-size: 30px; }      /* P&L un punto más pequeños */
 
             .viz-grid { grid-template-columns: 1fr; }
             .tracker-grid { grid-template-columns: 1fr; }
@@ -377,12 +380,19 @@
         Crypto:    { label: 'Independencia', target: 10 }
     };
 
+    // Margen de rebase tolerado antes de marcar ROJO en "Alineación vs Objetivos".
+    // Relativo al objetivo (proporcional): 0.15 = +15%. Ej: objetivo 7% -> rojo a partir de 8.05%; objetivo 25% -> rojo a partir de 28.75%.
+    // Convención de bandas de rebalanceo (regla 5/25). Sube a 0.20-0.25 para más holgura, baja a 0.10 para más sensibilidad.
+    const TOLERANCIA_REBASE = 0.15;
+
     // Obtenemos los colores calculados por CSS en tiempo real
     const getVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     const isLight = () => window.matchMedia('(prefers-color-scheme: light)').matches;
 
     const fmtMoney = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-    const fmtPct = (n) => n.toFixed(1) + '%';
+    // Patrimonio se muestra con decimal (igual que la hoja: 3.007,5 €)
+    const fmtMoneyDec = (n) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(n);
+    const fmtPct = (n) => n.toFixed(1).replace('.', ',') + '%';
     const fmtDate = (iso) => {
         const d = new Date(iso);
         return isNaN(d.getTime()) ? iso : `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -391,6 +401,22 @@
     let rawData = [];
     let evoMode = 'abs'; // 'abs' = € absoluto · 'pct' = crecimiento % base 100
     let charts = { donut: null, bar: null, line: null, lineAssets: null };
+
+    // Patrimonio Neto = TOTAL OUT (columna P de la hoja): valor real de mercado del total.
+    // Se LEE de la hoja, NO se recalcula (un único origen de dato). Si el Apps Script no
+    // expone esa columna, devuelve null y el llamador usa el sumatorio antiguo como red de seguridad.
+    function findTotalOut(row) {
+        const exactas = ['Total_Out','TotalOut','TOTAL_OUT','TotalOUT','Patrimonio','PatrimonioNeto','Total Out','TOTAL OUT'];
+        for (const k of exactas) {
+            if (row[k] != null && row[k] !== '' && Number.isFinite(parseFloat(row[k]))) return parseFloat(row[k]);
+        }
+        // Heurística: cualquier clave cuyo nombre normalizado contenga 'totalout'.
+        for (const k of Object.keys(row)) {
+            const kn = k.toLowerCase().replace(/[\s_]/g, '');
+            if (kn.includes('totalout') && row[k] !== '' && Number.isFinite(parseFloat(row[k]))) return parseFloat(row[k]);
+        }
+        return null;
+    }
 
     // Red de seguridad: detecta si los rendimientos vienen como fracción (0,091) o entero (9,1).
     // Si el máximo |rend| de todo el histórico es <= 1.5, son fracciones -> escala x100.
@@ -439,7 +465,9 @@
         const pnlEur = parseFloat(curr.PnL_Eur) || 0;
         const pnlPct = (parseFloat(curr.PnL_Pct) || 0) * rendScale;
 
-        document.getElementById('k-tot').innerText = fmtMoney(total);
+        // Patrimonio Neto: valor real de mercado (TOTAL OUT, col P). Fallback al sumatorio si la hoja no lo expone.
+        const patrimonio = findTotalOut(curr);
+        document.getElementById('k-tot').innerText = fmtMoney(patrimonio != null ? patrimonio : total);
 
         const eurEl = document.getElementById('k-pnl-eur');
         eurEl.innerText = `${pnlEur >= 0 ? '+' : ''}${fmtMoney(pnlEur)}`;
@@ -477,7 +505,8 @@
             const cap = parseFloat(curr[a+'_Cap']) || 0;
             const pct = invT > 0 ? (cap/invT)*100 : 0;
             const target = CONFIG[a].target;
-            const isOver = pct > target;
+            const limite = target * (1 + TOLERANCIA_REBASE); // umbral con margen tolerado
+            const isOver = pct > limite;
             const fill = target > 0 ? Math.min((pct/target)*100, 100) : 0;
             const color = getVar(`--${a.toLowerCase() === 'indexados' ? 'blue' : a.toLowerCase() === 'acciones' ? 'purple' : a.toLowerCase() === 'oro' ? 'orange' : a.toLowerCase() === 'crypto' ? 'green' : 'teal'}`);
             
@@ -525,6 +554,8 @@
                 labels: all.map(d => fmtDate(d.Mes)),
                 datasets: [{
                     data: all.map(d => {
+                        const out = findTotalOut(d);
+                        if (out != null) return out;
                         let t = parseFloat(d.Liquidez)||0;
                         assets.forEach(a => t += parseFloat(d[a+'_Cap'])||0);
                         return t;
@@ -617,7 +648,7 @@
                     datalabels: { 
                         anchor: 'end', align: 'right', 
                         color: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? getVar('--green') : getVar('--red'), 
-                        formatter: v => (v>0?'+':'')+v+'%', font: fM 
+                        formatter: v => (v>0?'+':'')+String(v).replace('.',',')+'%', font: fM 
                     }
                 },
                 scales: { 
