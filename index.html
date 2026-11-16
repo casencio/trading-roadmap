@@ -371,12 +371,13 @@
     const URL_APP = "https://script.google.com/macros/s/AKfycbzTm3AzkRmWxyY_USwkw9UC7QMnhb_WVzLYPSU3ZXsJzH6fmPlhsgYW0M5yKDNXdZKZtg/exec";
     
     // Objetivos del núcleo DCA. Base 60/20/10/5/5(Trade); quitado Trade y rebalanceado
+    // Objetivos 2027 del núcleo DCA. Base 65/20/10/5. Bajado oro e inversiones. Subimos indexados.
     // proporcionalmente al 100% (método del mayor resto). Cambia solo estos números si quieres.
     const CONFIG = {
         Liquidez:  { label: 'Fondo de Liquidez', target: 0 },
-        Indexados: { label: 'Núcleo', target: 58 },
-        Acciones:  { label: 'Inversiones', target: 25 },
-        Oro:       { label: 'Refugio', target: 7 },
+        Indexados: { label: 'Núcleo', target: 65 },
+        Acciones:  { label: 'Inversiones', target: 20 },
+        Oro:       { label: 'Refugio', target: 5 },
         Crypto:    { label: 'Independencia', target: 10 }
     };
 
